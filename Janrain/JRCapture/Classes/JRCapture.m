@@ -43,6 +43,10 @@
 
 #import "JRCapture.h"
 
+#import "JRActivityObject.h"
+#import "JRCaptureUser.h"
+#import "JREngageWrapper.h"
+
 @implementation JRCapture
 
 + (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain

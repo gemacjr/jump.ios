@@ -29,44 +29,29 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
-#import "JRCaptureApidInterface.h"
-
-@interface NSArray (StringArray)
-- (NSArray *)arrayOfStringsFromStringPluralDictionariesWithType:(NSString *)type;
-@end
 
 @class JRCaptureObject;
 @protocol JRCaptureObjectDelegate <NSObject>
 @optional
-- (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
-- (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
-- (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
-- (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
-// TODO: Do we want to add the name of the array to this method as well?
-- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
-- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)updateDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context;
+- (void)updateDidFailForObject:(JRCaptureObject *)object withError:(NSString *)error context:(NSObject *)context;
+
+- (void)replaceDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context;
+- (void)replaceDidFailForObject:(JRCaptureObject *)object withError:(NSString *)error context:(NSObject *)context;
+
+- (void)replaceArrayDidSucceedForObject:(JRCaptureObject *)object newArray:(NSArray *)replacedArray /* replaced array? */
+                                  named:(NSString *)arrayName context:(NSObject *)context;
+- (void)replaceArrayDidFailForObject:(JRCaptureObject *)object arrayNamed:(NSString *)arrayName
+                           withError:(NSString *)error context:(NSObject *)context;
 @end
 
 @protocol JRCaptureInterfaceDelegate;
 @interface JRCaptureObject : NSObject <NSCopying, JRCaptureInterfaceDelegate>
-@property (retain)   NSString     *captureObjectPath;
-@property (readonly) NSMutableSet *dirtyPropertySet;
-//@property (readonly) NSMutableSet *dirtyArraySet;
 @property (readonly) BOOL canBeUpdatedOrReplaced;
-- (NSDictionary *)toDictionary;
-- (NSDictionary *)toUpdateDictionary;
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays;
-- (NSDictionary *)objectProperties;
+
 - (BOOL)needsUpdate;
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
-- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
-//- (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary;
-//- (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary;
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
-- (void)replaceArrayOnCapture:(NSArray *)array named:(NSString *)arrayName isArrayOfStrings:(BOOL)isStringArray withType:(NSString *)type
-                  forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
-//- (void)replaceSimpleArrayOnCapture:(NSArray *)array ofType:(NSString *)elementType named:(NSString *)arrayName
-//                        forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+- (void)updateOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
+- (void)replaceOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
 @end
 

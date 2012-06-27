@@ -37,6 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureInternal.h"
 #import "JRAccountsElement.h"
 
 @interface JRAccountsElement ()
@@ -51,11 +52,6 @@
     NSString *_userid;
     NSString *_username;
 }
-@dynamic accountsElementId;
-@dynamic domain;
-@dynamic primary;
-@dynamic userid;
-@dynamic username;
 @synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)accountsElementId

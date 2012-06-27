@@ -37,6 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureInternal.h"
 #import "JRStatusesElement.h"
 
 @interface JRStatusesElement ()
@@ -49,9 +50,6 @@
     NSString *_status;
     JRDateTime *_statusCreated;
 }
-@dynamic statusesElementId;
-@dynamic status;
-@dynamic statusCreated;
 @synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)statusesElementId

@@ -1,3 +1,4 @@
+
 typedef NSNumber JRString;  /**< TODO */
 typedef NSNumber JRBoolean; /**< TODO */
 typedef NSNumber JRInteger; /**< TODO */

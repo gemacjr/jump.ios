@@ -894,6 +894,18 @@ sub createArrayCategoryForSubobject {
   return "$arrayCategoryIntf$arrayCategoryImpl";
 }
 
+sub createObjectCategoryForSubobject { 
+  my $propertyName   = $_[0];
+  my $isArrayElement = $_[1];
+  
+  my $objectCategoryIntf = "\@interface JR" . ucfirst($propertyName) . " (" . ucfirst($propertyName) . "InternalMethods)\n" . 
+                           "+ (id)" . $propertyName . ($isArrayElement ? "" : "Object") . "FromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;\n" . 
+                           "- (BOOL)isEqualTo" . ucfirst($propertyName) . ":(JR" . ucfirst($propertyName) . " *)other" . ucfirst($propertyName) . ";\n" . 
+                           "\@end\n\n";
+
+  return $objectCategoryIntf;
+}
+
 sub getArrayComparisonDeclaration { 
   my $propertyName = $_[0];
   

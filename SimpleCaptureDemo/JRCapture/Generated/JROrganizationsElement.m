@@ -37,7 +37,13 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureInternal.h"
 #import "JROrganizationsElement.h"
+
+@interface JRLocation (LocationInternalMethods)
++ (id)locationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToLocation:(JRLocation *)otherLocation;
+@end
 
 @interface JROrganizationsElement ()
 @property BOOL canBeUpdatedOrReplaced;
@@ -56,16 +62,6 @@
     NSString *_title;
     NSString *_type;
 }
-@dynamic organizationsElementId;
-@dynamic department;
-@dynamic description;
-@dynamic endDate;
-@dynamic location;
-@dynamic name;
-@dynamic primary;
-@dynamic startDate;
-@dynamic title;
-@dynamic type;
 @synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)organizationsElementId

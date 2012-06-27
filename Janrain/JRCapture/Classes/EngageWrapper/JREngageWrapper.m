@@ -9,9 +9,13 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#import "JREngageWrapper.h"
 #import "JRNativeSigninViewController.h"
 #import "JREngage+CustomInterface.h"
+#import "JRCaptureUser.h"
+#import "JREngage.h"
+#import "JRActivityObject.h"
+
+#import "JREngageWrapper.h"
 
 @interface JREngageWrapper ()
 @property (retain) id<JRCaptureAuthenticationDelegate> authenticationDelegate;

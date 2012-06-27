@@ -37,6 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureInternal.h"
 #import "JREmailsElement.h"
 
 @interface JREmailsElement ()
@@ -50,10 +51,6 @@
     NSString *_type;
     NSString *_value;
 }
-@dynamic emailsElementId;
-@dynamic primary;
-@dynamic type;
-@dynamic value;
 @synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)emailsElementId

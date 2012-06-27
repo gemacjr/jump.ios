@@ -37,6 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureInternal.h"
 #import "JRPhotosElement.h"
 
 @interface JRPhotosElement ()
@@ -49,9 +50,6 @@
     NSString *_type;
     NSString *_value;
 }
-@dynamic photosElementId;
-@dynamic type;
-@dynamic value;
 @synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)photosElementId

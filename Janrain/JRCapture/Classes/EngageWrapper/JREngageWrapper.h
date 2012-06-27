@@ -1,22 +1,25 @@
-#import "JRActivityObject.h"
-#import "JRCaptureUser.h"
-#import "JREngage.h"
+#import "JRCapture.h"
 
 typedef enum
 {
-    JRCaptureRecordCreated,
-    JRCaptureRecordExists,
-    JRCaptureRecordMissingRequiredFields,
-} JRCaptureAuthenticationStatus;
+    JRCaptureRecordNewlyCreated, // now it exists, and it is new
+    JRCaptureRecordExists,//IsExisting, // present?? // already created, not new
+    JRCaptureRecordMissingRequiredFields, // not created, does not exist
+} JRCaptureRecordStatus; // RecordStatus perhaps?
 
-typedef enum
-{
-    JRNativeSigninNone = 0,
-    JRNativeSigninUsernamePassword,
-    JRNativeSigninEmailPassword,
-} JRNativeSigninState;
+//typedef enum
+//{
+//    JRNativeSigninNone = 0,
+//    JRNativeSigninUsernamePassword,
+//    JRNativeSigninEmailPassword,
+//} JRNativeSigninState;
 
 @class JRCaptureUser;
+@class JREngage;
+@class JRActivityObject;
+
+@protocol JREngageDelegate;
+
 @protocol JRCaptureAuthenticationDelegate <NSObject>
 @optional
 /**
@@ -85,7 +88,7 @@ typedef enum
 // * section of the Janrain Engage API documentation.
  **/
 - (void)jrAuthenticationDidSucceedForUser:(JRCaptureUser*)captureUser withToken:(NSString *)captureToken
-                                andStatus:(JRCaptureAuthenticationStatus)status;
+                                andStatus:(JRCaptureRecordStatus)status;
 
 /**
  * Sent when authentication failed and could not be recovered by the library.

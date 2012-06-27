@@ -37,6 +37,7 @@
 
 #import "ObjectDrillDownViewController.h"
 #import "StringArrayDrillDownViewController.h"
+#import "JRCaptureInternal.h"
 
 typedef enum propertyTypes
 {
@@ -622,6 +623,7 @@ typedef enum
     DLog(@"");
     [self doneButtonPressed:nil];
     [captureObject updateObjectOnCaptureForDelegate:self withContext:nil];
+    //[captureObject updateOnCaptureForDelegate:self context:nil];
 }
 
 #define HIGHER_SUBTITLE 10

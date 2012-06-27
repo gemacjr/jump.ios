@@ -62,7 +62,7 @@ static JREngage* singleton = nil;
     return self;
 }
 
-+ (id)singletonInstance
++ (JREngage *)singletonInstance
 {
     if (singleton == nil) {
         singleton = [((JREngage*)[super allocWithZone:NULL]) init];

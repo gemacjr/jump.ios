@@ -4,8 +4,13 @@
 // To change the template use AppCode | Preferences | File Templates.
 //
 
+#import "JRCaptureData.h"
+#import "JRCaptureApidInterface.h"
+#import "JRCaptureUser.h"
 
 #import "JRCaptureUser+Extras.h"
+#import "JRCaptureInternal.h"
+#import "JSONKit.h"
 
 @interface JRCaptureUserExtras : NSObject
 @property (retain) id<JRCaptureUserDelegate> delegate;
@@ -63,7 +68,20 @@ static JRCaptureUserExtras *singleton = nil;
 {
     return self;
 }
+
+- (void)dealloc
+{
+    [accessToken release];
+    [creationToken release];
+    [delegate release];
+    [super dealloc];
+}
 @end
+
+@interface JRCaptureUser (Internal)
++ (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+@end
+
 
 @implementation JRCaptureUser (Extras)
 //- (NSString *)accessToken
@@ -85,70 +103,23 @@ static JRCaptureUserExtras *singleton = nil;
 //{
 //    [[JRCaptureUserExtras captureUserExtras] setCreationToken:aCreationToken];
 //}
-//
-//- (void)updateForDelegate:(id<JRCaptureUserDelegate>)delegate
-//{
-//    [[JRCaptureUserExtras captureUserExtras] setDelegate:delegate];
-//
-//    NSMutableDictionary *captureUserDictionary =
-//                                [NSMutableDictionary dictionaryWithDictionary:[self dictionaryFromObject]];
-//    [captureUserDictionary removeObjectForKey:@"created"];
-//    [captureUserDictionary removeObjectForKey:@"lastUpdated"];
-//    [captureUserDictionary removeObjectForKey:@"uuid"];
-//
-//    [JRCaptureInterface updateCaptureUser:captureUserDictionary
-//                          withAccessToken:[[JRCaptureUserExtras captureUserExtras] accessToken]
-//                              forDelegate:self];
-//}
-//
-//- (void)createForDelegate:(id<JRCaptureUserDelegate>)delegate
-//{
-//    [[JRCaptureUserExtras captureUserExtras] setDelegate:delegate];
-//
-//    [JRCaptureInterface createCaptureUser:[self dictionaryFromObject]
-//                        withCreationToken:[[JRCaptureUserExtras captureUserExtras] creationToken]
-//                              forDelegate:self];
-//}
-//
-//- (void)createCaptureUserDidFailWithResult:(NSString *)result
-//{
-//    id<JRCaptureUserDelegate> delegate = [[JRCaptureUserExtras captureUserExtras] delegate];
-//
-//    if ([delegate respondsToSelector:@selector(createCaptureUser:didFailWithResult:)])
-//        [delegate createCaptureUser:self didFailWithResult:result];
-//
-//    [[JRCaptureUserExtras captureUserExtras] setDelegate:nil];
-//}
-//
-//- (void)createCaptureUserDidSucceedWithResult:(NSString *)result
-//{
-//    id<JRCaptureUserDelegate> delegate = [[JRCaptureUserExtras captureUserExtras] delegate];
-//
-//    if ([delegate respondsToSelector:@selector(createCaptureUser:didSucceedWithResult:)])
-//        [delegate createCaptureUser:self didSucceedWithResult:result];
-//
-//    [[JRCaptureUserExtras captureUserExtras] setDelegate:nil];
-//}
-//
-//- (void)updateCaptureUserDidFailWithResult:(NSString *)result
-//{
-//    id<JRCaptureUserDelegate> delegate = [[JRCaptureUserExtras captureUserExtras] delegate];
-//
-//    if ([delegate respondsToSelector:@selector(updateCaptureUser:didFailWithResult:)])
-//        [delegate updateCaptureUser:self didFailWithResult:result];
-//
-//    [[JRCaptureUserExtras captureUserExtras] setDelegate:nil];
-//}
-//
-//- (void)updateCaptureUserDidSucceedWithResult:(NSString *)result
-//{
-//    id<JRCaptureUserDelegate> delegate = [[JRCaptureUserExtras captureUserExtras] delegate];
-//
-//    if ([delegate respondsToSelector:@selector(updateCaptureUser:didSucceedWithResult:)])
-//        [delegate updateCaptureUser:self didSucceedWithResult:result];
-//
-//    [[JRCaptureUserExtras captureUserExtras] setDelegate:nil];
-//}
+
+- (void)encodeWithCoder:(NSCoder*)coder
+{
+    NSDictionary *dictionary = [self toDictionary];
+    [coder encodeObject:dictionary forKey:@"captureUser"];
+}
+
+- (id)initWithCoder:(NSCoder*)coder
+{
+    if (self != nil)
+    {
+        NSDictionary *dictionary = [coder decodeObjectForKey:@"captureUser"];
+        [self replaceFromDictionary:dictionary withPath:@""];
+    }
+
+    return self;
+}
 
 
 - (void)createCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context

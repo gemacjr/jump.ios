@@ -43,6 +43,7 @@
 
 #import "CaptureNewUserViewController.h"
 #import "SharedData.h"
+#import "JRCaptureInternal.h"
 
 @interface CaptureNewUserViewController ()
 //@property (nonatomic, retain) NSMutableDictionary *engageUser;

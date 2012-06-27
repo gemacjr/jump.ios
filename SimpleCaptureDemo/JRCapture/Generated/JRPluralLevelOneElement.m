@@ -37,7 +37,13 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureInternal.h"
 #import "JRPluralLevelOneElement.h"
+
+@interface JRPluralLevelTwoElement (PluralLevelTwoElementInternalMethods)
++ (id)pluralLevelTwoElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPluralLevelTwoElement:(JRPluralLevelTwoElement *)otherPluralLevelTwoElement;
+@end
 
 @interface NSArray (PluralLevelTwoToFromDictionary)
 - (NSArray*)arrayOfPluralLevelTwoElementsFromPluralLevelTwoDictionariesWithPath:(NSString*)capturePath;
@@ -102,10 +108,6 @@
     NSString *_name;
     NSArray *_pluralLevelTwo;
 }
-@dynamic pluralLevelOneElementId;
-@dynamic level;
-@dynamic name;
-@dynamic pluralLevelTwo;
 @synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)pluralLevelOneElementId

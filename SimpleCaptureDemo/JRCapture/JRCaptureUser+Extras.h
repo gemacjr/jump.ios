@@ -7,7 +7,10 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCaptureUser.h"
-#import "JRCaptureApidInterface.h"
+
+@class JRCaptureObject;
+@class JRCaptureUser;
+@protocol JRCaptureInterfaceDelegate;
 
 // TODO: Do we even need this file anymore??
 @protocol JRCaptureUserDelegate <NSObject>

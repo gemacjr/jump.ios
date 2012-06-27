@@ -37,7 +37,13 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureInternal.h"
 #import "JRObjectLevelOne.h"
+
+@interface JRObjectLevelTwo (ObjectLevelTwoInternalMethods)
++ (id)objectLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToObjectLevelTwo:(JRObjectLevelTwo *)otherObjectLevelTwo;
+@end
 
 @interface JRObjectLevelOne ()
 @property BOOL canBeUpdatedOrReplaced;
@@ -49,9 +55,6 @@
     NSString *_name;
     JRObjectLevelTwo *_objectLevelTwo;
 }
-@dynamic level;
-@dynamic name;
-@dynamic objectLevelTwo;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)level

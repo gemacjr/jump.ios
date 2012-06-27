@@ -37,6 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureInternal.h"
 #import "JRObjectLevelThree.h"
 
 @interface JRObjectLevelThree ()
@@ -48,8 +49,6 @@
     NSString *_level;
     NSString *_name;
 }
-@dynamic level;
-@dynamic name;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)level

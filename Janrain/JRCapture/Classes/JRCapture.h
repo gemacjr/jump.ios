@@ -42,11 +42,7 @@
  **/
 
 #import <Foundation/Foundation.h>
-#import "JRCaptureInternal.h"
 #import "JRCaptureObject.h"
-#import "JRActivityObject.h"
-#import "JRCaptureUser.h"
-#import "JREngageWrapper.h"
 
 typedef enum
 {
@@ -63,19 +59,24 @@ typedef enum
     JRCaptureWebviewError_foo = 500,
 } JRCaptureWebviewError;
 
-//typedef enum
-//{
-//    JRNativeSigninNone = 0,
-//    JRNativeSigninUsernamePassword,
-//    JRNativeSigninEmailPassword,
-//} JRNativeSigninState;
+typedef enum
+{
+    JRNativeSigninNone = 0,
+    JRNativeSigninUsernamePassword,
+    JRNativeSigninEmailPassword,
+} JRNativeSigninState;
+
+
+@class JRActivityObject;
 
 @protocol JRCaptureAuthenticationDelegate;
 @protocol JRCaptureSocialSharingDelegate;
+
 @interface JRCapture : NSObject
 
 + (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
                    clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName;
+
 + (void)setEngageAppId:(NSString *)appId;
 
 + (void)setEngageAppId:(NSString *)appId captureApiDomain:(NSString *)newCaptureApidDomain

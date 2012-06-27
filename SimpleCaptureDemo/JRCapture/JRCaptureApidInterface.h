@@ -34,7 +34,6 @@
 
 #import <Foundation/Foundation.h>
 #import "JRConnectionManager.h"
-#import "JRCaptureInternal.h"
 
 @protocol JRCaptureInterfaceDelegate <NSObject>
 @optional

@@ -14,6 +14,7 @@
 
 #import "SharedData.h"
 #import "JRCaptureUser+Extras.h"
+#import "JRCaptureInternal.h"
 
 @interface SharedData ()
 @property (nonatomic, retain) JREngage *jrEngage;
@@ -328,7 +329,7 @@ static NSString *entityTypeName     = @"user_dev";
         [signInDelegate engageSignInDidFailWithError:error];
 }
 
-- (void)jrAuthenticationDidSucceedForUser:(JRCaptureUser *)captureUser withToken:(NSString *)captureToken andStatus:(JRCaptureAuthenticationStatus)status
+- (void)jrAuthenticationDidSucceedForUser:(JRCaptureUser *)newCaptureUser withToken:(NSString *)captureToken andStatus:(JRCaptureRecordStatus)status
 {
 
 }

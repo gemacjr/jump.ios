@@ -37,7 +37,63 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureInternal.h"
 #import "JRProfile.h"
+
+@interface JRAccountsElement (AccountsElementInternalMethods)
++ (id)accountsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToAccountsElement:(JRAccountsElement *)otherAccountsElement;
+@end
+
+@interface JRAddressesElement (AddressesElementInternalMethods)
++ (id)addressesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToAddressesElement:(JRAddressesElement *)otherAddressesElement;
+@end
+
+@interface JRBodyType (BodyTypeInternalMethods)
++ (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToBodyType:(JRBodyType *)otherBodyType;
+@end
+
+@interface JRCurrentLocation (CurrentLocationInternalMethods)
++ (id)currentLocationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToCurrentLocation:(JRCurrentLocation *)otherCurrentLocation;
+@end
+
+@interface JREmailsElement (EmailsElementInternalMethods)
++ (id)emailsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToEmailsElement:(JREmailsElement *)otherEmailsElement;
+@end
+
+@interface JRImsElement (ImsElementInternalMethods)
++ (id)imsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToImsElement:(JRImsElement *)otherImsElement;
+@end
+
+@interface JRName (NameInternalMethods)
++ (id)nameObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToName:(JRName *)otherName;
+@end
+
+@interface JROrganizationsElement (OrganizationsElementInternalMethods)
++ (id)organizationsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToOrganizationsElement:(JROrganizationsElement *)otherOrganizationsElement;
+@end
+
+@interface JRPhoneNumbersElement (PhoneNumbersElementInternalMethods)
++ (id)phoneNumbersElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPhoneNumbersElement:(JRPhoneNumbersElement *)otherPhoneNumbersElement;
+@end
+
+@interface JRProfilePhotosElement (ProfilePhotosElementInternalMethods)
++ (id)profilePhotosElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToProfilePhotosElement:(JRProfilePhotosElement *)otherProfilePhotosElement;
+@end
+
+@interface JRUrlsElement (UrlsElementInternalMethods)
++ (id)urlsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToUrlsElement:(JRUrlsElement *)otherUrlsElement;
+@end
 
 @interface NSArray (AccountsToFromDictionary)
 - (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath;
@@ -501,66 +557,6 @@
     NSArray *_urls;
     NSString *_utcOffset;
 }
-@dynamic aboutMe;
-@dynamic accounts;
-@dynamic addresses;
-@dynamic anniversary;
-@dynamic birthday;
-@dynamic bodyType;
-@dynamic books;
-@dynamic cars;
-@dynamic children;
-@dynamic currentLocation;
-@dynamic displayName;
-@dynamic drinker;
-@dynamic emails;
-@dynamic ethnicity;
-@dynamic fashion;
-@dynamic food;
-@dynamic gender;
-@dynamic happiestWhen;
-@dynamic heroes;
-@dynamic humor;
-@dynamic ims;
-@dynamic interestedInMeeting;
-@dynamic interests;
-@dynamic jobInterests;
-@dynamic languages;
-@dynamic languagesSpoken;
-@dynamic livingArrangement;
-@dynamic lookingFor;
-@dynamic movies;
-@dynamic music;
-@dynamic name;
-@dynamic nickname;
-@dynamic note;
-@dynamic organizations;
-@dynamic pets;
-@dynamic phoneNumbers;
-@dynamic profilePhotos;
-@dynamic politicalViews;
-@dynamic preferredUsername;
-@dynamic profileSong;
-@dynamic profileUrl;
-@dynamic profileVideo;
-@dynamic published;
-@dynamic quotes;
-@dynamic relationshipStatus;
-@dynamic relationships;
-@dynamic religion;
-@dynamic romance;
-@dynamic scaredOf;
-@dynamic sexualOrientation;
-@dynamic smoker;
-@dynamic sports;
-@dynamic status;
-@dynamic tags;
-@dynamic turnOffs;
-@dynamic turnOns;
-@dynamic tvShows;
-@dynamic updated;
-@dynamic urls;
-@dynamic utcOffset;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)aboutMe
