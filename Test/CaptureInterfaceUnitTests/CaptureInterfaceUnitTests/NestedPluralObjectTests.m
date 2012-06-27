@@ -775,22 +775,33 @@ JRCaptureObject *genericApidTestObj;
 apidResult expectedResult;
 NSArray *genericApidTestPlural;
 NSString *pluralName;
+void (^contBlock)() = nil;
 
-- (void)genericTestApidMethod:(apidMethod) method
-                    forObject:(JRCaptureObject *)object
-                 expectResult:(apidResult) result
-                      forTest:(NSString *) test
-                    forPlural:(NSString *) plural
-                    withArray:(NSArray *) array
+- (void)genericTestApidMethod:(apidMethod)method forObject:(JRCaptureObject *)object expectResult:(apidResult)result
+                      forTest:(NSString *)test forPlural:(NSString *)plural withArray:(NSArray *)array
+                 prepareBlock:(void (^)(NSString *ctx))prepBlock
 {
-    [self prepare];
+    if (!contBlock) [self prepare];
     genericApidTestObj = object;
     pluralName = plural;
     genericApidTestPlural = array;
     expectedResult = result;
 
-    NSString *const context = [@"finish.test_genericTestApidMethod" stringByAppendingFormat:@".%@", test];
+    NSString *const context = [NSString stringWithFormat:@"%@.test_genericTestApidMethod.%@",
+                                                         (!prepBlock) ? @"finish" : @"continue", test];
 
+    if (prepBlock)
+    {
+        prepBlock(context);
+        contBlock = ^(){
+            [self genericTestApidMethod:method forObject:object
+                           expectResult:result forTest:test
+                              forPlural:plural withArray:array
+                           prepareBlock:nil];
+        };
+        [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+        return;
+    }
 
     if (method == update)
     {
@@ -808,10 +819,21 @@ NSString *pluralName;
                               forDelegate:self withContext:context];
     }
     else [NSException raise:nil format:nil];
-    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+
+    if (!contBlock)
+        [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+
+    contBlock = nil;
+
 }
 
--  (void)finish_genericTestApidMethod_withArguments:(NSDictionary *)arguments
+- (void)continue_genericTestApidMethod_withArguments:(NSDictionary *)args
+                               andTestSelectorString:(NSString *)testSelectorString
+{
+    contBlock();
+}
+
+- (void)finish_genericTestApidMethod_withArguments:(NSDictionary *)arguments
                              andTestSelectorString:(NSString *)testSelectorString
 {
     GHAssertTrue((arguments == nil) == (expectedResult == failure), nil);
@@ -870,42 +892,43 @@ NSString *pluralName;
 {
     [self pinoinoCreate];
     [self genericTestApidMethod:update forObject:currentL1Object expectResult:success forTest:_sel forPlural:nil
-                      withArray:nil];
+                      withArray:nil prepareBlock:nil];
 }
 
 - (void)test_b351_pinoinoUpdate_Level2
 {
     [self pinoinoCreate];
     [self genericTestApidMethod:update forObject:currentL2Object expectResult:success forTest:_sel forPlural:nil
-                      withArray:nil];
+                      withArray:nil prepareBlock:nil];
 }
 
 - (void)test_b352_pinoinoReplace_Level1
 {
     [self pinoinoCreate];
     [self genericTestApidMethod:replace forObject:currentL1Object expectResult:success forTest:_sel forPlural:nil
-                      withArray:nil];
+                      withArray:nil prepareBlock:nil];
 }
 
 - (void)test_b353_pinoinoReplace_Level2
 {
     [self pinoinoCreate];
     [self genericTestApidMethod:replace forObject:currentL2Object expectResult:success forTest:_sel forPlural:nil
-                      withArray:nil];
+                      withArray:nil prepareBlock:nil];
 }
 
 - (void)test_b354_pinoinoPreReplace_Level3_FailCase
 {
     [self pinoinoCreate];
     [self genericTestApidMethod:update forObject:currentL3Object expectResult:failure forTest:_sel forPlural:nil
-                      withArray:nil];
+                      withArray:nil prepareBlock:nil];
 }
 
 - (void)test_b355_pinoinoReplace_Level3
 {
     [self pinoinoCreate];
-    [self genericTestApidMethod:replace forObject:currentL2Object expectResult:success forTest:_sel
-                      forPlural:@"pinoinoL3Plural"  withArray:currentL3Plural];
+    [self genericTestApidMethod:replace forObject:currentL2Object expectResult:success forTest:_sel forPlural:@"pinoinoL3Plural"
+                      withArray:currentL3Plural
+                      prepareBlock:nil];
 }
 
 - (void)asldfkj
@@ -950,26 +973,43 @@ NSString *pluralName;
 {
     [self onipinapCreate];
     [self genericTestApidMethod:update forObject:currentL3Object expectResult:failure forTest:_sel forPlural:nil
-                      withArray:nil];
+                      withArray:nil prepareBlock:nil];
 }
 
 - (void)test_b361_onipinapReplaceArray_Level2_FailCase
 {
     [self onipinapCreate];
-    [self genericTestApidMethod:replace forObject:currentL1Object expectResult:failure forTest:_sel
-                      forPlural:@"onipinapL2Plural" withArray:currentL2Plural];
+    [self genericTestApidMethod:replace forObject:currentL1Object expectResult:failure forTest:_sel forPlural:@"onipinapL2Plural"
+                      withArray:currentL2Plural
+                      prepareBlock:nil];
     //[((JROnipinapL1PluralElement *) [captureUser.onipinapL1Plural objectAtIndex:1])
     //        replaceOnipinapL2PluralArrayOnCaptureForDelegate:self withContext:_esel];
 }
 
 - (void)test_b362_onipinapReplaceArray_Level1
 {
-
+    [self onipinapCreate];
+    [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel forPlural:@"onipinapL1Plural"
+                      withArray:currentL1Plural
+                      prepareBlock:nil];
 }
 
 - (void)test_b363_onipinapUpdate_Level3_PostReplace
 {
+    [self onipinapCreate];
+    [self prepare];
+    [captureUser replaceOnipinapL1PluralArrayOnCaptureForDelegate:self withContext:_csel];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
 
+- (void)continue_b363_onipinapUpdate_Level3_PostReplace_withArguments:(NSDictionary *)args
+                                                andTestSelectorString:(NSString *)testSelectorString
+{
+    contBlock = ^(){};
+    self.currentL3Object = ((JROnipinapL2PluralElement *) [((JROnipinapL1PluralElement *) [captureUser.onipinapL1Plural objectAtIndex:1]).onipinapL2Plural objectAtIndex:1]).onipinapL3Object;
+    [self genericTestApidMethod:update forObject:currentL3Object expectResult:success
+                        forTest:@"test_b363_onipinapUpdate_Level3_PostReplace" forPlural:nil withArray:nil
+                   prepareBlock:nil];
 }
 
 /* Object in an object in a plural (370-379) */
