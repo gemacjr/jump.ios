@@ -218,7 +218,7 @@
         _domain = [newDomain copy];
         _identifier = [newIdentifier copy];
         _profile = [[JRProfile alloc] init];
-
+    
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"profilesElementId", @"accessCredentials", @"domain", @"identifier", @"profile", @"provider", @"remote_key", nil]];
     }
     return self;
@@ -254,7 +254,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.profilesElementId ? [NSNumber numberWithInteger:[self.profilesElementId integerValue]] : [NSNull null])
@@ -293,47 +293,47 @@
     profilesElement.canBeUpdatedOrReplaced = YES;
 
     profilesElement.profilesElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ?
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     profilesElement.accessCredentials =
-        [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ?
+        [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
         [dictionary objectForKey:@"accessCredentials"] : nil;
 
     profilesElement.domain =
-        [dictionary objectForKey:@"domain"] != [NSNull null] ?
+        [dictionary objectForKey:@"domain"] != [NSNull null] ? 
         [dictionary objectForKey:@"domain"] : nil;
 
     profilesElement.followers =
-        [dictionary objectForKey:@"followers"] != [NSNull null] ?
+        [dictionary objectForKey:@"followers"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringsFromStringPluralDictionariesWithType:@"identifier"] : nil;
 
     profilesElement.following =
-        [dictionary objectForKey:@"following"] != [NSNull null] ?
+        [dictionary objectForKey:@"following"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringsFromStringPluralDictionariesWithType:@"identifier"] : nil;
 
     profilesElement.friends =
-        [dictionary objectForKey:@"friends"] != [NSNull null] ?
+        [dictionary objectForKey:@"friends"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringsFromStringPluralDictionariesWithType:@"identifier"] : nil;
 
     profilesElement.identifier =
-        [dictionary objectForKey:@"identifier"] != [NSNull null] ?
+        [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
         [dictionary objectForKey:@"identifier"] : nil;
 
     profilesElement.profile =
-        [dictionary objectForKey:@"profile"] != [NSNull null] ?
+        [dictionary objectForKey:@"profile"] != [NSNull null] ? 
         [JRProfile profileObjectFromDictionary:[dictionary objectForKey:@"profile"] withPath:profilesElement.captureObjectPath] : nil;
 
     profilesElement.provider =
-        [dictionary objectForKey:@"provider"] != [NSNull null] ?
+        [dictionary objectForKey:@"provider"] != [NSNull null] ? 
         [dictionary objectForKey:@"provider"] : nil;
 
     profilesElement.remote_key =
-        [dictionary objectForKey:@"remote_key"] != [NSNull null] ?
+        [dictionary objectForKey:@"remote_key"] != [NSNull null] ? 
         [dictionary objectForKey:@"remote_key"] : nil;
 
     [profilesElement.dirtyPropertySet removeAllObjects];
-
+    
     return profilesElement;
 }
 
@@ -347,19 +347,19 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.profilesElementId = [dictionary objectForKey:@"id"] != [NSNull null] ?
+        self.profilesElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"accessCredentials"])
-        self.accessCredentials = [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ?
+        self.accessCredentials = [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
             [dictionary objectForKey:@"accessCredentials"] : nil;
 
     if ([dictionary objectForKey:@"domain"])
-        self.domain = [dictionary objectForKey:@"domain"] != [NSNull null] ?
+        self.domain = [dictionary objectForKey:@"domain"] != [NSNull null] ? 
             [dictionary objectForKey:@"domain"] : nil;
 
     if ([dictionary objectForKey:@"identifier"])
-        self.identifier = [dictionary objectForKey:@"identifier"] != [NSNull null] ?
+        self.identifier = [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
             [dictionary objectForKey:@"identifier"] : nil;
 
     if ([dictionary objectForKey:@"profile"] == [NSNull null])
@@ -370,11 +370,11 @@
         [self.profile updateFromDictionary:[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath];
 
     if ([dictionary objectForKey:@"provider"])
-        self.provider = [dictionary objectForKey:@"provider"] != [NSNull null] ?
+        self.provider = [dictionary objectForKey:@"provider"] != [NSNull null] ? 
             [dictionary objectForKey:@"provider"] : nil;
 
     if ([dictionary objectForKey:@"remote_key"])
-        self.remote_key = [dictionary objectForKey:@"remote_key"] != [NSNull null] ?
+        self.remote_key = [dictionary objectForKey:@"remote_key"] != [NSNull null] ? 
             [dictionary objectForKey:@"remote_key"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -390,31 +390,31 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.profilesElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ?
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.accessCredentials =
-        [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ?
+        [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
         [dictionary objectForKey:@"accessCredentials"] : nil;
 
     self.domain =
-        [dictionary objectForKey:@"domain"] != [NSNull null] ?
+        [dictionary objectForKey:@"domain"] != [NSNull null] ? 
         [dictionary objectForKey:@"domain"] : nil;
 
     self.followers =
-        [dictionary objectForKey:@"followers"] != [NSNull null] ?
+        [dictionary objectForKey:@"followers"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringsFromStringPluralDictionariesWithType:@"identifier"] : nil;
 
     self.following =
-        [dictionary objectForKey:@"following"] != [NSNull null] ?
+        [dictionary objectForKey:@"following"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringsFromStringPluralDictionariesWithType:@"identifier"] : nil;
 
     self.friends =
-        [dictionary objectForKey:@"friends"] != [NSNull null] ?
+        [dictionary objectForKey:@"friends"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringsFromStringPluralDictionariesWithType:@"identifier"] : nil;
 
     self.identifier =
-        [dictionary objectForKey:@"identifier"] != [NSNull null] ?
+        [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
         [dictionary objectForKey:@"identifier"] : nil;
 
     if (![dictionary objectForKey:@"profile"] || [dictionary objectForKey:@"profile"] == [NSNull null])
@@ -425,11 +425,11 @@
         [self.profile replaceFromDictionary:[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath];
 
     self.provider =
-        [dictionary objectForKey:@"provider"] != [NSNull null] ?
+        [dictionary objectForKey:@"provider"] != [NSNull null] ? 
         [dictionary objectForKey:@"provider"] : nil;
 
     self.remote_key =
-        [dictionary objectForKey:@"remote_key"] != [NSNull null] ?
+        [dictionary objectForKey:@"remote_key"] != [NSNull null] ? 
         [dictionary objectForKey:@"remote_key"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -580,7 +580,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"JRObjectId" forKey:@"profilesElementId"];

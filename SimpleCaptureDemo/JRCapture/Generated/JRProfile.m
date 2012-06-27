@@ -1374,7 +1374,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.aboutMe ? self.aboutMe : [NSNull null])
@@ -1513,247 +1513,247 @@
     profile.canBeUpdatedOrReplaced = YES;
 
     profile.aboutMe =
-        [dictionary objectForKey:@"aboutMe"] != [NSNull null] ?
+        [dictionary objectForKey:@"aboutMe"] != [NSNull null] ? 
         [dictionary objectForKey:@"aboutMe"] : nil;
 
     profile.accounts =
-        [dictionary objectForKey:@"accounts"] != [NSNull null] ?
+        [dictionary objectForKey:@"accounts"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"accounts"] arrayOfAccountsElementsFromAccountsDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.addresses =
-        [dictionary objectForKey:@"addresses"] != [NSNull null] ?
+        [dictionary objectForKey:@"addresses"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"addresses"] arrayOfAddressesElementsFromAddressesDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.anniversary =
-        [dictionary objectForKey:@"anniversary"] != [NSNull null] ?
+        [dictionary objectForKey:@"anniversary"] != [NSNull null] ? 
         [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]] : nil;
 
     profile.birthday =
-        [dictionary objectForKey:@"birthday"] != [NSNull null] ?
+        [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
         [dictionary objectForKey:@"birthday"] : nil;
 
     profile.bodyType =
-        [dictionary objectForKey:@"bodyType"] != [NSNull null] ?
+        [dictionary objectForKey:@"bodyType"] != [NSNull null] ? 
         [JRBodyType bodyTypeObjectFromDictionary:[dictionary objectForKey:@"bodyType"] withPath:profile.captureObjectPath] : nil;
 
     profile.books =
-        [dictionary objectForKey:@"books"] != [NSNull null] ?
+        [dictionary objectForKey:@"books"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"books"] arrayOfStringsFromStringPluralDictionariesWithType:@"book"] : nil;
 
     profile.cars =
-        [dictionary objectForKey:@"cars"] != [NSNull null] ?
+        [dictionary objectForKey:@"cars"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"cars"] arrayOfStringsFromStringPluralDictionariesWithType:@"car"] : nil;
 
     profile.children =
-        [dictionary objectForKey:@"children"] != [NSNull null] ?
+        [dictionary objectForKey:@"children"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"children"] arrayOfStringsFromStringPluralDictionariesWithType:@"value"] : nil;
 
     profile.currentLocation =
-        [dictionary objectForKey:@"currentLocation"] != [NSNull null] ?
+        [dictionary objectForKey:@"currentLocation"] != [NSNull null] ? 
         [JRCurrentLocation currentLocationObjectFromDictionary:[dictionary objectForKey:@"currentLocation"] withPath:profile.captureObjectPath] : nil;
 
     profile.displayName =
-        [dictionary objectForKey:@"displayName"] != [NSNull null] ?
+        [dictionary objectForKey:@"displayName"] != [NSNull null] ? 
         [dictionary objectForKey:@"displayName"] : nil;
 
     profile.drinker =
-        [dictionary objectForKey:@"drinker"] != [NSNull null] ?
+        [dictionary objectForKey:@"drinker"] != [NSNull null] ? 
         [dictionary objectForKey:@"drinker"] : nil;
 
     profile.emails =
-        [dictionary objectForKey:@"emails"] != [NSNull null] ?
+        [dictionary objectForKey:@"emails"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"emails"] arrayOfEmailsElementsFromEmailsDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.ethnicity =
-        [dictionary objectForKey:@"ethnicity"] != [NSNull null] ?
+        [dictionary objectForKey:@"ethnicity"] != [NSNull null] ? 
         [dictionary objectForKey:@"ethnicity"] : nil;
 
     profile.fashion =
-        [dictionary objectForKey:@"fashion"] != [NSNull null] ?
+        [dictionary objectForKey:@"fashion"] != [NSNull null] ? 
         [dictionary objectForKey:@"fashion"] : nil;
 
     profile.food =
-        [dictionary objectForKey:@"food"] != [NSNull null] ?
+        [dictionary objectForKey:@"food"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"food"] arrayOfStringsFromStringPluralDictionariesWithType:@"food"] : nil;
 
     profile.gender =
-        [dictionary objectForKey:@"gender"] != [NSNull null] ?
+        [dictionary objectForKey:@"gender"] != [NSNull null] ? 
         [dictionary objectForKey:@"gender"] : nil;
 
     profile.happiestWhen =
-        [dictionary objectForKey:@"happiestWhen"] != [NSNull null] ?
+        [dictionary objectForKey:@"happiestWhen"] != [NSNull null] ? 
         [dictionary objectForKey:@"happiestWhen"] : nil;
 
     profile.heroes =
-        [dictionary objectForKey:@"heroes"] != [NSNull null] ?
+        [dictionary objectForKey:@"heroes"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"heroes"] arrayOfStringsFromStringPluralDictionariesWithType:@"hero"] : nil;
 
     profile.humor =
-        [dictionary objectForKey:@"humor"] != [NSNull null] ?
+        [dictionary objectForKey:@"humor"] != [NSNull null] ? 
         [dictionary objectForKey:@"humor"] : nil;
 
     profile.ims =
-        [dictionary objectForKey:@"ims"] != [NSNull null] ?
+        [dictionary objectForKey:@"ims"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"ims"] arrayOfImsElementsFromImsDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.interestedInMeeting =
-        [dictionary objectForKey:@"interestedInMeeting"] != [NSNull null] ?
+        [dictionary objectForKey:@"interestedInMeeting"] != [NSNull null] ? 
         [dictionary objectForKey:@"interestedInMeeting"] : nil;
 
     profile.interests =
-        [dictionary objectForKey:@"interests"] != [NSNull null] ?
+        [dictionary objectForKey:@"interests"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"interests"] arrayOfStringsFromStringPluralDictionariesWithType:@"interest"] : nil;
 
     profile.jobInterests =
-        [dictionary objectForKey:@"jobInterests"] != [NSNull null] ?
+        [dictionary objectForKey:@"jobInterests"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"jobInterests"] arrayOfStringsFromStringPluralDictionariesWithType:@"jobInterest"] : nil;
 
     profile.languages =
-        [dictionary objectForKey:@"languages"] != [NSNull null] ?
+        [dictionary objectForKey:@"languages"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"languages"] arrayOfStringsFromStringPluralDictionariesWithType:@"language"] : nil;
 
     profile.languagesSpoken =
-        [dictionary objectForKey:@"languagesSpoken"] != [NSNull null] ?
+        [dictionary objectForKey:@"languagesSpoken"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"languagesSpoken"] arrayOfStringsFromStringPluralDictionariesWithType:@"languageSpoken"] : nil;
 
     profile.livingArrangement =
-        [dictionary objectForKey:@"livingArrangement"] != [NSNull null] ?
+        [dictionary objectForKey:@"livingArrangement"] != [NSNull null] ? 
         [dictionary objectForKey:@"livingArrangement"] : nil;
 
     profile.lookingFor =
-        [dictionary objectForKey:@"lookingFor"] != [NSNull null] ?
+        [dictionary objectForKey:@"lookingFor"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"lookingFor"] arrayOfStringsFromStringPluralDictionariesWithType:@"value"] : nil;
 
     profile.movies =
-        [dictionary objectForKey:@"movies"] != [NSNull null] ?
+        [dictionary objectForKey:@"movies"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"movies"] arrayOfStringsFromStringPluralDictionariesWithType:@"movie"] : nil;
 
     profile.music =
-        [dictionary objectForKey:@"music"] != [NSNull null] ?
+        [dictionary objectForKey:@"music"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"music"] arrayOfStringsFromStringPluralDictionariesWithType:@"music"] : nil;
 
     profile.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ?
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [JRName nameObjectFromDictionary:[dictionary objectForKey:@"name"] withPath:profile.captureObjectPath] : nil;
 
     profile.nickname =
-        [dictionary objectForKey:@"nickname"] != [NSNull null] ?
+        [dictionary objectForKey:@"nickname"] != [NSNull null] ? 
         [dictionary objectForKey:@"nickname"] : nil;
 
     profile.note =
-        [dictionary objectForKey:@"note"] != [NSNull null] ?
+        [dictionary objectForKey:@"note"] != [NSNull null] ? 
         [dictionary objectForKey:@"note"] : nil;
 
     profile.organizations =
-        [dictionary objectForKey:@"organizations"] != [NSNull null] ?
+        [dictionary objectForKey:@"organizations"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"organizations"] arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.pets =
-        [dictionary objectForKey:@"pets"] != [NSNull null] ?
+        [dictionary objectForKey:@"pets"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pets"] arrayOfStringsFromStringPluralDictionariesWithType:@"value"] : nil;
 
     profile.phoneNumbers =
-        [dictionary objectForKey:@"phoneNumbers"] != [NSNull null] ?
+        [dictionary objectForKey:@"phoneNumbers"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"phoneNumbers"] arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.profilePhotos =
-        [dictionary objectForKey:@"photos"] != [NSNull null] ?
+        [dictionary objectForKey:@"photos"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.politicalViews =
-        [dictionary objectForKey:@"politicalViews"] != [NSNull null] ?
+        [dictionary objectForKey:@"politicalViews"] != [NSNull null] ? 
         [dictionary objectForKey:@"politicalViews"] : nil;
 
     profile.preferredUsername =
-        [dictionary objectForKey:@"preferredUsername"] != [NSNull null] ?
+        [dictionary objectForKey:@"preferredUsername"] != [NSNull null] ? 
         [dictionary objectForKey:@"preferredUsername"] : nil;
 
     profile.profileSong =
-        [dictionary objectForKey:@"profileSong"] != [NSNull null] ?
+        [dictionary objectForKey:@"profileSong"] != [NSNull null] ? 
         [dictionary objectForKey:@"profileSong"] : nil;
 
     profile.profileUrl =
-        [dictionary objectForKey:@"profileUrl"] != [NSNull null] ?
+        [dictionary objectForKey:@"profileUrl"] != [NSNull null] ? 
         [dictionary objectForKey:@"profileUrl"] : nil;
 
     profile.profileVideo =
-        [dictionary objectForKey:@"profileVideo"] != [NSNull null] ?
+        [dictionary objectForKey:@"profileVideo"] != [NSNull null] ? 
         [dictionary objectForKey:@"profileVideo"] : nil;
 
     profile.published =
-        [dictionary objectForKey:@"published"] != [NSNull null] ?
+        [dictionary objectForKey:@"published"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]] : nil;
 
     profile.quotes =
-        [dictionary objectForKey:@"quotes"] != [NSNull null] ?
+        [dictionary objectForKey:@"quotes"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"quotes"] arrayOfStringsFromStringPluralDictionariesWithType:@"quote"] : nil;
 
     profile.relationshipStatus =
-        [dictionary objectForKey:@"relationshipStatus"] != [NSNull null] ?
+        [dictionary objectForKey:@"relationshipStatus"] != [NSNull null] ? 
         [dictionary objectForKey:@"relationshipStatus"] : nil;
 
     profile.relationships =
-        [dictionary objectForKey:@"relationships"] != [NSNull null] ?
+        [dictionary objectForKey:@"relationships"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"relationships"] arrayOfStringsFromStringPluralDictionariesWithType:@"relationship"] : nil;
 
     profile.religion =
-        [dictionary objectForKey:@"religion"] != [NSNull null] ?
+        [dictionary objectForKey:@"religion"] != [NSNull null] ? 
         [dictionary objectForKey:@"religion"] : nil;
 
     profile.romance =
-        [dictionary objectForKey:@"romance"] != [NSNull null] ?
+        [dictionary objectForKey:@"romance"] != [NSNull null] ? 
         [dictionary objectForKey:@"romance"] : nil;
 
     profile.scaredOf =
-        [dictionary objectForKey:@"scaredOf"] != [NSNull null] ?
+        [dictionary objectForKey:@"scaredOf"] != [NSNull null] ? 
         [dictionary objectForKey:@"scaredOf"] : nil;
 
     profile.sexualOrientation =
-        [dictionary objectForKey:@"sexualOrientation"] != [NSNull null] ?
+        [dictionary objectForKey:@"sexualOrientation"] != [NSNull null] ? 
         [dictionary objectForKey:@"sexualOrientation"] : nil;
 
     profile.smoker =
-        [dictionary objectForKey:@"smoker"] != [NSNull null] ?
+        [dictionary objectForKey:@"smoker"] != [NSNull null] ? 
         [dictionary objectForKey:@"smoker"] : nil;
 
     profile.sports =
-        [dictionary objectForKey:@"sports"] != [NSNull null] ?
+        [dictionary objectForKey:@"sports"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"sports"] arrayOfStringsFromStringPluralDictionariesWithType:@"sport"] : nil;
 
     profile.status =
-        [dictionary objectForKey:@"status"] != [NSNull null] ?
+        [dictionary objectForKey:@"status"] != [NSNull null] ? 
         [dictionary objectForKey:@"status"] : nil;
 
     profile.tags =
-        [dictionary objectForKey:@"tags"] != [NSNull null] ?
+        [dictionary objectForKey:@"tags"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"tags"] arrayOfStringsFromStringPluralDictionariesWithType:@"tag"] : nil;
 
     profile.turnOffs =
-        [dictionary objectForKey:@"turnOffs"] != [NSNull null] ?
+        [dictionary objectForKey:@"turnOffs"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"turnOffs"] arrayOfStringsFromStringPluralDictionariesWithType:@"turnOff"] : nil;
 
     profile.turnOns =
-        [dictionary objectForKey:@"turnOns"] != [NSNull null] ?
+        [dictionary objectForKey:@"turnOns"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"turnOns"] arrayOfStringsFromStringPluralDictionariesWithType:@"turnOn"] : nil;
 
     profile.tvShows =
-        [dictionary objectForKey:@"tvShows"] != [NSNull null] ?
+        [dictionary objectForKey:@"tvShows"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"tvShows"] arrayOfStringsFromStringPluralDictionariesWithType:@"tvShow"] : nil;
 
     profile.updated =
-        [dictionary objectForKey:@"updated"] != [NSNull null] ?
+        [dictionary objectForKey:@"updated"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]] : nil;
 
     profile.urls =
-        [dictionary objectForKey:@"urls"] != [NSNull null] ?
+        [dictionary objectForKey:@"urls"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"urls"] arrayOfUrlsElementsFromUrlsDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.utcOffset =
-        [dictionary objectForKey:@"utcOffset"] != [NSNull null] ?
+        [dictionary objectForKey:@"utcOffset"] != [NSNull null] ? 
         [dictionary objectForKey:@"utcOffset"] : nil;
 
     [profile.dirtyPropertySet removeAllObjects];
-
+    
     return profile;
 }
 
@@ -1767,15 +1767,15 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"profile"];
 
     if ([dictionary objectForKey:@"aboutMe"])
-        self.aboutMe = [dictionary objectForKey:@"aboutMe"] != [NSNull null] ?
+        self.aboutMe = [dictionary objectForKey:@"aboutMe"] != [NSNull null] ? 
             [dictionary objectForKey:@"aboutMe"] : nil;
 
     if ([dictionary objectForKey:@"anniversary"])
-        self.anniversary = [dictionary objectForKey:@"anniversary"] != [NSNull null] ?
+        self.anniversary = [dictionary objectForKey:@"anniversary"] != [NSNull null] ? 
             [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]] : nil;
 
     if ([dictionary objectForKey:@"birthday"])
-        self.birthday = [dictionary objectForKey:@"birthday"] != [NSNull null] ?
+        self.birthday = [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
             [dictionary objectForKey:@"birthday"] : nil;
 
     if ([dictionary objectForKey:@"bodyType"] == [NSNull null])
@@ -1793,39 +1793,39 @@
         [self.currentLocation updateFromDictionary:[dictionary objectForKey:@"currentLocation"] withPath:self.captureObjectPath];
 
     if ([dictionary objectForKey:@"displayName"])
-        self.displayName = [dictionary objectForKey:@"displayName"] != [NSNull null] ?
+        self.displayName = [dictionary objectForKey:@"displayName"] != [NSNull null] ? 
             [dictionary objectForKey:@"displayName"] : nil;
 
     if ([dictionary objectForKey:@"drinker"])
-        self.drinker = [dictionary objectForKey:@"drinker"] != [NSNull null] ?
+        self.drinker = [dictionary objectForKey:@"drinker"] != [NSNull null] ? 
             [dictionary objectForKey:@"drinker"] : nil;
 
     if ([dictionary objectForKey:@"ethnicity"])
-        self.ethnicity = [dictionary objectForKey:@"ethnicity"] != [NSNull null] ?
+        self.ethnicity = [dictionary objectForKey:@"ethnicity"] != [NSNull null] ? 
             [dictionary objectForKey:@"ethnicity"] : nil;
 
     if ([dictionary objectForKey:@"fashion"])
-        self.fashion = [dictionary objectForKey:@"fashion"] != [NSNull null] ?
+        self.fashion = [dictionary objectForKey:@"fashion"] != [NSNull null] ? 
             [dictionary objectForKey:@"fashion"] : nil;
 
     if ([dictionary objectForKey:@"gender"])
-        self.gender = [dictionary objectForKey:@"gender"] != [NSNull null] ?
+        self.gender = [dictionary objectForKey:@"gender"] != [NSNull null] ? 
             [dictionary objectForKey:@"gender"] : nil;
 
     if ([dictionary objectForKey:@"happiestWhen"])
-        self.happiestWhen = [dictionary objectForKey:@"happiestWhen"] != [NSNull null] ?
+        self.happiestWhen = [dictionary objectForKey:@"happiestWhen"] != [NSNull null] ? 
             [dictionary objectForKey:@"happiestWhen"] : nil;
 
     if ([dictionary objectForKey:@"humor"])
-        self.humor = [dictionary objectForKey:@"humor"] != [NSNull null] ?
+        self.humor = [dictionary objectForKey:@"humor"] != [NSNull null] ? 
             [dictionary objectForKey:@"humor"] : nil;
 
     if ([dictionary objectForKey:@"interestedInMeeting"])
-        self.interestedInMeeting = [dictionary objectForKey:@"interestedInMeeting"] != [NSNull null] ?
+        self.interestedInMeeting = [dictionary objectForKey:@"interestedInMeeting"] != [NSNull null] ? 
             [dictionary objectForKey:@"interestedInMeeting"] : nil;
 
     if ([dictionary objectForKey:@"livingArrangement"])
-        self.livingArrangement = [dictionary objectForKey:@"livingArrangement"] != [NSNull null] ?
+        self.livingArrangement = [dictionary objectForKey:@"livingArrangement"] != [NSNull null] ? 
             [dictionary objectForKey:@"livingArrangement"] : nil;
 
     if ([dictionary objectForKey:@"name"] == [NSNull null])
@@ -1836,71 +1836,71 @@
         [self.name updateFromDictionary:[dictionary objectForKey:@"name"] withPath:self.captureObjectPath];
 
     if ([dictionary objectForKey:@"nickname"])
-        self.nickname = [dictionary objectForKey:@"nickname"] != [NSNull null] ?
+        self.nickname = [dictionary objectForKey:@"nickname"] != [NSNull null] ? 
             [dictionary objectForKey:@"nickname"] : nil;
 
     if ([dictionary objectForKey:@"note"])
-        self.note = [dictionary objectForKey:@"note"] != [NSNull null] ?
+        self.note = [dictionary objectForKey:@"note"] != [NSNull null] ? 
             [dictionary objectForKey:@"note"] : nil;
 
     if ([dictionary objectForKey:@"politicalViews"])
-        self.politicalViews = [dictionary objectForKey:@"politicalViews"] != [NSNull null] ?
+        self.politicalViews = [dictionary objectForKey:@"politicalViews"] != [NSNull null] ? 
             [dictionary objectForKey:@"politicalViews"] : nil;
 
     if ([dictionary objectForKey:@"preferredUsername"])
-        self.preferredUsername = [dictionary objectForKey:@"preferredUsername"] != [NSNull null] ?
+        self.preferredUsername = [dictionary objectForKey:@"preferredUsername"] != [NSNull null] ? 
             [dictionary objectForKey:@"preferredUsername"] : nil;
 
     if ([dictionary objectForKey:@"profileSong"])
-        self.profileSong = [dictionary objectForKey:@"profileSong"] != [NSNull null] ?
+        self.profileSong = [dictionary objectForKey:@"profileSong"] != [NSNull null] ? 
             [dictionary objectForKey:@"profileSong"] : nil;
 
     if ([dictionary objectForKey:@"profileUrl"])
-        self.profileUrl = [dictionary objectForKey:@"profileUrl"] != [NSNull null] ?
+        self.profileUrl = [dictionary objectForKey:@"profileUrl"] != [NSNull null] ? 
             [dictionary objectForKey:@"profileUrl"] : nil;
 
     if ([dictionary objectForKey:@"profileVideo"])
-        self.profileVideo = [dictionary objectForKey:@"profileVideo"] != [NSNull null] ?
+        self.profileVideo = [dictionary objectForKey:@"profileVideo"] != [NSNull null] ? 
             [dictionary objectForKey:@"profileVideo"] : nil;
 
     if ([dictionary objectForKey:@"published"])
-        self.published = [dictionary objectForKey:@"published"] != [NSNull null] ?
+        self.published = [dictionary objectForKey:@"published"] != [NSNull null] ? 
             [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]] : nil;
 
     if ([dictionary objectForKey:@"relationshipStatus"])
-        self.relationshipStatus = [dictionary objectForKey:@"relationshipStatus"] != [NSNull null] ?
+        self.relationshipStatus = [dictionary objectForKey:@"relationshipStatus"] != [NSNull null] ? 
             [dictionary objectForKey:@"relationshipStatus"] : nil;
 
     if ([dictionary objectForKey:@"religion"])
-        self.religion = [dictionary objectForKey:@"religion"] != [NSNull null] ?
+        self.religion = [dictionary objectForKey:@"religion"] != [NSNull null] ? 
             [dictionary objectForKey:@"religion"] : nil;
 
     if ([dictionary objectForKey:@"romance"])
-        self.romance = [dictionary objectForKey:@"romance"] != [NSNull null] ?
+        self.romance = [dictionary objectForKey:@"romance"] != [NSNull null] ? 
             [dictionary objectForKey:@"romance"] : nil;
 
     if ([dictionary objectForKey:@"scaredOf"])
-        self.scaredOf = [dictionary objectForKey:@"scaredOf"] != [NSNull null] ?
+        self.scaredOf = [dictionary objectForKey:@"scaredOf"] != [NSNull null] ? 
             [dictionary objectForKey:@"scaredOf"] : nil;
 
     if ([dictionary objectForKey:@"sexualOrientation"])
-        self.sexualOrientation = [dictionary objectForKey:@"sexualOrientation"] != [NSNull null] ?
+        self.sexualOrientation = [dictionary objectForKey:@"sexualOrientation"] != [NSNull null] ? 
             [dictionary objectForKey:@"sexualOrientation"] : nil;
 
     if ([dictionary objectForKey:@"smoker"])
-        self.smoker = [dictionary objectForKey:@"smoker"] != [NSNull null] ?
+        self.smoker = [dictionary objectForKey:@"smoker"] != [NSNull null] ? 
             [dictionary objectForKey:@"smoker"] : nil;
 
     if ([dictionary objectForKey:@"status"])
-        self.status = [dictionary objectForKey:@"status"] != [NSNull null] ?
+        self.status = [dictionary objectForKey:@"status"] != [NSNull null] ? 
             [dictionary objectForKey:@"status"] : nil;
 
     if ([dictionary objectForKey:@"updated"])
-        self.updated = [dictionary objectForKey:@"updated"] != [NSNull null] ?
+        self.updated = [dictionary objectForKey:@"updated"] != [NSNull null] ? 
             [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]] : nil;
 
     if ([dictionary objectForKey:@"utcOffset"])
-        self.utcOffset = [dictionary objectForKey:@"utcOffset"] != [NSNull null] ?
+        self.utcOffset = [dictionary objectForKey:@"utcOffset"] != [NSNull null] ? 
             [dictionary objectForKey:@"utcOffset"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -1916,23 +1916,23 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"profile"];
 
     self.aboutMe =
-        [dictionary objectForKey:@"aboutMe"] != [NSNull null] ?
+        [dictionary objectForKey:@"aboutMe"] != [NSNull null] ? 
         [dictionary objectForKey:@"aboutMe"] : nil;
 
     self.accounts =
-        [dictionary objectForKey:@"accounts"] != [NSNull null] ?
+        [dictionary objectForKey:@"accounts"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"accounts"] arrayOfAccountsElementsFromAccountsDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.addresses =
-        [dictionary objectForKey:@"addresses"] != [NSNull null] ?
+        [dictionary objectForKey:@"addresses"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"addresses"] arrayOfAddressesElementsFromAddressesDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.anniversary =
-        [dictionary objectForKey:@"anniversary"] != [NSNull null] ?
+        [dictionary objectForKey:@"anniversary"] != [NSNull null] ? 
         [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]] : nil;
 
     self.birthday =
-        [dictionary objectForKey:@"birthday"] != [NSNull null] ?
+        [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
         [dictionary objectForKey:@"birthday"] : nil;
 
     if (![dictionary objectForKey:@"bodyType"] || [dictionary objectForKey:@"bodyType"] == [NSNull null])
@@ -1943,15 +1943,15 @@
         [self.bodyType replaceFromDictionary:[dictionary objectForKey:@"bodyType"] withPath:self.captureObjectPath];
 
     self.books =
-        [dictionary objectForKey:@"books"] != [NSNull null] ?
+        [dictionary objectForKey:@"books"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"books"] arrayOfStringsFromStringPluralDictionariesWithType:@"book"] : nil;
 
     self.cars =
-        [dictionary objectForKey:@"cars"] != [NSNull null] ?
+        [dictionary objectForKey:@"cars"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"cars"] arrayOfStringsFromStringPluralDictionariesWithType:@"car"] : nil;
 
     self.children =
-        [dictionary objectForKey:@"children"] != [NSNull null] ?
+        [dictionary objectForKey:@"children"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"children"] arrayOfStringsFromStringPluralDictionariesWithType:@"value"] : nil;
 
     if (![dictionary objectForKey:@"currentLocation"] || [dictionary objectForKey:@"currentLocation"] == [NSNull null])
@@ -1962,83 +1962,83 @@
         [self.currentLocation replaceFromDictionary:[dictionary objectForKey:@"currentLocation"] withPath:self.captureObjectPath];
 
     self.displayName =
-        [dictionary objectForKey:@"displayName"] != [NSNull null] ?
+        [dictionary objectForKey:@"displayName"] != [NSNull null] ? 
         [dictionary objectForKey:@"displayName"] : nil;
 
     self.drinker =
-        [dictionary objectForKey:@"drinker"] != [NSNull null] ?
+        [dictionary objectForKey:@"drinker"] != [NSNull null] ? 
         [dictionary objectForKey:@"drinker"] : nil;
 
     self.emails =
-        [dictionary objectForKey:@"emails"] != [NSNull null] ?
+        [dictionary objectForKey:@"emails"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"emails"] arrayOfEmailsElementsFromEmailsDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.ethnicity =
-        [dictionary objectForKey:@"ethnicity"] != [NSNull null] ?
+        [dictionary objectForKey:@"ethnicity"] != [NSNull null] ? 
         [dictionary objectForKey:@"ethnicity"] : nil;
 
     self.fashion =
-        [dictionary objectForKey:@"fashion"] != [NSNull null] ?
+        [dictionary objectForKey:@"fashion"] != [NSNull null] ? 
         [dictionary objectForKey:@"fashion"] : nil;
 
     self.food =
-        [dictionary objectForKey:@"food"] != [NSNull null] ?
+        [dictionary objectForKey:@"food"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"food"] arrayOfStringsFromStringPluralDictionariesWithType:@"food"] : nil;
 
     self.gender =
-        [dictionary objectForKey:@"gender"] != [NSNull null] ?
+        [dictionary objectForKey:@"gender"] != [NSNull null] ? 
         [dictionary objectForKey:@"gender"] : nil;
 
     self.happiestWhen =
-        [dictionary objectForKey:@"happiestWhen"] != [NSNull null] ?
+        [dictionary objectForKey:@"happiestWhen"] != [NSNull null] ? 
         [dictionary objectForKey:@"happiestWhen"] : nil;
 
     self.heroes =
-        [dictionary objectForKey:@"heroes"] != [NSNull null] ?
+        [dictionary objectForKey:@"heroes"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"heroes"] arrayOfStringsFromStringPluralDictionariesWithType:@"hero"] : nil;
 
     self.humor =
-        [dictionary objectForKey:@"humor"] != [NSNull null] ?
+        [dictionary objectForKey:@"humor"] != [NSNull null] ? 
         [dictionary objectForKey:@"humor"] : nil;
 
     self.ims =
-        [dictionary objectForKey:@"ims"] != [NSNull null] ?
+        [dictionary objectForKey:@"ims"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"ims"] arrayOfImsElementsFromImsDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.interestedInMeeting =
-        [dictionary objectForKey:@"interestedInMeeting"] != [NSNull null] ?
+        [dictionary objectForKey:@"interestedInMeeting"] != [NSNull null] ? 
         [dictionary objectForKey:@"interestedInMeeting"] : nil;
 
     self.interests =
-        [dictionary objectForKey:@"interests"] != [NSNull null] ?
+        [dictionary objectForKey:@"interests"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"interests"] arrayOfStringsFromStringPluralDictionariesWithType:@"interest"] : nil;
 
     self.jobInterests =
-        [dictionary objectForKey:@"jobInterests"] != [NSNull null] ?
+        [dictionary objectForKey:@"jobInterests"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"jobInterests"] arrayOfStringsFromStringPluralDictionariesWithType:@"jobInterest"] : nil;
 
     self.languages =
-        [dictionary objectForKey:@"languages"] != [NSNull null] ?
+        [dictionary objectForKey:@"languages"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"languages"] arrayOfStringsFromStringPluralDictionariesWithType:@"language"] : nil;
 
     self.languagesSpoken =
-        [dictionary objectForKey:@"languagesSpoken"] != [NSNull null] ?
+        [dictionary objectForKey:@"languagesSpoken"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"languagesSpoken"] arrayOfStringsFromStringPluralDictionariesWithType:@"languageSpoken"] : nil;
 
     self.livingArrangement =
-        [dictionary objectForKey:@"livingArrangement"] != [NSNull null] ?
+        [dictionary objectForKey:@"livingArrangement"] != [NSNull null] ? 
         [dictionary objectForKey:@"livingArrangement"] : nil;
 
     self.lookingFor =
-        [dictionary objectForKey:@"lookingFor"] != [NSNull null] ?
+        [dictionary objectForKey:@"lookingFor"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"lookingFor"] arrayOfStringsFromStringPluralDictionariesWithType:@"value"] : nil;
 
     self.movies =
-        [dictionary objectForKey:@"movies"] != [NSNull null] ?
+        [dictionary objectForKey:@"movies"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"movies"] arrayOfStringsFromStringPluralDictionariesWithType:@"movie"] : nil;
 
     self.music =
-        [dictionary objectForKey:@"music"] != [NSNull null] ?
+        [dictionary objectForKey:@"music"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"music"] arrayOfStringsFromStringPluralDictionariesWithType:@"music"] : nil;
 
     if (![dictionary objectForKey:@"name"] || [dictionary objectForKey:@"name"] == [NSNull null])
@@ -2049,119 +2049,119 @@
         [self.name replaceFromDictionary:[dictionary objectForKey:@"name"] withPath:self.captureObjectPath];
 
     self.nickname =
-        [dictionary objectForKey:@"nickname"] != [NSNull null] ?
+        [dictionary objectForKey:@"nickname"] != [NSNull null] ? 
         [dictionary objectForKey:@"nickname"] : nil;
 
     self.note =
-        [dictionary objectForKey:@"note"] != [NSNull null] ?
+        [dictionary objectForKey:@"note"] != [NSNull null] ? 
         [dictionary objectForKey:@"note"] : nil;
 
     self.organizations =
-        [dictionary objectForKey:@"organizations"] != [NSNull null] ?
+        [dictionary objectForKey:@"organizations"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"organizations"] arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.pets =
-        [dictionary objectForKey:@"pets"] != [NSNull null] ?
+        [dictionary objectForKey:@"pets"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pets"] arrayOfStringsFromStringPluralDictionariesWithType:@"value"] : nil;
 
     self.phoneNumbers =
-        [dictionary objectForKey:@"phoneNumbers"] != [NSNull null] ?
+        [dictionary objectForKey:@"phoneNumbers"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"phoneNumbers"] arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.profilePhotos =
-        [dictionary objectForKey:@"photos"] != [NSNull null] ?
+        [dictionary objectForKey:@"photos"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.politicalViews =
-        [dictionary objectForKey:@"politicalViews"] != [NSNull null] ?
+        [dictionary objectForKey:@"politicalViews"] != [NSNull null] ? 
         [dictionary objectForKey:@"politicalViews"] : nil;
 
     self.preferredUsername =
-        [dictionary objectForKey:@"preferredUsername"] != [NSNull null] ?
+        [dictionary objectForKey:@"preferredUsername"] != [NSNull null] ? 
         [dictionary objectForKey:@"preferredUsername"] : nil;
 
     self.profileSong =
-        [dictionary objectForKey:@"profileSong"] != [NSNull null] ?
+        [dictionary objectForKey:@"profileSong"] != [NSNull null] ? 
         [dictionary objectForKey:@"profileSong"] : nil;
 
     self.profileUrl =
-        [dictionary objectForKey:@"profileUrl"] != [NSNull null] ?
+        [dictionary objectForKey:@"profileUrl"] != [NSNull null] ? 
         [dictionary objectForKey:@"profileUrl"] : nil;
 
     self.profileVideo =
-        [dictionary objectForKey:@"profileVideo"] != [NSNull null] ?
+        [dictionary objectForKey:@"profileVideo"] != [NSNull null] ? 
         [dictionary objectForKey:@"profileVideo"] : nil;
 
     self.published =
-        [dictionary objectForKey:@"published"] != [NSNull null] ?
+        [dictionary objectForKey:@"published"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]] : nil;
 
     self.quotes =
-        [dictionary objectForKey:@"quotes"] != [NSNull null] ?
+        [dictionary objectForKey:@"quotes"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"quotes"] arrayOfStringsFromStringPluralDictionariesWithType:@"quote"] : nil;
 
     self.relationshipStatus =
-        [dictionary objectForKey:@"relationshipStatus"] != [NSNull null] ?
+        [dictionary objectForKey:@"relationshipStatus"] != [NSNull null] ? 
         [dictionary objectForKey:@"relationshipStatus"] : nil;
 
     self.relationships =
-        [dictionary objectForKey:@"relationships"] != [NSNull null] ?
+        [dictionary objectForKey:@"relationships"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"relationships"] arrayOfStringsFromStringPluralDictionariesWithType:@"relationship"] : nil;
 
     self.religion =
-        [dictionary objectForKey:@"religion"] != [NSNull null] ?
+        [dictionary objectForKey:@"religion"] != [NSNull null] ? 
         [dictionary objectForKey:@"religion"] : nil;
 
     self.romance =
-        [dictionary objectForKey:@"romance"] != [NSNull null] ?
+        [dictionary objectForKey:@"romance"] != [NSNull null] ? 
         [dictionary objectForKey:@"romance"] : nil;
 
     self.scaredOf =
-        [dictionary objectForKey:@"scaredOf"] != [NSNull null] ?
+        [dictionary objectForKey:@"scaredOf"] != [NSNull null] ? 
         [dictionary objectForKey:@"scaredOf"] : nil;
 
     self.sexualOrientation =
-        [dictionary objectForKey:@"sexualOrientation"] != [NSNull null] ?
+        [dictionary objectForKey:@"sexualOrientation"] != [NSNull null] ? 
         [dictionary objectForKey:@"sexualOrientation"] : nil;
 
     self.smoker =
-        [dictionary objectForKey:@"smoker"] != [NSNull null] ?
+        [dictionary objectForKey:@"smoker"] != [NSNull null] ? 
         [dictionary objectForKey:@"smoker"] : nil;
 
     self.sports =
-        [dictionary objectForKey:@"sports"] != [NSNull null] ?
+        [dictionary objectForKey:@"sports"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"sports"] arrayOfStringsFromStringPluralDictionariesWithType:@"sport"] : nil;
 
     self.status =
-        [dictionary objectForKey:@"status"] != [NSNull null] ?
+        [dictionary objectForKey:@"status"] != [NSNull null] ? 
         [dictionary objectForKey:@"status"] : nil;
 
     self.tags =
-        [dictionary objectForKey:@"tags"] != [NSNull null] ?
+        [dictionary objectForKey:@"tags"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"tags"] arrayOfStringsFromStringPluralDictionariesWithType:@"tag"] : nil;
 
     self.turnOffs =
-        [dictionary objectForKey:@"turnOffs"] != [NSNull null] ?
+        [dictionary objectForKey:@"turnOffs"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"turnOffs"] arrayOfStringsFromStringPluralDictionariesWithType:@"turnOff"] : nil;
 
     self.turnOns =
-        [dictionary objectForKey:@"turnOns"] != [NSNull null] ?
+        [dictionary objectForKey:@"turnOns"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"turnOns"] arrayOfStringsFromStringPluralDictionariesWithType:@"turnOn"] : nil;
 
     self.tvShows =
-        [dictionary objectForKey:@"tvShows"] != [NSNull null] ?
+        [dictionary objectForKey:@"tvShows"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"tvShows"] arrayOfStringsFromStringPluralDictionariesWithType:@"tvShow"] : nil;
 
     self.updated =
-        [dictionary objectForKey:@"updated"] != [NSNull null] ?
+        [dictionary objectForKey:@"updated"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]] : nil;
 
     self.urls =
-        [dictionary objectForKey:@"urls"] != [NSNull null] ?
+        [dictionary objectForKey:@"urls"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"urls"] arrayOfUrlsElementsFromUrlsDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.utcOffset =
-        [dictionary objectForKey:@"utcOffset"] != [NSNull null] ?
+        [dictionary objectForKey:@"utcOffset"] != [NSNull null] ? 
         [dictionary objectForKey:@"utcOffset"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -2973,7 +2973,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"NSString" forKey:@"aboutMe"];

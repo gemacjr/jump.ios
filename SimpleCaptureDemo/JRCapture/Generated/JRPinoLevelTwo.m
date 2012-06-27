@@ -177,7 +177,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.level ? self.level : [NSNull null])
@@ -199,19 +199,19 @@
 
 
     pinoLevelTwo.level =
-        [dictionary objectForKey:@"level"] != [NSNull null] ?
+        [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
     pinoLevelTwo.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ?
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
     pinoLevelTwo.pinoLevelThree =
-        [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:pinoLevelTwo.captureObjectPath] : nil;
 
     [pinoLevelTwo.dirtyPropertySet removeAllObjects];
-
+    
     return pinoLevelTwo;
 }
 
@@ -224,11 +224,11 @@
     self.canBeUpdatedOrReplaced = YES;
 
     if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ?
+        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
             [dictionary objectForKey:@"level"] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ?
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -243,15 +243,15 @@
     self.canBeUpdatedOrReplaced = YES;
 
     self.level =
-        [dictionary objectForKey:@"level"] != [NSNull null] ?
+        [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
     self.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ?
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
     self.pinoLevelThree =
-        [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -322,7 +322,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"NSString" forKey:@"level"];

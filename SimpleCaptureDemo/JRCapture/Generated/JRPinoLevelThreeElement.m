@@ -122,7 +122,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.pinoLevelThreeElementId ? [NSNumber numberWithInteger:[self.pinoLevelThreeElementId integerValue]] : [NSNull null])
@@ -147,19 +147,19 @@
     pinoLevelThreeElement.canBeUpdatedOrReplaced = YES;
 
     pinoLevelThreeElement.pinoLevelThreeElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ?
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     pinoLevelThreeElement.level =
-        [dictionary objectForKey:@"level"] != [NSNull null] ?
+        [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
     pinoLevelThreeElement.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ?
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
     [pinoLevelThreeElement.dirtyPropertySet removeAllObjects];
-
+    
     return pinoLevelThreeElement;
 }
 
@@ -173,15 +173,15 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.pinoLevelThreeElementId = [dictionary objectForKey:@"id"] != [NSNull null] ?
+        self.pinoLevelThreeElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ?
+        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
             [dictionary objectForKey:@"level"] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ?
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -197,15 +197,15 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.pinoLevelThreeElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ?
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.level =
-        [dictionary objectForKey:@"level"] != [NSNull null] ?
+        [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
     self.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ?
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -259,7 +259,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"JRObjectId" forKey:@"pinoLevelThreeElementId"];

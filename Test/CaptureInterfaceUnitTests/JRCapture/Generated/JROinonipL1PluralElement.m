@@ -37,7 +37,13 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JROinonipL1PluralElement.h"
+
+@interface JROinonipL2Object (OinonipL2ObjectInternalMethods)
++ (id)oinonipL2ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToOinonipL2Object:(JROinonipL2Object *)otherOinonipL2Object;
+@end
 
 @interface JROinonipL1PluralElement ()
 @property BOOL canBeUpdatedOrReplaced;
@@ -49,9 +55,6 @@
     NSString *_string2;
     JROinonipL2Object *_oinonipL2Object;
 }
-@dynamic string1;
-@dynamic string2;
-@dynamic oinonipL2Object;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)string1

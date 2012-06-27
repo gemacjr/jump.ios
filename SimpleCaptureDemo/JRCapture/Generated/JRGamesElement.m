@@ -172,7 +172,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.gamesElementId ? [NSNumber numberWithInteger:[self.gamesElementId integerValue]] : [NSNull null])
@@ -201,27 +201,27 @@
     gamesElement.canBeUpdatedOrReplaced = YES;
 
     gamesElement.gamesElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ?
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     gamesElement.isFavorite =
-        [dictionary objectForKey:@"isFavorite"] != [NSNull null] ?
+        [dictionary objectForKey:@"isFavorite"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue]] : nil;
 
     gamesElement.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ?
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
     gamesElement.opponents =
-        [dictionary objectForKey:@"opponents"] != [NSNull null] ?
+        [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringsFromStringPluralDictionariesWithType:@"name"] : nil;
 
     gamesElement.rating =
-        [dictionary objectForKey:@"rating"] != [NSNull null] ?
+        [dictionary objectForKey:@"rating"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"rating"] integerValue]] : nil;
 
     [gamesElement.dirtyPropertySet removeAllObjects];
-
+    
     return gamesElement;
 }
 
@@ -235,19 +235,19 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.gamesElementId = [dictionary objectForKey:@"id"] != [NSNull null] ?
+        self.gamesElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"isFavorite"])
-        self.isFavorite = [dictionary objectForKey:@"isFavorite"] != [NSNull null] ?
+        self.isFavorite = [dictionary objectForKey:@"isFavorite"] != [NSNull null] ? 
             [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue]] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ?
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"rating"])
-        self.rating = [dictionary objectForKey:@"rating"] != [NSNull null] ?
+        self.rating = [dictionary objectForKey:@"rating"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"rating"] integerValue]] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -263,23 +263,23 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.gamesElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ?
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.isFavorite =
-        [dictionary objectForKey:@"isFavorite"] != [NSNull null] ?
+        [dictionary objectForKey:@"isFavorite"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue]] : nil;
 
     self.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ?
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
     self.opponents =
-        [dictionary objectForKey:@"opponents"] != [NSNull null] ?
+        [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringsFromStringPluralDictionariesWithType:@"name"] : nil;
 
     self.rating =
-        [dictionary objectForKey:@"rating"] != [NSNull null] ?
+        [dictionary objectForKey:@"rating"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"rating"] integerValue]] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -358,7 +358,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"JRObjectId" forKey:@"gamesElementId"];

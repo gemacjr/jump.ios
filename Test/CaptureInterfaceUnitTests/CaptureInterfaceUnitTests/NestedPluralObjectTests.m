@@ -23,8 +23,12 @@
 
 #import <GHUnitIOS/GHUnit.h>
 #import "SharedData.h"
+#import "ClassCategories.h"
+#import "JRCaptureObject+Internal.h"
 
-@interface b3_NestedPluralObjectTests : GHAsyncTestCase <JRCaptureObjectDelegate>
+
+
+@interface b3_NestedPluralObjectTests : GHAsyncTestCase <JRCaptureObjectTesterDelegate>
 {
     JRCaptureUser *captureUser;
     /* Variables to hold pointers to objects/plurals/plural elements we may be interested in checking */

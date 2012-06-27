@@ -128,7 +128,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.level ? self.level : [NSNull null])
@@ -150,19 +150,19 @@
 
 
     objectLevelOne.level =
-        [dictionary objectForKey:@"level"] != [NSNull null] ?
+        [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
     objectLevelOne.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ?
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
     objectLevelOne.objectLevelTwo =
-        [dictionary objectForKey:@"objectLevelTwo"] != [NSNull null] ?
+        [dictionary objectForKey:@"objectLevelTwo"] != [NSNull null] ? 
         [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:[dictionary objectForKey:@"objectLevelTwo"] withPath:objectLevelOne.captureObjectPath] : nil;
 
     [objectLevelOne.dirtyPropertySet removeAllObjects];
-
+    
     return objectLevelOne;
 }
 
@@ -175,11 +175,11 @@
     self.canBeUpdatedOrReplaced = YES;
 
     if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ?
+        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
             [dictionary objectForKey:@"level"] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ?
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"objectLevelTwo"] == [NSNull null])
@@ -201,11 +201,11 @@
     self.canBeUpdatedOrReplaced = YES;
 
     self.level =
-        [dictionary objectForKey:@"level"] != [NSNull null] ?
+        [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
     self.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ?
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
     if (![dictionary objectForKey:@"objectLevelTwo"] || [dictionary objectForKey:@"objectLevelTwo"] == [NSNull null])
@@ -288,7 +288,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"NSString" forKey:@"level"];

@@ -7,6 +7,7 @@
 
 #import "SharedData.h"
 #import "JRCaptureUser+Extras.h"
+#import "JRCapture.h"
 
 @interface SharedData ()
 @property (retain) JRCaptureUser *captureUser;

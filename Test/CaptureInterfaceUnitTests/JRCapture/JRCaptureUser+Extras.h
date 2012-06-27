@@ -7,27 +7,36 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCaptureUser.h"
-#import "JRCaptureApidInterface.h"
 
-// TODO: Do we even need this file anymore??
-@protocol JRCaptureUserDelegate <NSObject>
+@class JRCaptureObject;
+@class JRCaptureUser;
+
+@protocol JRCaptureUserDelegate <JRCaptureObjectDelegate>
 @optional
-- (void)createCaptureUser:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
-- (void)createCaptureUser:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
-//- (void)updateCaptureUser:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
-//- (void)updateCaptureUser:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
-//- (void)replaceCaptureUser:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
-//- (void)replaceCaptureUser:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)createDidSucceedForUser:(JRCaptureUser *)user context:(NSObject *)context;
+- (void)createDidFailForUser:(JRCaptureUser *)user withError:(NSError *)error context:(NSObject *)context;
+
+- (void)fetchUserDidSucceed:(JRCaptureUser *)fetchedUser context:(NSObject *)context;
+- (void)fetchUserDidFailWithError:(NSError *)error context:(NSObject *)context;
+
+- (void)fetchLastUpdatedDidSucceed:(JRDateTime *)serverLastUpdated isOutdated:(BOOL)isOutdated context:(NSObject *)context;
+- (void)fetchLastUpdatedDidFailWithError:(NSError *)error context:(NSObject *)context;
 @end
 
-@interface JRCaptureUser (Extras) <JRCaptureInterfaceDelegate>
-+ (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary;
-//@property (copy) NSString *accessToken;
-//@property (copy) NSString *creationToken;
-- (void)createUserOnCaptureForDelegate:(id<JRCaptureUserDelegate>)delegate withContext:(NSObject *)context;
-//- (void)updateUserOnCaptureForDelegate:(id<JRCaptureUserDelegate>)delegate withContext:(NSObject *)context;
-//- (void)replaceUserOnCaptureForDelegate:(id<JRCaptureUserDelegate>)delegate withContext:(NSObject *)context;
+@interface JRCaptureUser (Extras)
+// save
+// load
 
-//- (void)updateForDelegate:(id<JRCaptureUserDelegate>)delegate;
-//- (void)createForDelegate:(id<JRCaptureUserDelegate>)delegate;
+// create user
+- (void)createOnCaptureForDelegate:(id<JRCaptureUserDelegate>)delegate context:(NSObject *)context;
+
+// fetch user
++ (void)fetchCaptureUserFromServerForDelegate:(id<JRCaptureUserDelegate>)delegate context:(NSObject *)context;
+
+// get created, uuid, etc.
+
+// get lastUpdated/is outdated (locally and server)
+- (void)fetchLastUpdatedFromServerForDelegate:(id<JRCaptureUserDelegate>)delegate context:(NSObject *)context;
+
++ (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary;
 @end

@@ -31,7 +31,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCaptureObject.h"
 #import "JRCaptureTypes.h"
-#import "NSDate+ISO8601_CaptureDateTimeString.h"
+#import "JRNSDate+ISO8601_CaptureDateTimeString.h"
 
 /**
  * @brief Person's body characteristics.

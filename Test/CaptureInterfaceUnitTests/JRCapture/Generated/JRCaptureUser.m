@@ -37,7 +37,98 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JRCaptureUser.h"
+
+@interface JRBasicPluralElement (BasicPluralElementInternalMethods)
++ (id)basicPluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToBasicPluralElement:(JRBasicPluralElement *)otherBasicPluralElement;
+@end
+
+@interface JRBasicObject (BasicObjectInternalMethods)
++ (id)basicObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToBasicObject:(JRBasicObject *)otherBasicObject;
+@end
+
+@interface JRObjectTestRequired (ObjectTestRequiredInternalMethods)
++ (id)objectTestRequiredObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToObjectTestRequired:(JRObjectTestRequired *)otherObjectTestRequired;
+@end
+
+@interface JRPluralTestUniqueElement (PluralTestUniqueElementInternalMethods)
++ (id)pluralTestUniqueElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPluralTestUniqueElement:(JRPluralTestUniqueElement *)otherPluralTestUniqueElement;
+@end
+
+@interface JRObjectTestRequiredUnique (ObjectTestRequiredUniqueInternalMethods)
++ (id)objectTestRequiredUniqueObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToObjectTestRequiredUnique:(JRObjectTestRequiredUnique *)otherObjectTestRequiredUnique;
+@end
+
+@interface JRPluralTestAlphabeticElement (PluralTestAlphabeticElementInternalMethods)
++ (id)pluralTestAlphabeticElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPluralTestAlphabeticElement:(JRPluralTestAlphabeticElement *)otherPluralTestAlphabeticElement;
+@end
+
+@interface JRPinapL1PluralElement (PinapL1PluralElementInternalMethods)
++ (id)pinapL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPinapL1PluralElement:(JRPinapL1PluralElement *)otherPinapL1PluralElement;
+@end
+
+@interface JRPinoL1Object (PinoL1ObjectInternalMethods)
++ (id)pinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPinoL1Object:(JRPinoL1Object *)otherPinoL1Object;
+@end
+
+@interface JROnipL1PluralElement (OnipL1PluralElementInternalMethods)
++ (id)onipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToOnipL1PluralElement:(JROnipL1PluralElement *)otherOnipL1PluralElement;
+@end
+
+@interface JROinoL1Object (OinoL1ObjectInternalMethods)
++ (id)oinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToOinoL1Object:(JROinoL1Object *)otherOinoL1Object;
+@end
+
+@interface JRPinapinapL1PluralElement (PinapinapL1PluralElementInternalMethods)
++ (id)pinapinapL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPinapinapL1PluralElement:(JRPinapinapL1PluralElement *)otherPinapinapL1PluralElement;
+@end
+
+@interface JRPinonipL1PluralElement (PinonipL1PluralElementInternalMethods)
++ (id)pinonipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPinonipL1PluralElement:(JRPinonipL1PluralElement *)otherPinonipL1PluralElement;
+@end
+
+@interface JRPinapinoL1Object (PinapinoL1ObjectInternalMethods)
++ (id)pinapinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPinapinoL1Object:(JRPinapinoL1Object *)otherPinapinoL1Object;
+@end
+
+@interface JRPinoinoL1Object (PinoinoL1ObjectInternalMethods)
++ (id)pinoinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPinoinoL1Object:(JRPinoinoL1Object *)otherPinoinoL1Object;
+@end
+
+@interface JROnipinapL1PluralElement (OnipinapL1PluralElementInternalMethods)
++ (id)onipinapL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToOnipinapL1PluralElement:(JROnipinapL1PluralElement *)otherOnipinapL1PluralElement;
+@end
+
+@interface JROinonipL1PluralElement (OinonipL1PluralElementInternalMethods)
++ (id)oinonipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToOinonipL1PluralElement:(JROinonipL1PluralElement *)otherOinonipL1PluralElement;
+@end
+
+@interface JROnipinoL1Object (OnipinoL1ObjectInternalMethods)
++ (id)onipinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToOnipinoL1Object:(JROnipinoL1Object *)otherOnipinoL1Object;
+@end
+
+@interface JROinoinoL1Object (OinoinoL1ObjectInternalMethods)
++ (id)oinoinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToOinoinoL1Object:(JROinoinoL1Object *)otherOinoinoL1Object;
+@end
 
 @interface NSArray (BasicPluralToFromDictionary)
 - (NSArray*)arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:(NSString*)capturePath;
@@ -535,51 +626,6 @@
     JROnipinoL1Object *_onipinoL1Object;
     JROinoinoL1Object *_oinoinoL1Object;
 }
-@dynamic email;
-@dynamic basicBoolean;
-@dynamic basicString;
-@dynamic basicInteger;
-@dynamic basicDecimal;
-@dynamic basicDate;
-@dynamic basicDateTime;
-@dynamic basicIpAddress;
-@dynamic basicPassword;
-@dynamic jsonNumber;
-@dynamic jsonString;
-@dynamic jsonArray;
-@dynamic jsonDictionary;
-@dynamic stringTestJson;
-@dynamic stringTestEmpty;
-@dynamic stringTestNull;
-@dynamic stringTestInvalid;
-@dynamic stringTestNSNull;
-@dynamic stringTestAlphanumeric;
-@dynamic stringTestUnicodeLetters;
-@dynamic stringTestUnicodePrintable;
-@dynamic stringTestEmailAddress;
-@dynamic stringTestLength;
-@dynamic stringTestCaseSensitive;
-@dynamic stringTestFeatures;
-@dynamic basicPlural;
-@dynamic basicObject;
-@dynamic objectTestRequired;
-@dynamic pluralTestUnique;
-@dynamic objectTestRequiredUnique;
-@dynamic pluralTestAlphabetic;
-@dynamic simpleStringPluralOne;
-@dynamic simpleStringPluralTwo;
-@dynamic pinapL1Plural;
-@dynamic pinoL1Object;
-@dynamic onipL1Plural;
-@dynamic oinoL1Object;
-@dynamic pinapinapL1Plural;
-@dynamic pinonipL1Plural;
-@dynamic pinapinoL1Object;
-@dynamic pinoinoL1Object;
-@dynamic onipinapL1Plural;
-@dynamic oinonipL1Plural;
-@dynamic onipinoL1Object;
-@dynamic oinoinoL1Object;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)email

@@ -37,6 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JRBasicPluralElement.h"
 
 @interface JRBasicPluralElement ()
@@ -48,8 +49,6 @@
     NSString *_string1;
     NSString *_string2;
 }
-@dynamic string1;
-@dynamic string2;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)string1

@@ -163,7 +163,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.accountsElementId ? [NSNumber numberWithInteger:[self.accountsElementId integerValue]] : [NSNull null])
@@ -192,27 +192,27 @@
     accountsElement.canBeUpdatedOrReplaced = YES;
 
     accountsElement.accountsElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ?
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     accountsElement.domain =
-        [dictionary objectForKey:@"domain"] != [NSNull null] ?
+        [dictionary objectForKey:@"domain"] != [NSNull null] ? 
         [dictionary objectForKey:@"domain"] : nil;
 
     accountsElement.primary =
-        [dictionary objectForKey:@"primary"] != [NSNull null] ?
+        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     accountsElement.userid =
-        [dictionary objectForKey:@"userid"] != [NSNull null] ?
+        [dictionary objectForKey:@"userid"] != [NSNull null] ? 
         [dictionary objectForKey:@"userid"] : nil;
 
     accountsElement.username =
-        [dictionary objectForKey:@"username"] != [NSNull null] ?
+        [dictionary objectForKey:@"username"] != [NSNull null] ? 
         [dictionary objectForKey:@"username"] : nil;
 
     [accountsElement.dirtyPropertySet removeAllObjects];
-
+    
     return accountsElement;
 }
 
@@ -226,23 +226,23 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.accountsElementId = [dictionary objectForKey:@"id"] != [NSNull null] ?
+        self.accountsElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"domain"])
-        self.domain = [dictionary objectForKey:@"domain"] != [NSNull null] ?
+        self.domain = [dictionary objectForKey:@"domain"] != [NSNull null] ? 
             [dictionary objectForKey:@"domain"] : nil;
 
     if ([dictionary objectForKey:@"primary"])
-        self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ?
+        self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
             [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     if ([dictionary objectForKey:@"userid"])
-        self.userid = [dictionary objectForKey:@"userid"] != [NSNull null] ?
+        self.userid = [dictionary objectForKey:@"userid"] != [NSNull null] ? 
             [dictionary objectForKey:@"userid"] : nil;
 
     if ([dictionary objectForKey:@"username"])
-        self.username = [dictionary objectForKey:@"username"] != [NSNull null] ?
+        self.username = [dictionary objectForKey:@"username"] != [NSNull null] ? 
             [dictionary objectForKey:@"username"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -258,23 +258,23 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.accountsElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ?
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.domain =
-        [dictionary objectForKey:@"domain"] != [NSNull null] ?
+        [dictionary objectForKey:@"domain"] != [NSNull null] ? 
         [dictionary objectForKey:@"domain"] : nil;
 
     self.primary =
-        [dictionary objectForKey:@"primary"] != [NSNull null] ?
+        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     self.userid =
-        [dictionary objectForKey:@"userid"] != [NSNull null] ?
+        [dictionary objectForKey:@"userid"] != [NSNull null] ? 
         [dictionary objectForKey:@"userid"] : nil;
 
     self.username =
-        [dictionary objectForKey:@"username"] != [NSNull null] ?
+        [dictionary objectForKey:@"username"] != [NSNull null] ? 
         [dictionary objectForKey:@"username"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -344,7 +344,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"JRObjectId" forKey:@"accountsElementId"];

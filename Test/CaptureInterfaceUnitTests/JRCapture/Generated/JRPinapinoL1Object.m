@@ -37,7 +37,13 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JRPinapinoL1Object.h"
+
+@interface JRPinapinoL2PluralElement (PinapinoL2PluralElementInternalMethods)
++ (id)pinapinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPinapinoL2PluralElement:(JRPinapinoL2PluralElement *)otherPinapinoL2PluralElement;
+@end
 
 @interface NSArray (PinapinoL2PluralToFromDictionary)
 - (NSArray*)arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:(NSString*)capturePath;
@@ -101,9 +107,6 @@
     NSString *_string2;
     NSArray *_pinapinoL2Plural;
 }
-@dynamic string1;
-@dynamic string2;
-@dynamic pinapinoL2Plural;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)string1

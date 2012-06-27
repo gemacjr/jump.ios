@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCaptureUser.h"
+#import "JRCaptureApidInterface.h"
 
 @protocol SharedDataDelegate <NSObject>
 - (void)getCaptureUserDidSucceedWithUser:(JRCaptureUser *)user;

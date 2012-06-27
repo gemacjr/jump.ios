@@ -1466,7 +1466,7 @@ sub recursiveParse {
   # Add the imports ...
   ##########################################################################
   $hFile .= "#import <Foundation/Foundation.h>\n#import \"JRCaptureObject.h\"\n" .
-            "#import \"JRCaptureTypes.h\"\n#import \"NSDate+ISO8601_CaptureDateTimeString.h\"\n";
+            "#import \"JRCaptureTypes.h\"\n#import \"JRNSDate+ISO8601_CaptureDateTimeString.h\"\n";
             
   
   ##########################################################################

@@ -29,7 +29,9 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
-#import "JRCapture.h"
+#import "JRCaptureObject.h"
+#import "JRCaptureTypes.h"
+#import "JRNSDate+ISO8601_CaptureDateTimeString.h"
 #import "JRPinapL2PluralElement.h"
 
 @interface NSArray (PinapL1PluralElement_ArrayComparison)
@@ -64,111 +66,6 @@
  **/
 + (id)pinapL1PluralElement;
 
-/**
- * Returns a JRPinapL1PluralElement object created from an \e NSDictionary representing the object
- *
- * @param dictionary
- *   An \e NSDictionary containing keys/values which map the the object's 
- *   properties and their values/types.  This value cannot be nil
- *
- * @param capturePath
- *   This is the qualified name used to refer to specific elements in a record;
- *   a pound sign (#) is used to refer to plural elements with an id. The path
- *   of the root object is "/"
- *
- * @par Example:
- * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
- * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
- *
- * @return
- *   A JRPinapL1PluralElement object
- **/
-+ (id)pinapL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
-/*@}*/
-
-/**
- * @name Dictionary Serialization/Deserialization
- **/
-/*@{*/
-/**
- * Creates an  NSDictionary represention of a JRPinapL1PluralElement object
- * populated with all of the object's properties, as the dictionary's 
- * keys, and the properties' values as the dictionary's values
- *
- * @return
- *   An \e NSDictionary representation of a JRPinapL1PluralElement object
- **/
-- (NSDictionary*)toDictionary;
-
-/**
- * @internal
- * Updates the object from an \e NSDictionary populated with some of the object's
- * properties, as the dictionary's keys, and the properties' values as the dictionary's values. 
- * This method is used by other JRCaptureObjects and should not be used by consumers of the 
- * mobile Capture library
- *
- * @param dictionary
- *   An \e NSDictionary containing keys/values which map the the object's 
- *   properties and their values/types
- *
- * @param capturePath
- *   This is the qualified name used to refer to specific elements in a record;
- *   a pound sign (#) is used to refer to plural elements with an id. The path
- *   of the root object is "/"
- *
- * @par Example:
- * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
- * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
- *
- * @note 
- * The main difference between this method and the replaceFromDictionary:withPath:(), is that
- * in this method properties are only updated if they exist in the dictionary, and in 
- * replaceFromDictionary:withPath:(), all properties are replaced.  Even if the value is \e [NSNull null]
- * so long as the key exists in the dictionary, the property is updated.
- **/
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
-
-/**
- * @internal
- * Replaces the object from an \e NSDictionary populated with some or all of the object's
- * properties, as the dictionary's keys, and the properties' values as the dictionary's values.
- * This method is used by other JRCaptureObjects and should not be used by consumers of the 
- * mobile Capture library
- *
- * @param dictionary
- *   An \e NSDictionary containing keys/values which map the the object's 
- *   properties and their values/types
- *
- * @param capturePath
- *   This is the qualified name used to refer to specific elements in a record;
- *   a pound sign (#) is used to refer to plural elements with an id. The path
- *   of the root object is "/"
- *
- * @par Example:
- * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
- * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
- *
- * @note 
- * The main difference between this method and the updateFromDictionary:withPath:(), is that
- * in this method \e all the properties are replaced, and in updateFromDictionary:withPath:(),
- * they are only updated if the exist in the dictionary.  If the key does not exist in
- * the dictionary, the property is set to \e nil
- **/
-- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
-/*@}*/
-
-/**
- * @name Object Introspection
- **/
-/*@{*/
-/**
- * TODO: Doxygen doc
- **/
-- (BOOL)isEqualToPinapL1PluralElement:(JRPinapL1PluralElement *)otherPinapL1PluralElement;
-/**
- * TODO: Doxygen doc
- **/
-- (NSDictionary*)objectProperties;
 /*@}*/
 
 /**

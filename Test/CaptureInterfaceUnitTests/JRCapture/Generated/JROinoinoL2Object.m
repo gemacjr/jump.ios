@@ -37,7 +37,13 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JROinoinoL2Object.h"
+
+@interface JROinoinoL3Object (OinoinoL3ObjectInternalMethods)
++ (id)oinoinoL3ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToOinoinoL3Object:(JROinoinoL3Object *)otherOinoinoL3Object;
+@end
 
 @interface JROinoinoL2Object ()
 @property BOOL canBeUpdatedOrReplaced;
@@ -49,9 +55,6 @@
     NSString *_string2;
     JROinoinoL3Object *_oinoinoL3Object;
 }
-@dynamic string1;
-@dynamic string2;
-@dynamic oinoinoL3Object;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)string1
