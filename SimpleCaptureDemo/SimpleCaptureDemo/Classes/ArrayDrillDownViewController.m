@@ -51,14 +51,14 @@ typedef enum propertyTypes
     PTUnknown,
 } PropertyType;
 
-@interface ObjectData : NSObject
+@interface ElementData : NSObject
 @property (strong) NSString *stringValue;
 @property (strong) UILabel  *titleLabel;
 @property (strong) UILabel  *subtitleLabel;
 @property (strong) UIView   *editingView;
 @end
 
-@implementation ObjectData
+@implementation ElementData
 @synthesize stringValue;
 @synthesize titleLabel;
 @synthesize subtitleLabel;
@@ -81,8 +81,8 @@ static Class getClassFromKey(NSString *key)
 @property (strong) NSMutableArray  *localCopyArray;
 @property (strong) NSMutableArray  *objectDataArray;
 @property (strong) NSString        *tableHeader;
-- (void)setCellTextForObjectData:(ObjectData *)objectData atIndex:(NSUInteger)index;
-- (void)createCellViewsForObjectData:(ObjectData *)objectData atIndex:(NSUInteger)index;
+- (void)setCellTextForObjectData:(ElementData *)objectData atIndex:(NSUInteger)index;
+- (void)createCellViewsForObjectData:(ElementData *)objectData atIndex:(NSUInteger)index;
 @end
 
 @implementation ArrayDrillDownViewController
@@ -97,12 +97,12 @@ static Class getClassFromKey(NSString *key)
 - (void)setTableDataWithArray:(NSArray *)array
 {
     self.tableData       = array;
-    self.localCopyArray = [[NSMutableArray alloc] initWithArray:tableData];
+    self.localCopyArray  = [[NSMutableArray alloc] initWithArray:tableData];
     self.objectDataArray = [[NSMutableArray alloc] initWithCapacity:[tableData count]];
 
     for (NSUInteger i = 0; i < [tableData count]; i++)
     {
-        ObjectData *objectData = [[ObjectData alloc] init];
+        ElementData *objectData = [[ElementData alloc] init];
 
         [self createCellViewsForObjectData:objectData atIndex:i];
         [self setCellTextForObjectData:objectData atIndex:i];
@@ -112,14 +112,12 @@ static Class getClassFromKey(NSString *key)
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forArray:(NSArray*)array
-  captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key isSimpleArray:(BOOL)simpleArray
+  captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
         self.captureObject = parentObject;
         self.tableHeader   = key;
-
-        isSimpleArray = simpleArray;
 
         [self setTableDataWithArray:array];
     }
@@ -221,17 +219,11 @@ static Class getClassFromKey(NSString *key)
 {
     DLog(@"");
 
-    JRCaptureObject *newCaptureObject;
+    NSObject *newCaptureElement = [[getClassFromKey(tableHeader) alloc] init];
 
-    // TODO (BIG!!): The capture path isn't set and this will be a problem!!!
-    if (isSimpleArray)
-        newCaptureObject = (JRCaptureObject *)[JRStringPluralElement stringElementWithType:tableHeader];
-    else
-        newCaptureObject = [[getClassFromKey(tableHeader) alloc] init];
+    [localCopyArray addObject:newCaptureElement];
 
-    [localCopyArray addObject:newCaptureObject];
-
-    ObjectData *objectData = [[ObjectData alloc] init];
+    ElementData *objectData = [[ElementData alloc] init];
 
     [self createCellViewsForObjectData:objectData atIndex:[objectDataArray count]];
     [self setCellTextForObjectData:objectData atIndex:[objectDataArray count]];
@@ -275,7 +267,7 @@ static Class getClassFromKey(NSString *key)
 {
     for (NSUInteger i = 0; i < [objectDataArray count]; i++)
     {
-        ObjectData *objectData = [objectDataArray objectAtIndex:i];
+        ElementData *objectData = [objectDataArray objectAtIndex:i];
         NSInteger oldIndex = objectData.editingView.tag - EDITING_VIEW_OFFSET;
 
         [objectData.editingView setTag:EDITING_VIEW_OFFSET + i];
@@ -396,7 +388,7 @@ static Class getClassFromKey(NSString *key)
     return view;
 }
 
-- (void)setCellTextForObjectData:(ObjectData *)objectData atIndex:(NSUInteger)index
+- (void)setCellTextForObjectData:(ElementData *)objectData atIndex:(NSUInteger)index
 {
     NSString *key   = [NSString stringWithFormat:@"%@[%d]", tableHeader, index];
     NSObject *value = [localCopyArray objectAtIndex:index];
@@ -405,7 +397,7 @@ static Class getClassFromKey(NSString *key)
     objectData.subtitleLabel.text = [[(JRCaptureObject *)value toDictionary] JSONString];
 }
 
-- (void)createCellViewsForObjectData:(ObjectData *)objectData atIndex:(NSUInteger)index
+- (void)createCellViewsForObjectData:(ElementData *)objectData atIndex:(NSUInteger)index
 {
     NSInteger editingViewTag = EDITING_VIEW_OFFSET + index;
 
@@ -467,7 +459,7 @@ static Class getClassFromKey(NSString *key)
     }
     else
     {
-        ObjectData *objectData = [objectDataArray objectAtIndex:(NSUInteger)indexPath.row];
+        ElementData *objectData = [objectDataArray objectAtIndex:(NSUInteger)indexPath.row];
 
         for (UIView *view in [cell.contentView subviews])
             [view removeFromSuperview];
@@ -504,26 +496,19 @@ static Class getClassFromKey(NSString *key)
         NSString *newHeader = [NSString stringWithFormat:@"%@[%d]", tableHeader, indexPath.row];
         NSObject *newObject = [localCopyArray objectAtIndex:(NSUInteger) indexPath.row];
 
-        UIViewController *drillDown;
-
-        if ([newObject isKindOfClass:[JRStringPluralElement class]])
-            drillDown = [[SimplePluralViewController alloc] initWithNibName:@"SimplePluralViewController"
-                                                                     bundle:[NSBundle mainBundle]
-                                                                  forObject:(JRStringPluralElement *) newObject
-                                                        captureParentObject:captureObject
-                                                                     andKey:newHeader];
-        else
-            drillDown = [[ObjectDrillDownViewController alloc] initWithNibName:@"ObjectDrillDownViewController"
-                                                                        bundle:[NSBundle mainBundle]
-                                                                     forObject:(JRCaptureObject *) newObject
-                                                           captureParentObject:captureObject
-                                                                        andKey:newHeader];
+        UIViewController *drillDown =
+                [[ObjectDrillDownViewController alloc] initWithNibName:@"ObjectDrillDownViewController"
+                                                                bundle:[NSBundle mainBundle]
+                                                             forObject:(JRCaptureObject *) newObject
+                                                   captureParentObject:captureObject
+                                                                andKey:newHeader];
 
         [[self navigationController] pushViewController:drillDown animated:YES];
     }
 }
 
-- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result
+                  context:(NSObject *)context
 {
     DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -535,7 +520,8 @@ static Class getClassFromKey(NSString *key)
 }
 
 
-- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object
+didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
@@ -550,6 +536,7 @@ static Class getClassFromKey(NSString *key)
 
     [self setTableDataWithArray:newArray];
     [myTableView reloadData];
+    [[SharedData sharedData] resaveCaptureUser];
 }
 
 //- (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context

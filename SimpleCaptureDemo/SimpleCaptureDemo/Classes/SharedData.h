@@ -19,7 +19,7 @@
 - (void)captureSignInDidFailWithError:(NSError *)error;
 @end
 
-@interface SharedData : NSObject <JREngageDelegate>
+@interface SharedData : NSObject <JREngageDelegate, JRCaptureAuthenticationDelegate>
 @property (strong) NSMutableDictionary *engageUser;
 @property (strong) JRCaptureUser       *captureUser;
 @property (strong) NSString            *accessToken;

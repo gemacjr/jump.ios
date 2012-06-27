@@ -61,9 +61,10 @@ static NSString *entityTypeName     = @"user_dev";
         [JRCapture setCaptureApiDomain:captureApidDomain captureUIDomain:captureUIDomain
                               clientId:clientId andEntityTypeName:entityTypeName];
 
-        self.jrEngage = [JREngage jrEngageWithAppId:appId
-                                        andTokenUrl:[JRCapture captureMobileEndpointUrl]
-                                           delegate:self];
+        [JRCapture setEngageAppId:appId];
+//        self.jrEngage = [JREngage jrEngageWithAppId:appId
+//                                        andTokenUrl:[JRCapture captureMobileEndpointUrl]
+//                                           delegate:self];
 
         self.prefs = [NSUserDefaults standardUserDefaults];
         self.engageUser = [NSMutableDictionary dictionaryWithDictionary:[prefs objectForKey:@"engageUser"]];
@@ -72,6 +73,8 @@ static NSString *entityTypeName     = @"user_dev";
         self.creationToken = [prefs objectForKey:@"creationToken"];
         self.currentDisplayName = [prefs objectForKey:@"currentDisplayName"];
         self.currentProvider = [prefs objectForKey:@"currentProvider"];
+
+        DLog(@"%@", [prefs objectForKey:@"captureUser"]);
 
         [JRCapture setAccessToken:accessToken];
         [JRCapture setCreationToken:creationToken];
@@ -122,7 +125,9 @@ static NSString *entityTypeName     = @"user_dev";
 - (void)startAuthenticationWithCustomInterface:(NSDictionary *)customInterface forDelegate:(id<SignInDelegate>)delegate
 {
     [self setSignInDelegate:delegate];
-    [jrEngage showAuthenticationDialogWithCustomInterfaceOverrides:customInterface];
+    [JRCapture startAuthenticationDialogWithNativeSignin:JRNativeSigninNone
+                             andCustomInterfaceOverrides:customInterface forDelegate:self];
+    //[jrEngage showAuthenticationDialogWithCustomInterfaceOverrides:customInterface];
 }
 
 + (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile
@@ -160,6 +165,7 @@ static NSString *entityTypeName     = @"user_dev";
  * (Capture profiles can have null values and JSONKit parses them to NSNulls, but Engage profiles don't and so
  * didn't trigger this incompatibility.)
  */
+// TODO: Can't do this; need nulls... instead, turn dictionary into string and save that, then back again
 - (id)nullWalker:(id)structure
 {
     if ([structure isKindOfClass:[NSDictionary class]])
@@ -321,5 +327,11 @@ static NSString *entityTypeName     = @"user_dev";
     if ([signInDelegate respondsToSelector:@selector(engageSignInDidFailWithError:)])
         [signInDelegate engageSignInDidFailWithError:error];
 }
+
+- (void)jrAuthenticationDidSucceedForUser:(JRCaptureUser *)captureUser withToken:(NSString *)captureToken andStatus:(JRCaptureAuthenticationStatus)status
+{
+
+}
+
 
 @end
