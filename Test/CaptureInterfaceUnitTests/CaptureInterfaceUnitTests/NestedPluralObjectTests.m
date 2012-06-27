@@ -1010,16 +1010,16 @@ void (^contBlock)() = nil;
                                                 withConstructor:@selector(oinonipL1PluralElement)
                                              fillerFodderOffset:0];
 
-    ((JROinonipL1PluralElement *)[captureUser.oinonipL1Plural objectAtIndex:0]).oinonipL2Object =
-             [self objectOfType:[JROinonipL2Object class] withConstructor:@selector(oinonipL2Object) fillerFodderOffset:0];
+    ((JROinonipL1PluralElement *)[captureUser.oinonipL1Plural objectAtIndex:1]).oinonipL2Object =
+             [self objectOfType:[JROinonipL2Object class] withConstructor:@selector(oinonipL2Object) fillerFodderOffset:3];
 
-    ((JROinonipL1PluralElement *)[captureUser.onipL1Plural objectAtIndex:0]).oinonipL2Object.oinonipL3Object =
-             [self objectOfType:[JROinonipL3Object class] withConstructor:@selector(oinonipL3Object) fillerFodderOffset:0];
+    ((JROinonipL1PluralElement *)[captureUser.oinonipL1Plural objectAtIndex:1]).oinonipL2Object.oinonipL3Object =
+             [self objectOfType:[JROinonipL3Object class] withConstructor:@selector(oinonipL3Object) fillerFodderOffset:6];
 
     self.currentL1Plural = captureUser.oinonipL1Plural;
     self.currentL1Object = [currentL1Plural objectAtIndex:0];
-    self.currentL2Object = ((JROinonipL1PluralElement *)[currentL1Plural objectAtIndex:0]).oinonipL2Object;
-    self.currentL3Object = ((JROinonipL1PluralElement *)[currentL1Plural objectAtIndex:0]).oinonipL2Object.oinonipL3Object;
+    self.currentL2Object = ((JROinonipL1PluralElement *)[currentL1Plural objectAtIndex:1]).oinonipL2Object;
+    self.currentL3Object = ((JROinonipL1PluralElement *)[currentL1Plural objectAtIndex:1]).oinonipL2Object.oinonipL3Object;
 }
 
 /* Try and update the level 3 object before the array was replaced. */
@@ -1045,7 +1045,6 @@ void (^contBlock)() = nil;
     [self genericTestApidMethod:replace forObject:captureUser
                    expectResult:success forTest:_sel forPlural:@"oinonipL1Plural"
                       withArray:currentL1Plural continueBlock:nil];
-
 }
 
 /* Try and update the level 3 object after the array was replaced. */
@@ -1056,14 +1055,24 @@ void (^contBlock)() = nil;
                    expectResult:success forTest:_sel forPlural:@"oinonipL1Plural"
                       withArray:currentL1Plural continueBlock:^(){
         self.currentL3Object = ((JROinonipL1PluralElement *) [captureUser.oinonipL1Plural objectAtIndex:1]).oinonipL2Object.oinonipL3Object;
+        ((JROinonipL1PluralElement *) currentL3Object).string1 = @"asldkfj";
         [self genericTestApidMethod:update forObject:currentL3Object expectResult:success forTest:_sel forPlural:nil
                           withArray:nil continueBlock:nil];
     }];
 }
 
-/* Try and update the level 3 object after the array was replaced. */
+/* Try and update the level 2 object after the array was replaced. */
 - (void)test_b371c_oinonipUpdate_Level2_PostReplace
 {
+    [self oinonipCreate];
+    [self genericTestApidMethod:replace forObject:captureUser
+                   expectResult:success forTest:_sel forPlural:@"oinonipL1Plural"
+                      withArray:currentL1Plural continueBlock:^(){
+        self.currentL2Object = ((JROinonipL1PluralElement *) [captureUser.oinonipL1Plural objectAtIndex:1]).oinonipL2Object;
+        ((JROinonipL2Object *) currentL2Object).string1 = @"lskadjf";
+        [self genericTestApidMethod:update forObject:currentL2Object expectResult:success forTest:_sel forPlural:nil
+                          withArray:nil continueBlock:nil];
+    }];
 }
 
 /* Create array and sync on Capture. Add elements locally, replace again, verify sync */
