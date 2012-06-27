@@ -151,7 +151,6 @@
         [self replaceCaptureObjectDidFailWithResult:result context:context];
 
     [captureObject replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];// includingStateVariables:NO];
-    [captureObject.dirtyPropertySet removeAllObjects];
 
     if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
         [delegate respondsToSelector:@selector(replaceCaptureObject:didSucceedWithResult:context:)])
@@ -229,8 +228,6 @@
 }
 
 @end
-
-
 
 @interface JRCaptureObject (Private)
 @property BOOL canBeUpdatedOrReplaced;

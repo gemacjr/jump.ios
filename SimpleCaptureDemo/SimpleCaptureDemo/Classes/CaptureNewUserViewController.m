@@ -224,7 +224,7 @@
 //        [captureUser createForDelegate:self];
 //    else if ([captureUser accessToken])
 //        [captureUser updateForDelegate:self];
-    [captureUser createUserOnCaptureForDelegate:self withContext:nil];
+    [captureUser createOnCaptureForDelegate:self context:nil];
 }
 
 #define LOCATION_TEXT_VIEW_TAG 10

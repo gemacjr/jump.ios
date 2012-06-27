@@ -41,15 +41,17 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
+
 @interface JREngage ()
-{
-    JRUserInterfaceMaestro *_interfaceMaestro; /*< \internal Class that handles customizations to the library's UI */
-    JRSessionData          *_sessionData;      /*< \internal Holds configuration and state for the JREngage library */
-    NSMutableArray         *_delegates;        /*< \internal Array of JREngageDelegate objects */
-}
+@property (nonatomic, retain) JRUserInterfaceMaestro *interfaceMaestro; /*< \internal Class that handles customizations to the library's UI */
+@property (nonatomic, retain) JRSessionData          *sessionData;      /*< \internal Holds configuration and state for the JREngage library */
+@property (nonatomic, retain) NSMutableArray         *delegates;        /*< \internal Array of JREngageDelegate objects */
 @end
 
 @implementation JREngage
+@synthesize interfaceMaestro;
+@synthesize sessionData;
+@synthesize delegates;
 
 static JREngage* singleton = nil;
 
@@ -85,18 +87,18 @@ static JREngage* singleton = nil;
 {
     ALog (@"Initialize JREngage library with appID: %@, and tokenUrl: %@", appId, tokenUrl);
 
-    if (!_delegates)
-        _delegates = [[NSMutableArray alloc] initWithObjects:delegate, nil];
+    if (!delegates)
+        self.delegates = [NSMutableArray arrayWithObjects:delegate, nil];
     else
-        [_delegates addObject:delegate];
+        [delegates addObject:delegate];
 
-    if (!_sessionData)
-        _sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
+    if (!sessionData)
+        self.sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
     else
-        [_sessionData reconfigureWithAppId:appId tokenUrl:tokenUrl];
+        [sessionData reconfigureWithAppId:appId tokenUrl:tokenUrl];
 
-    if (!_interfaceMaestro)
-        _interfaceMaestro = [JRUserInterfaceMaestro jrUserInterfaceMaestroWithSessionData:_sessionData];
+    if (!interfaceMaestro)
+        interfaceMaestro = [JRUserInterfaceMaestro jrUserInterfaceMaestroWithSessionData:sessionData];
 }
 
 + (void)setEngageAppId:(NSString*)appId tokenUrl:(NSString*)tokenUrl andDelegate:(id<JREngageDelegate>)delegate
@@ -106,10 +108,10 @@ static JREngage* singleton = nil;
 
 - (id)reconfigureWithAppID:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
 {
-    [_delegates removeAllObjects];
-    [_delegates addObject:delegate];
+    [delegates removeAllObjects];
+    [delegates addObject:delegate];
 
-    [_sessionData reconfigureWithAppId:appId tokenUrl:tokenUrl];
+    [sessionData reconfigureWithAppId:appId tokenUrl:tokenUrl];
 
     return self;
 }
@@ -123,10 +125,10 @@ static JREngage* singleton = nil;
     {
         singleton = self;
 
-        _delegates = [[NSMutableArray alloc] initWithObjects:delegate, nil];
+        self.delegates = [NSMutableArray arrayWithObjects:delegate, nil];
 
-        _sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
-        _interfaceMaestro = [JRUserInterfaceMaestro jrUserInterfaceMaestroWithSessionData:_sessionData];
+        sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
+        interfaceMaestro = [JRUserInterfaceMaestro jrUserInterfaceMaestroWithSessionData:sessionData];
     }
 
     return self;
@@ -168,30 +170,30 @@ static JREngage* singleton = nil;
 
 - (void)addDelegate:(id<JREngageDelegate>)delegate
 {
-    if (![_delegates containsObject:delegate])
-        [_delegates addObject:delegate];
+    if (![delegates containsObject:delegate])
+        [delegates addObject:delegate];
 }
 
 + (void)addDelegate:(id<JREngageDelegate>)delegate
 {
-    [[JREngage singletonInstance] addDelegate:delegate];
+    [[JREngage singletonInstance] performSelector:@selector(addDelegate:) withObject:delegate];
 }
 
 - (void)removeDelegate:(id<JREngageDelegate>)delegate
 {
-    [_delegates removeObject:delegate];
+    [delegates removeObject:delegate];
 }
 
 + (void)removeDelegate:(id<JREngageDelegate>)delegate
 {
-    [[JREngage singletonInstance] removeDelegate:delegate];
+    [[JREngage singletonInstance] performSelector:@selector(removeDelegate:) withObject:delegate];
 }
 
 - (void)engageDidFailWithError:(NSError*)error
 {
     ALog (@"JREngage failed to load with error: %@", [error localizedDescription]);
 
-    NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(jrEngageDialogDidFailToShowWithError:)])
@@ -233,7 +235,7 @@ static JREngage* singleton = nil;
     ALog (@"");
 
     /* If there was error configuring the library, sessionData.error will not be null. */
-    if (_sessionData.error)
+    if (sessionData.error)
     {
 
         /* Since configuration should happen long before the user attempts to use the library and because the user may not
@@ -244,21 +246,21 @@ static JREngage* singleton = nil;
          This gives the calling application an ad hoc way to reconfigure the library, and doesn't waste the limited
          resources by trying to reconfigure itself if it doesn't know if it’s actually needed. */
 
-        if (_sessionData.error.code / 100 == ConfigurationError)
+        if (sessionData.error.code / 100 == ConfigurationError)
         {
-            [self engageDidFailWithError:[[_sessionData.error copy] autorelease]];
-            [_sessionData tryToReconfigureLibrary];
+            [self engageDidFailWithError:[[sessionData.error copy] autorelease]];
+            [sessionData tryToReconfigureLibrary];
 
             return;
         }
         else
         {   // TODO: The session data error doesn't get reset here.  When will this happen and what will be the expected behavior?
-            [self engageDidFailWithError:[[_sessionData.error copy] autorelease]];
+            [self engageDidFailWithError:[[sessionData.error copy] autorelease]];
             return;
         }
     }
 
-    if (_sessionData.dialogIsShowing)
+    if (sessionData.dialogIsShowing)
     {
         [self engageDidFailWithError:
               [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded."
@@ -266,7 +268,7 @@ static JREngage* singleton = nil;
         return;
     }
 
-    if (provider && ![_sessionData.allProviders objectForKey:provider])
+    if (provider && ![sessionData.allProviders objectForKey:provider])
     {
         [self engageDidFailWithError:
               [JRError setError:@"You tried to authenticate on a specific provider, but this provider has not yet been configured."
@@ -275,10 +277,10 @@ static JREngage* singleton = nil;
     }
 
     if (provider)
-        _interfaceMaestro.directProvider = provider;
+        interfaceMaestro.directProvider = provider;
 
 //  [sessionData setSkipReturningUserLandingPage:skipReturningUserLandingPage];
-    [_interfaceMaestro showAuthenticationDialogWithCustomInterface:customInterfaceOverrides];
+    [interfaceMaestro showAuthenticationDialogWithCustomInterface:customInterfaceOverrides];
 }
 
 - (void)showAuthenticationDialogForProvider:(NSString*)provider
@@ -366,7 +368,7 @@ static JREngage* singleton = nil;
     ALog (@"");
 
  /* If there was error configuring the library, sessionData.error will not be null. */
-    if (_sessionData.error)
+    if (sessionData.error)
     {
 
     /* Since configuration should happen long before the user attempts to use the library and because the user may not
@@ -377,21 +379,21 @@ static JREngage* singleton = nil;
         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited
         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
 
-        if (_sessionData.error.code / 100 == ConfigurationError)
+        if (sessionData.error.code / 100 == ConfigurationError)
         {
-            [self engageDidFailWithError:[[_sessionData.error copy] autorelease]];
-            [_sessionData tryToReconfigureLibrary];
+            [self engageDidFailWithError:[[sessionData.error copy] autorelease]];
+            [sessionData tryToReconfigureLibrary];
 
             return;
         }
         else
         {
-            [self engageDidFailWithError:[[_sessionData.error copy] autorelease]];
+            [self engageDidFailWithError:[[sessionData.error copy] autorelease]];
             return;
         }
     }
 
-    if (_sessionData.dialogIsShowing)
+    if (sessionData.dialogIsShowing)
     {
         [self engageDidFailWithError:
               [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded."
@@ -407,8 +409,8 @@ static JREngage* singleton = nil;
         return;
     }
 
-    [_sessionData setActivity:activity];
-    [_interfaceMaestro showPublishingDialogForActivityWithCustomInterface:customInterfaceOverrides];
+    [sessionData setActivity:activity];
+    [interfaceMaestro showPublishingDialogForActivityWithCustomInterface:customInterfaceOverrides];
 }
 
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
@@ -431,60 +433,59 @@ static JREngage* singleton = nil;
     [[JREngage singletonInstance] showSocialPublishingDialogWithActivity:activity withCustomInterfaceOverrides:nil];
 }
 
-
 - (void)authenticationDidRestart
 {
     DLog (@"");
-    [_interfaceMaestro authenticationRestarted];
+    [interfaceMaestro authenticationRestarted];
 }
 
 - (void)authenticationDidCancel
 {
     DLog (@"");
 
-    NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(jrAuthenticationDidNotComplete)])
             [delegate jrAuthenticationDidNotComplete];
     }
 
-    [_interfaceMaestro authenticationCanceled];
+    [interfaceMaestro authenticationCanceled];
 }
 
 - (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider
 {
     ALog (@"Signing complete for %@", provider);
 
-    NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(jrAuthenticationDidSucceedForUser:forProvider:)])
             [delegate jrAuthenticationDidSucceedForUser:profile forProvider:provider];
     }
 
-    [_interfaceMaestro authenticationCompleted];
+    [interfaceMaestro authenticationCompleted];
 }
 
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
     ALog (@"Signing failed for %@", provider);
 
-    NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(jrAuthenticationDidFailWithError:forProvider:)])
             [delegate jrAuthenticationDidFailWithError:error forProvider:provider];
     }
 
-    [_interfaceMaestro authenticationFailed];
+    [interfaceMaestro authenticationFailed];
 }
 
 - (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 {
     ALog (@"Token URL reached for %@: %@", provider, tokenUrl);
 
-    NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
 //        if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withPayload:forProvider:)])
@@ -499,7 +500,7 @@ static JREngage* singleton = nil;
 {
     ALog (@"Token URL failed for %@: %@", provider, tokenUrl);
 
-    NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:)])
@@ -510,42 +511,42 @@ static JREngage* singleton = nil;
 - (void)publishingDidRestart
 {
     DLog (@"");
-    [_interfaceMaestro publishingRestarted];
+    [interfaceMaestro publishingRestarted];
 }
 
 - (void)publishingDidCancel
 {
     DLog(@"");
 
-    NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(jrSocialDidNotCompletePublishing)])
             [delegate jrSocialDidNotCompletePublishing];
     }
 
-    [_interfaceMaestro publishingCanceled];
+    [interfaceMaestro publishingCanceled];
 }
 
 - (void)publishingDidComplete
 {
     DLog(@"");
 
-    NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(jrSocialDidCompletePublishing)])
             [delegate jrSocialDidCompletePublishing];
     }
 
-    [_interfaceMaestro publishingCompleted];
+    [interfaceMaestro publishingCompleted];
 }
 
 - (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider
 {
     ALog (@"Activity shared on %@", provider);
 
-    NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(jrSocialDidPublishActivity:forProvider:)])
@@ -557,7 +558,7 @@ static JREngage* singleton = nil;
 {
     ALog (@"Sharing activity failed for %@", provider);
 
-    NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(jrSocialPublishingActivity:didFailWithError:forProvider:)])
@@ -568,88 +569,93 @@ static JREngage* singleton = nil;
 - (void)signoutUserForProvider:(NSString*)provider
 {
     DLog(@"");
-    [_sessionData forgetAuthenticatedUserForProvider:provider];
+    [sessionData forgetAuthenticatedUserForProvider:provider];
 }
 
 + (void)signoutUserForProvider:(NSString*)provider
 {
-    [[JREngage singletonInstance] signoutUserForProvider:provider];
+    [[JREngage singletonInstance] performSelector:@selector(signoutUserForProvider:) withObject:provider];
 }
 
 - (void)signoutUserForAllProviders
 {
     DLog(@"");
-    [_sessionData forgetAllAuthenticatedUsers];
+    [sessionData forgetAllAuthenticatedUsers];
 }
 
 + (void)signoutUserForAllProviders
 {
-    [[JREngage singletonInstance] signoutUserForAllProviders];
+    [[JREngage singletonInstance] performSelector:@selector(signoutUserForAllProviders)];
 }
 
 - (void)signoutUserForSocialProvider:(NSString*)provider
 {
     DLog(@"");
-    [_sessionData forgetAuthenticatedUserForProvider:provider];
+    [sessionData forgetAuthenticatedUserForProvider:provider];
 }
 
 - (void)signoutUserForAllSocialProviders
 {
     DLog(@"");
-    [_sessionData forgetAllAuthenticatedUsers];
+    [sessionData forgetAllAuthenticatedUsers];
+}
+
+- (void)internalAlwaysForceReauthentication:(BOOL)force
+{
+    DLog(@"");
+    [sessionData setAlwaysForceReauth:force];
 }
 
 - (void)alwaysForceReauthentication:(BOOL)force
 {
-    DLog(@"");
-    [_sessionData setAlwaysForceReauth:force];
+    [self internalAlwaysForceReauthentication:force];
 }
 
 + (void)alwaysForceReauthentication:(BOOL)force
 {
-    [[JREngage singletonInstance] alwaysForceReauthentication:force];
+    [[JREngage singletonInstance] internalAlwaysForceReauthentication:force];
 }
 
 - (void)cancelAuthentication
 {
     DLog(@"");
-    [_sessionData triggerAuthenticationDidCancel];
+    [sessionData triggerAuthenticationDidCancel];
 }
 
 + (void)cancelAuthentication
 {
-    [[JREngage singletonInstance] cancelAuthentication];
+    [[JREngage singletonInstance] performSelector:@selector(cancelAuthentication)];
 }
 
 - (void)cancelPublishing
 {
     DLog(@"");
-    [_sessionData triggerPublishingDidCancel];
+    [sessionData triggerPublishingDidCancel];
 }
 
 + (void)cancelPublishing
 {
-    [[JREngage singletonInstance] cancelPublishing];
+    [[JREngage singletonInstance] performSelector:@selector(cancelPublishing)];
 }
 
 - (void)updateTokenUrl:(NSString*)newTokenUrl
 {
     DLog(@"");
-    [_sessionData setTokenUrl:newTokenUrl];
+    [sessionData setTokenUrl:newTokenUrl];
 }
 
 + (void)updateTokenUrl:(NSString*)newTokenUrl
 {
-    [[JREngage singletonInstance] updateTokenUrl:newTokenUrl];
+    [[JREngage singletonInstance] performSelector:@selector(updateTokenUrl:) withObject:newTokenUrl];
 }
 
 - (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults
 {
-    [_interfaceMaestro setCustomInterfaceDefaults:customInterfaceDefaults];
+    [interfaceMaestro setCustomInterfaceDefaults:customInterfaceDefaults];
 }
 
 + (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults
 {
-    [[JREngage singletonInstance] setCustomInterfaceDefaults:customInterfaceDefaults];
+    [[JREngage singletonInstance] performSelector:@selector(setCustomInterfaceDefaults:) withObject:customInterfaceDefaults];
 }
 @end
