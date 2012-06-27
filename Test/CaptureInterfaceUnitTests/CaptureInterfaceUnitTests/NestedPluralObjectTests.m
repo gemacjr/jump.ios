@@ -25,7 +25,6 @@
 #import <objc/runtime.h>
 #import <Foundation/Foundation.h>
 #import "SharedData.h"
-#import "JRPlural.h"
 #import "ucfirst.h"
 
 @interface b3_NestedPluralObjectTests : GHAsyncTestCase <JRCaptureObjectDelegate>
