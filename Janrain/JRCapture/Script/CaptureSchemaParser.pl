@@ -1576,7 +1576,7 @@ sub recursiveParse {
   ##########################################################################
   # Import the headers
   ##########################################################################
-  $mFile .= "\n#import \"JRCaptureInternal.h\"\n#import \"$className.h\"\n\n";
+  $mFile .= "\n#import \"JRCaptureObject+Internal.h\"\n#import \"$className.h\"\n\n";
 
   ##########################################################################
   # Add any of the array categories, if needed to parse an array of objects
@@ -1756,7 +1756,9 @@ unless (-d "$pathToOutputDir/$genDir") {
 
 if ($usingCustomOutputDir) {
   my $copyResult = `cp ../Classes/JR* $pathToOutputDir 2>&1`;
-  $copyResult = `cp ../Classes/APIDInterface/JR* $pathToOutputDir 2>&1`;
+  $copyResult   .= `cp ../Classes/APIDInterface/JR* $pathToOutputDir 2>&1`;
+  $copyResult   .= `cp ../Classes/EngageWrapper/JR* $pathToOutputDir 2>&1`;
+  $copyResult   .= `cp ../Classes/WebviewWrapper/JR* $pathToOutputDir 2>&1`;
   if ($copyResult) {
     die "[ERROR] Unable to copy necessary files to the '$pathToOutputDir': $copyResult\n\n";
   }

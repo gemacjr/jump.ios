@@ -44,8 +44,8 @@
 #import "JRCapture.h"
 
 #import "JRActivityObject.h"
-#import "JRCaptureUser.h"
 #import "JREngageWrapper.h"
+#import "JRCaptureData.h"
 
 @implementation JRCapture
 

@@ -10,10 +10,11 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "JRNativeSigninViewController.h"
-#import "JREngage+CustomInterface.h"
-#import "JRCaptureUser.h"
 #import "JREngage.h"
-#import "JRActivityObject.h"
+#import "JREngage+CustomInterface.h"
+
+#import "JRCaptureUser.h"
+#import "JRCaptureData.h"
 
 #import "JREngageWrapper.h"
 
@@ -73,7 +74,7 @@ static JREngageWrapper *singleton = nil;
 
 + (void)configureEngageWithCaptureMobileEndpointUrlAndAppId:(NSString *)appId
 {
-    [JREngage setEngageAppId:appId tokenUrl:[JRCaptureData captureMobileEndpointUrl] andDelegate:self];
+    [JREngage setEngageAppId:appId tokenUrl:[JRCaptureData captureMobileEndpointUrl] andDelegate:[JREngageWrapper singletonInstance]];
 }
 
 + (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninState)nativeSigninState

@@ -34,22 +34,21 @@
 
 #import <Foundation/Foundation.h>
 #import "JRConnectionManager.h"
-#import "JRCaptureInternal.h"
 
 @protocol JRCaptureInterfaceDelegate <NSObject>
 @optional
-- (void)createCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
-- (void)createCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context;
-- (void)getCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
-- (void)getCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context;
-- (void)getCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
-- (void)getCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context;
-- (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
-- (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context;
-- (void)replaceCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
-- (void)replaceCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context;
-- (void)replaceCaptureArrayDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
-- (void)replaceCaptureArrayDidFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)createCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)createCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)getCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)getCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)getCaptureObjectDidSucceedWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)getCaptureObjectDidFailWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)updateCaptureObjectDidSucceedWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)updateCaptureObjectDidFailWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)replaceCaptureObjectDidSucceedWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)replaceCaptureObjectDidFailWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)replaceCaptureArrayDidSucceedWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)replaceCaptureArrayDidFailWithResult:(NSObject *)result context:(NSObject *)context;
 @end
 
 @interface JRCaptureApidInterface : NSObject <JRConnectionManagerDelegate>
@@ -68,21 +67,18 @@
                    withContext:(NSObject *)context;
 
 + (void)updateCaptureObject:(NSDictionary *)captureObject
-//                     withId:(NSInteger)objectId
                      atPath:(NSString *)entityPath
                   withToken:(NSString *)token
                 forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
                 withContext:(NSObject *)context;
 
 + (void)replaceCaptureObject:(NSDictionary *)captureObject
-//                      withId:(NSInteger)objectId
                       atPath:(NSString *)entityPath
                    withToken:(NSString *)token
                  forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
                  withContext:(NSObject *)context;
 
 + (void)replaceCaptureArray:(NSArray *)captureArray
-//                   withId:(NSInteger)objectId
                      atPath:(NSString *)entityPath
                   withToken:(NSString *)token
                  forDelegate:(id <JRCaptureInterfaceDelegate>)delegate

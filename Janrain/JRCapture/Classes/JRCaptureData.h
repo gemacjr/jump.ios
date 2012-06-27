@@ -7,8 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JRCaptureApidInterface.h"
-#import "JSONKit.h"
 
 @interface JRCaptureData : NSObject
 + (NSString *)accessToken;

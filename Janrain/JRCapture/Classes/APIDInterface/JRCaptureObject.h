@@ -34,24 +34,27 @@
 @protocol JRCaptureObjectDelegate <NSObject>
 @optional
 - (void)updateDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context;
-- (void)updateDidFailForObject:(JRCaptureObject *)object withError:(NSString *)error context:(NSObject *)context;
+- (void)updateDidFailForObject:(JRCaptureObject *)object withError:(NSError *)error context:(NSObject *)context;
 
 - (void)replaceDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context;
-- (void)replaceDidFailForObject:(JRCaptureObject *)object withError:(NSString *)error context:(NSObject *)context;
+- (void)replaceDidFailForObject:(JRCaptureObject *)object withError:(NSError *)error context:(NSObject *)context;
 
 - (void)replaceArrayDidSucceedForObject:(JRCaptureObject *)object newArray:(NSArray *)replacedArray /* replaced array? */
                                   named:(NSString *)arrayName context:(NSObject *)context;
 - (void)replaceArrayDidFailForObject:(JRCaptureObject *)object arrayNamed:(NSString *)arrayName
-                           withError:(NSString *)error context:(NSObject *)context;
+                           withError:(NSError *)error context:(NSObject *)context;
 @end
 
-@protocol JRCaptureInterfaceDelegate;
-@interface JRCaptureObject : NSObject <NSCopying, JRCaptureInterfaceDelegate>
+//@protocol JRCaptureInterfaceDelegate;
+@interface JRCaptureObject : NSObject <NSCopying>//, JRCaptureInterfaceDelegate>
 @property (readonly) BOOL canBeUpdatedOrReplaced;
 
 - (BOOL)needsUpdate;
 
-- (void)updateOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
-- (void)replaceOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+//- (void)updateOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
+//- (void)replaceOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
 @end
 
