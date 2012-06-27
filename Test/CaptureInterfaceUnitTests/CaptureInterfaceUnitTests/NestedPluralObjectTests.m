@@ -779,7 +779,7 @@ void (^contBlock)() = nil;
 
 - (void)genericTestApidMethod:(apidMethod)method forObject:(JRCaptureObject *)object expectResult:(apidResult)result
                       forTest:(NSString *)test forPlural:(NSString *)plural withArray:(NSArray *)array
-                 prepareBlock:(void (^)(NSString *ctx))prepBlock
+                 continueBlock:(void (^)())cBlock
 {
     if (!contBlock) [self prepare];
     genericApidTestObj = object;
@@ -787,21 +787,7 @@ void (^contBlock)() = nil;
     genericApidTestPlural = array;
     expectedResult = result;
 
-    NSString *const context = [NSString stringWithFormat:@"%@.test_genericTestApidMethod.%@",
-                                                         (!prepBlock) ? @"finish" : @"continue", test];
-
-    if (prepBlock)
-    {
-        prepBlock(context);
-        contBlock = ^(){
-            [self genericTestApidMethod:method forObject:object
-                           expectResult:result forTest:test
-                              forPlural:plural withArray:array
-                           prepareBlock:nil];
-        };
-        [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
-        return;
-    }
+    NSString *const context = [NSString stringWithFormat:@"%@.test_genericTestApidMethod.%@", @"finish", test];
 
     if (method == update)
     {
@@ -820,17 +806,14 @@ void (^contBlock)() = nil;
     }
     else [NSException raise:nil format:nil];
 
-    if (!contBlock)
+    if (!contBlock) {
+        contBlock = cBlock;
         [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
-
-    contBlock = nil;
-
-}
-
-- (void)continue_genericTestApidMethod_withArguments:(NSDictionary *)args
-                               andTestSelectorString:(NSString *)testSelectorString
-{
-    contBlock();
+    }
+    else
+    {
+        contBlock = nil;
+    }
 }
 
 - (void)finish_genericTestApidMethod_withArguments:(NSDictionary *)arguments
@@ -857,7 +840,6 @@ void (^contBlock)() = nil;
 
         JRCaptureObject *result = ((JRCaptureObject *)[arguments objectForKey:@"captureObject"]);
         GHAssertTrue([result performSelector:isEqualSelector withObject:genericApidTestObj], nil);
-        [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
     }
     else
     {
@@ -884,43 +866,50 @@ void (^contBlock)() = nil;
 
         NSArray *result = ((NSArray *)[arguments objectForKey:@"newArray"]);
         GHAssertTrue([result performSelector:isEqualSelector withObject:genericApidTestPlural], nil);
-        [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
     }
+
+    if (contBlock)
+    {
+        contBlock();
+        return;
+    }
+
+    [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
 }
 
 - (void)test_b350_pinoinoUpdate_Level1
 {
     [self pinoinoCreate];
     [self genericTestApidMethod:update forObject:currentL1Object expectResult:success forTest:_sel forPlural:nil
-                      withArray:nil prepareBlock:nil];
+                      withArray:nil continueBlock:nil];
 }
 
 - (void)test_b351_pinoinoUpdate_Level2
 {
     [self pinoinoCreate];
     [self genericTestApidMethod:update forObject:currentL2Object expectResult:success forTest:_sel forPlural:nil
-                      withArray:nil prepareBlock:nil];
+                      withArray:nil continueBlock:nil];
 }
 
 - (void)test_b352_pinoinoReplace_Level1
 {
     [self pinoinoCreate];
     [self genericTestApidMethod:replace forObject:currentL1Object expectResult:success forTest:_sel forPlural:nil
-                      withArray:nil prepareBlock:nil];
+                      withArray:nil continueBlock:nil];
 }
 
 - (void)test_b353_pinoinoReplace_Level2
 {
     [self pinoinoCreate];
     [self genericTestApidMethod:replace forObject:currentL2Object expectResult:success forTest:_sel forPlural:nil
-                      withArray:nil prepareBlock:nil];
+                      withArray:nil continueBlock:nil];
 }
 
 - (void)test_b354_pinoinoPreReplace_Level3_FailCase
 {
     [self pinoinoCreate];
     [self genericTestApidMethod:update forObject:currentL3Object expectResult:failure forTest:_sel forPlural:nil
-                      withArray:nil prepareBlock:nil];
+                      withArray:nil continueBlock:nil];
 }
 
 - (void)test_b355_pinoinoReplace_Level3
@@ -928,7 +917,7 @@ void (^contBlock)() = nil;
     [self pinoinoCreate];
     [self genericTestApidMethod:replace forObject:currentL2Object expectResult:success forTest:_sel forPlural:@"pinoinoL3Plural"
                       withArray:currentL3Plural
-                      prepareBlock:nil];
+                      continueBlock:nil];
 }
 
 - (void)asldfkj
@@ -973,7 +962,7 @@ void (^contBlock)() = nil;
 {
     [self onipinapCreate];
     [self genericTestApidMethod:update forObject:currentL3Object expectResult:failure forTest:_sel forPlural:nil
-                      withArray:nil prepareBlock:nil];
+                      withArray:nil continueBlock:nil];
 }
 
 - (void)test_b361_onipinapReplaceArray_Level2_FailCase
@@ -981,7 +970,7 @@ void (^contBlock)() = nil;
     [self onipinapCreate];
     [self genericTestApidMethod:replace forObject:currentL1Object expectResult:failure forTest:_sel forPlural:@"onipinapL2Plural"
                       withArray:currentL2Plural
-                      prepareBlock:nil];
+                      continueBlock:nil];
     //[((JROnipinapL1PluralElement *) [captureUser.onipinapL1Plural objectAtIndex:1])
     //        replaceOnipinapL2PluralArrayOnCaptureForDelegate:self withContext:_esel];
 }
@@ -991,7 +980,7 @@ void (^contBlock)() = nil;
     [self onipinapCreate];
     [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel forPlural:@"onipinapL1Plural"
                       withArray:currentL1Plural
-                      prepareBlock:nil];
+                      continueBlock:nil];
 }
 
 - (void)test_b363_onipinapUpdate_Level3_PostReplace
@@ -1009,7 +998,7 @@ void (^contBlock)() = nil;
     self.currentL3Object = ((JROnipinapL2PluralElement *) [((JROnipinapL1PluralElement *) [captureUser.onipinapL1Plural objectAtIndex:1]).onipinapL2Plural objectAtIndex:1]).onipinapL3Object;
     [self genericTestApidMethod:update forObject:currentL3Object expectResult:success
                         forTest:@"test_b363_onipinapUpdate_Level3_PostReplace" forPlural:nil withArray:nil
-                   prepareBlock:nil];
+                   continueBlock:nil];
 }
 
 /* Object in an object in a plural (370-379) */
@@ -1036,31 +1025,45 @@ void (^contBlock)() = nil;
 /* Try and update the level 3 object before the array was replaced. */
 - (void)test_b370a_oinonipUpdate_Level3_PreReplace_FailCase
 {
-
+    [self oinonipCreate];
+    [self genericTestApidMethod:update forObject:currentL3Object expectResult:failure forTest:_sel forPlural:nil
+                      withArray:nil continueBlock:nil];
 }
 
 /* Try and update the level 2 object before the array was replaced. */
 - (void)test_b370b_oinonipUpdate_Level2_PreReplace_FailCase
 {
-
+    [self oinonipCreate];
+    [self genericTestApidMethod:update forObject:currentL2Object
+                   expectResult:failure forTest:_sel forPlural:nil withArray:nil continueBlock:nil];
 }
 
 /* Replace the array */
 - (void)test_b371a_oinonipReplaceArray_Level1
 {
+    [self oinonipCreate];
+    [self genericTestApidMethod:replace forObject:captureUser
+                   expectResult:success forTest:_sel forPlural:@"oinonipL1Plural"
+                      withArray:currentL1Plural continueBlock:nil];
 
 }
 
 /* Try and update the level 3 object after the array was replaced. */
-- (void)test_b371a_oinonipUpdate_Level3_PostReplace
+- (void)test_b371b_oinonipUpdate_Level3_PostReplace
 {
-
+    [self oinonipCreate];
+    [self genericTestApidMethod:replace forObject:captureUser
+                   expectResult:success forTest:_sel forPlural:@"oinonipL1Plural"
+                      withArray:currentL1Plural continueBlock:^(){
+        self.currentL3Object = ((JROinonipL1PluralElement *) [captureUser.oinonipL1Plural objectAtIndex:1]).oinonipL2Object.oinonipL3Object;
+        [self genericTestApidMethod:update forObject:currentL3Object expectResult:success forTest:_sel forPlural:nil
+                          withArray:nil continueBlock:nil];
+    }];
 }
 
 /* Try and update the level 3 object after the array was replaced. */
 - (void)test_b371c_oinonipUpdate_Level2_PostReplace
 {
-
 }
 
 /* Create array and sync on Capture. Add elements locally, replace again, verify sync */
