@@ -66,13 +66,13 @@
 }
 @end
 
-@interface JRCaptureApidHandler : NSObject <JRCaptureInterfaceDelegate>
+@interface JRCaptureObjectApidHandler : NSObject <JRCaptureInterfaceDelegate>
 @end
 
-@implementation JRCaptureApidHandler
-+ (id)captureApidHandler
+@implementation JRCaptureObjectApidHandler
++ (id)captureObjectApidHandler
 {
-    return [[[JRCaptureApidHandler alloc] init] autorelease];
+    return [[[JRCaptureObjectApidHandler alloc] init] autorelease];
 }
 
 - (void)updateCaptureObjectDidFailWithResult:(NSObject *)result context:(NSObject *)context
@@ -327,7 +327,7 @@
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context// returningResult:(BOOL)returningResult
+- (void)updateOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate context:(NSObject *)context// returningResult:(BOOL)returningResult
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
@@ -338,7 +338,7 @@
 
     if (!self.canBeUpdatedOrReplaced)
     {
-        [[JRCaptureApidHandler captureApidHandler] updateCaptureObjectDidFailWithResult:
+        [[JRCaptureObjectApidHandler captureObjectApidHandler] updateCaptureObjectDidFailWithResult:
                       [NSDictionary dictionaryWithObjectsAndKeys:
                                             @"error", @"stat",
                                             @"invalid_array_element", @"error",
@@ -353,7 +353,7 @@
     [JRCaptureApidInterface updateCaptureObject:[self toUpdateDictionary]
                                          atPath:self.captureObjectPath
                                       withToken:[JRCaptureData accessToken]
-                                    forDelegate:[JRCaptureApidHandler captureApidHandler]
+                                    forDelegate:[JRCaptureObjectApidHandler captureObjectApidHandler]
                                     withContext:newContext];
 }
 
@@ -362,7 +362,7 @@
 //    [self updateObjectOnCaptureForDelegate:delegate withContext:context returningResult:NO];
 //}
 
-- (void)replaceObjectOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context// returningResult:(BOOL)returningResult
+- (void)replaceOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate context:(NSObject *)context// returningResult:(BOOL)returningResult
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
@@ -373,7 +373,7 @@
 
     if (!self.canBeUpdatedOrReplaced)
     {
-        [[JRCaptureApidHandler captureApidHandler] updateCaptureObjectDidFailWithResult:
+        [[JRCaptureObjectApidHandler captureObjectApidHandler] updateCaptureObjectDidFailWithResult:
                       [NSDictionary dictionaryWithObjectsAndKeys:
                                             @"error", @"stat",
                                             @"invalid_array_element", @"error",
@@ -388,7 +388,7 @@
     [JRCaptureApidInterface replaceCaptureObject:[self toReplaceDictionaryIncludingArrays:YES]
                                           atPath:self.captureObjectPath
                                        withToken:[JRCaptureData accessToken]
-                                     forDelegate:[JRCaptureApidHandler captureApidHandler]
+                                     forDelegate:[JRCaptureObjectApidHandler captureObjectApidHandler]
                                      withContext:newContext];
 }
 
@@ -422,7 +422,7 @@
     [JRCaptureApidInterface replaceCaptureArray:serialized
                                          atPath:captureArrayPath
                                       withToken:[JRCaptureData accessToken]
-                                    forDelegate:[JRCaptureApidHandler captureApidHandler]
+                                    forDelegate:[JRCaptureObjectApidHandler captureObjectApidHandler]
                                     withContext:newContext];
 }
 

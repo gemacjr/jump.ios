@@ -42,15 +42,6 @@
 #import "JRProfilesElement.h"
 #import "JRStatusesElement.h"
 
-@interface NSArray (CaptureUser_ArrayComparison)
-- (BOOL)isEqualToGamesArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOnipLevelOneArray:(NSArray *)otherArray;
-- (BOOL)isEqualToPhotosArray:(NSArray *)otherArray;
-- (BOOL)isEqualToPluralLevelOneArray:(NSArray *)otherArray;
-- (BOOL)isEqualToProfilesArray:(NSArray *)otherArray;
-- (BOOL)isEqualToStatusesArray:(NSArray *)otherArray;
-@end
-
 /**
  * @brief A JRCaptureUser object
  **/

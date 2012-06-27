@@ -1473,11 +1473,7 @@ sub recursiveParse {
   # Add any extra imports ...
   ##########################################################################
   $hFile .= $extraImportsSection . "\n";
-  
-  if ($arrayCompareIntfSection ne "") {
-    $hFile .= "\@interface NSArray (" . ucfirst($objectName) . "_ArrayComparison)\n$arrayCompareIntfSection\@end\n\n";
-  }
-     
+       
   for (my $i = 0; $i < @doxygenClassDescSection; $i++) { $hFile .= $doxygenClassDescSection[$i]; }
   
   ##########################################################################
@@ -1584,6 +1580,10 @@ sub recursiveParse {
   $mFile .= $objectCategoriesSection;
   $mFile .= $arrayCategoriesSection;
     
+  if ($arrayCompareIntfSection ne "") {
+    $mFile .= "\@interface NSArray (" . ucfirst($objectName) . "_ArrayComparison)\n$arrayCompareIntfSection\@end\n\n";
+  }
+
   if ($arrayCompareImplSection ne "") {
     $mFile .= "\@implementation NSArray (" . ucfirst($objectName) . "_ArrayComparison)\n$arrayCompareImplSection\@end\n\n";
   }

@@ -83,6 +83,10 @@
 }
 @end
 
+@interface NSArray (PinoL1Object_ArrayComparison)
+- (BOOL)isEqualToPinoL2PluralArray:(NSArray *)otherArray;
+@end
+
 @implementation NSArray (PinoL1Object_ArrayComparison)
 
 - (BOOL)isEqualToPinoL2PluralArray:(NSArray *)otherArray

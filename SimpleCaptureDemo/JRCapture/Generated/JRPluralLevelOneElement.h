@@ -34,10 +34,6 @@
 #import "JRNSDate+ISO8601_CaptureDateTimeString.h"
 #import "JRPluralLevelTwoElement.h"
 
-@interface NSArray (PluralLevelOneElement_ArrayComparison)
-- (BOOL)isEqualToPluralLevelTwoArray:(NSArray *)otherArray;
-@end
-
 /**
  * @brief A JRPluralLevelOneElement object
  **/

@@ -83,6 +83,10 @@
 }
 @end
 
+@interface NSArray (OnipinapL1PluralElement_ArrayComparison)
+- (BOOL)isEqualToOnipinapL2PluralArray:(NSArray *)otherArray;
+@end
+
 @implementation NSArray (OnipinapL1PluralElement_ArrayComparison)
 
 - (BOOL)isEqualToOnipinapL2PluralArray:(NSArray *)otherArray

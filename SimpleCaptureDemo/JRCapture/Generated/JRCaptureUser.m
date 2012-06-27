@@ -313,6 +313,15 @@
 }
 @end
 
+@interface NSArray (CaptureUser_ArrayComparison)
+- (BOOL)isEqualToGamesArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOnipLevelOneArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPhotosArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPluralLevelOneArray:(NSArray *)otherArray;
+- (BOOL)isEqualToProfilesArray:(NSArray *)otherArray;
+- (BOOL)isEqualToStatusesArray:(NSArray *)otherArray;
+@end
+
 @implementation NSArray (CaptureUser_ArrayComparison)
 
 - (BOOL)isEqualToGamesArray:(NSArray *)otherArray

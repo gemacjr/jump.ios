@@ -6,7 +6,6 @@
 
 
 #import "SharedData.h"
-#import "JRCaptureUser+Extras.h"
 #import "JRCapture.h"
 
 @interface SharedData ()
@@ -68,22 +67,19 @@ static NSString *accessToken        = @"ve5agstyyb9gqzjm";
     [[SharedData sharedData] setDelegate:delegate];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [JRCaptureApidInterface getCaptureUserWithToken:accessToken forDelegate:[SharedData sharedData] withContext:nil];
+    [JRCaptureUser fetchCaptureUserFromServerForDelegate:[SharedData sharedData] context:nil];
 }
 
-- (void)getCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)fetchUserDidFailWithError:(NSError *)error context:(NSObject *)context
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    [delegate getCaptureUserDidFailWithResult:result];
+    [delegate getCaptureUserDidFailWithResult:[error localizedFailureReason]];
     [self setDelegate:nil];
 }
 
-- (void)getCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)fetchUserDidSucceed:(JRCaptureUser *)fetchedUser context:(NSObject *)context
 {
-    NSDictionary *resultDictionary = [result objectFromJSONString];
-    NSDictionary *captureProfile   = [resultDictionary objectForKey:@"result"];
-
-    [self setCaptureUser:[JRCaptureUser captureUserObjectFromDictionary:captureProfile]];
+    [self setCaptureUser:fetchedUser];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [delegate getCaptureUserDidSucceedWithUser:captureUser];
@@ -106,7 +102,6 @@ static NSString *accessToken        = @"ve5agstyyb9gqzjm";
 
     return captureUser;
 }
-
 
 - (void)dealloc
 {

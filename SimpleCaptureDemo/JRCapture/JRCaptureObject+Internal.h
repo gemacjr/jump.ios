@@ -38,10 +38,9 @@
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;// includingStateVariables:(BOOL)includingStateVariables;
 
-//- (id)captureObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (void)replaceOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
 
-//- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context returningResult:(BOOL)returningResult;
-//- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context returningResult:(BOOL)returningResult;
+//- (id)captureObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 
 - (void)replaceArrayOnCapture:(NSArray *)array named:(NSString *)arrayName isArrayOfStrings:(BOOL)isStringArray withType:(NSString *)type
                   forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;

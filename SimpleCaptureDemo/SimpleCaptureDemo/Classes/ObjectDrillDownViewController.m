@@ -622,7 +622,7 @@ typedef enum
 {
     DLog(@"");
     [self doneButtonPressed:nil];
-    [captureObject updateObjectOnCaptureForDelegate:self withContext:nil];
+    [captureObject updateOnCaptureForDelegate:self context:nil];
     //[captureObject updateOnCaptureForDelegate:self context:nil];
 }
 

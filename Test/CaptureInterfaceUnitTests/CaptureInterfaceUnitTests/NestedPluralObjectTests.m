@@ -25,7 +25,7 @@
 #import "SharedData.h"
 #import "ClassCategories.h"
 #import "JRCaptureObject+Internal.h"
-
+#import "JSONKit.h"
 
 
 @interface b3_NestedPluralObjectTests : GHAsyncTestCase <JRCaptureObjectTesterDelegate>
@@ -158,7 +158,7 @@
     GHAssertFalse(l2PluralElement.canBeUpdatedOrReplaced, nil);
 
     [self prepare];
-    [l2PluralElement updateObjectOnCaptureForDelegate:self withContext:_esel];
+    [l2PluralElement updateOnCaptureForDelegate:self context:_esel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -223,7 +223,7 @@
     [self updateObjectProperties:l2PluralElement toFillerFodderIndex:1];
 
     /* Then do the update... */
-    [l2PluralElement updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [l2PluralElement updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b302_pinapUpdate_Level2_PostReplace_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
@@ -268,7 +268,7 @@
     GHAssertFalse(((JRPinoL2PluralElement *)currentL2Object).canBeUpdatedOrReplaced, nil);
 
     [self prepare];
-    [((JRPinoL1Object *)self.currentL1Object) updateObjectOnCaptureForDelegate:self withContext:_fsel];
+    [((JRPinoL1Object *)self.currentL1Object) updateOnCaptureForDelegate:self context:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
 }
 
@@ -289,7 +289,7 @@
     [self pinoCreate];
 
     [self prepare];
-    [((JRPinoinoL1Object *)self.currentL1Object) replaceObjectOnCaptureForDelegate:self withContext:_fsel];
+    [((JRPinoinoL1Object *)self.currentL1Object) replaceOnCaptureForDelegate:self context:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
 }
 
@@ -308,7 +308,7 @@
 
     /* First, do the replace... */
     [self prepare];
-    [((JRPinoinoL1Object *)self.currentL1Object) replaceObjectOnCaptureForDelegate:self withContext:_csel];
+    [((JRPinoinoL1Object *)self.currentL1Object) replaceOnCaptureForDelegate:self context:_csel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
 }
 
@@ -321,7 +321,7 @@
     [self updateObjectProperties:self.currentL1Object toFillerFodderIndex:1];
 
     /* Then do the update... */
-    [((JRPinoinoL1Object *)self.currentL1Object) updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [((JRPinoinoL1Object *)self.currentL1Object) updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b307_pinoUpdate_Level1_PostReplace_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
@@ -358,7 +358,7 @@
     [self onipCreate];
 
     [self prepare];
-    [currentL2Object updateObjectOnCaptureForDelegate:self withContext:_esel];
+    [currentL2Object updateOnCaptureForDelegate:self context:_esel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
 }
 
@@ -386,7 +386,7 @@
     JROnipL2Object  *onipL2Object  = ((JROnipL1PluralElement *)[newArray objectAtIndex:0]).onipL2Object;
 
     [self updateObjectProperties:onipL2Object toFillerFodderIndex:5];
-    [onipL2Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [onipL2Object updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b312_onipUpdate_Level2_PostReplace_withArguments:(NSDictionary *)arguments
@@ -416,7 +416,7 @@
     [self oinoCreate];
 
     [self prepare];
-    [currentL1Object updateObjectOnCaptureForDelegate:self withContext:_ctel(currentTestString)];
+    [currentL1Object updateOnCaptureForDelegate:self context:_ctel(currentTestString)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -425,7 +425,7 @@
     [self oinoCreate];
 
     [self prepare];
-    [currentL1Object updateObjectOnCaptureForDelegate:self withContext:_fsel];
+    [currentL1Object updateOnCaptureForDelegate:self context:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -449,7 +449,7 @@
                                             andTestSelectorString:(NSString *)testSelectorString
 {
     [self updateObjectProperties:captureUser.oinoL1Object toFillerFodderIndex:2];
-    [captureUser.oinoL1Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser.oinoL1Object updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b316a_oinoUpdate_Level1_NoChangeL2_withArguments:(NSDictionary *)arguments
@@ -472,7 +472,7 @@
                                           andTestSelectorString:(NSString *)testSelectorString
 {
     [self updateObjectProperties:captureUser.oinoL1Object.oinoL2Object toFillerFodderIndex:2];
-    [captureUser.oinoL1Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser.oinoL1Object updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b316b_oinoUpdate_Level1_ChangeL2_withArguments:(NSDictionary *)arguments
@@ -497,7 +497,7 @@
 {
     self.currentL2Object = captureUser.oinoL1Object.oinoL2Object = [JROinoL2Object oinoL2Object];
 
-    [captureUser.oinoL1Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser.oinoL1Object updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b317a_oinoUpdate_Level1_NewL2_withArguments:(NSDictionary *)arguments
@@ -527,7 +527,7 @@
     JROinoL2Object *oinoL2Object = [JROinoL2Object oinoL2Object];
     self.currentL2Object = captureUser.oinoL1Object.oinoL2Object = [JROinoL2Object oinoL2Object];
 
-    [captureUser.oinoL1Object.oinoL2Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser.oinoL1Object.oinoL2Object updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b317b_oinoUpdate_Level2_NewL2_withArguments:(NSDictionary *)arguments
@@ -555,7 +555,7 @@
     JROinoL2Object *oinoL2Object = [JROinoL2Object oinoL2Object];
     self.currentL2Object = captureUser.oinoL1Object.oinoL2Object = [JROinoL2Object oinoL2Object];
 
-    [captureUser.oinoL1Object.oinoL2Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser.oinoL1Object.oinoL2Object updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b318a_oinoUpdate_Level2_CopiedL2_withArguments:(NSDictionary *)arguments
@@ -584,7 +584,7 @@
     JROinoL2Object *oinoL2Object = [JROinoL2Object oinoL2Object];
     self.currentL2Object = captureUser.oinoL1Object.oinoL2Object = [JROinoL2Object oinoL2Object];
 
-    [captureUser.oinoL1Object.oinoL2Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser.oinoL1Object.oinoL2Object updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 
@@ -647,7 +647,7 @@
     [self pinapinapCreate];
 
     [self prepare];
-    [currentL3Object updateObjectOnCaptureForDelegate:self withContext:_esel];
+    [currentL3Object updateOnCaptureForDelegate:self context:_esel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -680,7 +680,7 @@
     JRPinapinapL1PluralElement *o = self.currentL1Object = [a objectAtIndex:1];
     JRPinapinapL2PluralElement *o_ = self.currentL2Object = [o.pinapinapL2Plural objectAtIndex:1];
     o_.string1 = @"slkdfj";
-    [o_ updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [o_ updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b322_pinapinapReplaceArray_Level1_withArguments:(NSDictionary *)arguments
@@ -709,7 +709,7 @@
     JRPinapinapL2PluralElement *o_ = self.currentL2Object = [o.pinapinapL2Plural objectAtIndex:1];
     JRPinapinapL3PluralElement *o__ = self.currentL3Object = [o_.pinapinapL3Plural objectAtIndex:1];
     o__.string1 = @"sadlkfj";
-    [o__ updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [o__ updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b323_pinapinapUpdate_Level3_PostReplace_withArguments:(NSDictionary *)arguments
@@ -956,7 +956,7 @@
 
     /* Now try and update our copy, which should be invalid. */
     [self updateObjectProperties:currentL3Object toFillerFodderIndex:2];
-    [currentL3Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [currentL3Object updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b375a_oinonipUpdate_Level3_CopiedL3_PostReplace_FailCase_withArguments:(NSDictionary *)arguments
@@ -994,7 +994,7 @@
     DLog(@"");
     /* Now try and update our copy's subobject, which should be invalid. */
     [self updateObjectProperties:((JROinonipL2Object *)currentL2Object).oinonipL3Object toFillerFodderIndex:2];
-    [((JROinonipL2Object *)currentL2Object).oinonipL3Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [((JROinonipL2Object *)currentL2Object).oinonipL3Object updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b375b_oinonipUpdate_Level3_CopiedL2_PostReplace_FailCase_withArguments:(NSDictionary *)arguments
@@ -1032,7 +1032,7 @@
     DLog(@"");
     /* Now try and update our copy, which should be invalid. */
     [self updateObjectProperties:currentL2Object toFillerFodderIndex:2];
-    [currentL2Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [currentL2Object updateOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b375c_oinonipUpdate_Level2_CopiedL2_PostReplace_FailCase_withArguments:(NSDictionary *)arguments

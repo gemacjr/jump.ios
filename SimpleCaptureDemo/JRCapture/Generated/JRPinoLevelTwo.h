@@ -34,10 +34,6 @@
 #import "JRNSDate+ISO8601_CaptureDateTimeString.h"
 #import "JRPinoLevelThreeElement.h"
 
-@interface NSArray (PinoLevelTwo_ArrayComparison)
-- (BOOL)isEqualToPinoLevelThreeArray:(NSArray *)otherArray;
-@end
-
 /**
  * @brief A JRPinoLevelTwo object
  **/

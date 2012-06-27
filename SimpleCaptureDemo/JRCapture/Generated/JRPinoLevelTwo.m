@@ -83,6 +83,10 @@
 }
 @end
 
+@interface NSArray (PinoLevelTwo_ArrayComparison)
+- (BOOL)isEqualToPinoLevelThreeArray:(NSArray *)otherArray;
+@end
+
 @implementation NSArray (PinoLevelTwo_ArrayComparison)
 
 - (BOOL)isEqualToPinoLevelThreeArray:(NSArray *)otherArray

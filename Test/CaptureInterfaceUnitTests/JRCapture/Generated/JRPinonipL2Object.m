@@ -83,6 +83,10 @@
 }
 @end
 
+@interface NSArray (PinonipL2Object_ArrayComparison)
+- (BOOL)isEqualToPinonipL3PluralArray:(NSArray *)otherArray;
+@end
+
 @implementation NSArray (PinonipL2Object_ArrayComparison)
 
 - (BOOL)isEqualToPinonipL3PluralArray:(NSArray *)otherArray

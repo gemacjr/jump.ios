@@ -21,24 +21,24 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-@interface JRCaptureUserExtrasApidHandler : NSObject <JRCaptureInterfaceDelegate>
+@interface JRCaptureUserApidHandler : NSObject <JRCaptureInterfaceDelegate>
 @end
 
-@implementation JRCaptureUserExtrasApidHandler
-+ (id)captureUserExtrasApidHandler
+@implementation JRCaptureUserApidHandler
++ (id)captureUserApidHandler
 {
-    return [[[JRCaptureUserExtrasApidHandler alloc] init] autorelease];
+    return [[[JRCaptureUserApidHandler alloc] init] autorelease];
 }
 
 - (void)createCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context
 {
+    DLog(@"");
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureUser   *captureUser   = [myContext objectForKey:@"captureUser"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    // TODO: Parse error out of result
     if ([delegate conformsToProtocol:@protocol(JRCaptureUserTesterDelegate)] &&
         [delegate respondsToSelector:@selector(createCaptureUser:didFailWithResult:context:)])
             [((id<JRCaptureUserTesterDelegate>)delegate) createCaptureUser:captureUser
@@ -50,6 +50,7 @@
 
 - (void)createCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
 {
+    DLog(@"");
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureUser   *captureUser   = [myContext objectForKey:@"captureUser"];
     NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
@@ -78,12 +79,12 @@
 
 - (void)getCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context
 {
+    DLog(@"");
     NSDictionary    *myContext     = (NSDictionary *)context;
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    // TODO: Parse error out of result
     if ([delegate respondsToSelector:@selector(fetchUserDidFailWithError:context:)])
         [delegate fetchUserDidFailWithError:[JRCaptureError errorFromResult:result] context:callerContext];
 
@@ -91,6 +92,7 @@
 
 - (void)getCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
 {
+    DLog(@"");
     NSDictionary    *myContext     = (NSDictionary *)context;
     NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
@@ -107,31 +109,31 @@
 
     JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:[resultDictionary objectForKey:@"result"]];
 
-    if ([delegate conformsToProtocol:@protocol(JRCaptureUserTesterDelegate)] &&
-        [delegate respondsToSelector:@selector(createCaptureUser:didSucceedWithResult:context:)])
-            [((id<JRCaptureUserTesterDelegate>)delegate) createCaptureUser:captureUser
-                                                      didSucceedWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
-                                                                   context:callerContext];
-    else if ([delegate respondsToSelector:@selector(createDidSucceedForUser:context:)])
-            [delegate createDidSucceedForUser:captureUser context:callerContext];
+    if ([delegate respondsToSelector:@selector(fetchUserDidSucceed:context:)])
+        [delegate fetchUserDidSucceed:captureUser context:callerContext];
 
 }
 
 - (void)getCaptureObjectDidFailWithResult:(NSObject *)result context:(NSObject *)context
 {
+    DLog(@"");
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureUser   *captureUser   = [myContext objectForKey:@"captureUser"];
+    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    // TODO: Parse error out of result
-    if ([delegate respondsToSelector:@selector(fetchLastUpdatedDidFailWithError:context:)])
-        [delegate fetchLastUpdatedDidFailWithError:[JRCaptureError errorFromResult:result] context:callerContext];
+    if ([capturePath isEqualToString:@"/lastUpdated"])
+    {
+        if ([delegate respondsToSelector:@selector(fetchLastUpdatedDidFailWithError:context:)])
+            [delegate fetchLastUpdatedDidFailWithError:[JRCaptureError errorFromResult:result] context:callerContext];
+    }
 }
 
 - (void)getCaptureObjectDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
 {
+    DLog(@"");
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureUser   *captureUser   = [myContext objectForKey:@"captureUser"];
     NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
@@ -149,8 +151,12 @@
 
     // TODO: Implement me!!!
 
-    if ([delegate respondsToSelector:@selector(fetchLastUpdatedDidSucceed:isOutdated:context:)])
-            [delegate fetchLastUpdatedDidSucceed:nil isOutdated:YES context:callerContext];
+    if ([capturePath isEqualToString:@"/lastUpdated"])
+    {
+        if ([delegate respondsToSelector:@selector(fetchLastUpdatedDidSucceed:isOutdated:context:)])
+                [delegate fetchLastUpdatedDidSucceed:nil isOutdated:YES context:callerContext];
+
+    }
 }
 @end
 
@@ -179,6 +185,7 @@
 
 - (void)createOnCaptureForDelegate:(id <JRCaptureUserDelegate>)delegate context:(NSObject *)context
 {
+    DLog(@"");
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureUser",
                                                      self.captureObjectPath, @"capturePath",
@@ -187,25 +194,26 @@
 
     [JRCaptureApidInterface createCaptureUser:[self toReplaceDictionaryIncludingArrays:YES]
                                     withToken:[JRCaptureData creationToken]
-                                  forDelegate:[JRCaptureUserExtrasApidHandler captureUserExtrasApidHandler]
+                                  forDelegate:[JRCaptureUserApidHandler captureUserApidHandler]
                                   withContext:newContext];
 }
 
 + (void)fetchCaptureUserFromServerForDelegate:(id <JRCaptureUserDelegate>)delegate context:(NSObject *)context
 {
+    DLog(@"");
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      @"/", @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureApidInterface getCaptureObjectAtPath:@"/"
-                                         withToken:[JRCaptureData accessToken]
-                                       forDelegate:[JRCaptureUserExtrasApidHandler captureUserExtrasApidHandler]
-                                       withContext:newContext];
+    [JRCaptureApidInterface getCaptureUserWithToken:[JRCaptureData accessToken]
+                                        forDelegate:[JRCaptureUserApidHandler captureUserApidHandler]
+                                        withContext:newContext];
 }
 
 - (void)fetchLastUpdatedFromServerForDelegate:(id <JRCaptureUserDelegate>)delegate context:(NSObject *)context
 {
+    DLog(@"");
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureUser",
                                                      @"/lastUpdated", @"capturePath",
@@ -214,7 +222,7 @@
 
     [JRCaptureApidInterface getCaptureObjectAtPath:@"/lastUpdated"
                                          withToken:[JRCaptureData accessToken]
-                                       forDelegate:[JRCaptureUserExtrasApidHandler captureUserExtrasApidHandler]
+                                       forDelegate:[JRCaptureUserApidHandler captureUserApidHandler]
                                        withContext:newContext];
 }
 

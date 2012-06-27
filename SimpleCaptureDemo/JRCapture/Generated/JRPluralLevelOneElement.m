@@ -83,6 +83,10 @@
 }
 @end
 
+@interface NSArray (PluralLevelOneElement_ArrayComparison)
+- (BOOL)isEqualToPluralLevelTwoArray:(NSArray *)otherArray;
+@end
+
 @implementation NSArray (PluralLevelOneElement_ArrayComparison)
 
 - (BOOL)isEqualToPluralLevelTwoArray:(NSArray *)otherArray

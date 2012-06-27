@@ -83,6 +83,10 @@
 }
 @end
 
+@interface NSArray (OnipinoL1Object_ArrayComparison)
+- (BOOL)isEqualToOnipinoL2PluralArray:(NSArray *)otherArray;
+@end
+
 @implementation NSArray (OnipinoL1Object_ArrayComparison)
 
 - (BOOL)isEqualToOnipinoL2PluralArray:(NSArray *)otherArray

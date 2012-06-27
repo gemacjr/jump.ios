@@ -6,15 +6,14 @@
 
 
 #import <Foundation/Foundation.h>
-#import "JRCaptureUser.h"
-#import "JRCaptureApidInterface.h"
+#import "JRCaptureUser+Extras.h"
 
 @protocol SharedDataDelegate <NSObject>
 - (void)getCaptureUserDidSucceedWithUser:(JRCaptureUser *)user;
 - (void)getCaptureUserDidFailWithResult:(NSString *)result;
 @end
 
-@interface SharedData : NSObject <JRCaptureInterfaceDelegate>
+@interface SharedData : NSObject <JRCaptureUserDelegate>
 + (JRCaptureUser *)sharedCaptureUser;
 + (void)getCaptureUserForDelegate:(id<SharedDataDelegate>)delegate;
 + (void)initializeCapture;

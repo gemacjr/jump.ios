@@ -51,18 +51,6 @@
 #import "JROnipinoL1Object.h"
 #import "JROinoinoL1Object.h"
 
-@interface NSArray (CaptureUser_ArrayComparison)
-- (BOOL)isEqualToBasicPluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToPluralTestUniqueArray:(NSArray *)otherArray;
-- (BOOL)isEqualToPluralTestAlphabeticArray:(NSArray *)otherArray;
-- (BOOL)isEqualToPinapL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOnipL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToPinapinapL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToPinonipL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOnipinapL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOinonipL1PluralArray:(NSArray *)otherArray;
-@end
-
 /**
  * @brief A JRCaptureUser object
  **/

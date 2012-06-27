@@ -472,6 +472,18 @@
 }
 @end
 
+@interface NSArray (CaptureUser_ArrayComparison)
+- (BOOL)isEqualToBasicPluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPluralTestUniqueArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPluralTestAlphabeticArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinapL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOnipL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinapinapL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinonipL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOnipinapL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOinonipL1PluralArray:(NSArray *)otherArray;
+@end
+
 @implementation NSArray (CaptureUser_ArrayComparison)
 
 - (BOOL)isEqualToBasicPluralArray:(NSArray *)otherArray

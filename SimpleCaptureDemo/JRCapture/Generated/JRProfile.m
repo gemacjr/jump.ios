@@ -399,6 +399,17 @@
 }
 @end
 
+@interface NSArray (Profile_ArrayComparison)
+- (BOOL)isEqualToAccountsArray:(NSArray *)otherArray;
+- (BOOL)isEqualToAddressesArray:(NSArray *)otherArray;
+- (BOOL)isEqualToEmailsArray:(NSArray *)otherArray;
+- (BOOL)isEqualToImsArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOrganizationsArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPhoneNumbersArray:(NSArray *)otherArray;
+- (BOOL)isEqualToProfilePhotosArray:(NSArray *)otherArray;
+- (BOOL)isEqualToUrlsArray:(NSArray *)otherArray;
+@end
+
 @implementation NSArray (Profile_ArrayComparison)
 
 - (BOOL)isEqualToAccountsArray:(NSArray *)otherArray

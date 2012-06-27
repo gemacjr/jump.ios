@@ -30,6 +30,10 @@
 #import "JRPinonipL1PluralElement.h"
 #import "JRPinonipL2Object.h"
 #import "JRPinonipL3PluralElement.h"
+#import "JRPluralTestAlphabeticElement.h"
+#import "JRPluralTestUniqueElement.h"
+#import "JRObjectTestRequired.h"
+#import "JRObjectTestRequiredUnique.h"
 
 @interface JROinoL1Object (TestCategory)
 - (BOOL)isEqualToOinoL1Object:(JROinoL1Object *)otherOinoL1Object;
@@ -189,5 +193,36 @@
 @interface JRPinonipL3PluralElement (TestCategory)
 - (BOOL)isEqualToPinonipL3PluralElement:(JRPinonipL3PluralElement *)otherPinonipL3PluralElement;
 + (id)pinonipL3PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+@end
+@interface JRPluralTestAlphabeticElement (TestCategory)
+- (BOOL)isEqualToPluralTestAlphabeticElement:(JRPluralTestAlphabeticElement *)otherPluralTestAlphabeticElement;
++ (id)pluralTestAlphabeticElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+@end
+
+@interface JRPluralTestUniqueElement (TestCategory)
+- (BOOL)isEqualToPluralTestUniqueElement:(JRPluralTestUniqueElement *)otherPluralTestUniqueElement;
++ (id)pluralTestUniqueElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+@end
+
+@interface JRObjectTestRequired (TestCategory)
+- (BOOL)isEqualToObjectTestRequired:(JRObjectTestRequired *)otherObjectTestRequired;
++ (id)objectTestRequiredObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+@end
+
+@interface JRObjectTestRequiredUnique (TestCategory)
+- (BOOL)isEqualToObjectTestRequiredUnique:(JRObjectTestRequiredUnique *)otherObjectTestRequiredUnique;
++ (id)objectTestRequiredUniqueObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+@end
+
+@interface NSArray (CaptureUser_ArrayComparison)
+- (BOOL)isEqualToBasicPluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPluralTestUniqueArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPluralTestAlphabeticArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinapL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOnipL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinapinapL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinonipL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOnipinapL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOinonipL1PluralArray:(NSArray *)otherArray;
 @end
 

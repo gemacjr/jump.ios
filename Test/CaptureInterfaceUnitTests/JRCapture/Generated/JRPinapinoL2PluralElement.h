@@ -34,10 +34,6 @@
 #import "JRNSDate+ISO8601_CaptureDateTimeString.h"
 #import "JRPinapinoL3PluralElement.h"
 
-@interface NSArray (PinapinoL2PluralElement_ArrayComparison)
-- (BOOL)isEqualToPinapinoL3PluralArray:(NSArray *)otherArray;
-@end
-
 /**
  * @brief A JRPinapinoL2PluralElement object
  **/
