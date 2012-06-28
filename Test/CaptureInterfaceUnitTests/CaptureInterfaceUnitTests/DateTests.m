@@ -14,9 +14,10 @@
 
 #import <GHUnitIOS/GHUnit.h>
 #import "SharedData.h"
-#import "JRCaptureUser+Extras.h"
+#import "JRCaptureObject+Internal.h"
+#import "JSONKit.h"
 
-@interface a5_DateTests : GHAsyncTestCase <JRCaptureObjectDelegate>
+@interface a5_DateTests : GHAsyncTestCase <JRCaptureObjectTesterDelegate>
 {
     JRCaptureUser *captureUser;
     NSDate *currentDate;
@@ -64,7 +65,7 @@
     GHAssertEqualStrings([captureUser.basicDate stringFromISO8601Date], [currentDate stringFromISO8601Date], nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -79,7 +80,7 @@
     GHAssertEqualStrings([captureUser.basicDate stringFromISO8601Date], @"2012-03-12", nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -137,7 +138,7 @@
     GHAssertNil(captureUser.basicDate, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -161,7 +162,7 @@
     GHAssertEqualStrings([captureUser.basicDate stringFromISO8601Date], @"2012-03-12", nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -174,7 +175,7 @@
     GHAssertNil(captureUser.basicDate, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 

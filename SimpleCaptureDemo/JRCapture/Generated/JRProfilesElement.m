@@ -37,7 +37,13 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JRProfilesElement.h"
+
+@interface JRProfile (ProfileInternalMethods)
++ (id)profileObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToProfile:(JRProfile *)otherProfile;
+@end
 
 @interface JRProfilesElement ()
 @property BOOL canBeUpdatedOrReplaced;
@@ -56,16 +62,6 @@
     JRJsonObject *_provider;
     NSString *_remote_key;
 }
-@dynamic profilesElementId;
-@dynamic accessCredentials;
-@dynamic domain;
-@dynamic followers;
-@dynamic following;
-@dynamic friends;
-@dynamic identifier;
-@dynamic profile;
-@dynamic provider;
-@dynamic remote_key;
 @synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)profilesElementId

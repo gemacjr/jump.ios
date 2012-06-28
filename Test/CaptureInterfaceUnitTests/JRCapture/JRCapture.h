@@ -41,74 +41,291 @@
  * TODO: write the doc
  **/
 
-typedef NSNumber JRString;  /**< TODO */
-typedef NSNumber JRBoolean; /**< TODO */
-typedef NSNumber JRInteger; /**< TODO */
-typedef NSNumber JRNumber; /**< TODO */
-typedef NSDate   JRDate; /**< TODO */
-typedef NSDate   JRDateTime; /**< TODO */
-typedef NSString JRIpAddress; /**< TODO */
-typedef NSObject JRPassword; /**< TODO */
-typedef NSObject JRJsonObject; /**< TODO */
-typedef NSArray  JRArray; /**< TODO */
-typedef NSArray  JRStringArray; /**< TODO */
-typedef NSString JRUuid; /**< TODO */
-typedef NSNumber JRObjectId; /**< TODO */
+#import <Foundation/Foundation.h>
+#import "JRCaptureObject.h"
+#import "JRCaptureUser.h"
+#import "JRCaptureError.h"
 
+typedef enum
+{
+    JRNativeSigninNone = 0,
+    JRNativeSigninUsernamePassword,
+    JRNativeSigninEmailPassword,
+} JRNativeSigninState;
+
+typedef enum
+{
+    JRCaptureRecordNewlyCreated, // now it exists, and it is new
+    JRCaptureRecordExists,//IsExisting, // present?? // already created, not new
+    JRCaptureRecordMissingRequiredFields, // not created, does not exist
+} JRCaptureRecordStatus; // RecordStatus perhaps?
+
+@class JRActivityObject;
+
+//@protocol JRCaptureAuthenticationDelegate;
+//@protocol JRCaptureSocialSharingDelegate;
+
+@protocol JRCaptureAuthenticationDelegate <NSObject>
+@optional
+/**
+ * Sent if the application tries to show a JREngage dialog, and JREngage failed to show.  May
+ * occur if the JREngage library failed to configure, or if the activity object was nil, etc.
+ *
+ * @param error
+ *   The error that occurred during configuration
+ *
+ * @note
+ * This message is only sent if your application tries to show a JREngage dialog, and not necessarily
+ * when an error occurs, if, say, the error occurred during the library's configuration.  The raison d'etre
+ * is based on the possibility that your application may preemptively configure JREngage, but never actually
+ * use it.  If that is the case, then you won't get any error.
+ **/
+- (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
+/*@}*/
+
+/**
+ * @name Authentication
+ * Messages sent by JREngage during authentication
+ **/
+/*@{*/
+
+/**
+ * Sent if the authentication was canceled for any reason other than an error.  For example,
+ * the user hits the "Cancel" button, any class (e.g., the %JREngage delegate) calls the
+ * cancelAuthentication message, or if configuration of the library is taking more than about
+ * 16 seconds (rare) to download.
+ **/
+- (void)jrAuthenticationDidNotComplete;
+
+/**
+// * Tells the delegate that the user has successfully authenticated with the given provider, passing to
+// * the delegate an \e NSDictionary object with the user's profile data.
+// *
+// * @param auth_info
+// *   An \e NSDictionary of fields containing all the information Janrain Engage knows about the user
+// *   logging into your application.  Includes the field \c "profile" which contains the user's profile information
+// *
+// * @param provider
+// *   The name of the provider on which the user authenticated.  For a list of possible strings,
+// *   please see the \ref basicProviders "List of Providers"
+// *
+// * @par Example:
+// *   The structure of the auth_info dictionary (represented here in json) should look something like
+// *   the following:
+// * @code
+// "auth_info":
+// {
+// "profile":
+// {
+// "displayName": "brian",
+// "preferredUsername": "brian",
+// "url": "http:\/\/brian.myopenid.com\/",
+// "providerName": "Other",
+// "identifier": "http:\/\/brian.myopenid.com\/"
+// }
+// }
+// * @endcode
+// *
+// *
+// * @sa
+// * For a full description of the dictionary and its fields, please see the
+// * <a href="http://documentation.janrain.com/engage/api/auth_info">auth_info response</a>
+// * section of the Janrain Engage API documentation.
+ **/
+- (void)jrAuthenticationDidSucceedForUser:(JRCaptureUser*)captureUser withToken:(NSString *)captureToken
+                                andStatus:(JRCaptureRecordStatus)status;
+
+/**
+ * Sent when authentication failed and could not be recovered by the library.
+ *
+ * @param error
+ *   The error that occurred during authentication
+ *
+ * @param provider
+ *   The name of the provider on which the user tried to authenticate.  For a list of possible strings,
+ *   please see the \ref basicProviders "List of Providers"
+ *
+ * @note
+ * This message is not sent if authentication was canceled.  To be notified of a canceled authentication,
+ * see jrAuthenticationDidNotComplete().
+ **/
+- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+@end
+
+@protocol JRCaptureSocialSharingDelegate <NSObject>
+@optional
+/**
+ * @name SocialPublishing
+ * Messages sent by JREngage during social publishing
+ **/
+/*@{*/
+
+/**
+ * Sent if social publishing was canceled for any reason other than an error.  For example,
+ * the user hits the "Cancel" button, any class (e.g., the %JREngage delegate) calls the cancelPublishing
+ * message, or if configuration of the library is taking more than about 16 seconds (rare) to download.
+ **/
+- (void)jrSocialDidNotCompletePublishing;
+
+/**
+ * Sent after the social publishing dialog is closed (e.g., the user hits the "Close" button) and publishing
+ * is complete. You can receive multiple jrSocialDidPublishActivity:forProvider:()
+ * messages before the dialog is closed and publishing is complete.
+ **/
+- (void)jrSocialDidCompletePublishing;
+
+/**
+ * Sent after the user successfully shares an activity on the given provider.
+ *
+ * @param activity
+ *   The shared activity
+ *
+ * @param provider
+ *   The name of the provider on which the user published the activity.  For a list of possible strings,
+ *   please see the \ref socialProviders "List of Social Providers"
+ **/
+- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
+
+/**
+ * Sent when publishing an activity failed and could not be recovered by the library.
+ *
+ * @param activity
+ *   The activity the user was trying to share
+ *
+ * @param error
+ *   The error that occurred during publishing
+ *
+ * @param provider
+ *   The name of the provider on which the user attempted to publish the activity.  For a list of possible strings,
+ *   please see the \ref socialProviders "List of Social Providers"
+ **/
+- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+/*@}*/
 
 
 /**
- * @page Types
- * Capture and Objective-C Types
- *
-@anchor types
-@htmlonly
-<table border="1px solid black">
-<tr><b><td>Schema Type  </td><td>Json Type         </td><td>Obj-C Type   </td><td>JRCapture Type            </td><td>Recursive  </td><td>Typedeffed  </td><td>Can Change  </td><td>Notes  </td></b></tr>
-<tr><td>string          </td><td>String            </td><td>NSString     </td><td>NSString                  </td><td>           </td><td>No          </td><td>            </td><td>       </td></tr>
-<tr><td>boolean         </td><td>Boolean           </td><td>NSNumber     </td><td>JRBoolean                 </td><td>           </td><td>Yes         </td><td>            </td><td>       </td></tr>
-<tr><td>integer         </td><td>Number            </td><td>NSNumber     </td><td>JRInteger                 </td><td>           </td><td>Yes         </td><td>            </td><td>       </td></tr>
-<tr><td>decimal         </td><td>Number            </td><td>NSNumber     </td><td>NSNumber                  </td><td>           </td><td>No          </td><td>            </td><td>       </td></tr>
-<tr><td>date            </td><td>String            </td><td>NSDate       </td><td>JRDate                    </td><td>           </td><td>Yes         </td><td>            </td><td>       </td></tr>
-<tr><td>dateTime        </td><td>String            </td><td>NSDate       </td><td>JRDateTime                </td><td>           </td><td>Yes         </td><td>            </td><td>       </td></tr>
-<tr><td>ipAddress       </td><td>String            </td><td>NSString     </td><td>JRIpAddress               </td><td>           </td><td>Yes         </td><td>            </td><td>       </td></tr>
-<tr><td>password        </td><td>String or Object  </td><td>NSObject     </td><td>JRPassword                </td><td>           </td><td>Yes         </td><td>            </td><td>       </td></tr>
-<tr><td>JSON            </td><td>(any type)        </td><td>NSObject     </td><td>JRJsonObject              </td><td>           </td><td>Yes         </td><td>            </td><td>The JSON type is unstructured data; it only has to be valid parseable JSON.</td></tr>
-<tr><td>plural          </td><td>Array             </td><td>NSArray      </td><td>NSArray or JRSimpleArray  </td><td>Yes        </td><td>No/Yes      </td><td>            </td><td>Primitive child attributes of plurals may have the constraint locally-unique.</td></tr>
-<tr><td>object          </td><td>Object            </td><td>NSObject     </td><td>JR<PropertyName           </td><td>Yes        </td><td>No          </td><td>            </td><td>       </td></tr>
-<tr><td>uuid            </td><td>String            </td><td>NSString     </td><td>JRUuid                    </td><td>           </td><td>Yes         </td><td>            </td><td>Not an externally usable type.</td></tr>
-<tr><td>id              </td><td>Number            </td><td>NSNumber     </td><td>JRObjectId                </td><td>           </td><td>Yes         </td><td>            </td><td>Not an externally usable type.</td></tr>
-</table>
-@endhtmlonly
- *
+ * Sent if the authentication was canceled for any reason other than an error.  For example,
+ * the user hits the "Cancel" button, any class (e.g., the %JREngage delegate) calls the
+ * cancelAuthentication message, or if configuration of the library is taking more than about
+ * 16 seconds (rare) to download.
  **/
-
-#import <Foundation/Foundation.h>
-#import "JRCaptureInternal.h"
-#import "JRCaptureObject.h"
-
-//@interface JRDate : NSDate
-//+ (JRDate *)dateFromISO8601DateString:(NSString *)dateString;
-//- (NSString *)stringFromISO8601Date;
-//@end
-//
-//@interface JRDateTime : NSDate
-//+ (JRDateTime *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
-//- (NSString *)stringFromISO8601DateTime;
-//@end
-
-@interface NSDate (CaptureDateTime)
-+ (NSDate *)dateFromISO8601DateString:(NSString *)dateString;
-+ (NSDate *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
-- (NSString *)stringFromISO8601Date;
-- (NSString *)stringFromISO8601DateTime;
+- (void)jrAuthenticationDidNotComplete;
 @end
 
 @interface JRCapture : NSObject
-//+ (id)captureProfilesObjectFromEngageAuthInfo:(NSDictionary *)engageAuthInfo;
+
 + (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
                    clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName;
+
++ (void)setEngageAppId:(NSString *)appId;
+
++ (void)setEngageAppId:(NSString *)appId captureApiDomain:(NSString *)newCaptureApidDomain
+       captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId
+     andEntityTypeName:(NSString *)newEntityTypeName;
+
 + (NSString *)captureMobileEndpointUrl;
 + (void)setAccessToken:(NSString *)newAccessToken;
 + (void)setCreationToken:(NSString *)newCreationToken;
+
+
+/**
+ * @name Show the JREngage Dialogs
+ * Methods that display JREngage's dialogs to initiate authentication and social publishing
+ **/
+/*@{*/
+
+/**
+ * Use this function to begin authentication.  The JREngage library will
+ * pop up a modal dialog and take the user through the sign-in process.
+ **/
++ (void)startAuthenticationForDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
+
++ (void)startAuthenticationWithNativeSignin:(JRNativeSigninState)nativeSigninState
+                                forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
+
+/**
+ * Use this function to begin authentication for one specific provider.  The JREngage library will
+ * pop up a modal dialog, skipping the list of providers, and take the user straight to the sign-in
+ * flow of the passed provider.  The user will not be able to return to the list of providers.
+ *
+ * @param provider
+ *   The name of the provider on which the user will authenticate.  For a list of possible strings,
+ *   please see the \ref basicProviders "List of Providers"
+ **/
++ (void)startAuthenticationDialogOnProvider:(NSString*)provider
+                                forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
+
+/**
+ * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,
+ * configured with the given custom interface, and take the user through the sign-in process.
+ *
+ * @param customInterfaceOverrides
+ *   A dictionary of objects and properties, indexed by the set of
+ *   \link customInterface pre-defined custom interface keys\endlink,
+ *   to be used by the library to customize the look and feel of the user
+ *   interface and/or add a native login experience
+ *
+ * @note
+ * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
+ * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
+ **/
++ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninState)nativeSigninState
+                      andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+                                      forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
+
+/**
+* Use this function to begin authentication.  The JREngage library will pop up a modal dialog, configured
+* with the given custom interface and skipping the list of providers, and take the user straight to the sign-in
+* flow of the passed provider.  The user will not be able to return to the list of providers.
+*
+* @param provider
+*   The name of the provider on which the user will authenticate.  For a list of possible strings,
+*   please see the \ref basicProviders "List of Providers"
+*
+* @param customInterfaceOverrides
+*   A dictionary of objects and properties, indexed by the set of
+*   \link customInterface pre-defined custom interface keys\endlink,
+*   to be used by the library to customize the look and feel of the user
+*   interface and/or add a native login experience
+*
+* @note
+* Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
+* values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
+**/
++ (void)startAuthenticationDialogOnProvider:(NSString*)provider
+               withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+                                forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
+
+/**
+ * Use this function to begin social publishing. The JREngage library will pop up a modal dialog and
+ * take the user through the sign-in process, if necessary, and share the given JRActivityObject.
+ *
+ * @param activity
+ *   The activity you wish to share
+ **/
++ (void)startSocialPublishingDialogWithActivity:(JRActivityObject*)activity
+                                    forDelegate:(id<JRCaptureSocialSharingDelegate>)delegate;
+
+/**
+ * Use this function to begin social publishing.  The JREngage library will pop up a modal dialog,
+ * configured with the given custom interface, take the user through the sign-in process,
+ * if necessary, and share the given JRActivityObject.
+ *
+ * @param activity
+ *   The activity you wish to share
+ *
+ * @param customInterfaceOverrides
+ *   A dictionary of objects and properties, indexed by the set of
+ *   \link customInterface pre-defined custom interface keys\endlink,
+ *   to be used by the library to customize the look and feel of the user
+ *   interface and/or add a native login experience
+ *
+ * @note
+ * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
+ * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
+ **/
++ (void)startSocialPublishingDialogWithActivity:(JRActivityObject*)activity
+                   withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+                                    forDelegate:(id<JRCaptureSocialSharingDelegate>)delegate;
+
 @end

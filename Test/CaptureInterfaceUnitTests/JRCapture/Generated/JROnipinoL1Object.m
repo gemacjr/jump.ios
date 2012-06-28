@@ -37,7 +37,13 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JROnipinoL1Object.h"
+
+@interface JROnipinoL2PluralElement (OnipinoL2PluralElementInternalMethods)
++ (id)onipinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToOnipinoL2PluralElement:(JROnipinoL2PluralElement *)otherOnipinoL2PluralElement;
+@end
 
 @interface NSArray (OnipinoL2PluralToFromDictionary)
 - (NSArray*)arrayOfOnipinoL2PluralElementsFromOnipinoL2PluralDictionariesWithPath:(NSString*)capturePath;
@@ -77,6 +83,10 @@
 }
 @end
 
+@interface NSArray (OnipinoL1Object_ArrayComparison)
+- (BOOL)isEqualToOnipinoL2PluralArray:(NSArray *)otherArray;
+@end
+
 @implementation NSArray (OnipinoL1Object_ArrayComparison)
 
 - (BOOL)isEqualToOnipinoL2PluralArray:(NSArray *)otherArray
@@ -101,9 +111,6 @@
     NSString *_string2;
     NSArray *_onipinoL2Plural;
 }
-@dynamic string1;
-@dynamic string2;
-@dynamic onipinoL2Plural;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)string1

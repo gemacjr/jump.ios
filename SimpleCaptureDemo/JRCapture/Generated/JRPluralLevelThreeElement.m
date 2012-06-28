@@ -37,6 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JRPluralLevelThreeElement.h"
 
 @interface JRPluralLevelThreeElement ()
@@ -49,9 +50,6 @@
     NSString *_level;
     NSString *_name;
 }
-@dynamic pluralLevelThreeElementId;
-@dynamic level;
-@dynamic name;
 @synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)pluralLevelThreeElementId

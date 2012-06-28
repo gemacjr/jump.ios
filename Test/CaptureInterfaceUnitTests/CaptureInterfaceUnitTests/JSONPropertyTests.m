@@ -14,9 +14,10 @@
 
 #import <GHUnitIOS/GHUnit.h>
 #import "SharedData.h"
-#import "JRCaptureUser+Extras.h"
+#import "JRCaptureObject+Internal.h"
+#import "JSONKit.h"
 
-@interface a8_JSONPropertyTests : GHAsyncTestCase <JRCaptureObjectDelegate>
+@interface a8_JSONPropertyTests : GHAsyncTestCase <JRCaptureObjectTesterDelegate>
 {
     JRCaptureUser *captureUser;
 }
@@ -57,7 +58,7 @@
     GHAssertEquals([((NSNumber*)captureUser.jsonNumber) boolValue], YES, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -70,7 +71,7 @@
     GHAssertEquals([((NSNumber *)captureUser.jsonNumber) intValue], 100, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -83,7 +84,7 @@
     GHAssertEquals([((NSNumber *)captureUser.jsonNumber) intValue], 100.1, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -96,7 +97,7 @@
     GHAssertEqualStrings(captureUser.jsonString, @"basic string", nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -111,7 +112,7 @@
     GHAssertTrue([((NSArray *)captureUser.jsonArray) isEqualToArray:array], nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -123,7 +124,7 @@
     GHAssertEqualStrings(captureUser.jsonArray, @"[\"one\",\"two\",\"three\"]", nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -141,7 +142,7 @@
     GHAssertTrue([((NSDictionary *)captureUser.jsonDictionary) isEqualToDictionary:dictionary], nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -153,7 +154,7 @@
     GHAssertEqualStrings(captureUser.jsonDictionary, @"{\"name\":\"stringTestJson\",\"id\":5,\"somePlural\":[\"one\",\"two\",\"three\"]}", nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -166,7 +167,7 @@
     GHAssertNil(captureUser.jsonString, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -179,7 +180,7 @@
     GHAssertEqualStrings(captureUser.jsonString, @"", nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -192,7 +193,7 @@
     GHAssertEqualStrings(captureUser.jsonString, @"!@#$%^&*()<>?/\\;:\'\",.", nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -218,7 +219,7 @@
     GHAssertTrue([((NSArray *)captureUser.jsonArray) isEqualToArray:newArray], nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -232,7 +233,7 @@
     //GHAssertEqualStrings(captureUser.jsonString, @"!@#$%^&*()<>?/\\;:\'\",.", nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 

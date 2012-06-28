@@ -457,6 +457,7 @@ sub recursiveParse {
   my $propertiesSection          = "";
   my $privateIvarsSection        = "";
   my $arrayCategoriesSection     = "";
+  my $objectCategoriesSection    = "";
   my $synthesizeSection          = ""; # Well, now it's all dynamic, but the section is still needed
   my $getterSettersSection       = "";
   my $replaceArrayIntfSection    = "";
@@ -1045,13 +1046,14 @@ sub recursiveParse {
           $propertyName = $objectName . ucfirst($propertyName);
         }
         
-        $extraImportsSection    .= "#import \"JR" . ucfirst($propertyName) . "Element.h\"\n";
-        $arrayCategoriesSection .= createArrayCategoryForSubobject ($propertyName);
         $toDictionary    = "[self." . $propertyName . " arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Elements]";
         $toRplDictionary = "[self." . $propertyName . " arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Elements]";
         $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:" . $objectName . ".captureObjectPath]";
         $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:self.captureObjectPath]";
 
+        $extraImportsSection     .= "#import \"JR" . ucfirst($propertyName) . "Element.h\"\n";
+        $objectCategoriesSection .= createObjectCategoryForSubobject ($propertyName . "Element", 1);
+        $arrayCategoriesSection  .= createArrayCategoryForSubobject ($propertyName);
         $arrayCompareIntfSection .= getArrayComparisonDeclaration($propertyName);
         $arrayCompareImplSection .= getArrayComparisonImplementation($propertyName);        
 
@@ -1093,6 +1095,8 @@ sub recursiveParse {
       $isEqualMethod   = "isEqualTo" . ucfirst($propertyName) . ":";        
 
       $extraImportsSection .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
+      
+      $objectCategoriesSection .= createObjectCategoryForSubobject ($propertyName, 0);
 
       ######## AND RECURSE!! ########
       recursiveParse ($propertyName, $propertyAttrDefsRef, $objectPath, $pathName, $NOT_PLURAL_ELEMENT, $hasPluralParent, $propertyDesc);
@@ -1462,18 +1466,14 @@ sub recursiveParse {
   # Add the imports ...
   ##########################################################################
   $hFile .= "#import <Foundation/Foundation.h>\n#import \"JRCaptureObject.h\"\n" .
-            "#import \"JRCaptureTypes.h\"\n#import \"NSDate+ISO8601_CaptureDateTimeString.h\"\n";
+            "#import \"JRCaptureTypes.h\"\n#import \"JRNSDate+ISO8601_CaptureDateTimeString.h\"\n";
             
   
   ##########################################################################
   # Add any extra imports ...
   ##########################################################################
   $hFile .= $extraImportsSection . "\n";
-  
-  if ($arrayCompareIntfSection ne "") {
-    $hFile .= "\@interface NSArray (" . ucfirst($objectName) . "_ArrayComparison)\n$arrayCompareIntfSection\@end\n\n";
-  }
-     
+       
   for (my $i = 0; $i < @doxygenClassDescSection; $i++) { $hFile .= $doxygenClassDescSection[$i]; }
   
   ##########################################################################
@@ -1502,26 +1502,26 @@ sub recursiveParse {
     $hFile .= "$classConstructorSection[0]$classConstructorSection[1]$classConstructorSection[2];\n\n";
   }
   
-  for (my $i = 0; $i < @objFromDictDocSection; $i++) { $hFile .= $objFromDictDocSection[$i]; }
-  $hFile .= "$objFromDictSection[0]$objFromDictSection[1]$objFromDictSection[2];\n";
+  #for (my $i = 0; $i < @objFromDictDocSection; $i++) { $hFile .= $objFromDictDocSection[$i]; }
+  #$hFile .= "$objFromDictSection[0]$objFromDictSection[1]$objFromDictSection[2];\n";
   $hFile .= "/*\@}*/\n\n";
 
 
-  $hFile .= "/**\n * \@name Dictionary Serialization/Deserialization\n **/\n/*\@{*/\n";
-  for (my $i = 0; $i < @dictFromObjectDocSection; $i++) { $hFile .= $dictFromObjectDocSection[$i]; }
-  $hFile .= "$dictFromObjSection[0];\n\n";
-  for (my $i = 0; $i < @updateFrDictDocSection; $i++) { $hFile .= $updateFrDictDocSection[$i]; }
-  $hFile .= "$updateFromDictSection[0];\n\n";
-  for (my $i = 0; $i < @replaceFrDictDocSection; $i++) { $hFile .= $replaceFrDictDocSection[$i]; }
-  $hFile .= "$replaceFromDictSection[0];\n";
-  $hFile .= "/*\@}*/\n\n";
+  #$hFile .= "/**\n * \@name Dictionary Serialization/Deserialization\n **/\n/*\@{*/\n";
+  #for (my $i = 0; $i < @dictFromObjectDocSection; $i++) { $hFile .= $dictFromObjectDocSection[$i]; }
+  #$hFile .= "$dictFromObjSection[0];\n\n";
+  #for (my $i = 0; $i < @updateFrDictDocSection; $i++) { $hFile .= $updateFrDictDocSection[$i]; }
+  #$hFile .= "$updateFromDictSection[0];\n\n";
+  #for (my $i = 0; $i < @replaceFrDictDocSection; $i++) { $hFile .= $replaceFrDictDocSection[$i]; }
+  #$hFile .= "$replaceFromDictSection[0];\n";
+  #$hFile .= "/*\@}*/\n\n";
 
-  $hFile .= "/**\n * \@name Object Introspection\n **/\n/*\@{*/\n";
-  for (my $i = 0; $i < @isEqualObjectDocSection; $i++) { $hFile .= $isEqualObjectDocSection[$i]; }
-  $hFile .= "$isEqualObjectSection[0]$isEqualObjectSection[1];\n";
-  for (my $i = 0; $i < @objectPropertiesDocSection; $i++) { $hFile .= $objectPropertiesDocSection[$i]; }
-  $hFile .= "$objectPropertiesSection[0];\n";
-  $hFile .= "/*\@}*/\n\n";
+  #$hFile .= "/**\n * \@name Object Introspection\n **/\n/*\@{*/\n";
+  #for (my $i = 0; $i < @isEqualObjectDocSection; $i++) { $hFile .= $isEqualObjectDocSection[$i]; }
+  #$hFile .= "$isEqualObjectSection[0]$isEqualObjectSection[1];\n";
+  #for (my $i = 0; $i < @objectPropertiesDocSection; $i++) { $hFile .= $objectPropertiesDocSection[$i]; }
+  #$hFile .= "$objectPropertiesSection[0];\n";
+  #$hFile .= "/*\@}*/\n\n";
 
 
   $hFile .= "/**\n * \@name Manage Remotely \n **/\n/*\@{*/";
@@ -1529,7 +1529,6 @@ sub recursiveParse {
   for (my $i = 0; $i < @needsUpdateDocSection; $i++) { $hFile .= $needsUpdateDocSection[$i]; }
   $hFile .= "$needsUpdateSection[0];\n";
   $hFile .= "/*\@}*/\n\n";
-
   
   if (@booleanProperties || @integerProperties) {
     my $total = @booleanProperties + @integerProperties;
@@ -1571,15 +1570,20 @@ sub recursiveParse {
   $mFile .= "#else\n#define DLog(...)\n#endif\n\n#define ALog(fmt, ...) NSLog((\@\"\%s [Line \%d] \" fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)\n\n";
 
   ##########################################################################
-  # Import the header
+  # Import the headers
   ##########################################################################
-  $mFile .= "\n#import \"$className.h\"\n\n";
+  $mFile .= "\n#import \"JRCaptureObject+Internal.h\"\n#import \"$className.h\"\n\n";
 
   ##########################################################################
   # Add any of the array categories, if needed to parse an array of objects
   ##########################################################################
+  $mFile .= $objectCategoriesSection;
   $mFile .= $arrayCategoriesSection;
-  
+    
+  if ($arrayCompareIntfSection ne "") {
+    $mFile .= "\@interface NSArray (" . ucfirst($objectName) . "_ArrayComparison)\n$arrayCompareIntfSection\@end\n\n";
+  }
+
   if ($arrayCompareImplSection ne "") {
     $mFile .= "\@implementation NSArray (" . ucfirst($objectName) . "_ArrayComparison)\n$arrayCompareImplSection\@end\n\n";
   }
@@ -1592,7 +1596,7 @@ sub recursiveParse {
   $mFile .= "\@end\n\n";
   $mFile .= "\@implementation $className\n";
   $mFile .= "{\n" . $privateIvarsSection . "}\n";
-  $mFile .= $synthesizeSection;
+  #$mFile .= $synthesizeSection;
   $mFile .= "\@synthesize canBeUpdatedOrReplaced;\n\n";
   $mFile .= $getterSettersSection;
   
@@ -1752,7 +1756,9 @@ unless (-d "$pathToOutputDir/$genDir") {
 
 if ($usingCustomOutputDir) {
   my $copyResult = `cp ../Classes/JR* $pathToOutputDir 2>&1`;
-  $copyResult = `cp ../Classes/APIDInterface/JR* $pathToOutputDir 2>&1`;
+  $copyResult   .= `cp ../Classes/APIDInterface/JR* $pathToOutputDir 2>&1`;
+  $copyResult   .= `cp ../Classes/EngageWrapper/JR* $pathToOutputDir 2>&1`;
+  $copyResult   .= `cp ../Classes/WebviewWrapper/JR* $pathToOutputDir 2>&1`;
   if ($copyResult) {
     die "[ERROR] Unable to copy necessary files to the '$pathToOutputDir': $copyResult\n\n";
   }

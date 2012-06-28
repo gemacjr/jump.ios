@@ -37,6 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JRGamesElement.h"
 
 @interface JRGamesElement ()
@@ -51,11 +52,6 @@
     JRStringArray *_opponents;
     JRInteger *_rating;
 }
-@dynamic gamesElementId;
-@dynamic isFavorite;
-@dynamic name;
-@dynamic opponents;
-@dynamic rating;
 @synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)gamesElementId

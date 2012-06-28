@@ -23,9 +23,10 @@
 
 #import <GHUnitIOS/GHUnit.h>
 #import "SharedData.h"
-#import "JRCaptureUser+Extras.h"
+#import "JRCaptureObject+Internal.h"
+#import "JSONKit.h"
 
-@interface b1_StringPluralTests : GHAsyncTestCase <JRCaptureObjectDelegate>
+@interface b1_StringPluralTests : GHAsyncTestCase <JRCaptureObjectTesterDelegate>
 {
     JRCaptureUser *captureUser;
     NSArray       *currentPlural;
@@ -188,7 +189,7 @@
     GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:_fsel];
+    [captureUser updateOnCaptureForDelegate:self context:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 

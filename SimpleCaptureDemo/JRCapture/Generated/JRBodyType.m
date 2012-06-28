@@ -37,6 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JRBodyType.h"
 
 @interface JRBodyType ()
@@ -51,11 +52,6 @@
     NSString *_hairColor;
     NSNumber *_height;
 }
-@dynamic build;
-@dynamic color;
-@dynamic eyeColor;
-@dynamic hairColor;
-@dynamic height;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)build

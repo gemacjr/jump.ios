@@ -14,9 +14,11 @@
 
 #import <GHUnitIOS/GHUnit.h>
 #import "SharedData.h"
-#import "JRCaptureUser+Extras.h"
+#import "ClassCategories.h"
+#import "JRCaptureObject+Internal.h"
+#import "JSONKit.h"
 
-@interface c1_ConstraintsTests : GHAsyncTestCase <JRCaptureObjectDelegate>
+@interface c1_ConstraintsTests : GHAsyncTestCase <JRCaptureObjectTesterDelegate>
 {
     JRCaptureUser *captureUser;
     NSArray  *currentPlural;
@@ -103,7 +105,7 @@
     captureUser.objectTestRequired = jrotr;
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -116,7 +118,7 @@
     captureUser.objectTestRequired = jrotr;
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -136,7 +138,7 @@
     captureUser.stringTestAlphanumeric = @"abc123";
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -145,7 +147,7 @@
     captureUser.stringTestAlphanumeric = @"!@#$%^&*()";
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -178,7 +180,7 @@
     captureUser.stringTestUnicodeLetters = @"\u0393"; // greek letter gamma
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -187,7 +189,7 @@
     captureUser.stringTestUnicodeLetters = @"\u2615";
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -197,7 +199,7 @@
     captureUser.stringTestUnicodePrintable = @"\u2615";
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -216,7 +218,7 @@
     captureUser.stringTestUnicodePrintable = @"\x11"; // XON control character
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -226,7 +228,7 @@
     captureUser.stringTestEmailAddress = @"Rδοκιμή123abc.def+ghi@a.abπαράδειγμα.δοκιμή";
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -235,7 +237,7 @@
     captureUser.stringTestEmailAddress = @"anemone";
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -345,11 +347,11 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
     {
         if ([testSelectorString isEqualToString:@"test_c101_pluralUniqueCreateValid"])
         {
-            GHAssertTrue([newArray isEqualToOtherPluralTestUniqueArray:currentPlural], nil);
+            GHAssertTrue([newArray isEqualToPluralTestUniqueArray:currentPlural], nil);
         }
         else if ([testSelectorString isEqualToString:@"test_c131_stringAlphabetic"])
         {
-            GHAssertTrue([newArray isEqualToOtherPluralTestAlphabeticArray:currentPlural], nil);
+            GHAssertTrue([newArray isEqualToPluralTestAlphabeticArray:currentPlural], nil);
         }
         else
         {

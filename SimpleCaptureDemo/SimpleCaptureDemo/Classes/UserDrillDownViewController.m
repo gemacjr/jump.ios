@@ -31,6 +31,7 @@
 
 #import <objc/runtime.h>
 #import "UserDrillDownViewController.h"
+#import "JRCaptureObject+Internal.h"
 
 
 #ifdef DEBUG
@@ -366,7 +367,7 @@ typedef enum
 //    if (parentCaptureObject)
 //        [parentCaptureObject updateObjectOnCaptureForDelegate:self withContext:nil];
 //    else
-        [captureObject updateObjectOnCaptureForDelegate:self withContext:nil];
+        [captureObject updateOnCaptureForDelegate:self context:nil];
 }
 
 - (void)updateCaptureEntity:(JRCaptureObject *)entity didFailWithResult:(NSString *)result

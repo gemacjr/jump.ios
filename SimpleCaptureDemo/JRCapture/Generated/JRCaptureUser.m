@@ -37,7 +37,53 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JRCaptureUser.h"
+
+@interface JRGamesElement (GamesElementInternalMethods)
++ (id)gamesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToGamesElement:(JRGamesElement *)otherGamesElement;
+@end
+
+@interface JRObjectLevelOne (ObjectLevelOneInternalMethods)
++ (id)objectLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToObjectLevelOne:(JRObjectLevelOne *)otherObjectLevelOne;
+@end
+
+@interface JROnipLevelOneElement (OnipLevelOneElementInternalMethods)
++ (id)onipLevelOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToOnipLevelOneElement:(JROnipLevelOneElement *)otherOnipLevelOneElement;
+@end
+
+@interface JRPhotosElement (PhotosElementInternalMethods)
++ (id)photosElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPhotosElement:(JRPhotosElement *)otherPhotosElement;
+@end
+
+@interface JRPinoLevelOne (PinoLevelOneInternalMethods)
++ (id)pinoLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPinoLevelOne:(JRPinoLevelOne *)otherPinoLevelOne;
+@end
+
+@interface JRPluralLevelOneElement (PluralLevelOneElementInternalMethods)
++ (id)pluralLevelOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPluralLevelOneElement:(JRPluralLevelOneElement *)otherPluralLevelOneElement;
+@end
+
+@interface JRPrimaryAddress (PrimaryAddressInternalMethods)
++ (id)primaryAddressObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPrimaryAddress:(JRPrimaryAddress *)otherPrimaryAddress;
+@end
+
+@interface JRProfilesElement (ProfilesElementInternalMethods)
++ (id)profilesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToProfilesElement:(JRProfilesElement *)otherProfilesElement;
+@end
+
+@interface JRStatusesElement (StatusesElementInternalMethods)
++ (id)statusesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToStatusesElement:(JRStatusesElement *)otherStatusesElement;
+@end
 
 @interface NSArray (GamesToFromDictionary)
 - (NSArray*)arrayOfGamesElementsFromGamesDictionariesWithPath:(NSString*)capturePath;
@@ -267,6 +313,15 @@
 }
 @end
 
+@interface NSArray (CaptureUser_ArrayComparison)
+- (BOOL)isEqualToGamesArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOnipLevelOneArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPhotosArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPluralLevelOneArray:(NSArray *)otherArray;
+- (BOOL)isEqualToProfilesArray:(NSArray *)otherArray;
+- (BOOL)isEqualToStatusesArray:(NSArray *)otherArray;
+@end
+
 @implementation NSArray (CaptureUser_ArrayComparison)
 
 - (BOOL)isEqualToGamesArray:(NSArray *)otherArray
@@ -373,36 +428,6 @@
     JRIpAddress *_testerIpAddr;
     JRStringArray *_testerStringPlural;
 }
-@dynamic captureUserId;
-@dynamic uuid;
-@dynamic created;
-@dynamic lastUpdated;
-@dynamic aboutMe;
-@dynamic birthday;
-@dynamic currentLocation;
-@dynamic display;
-@dynamic displayName;
-@dynamic email;
-@dynamic emailVerified;
-@dynamic familyName;
-@dynamic games;
-@dynamic gender;
-@dynamic givenName;
-@dynamic lastLogin;
-@dynamic middleName;
-@dynamic objectLevelOne;
-@dynamic onipLevelOne;
-@dynamic password;
-@dynamic photos;
-@dynamic pinoLevelOne;
-@dynamic pluralLevelOne;
-@dynamic primaryAddress;
-@dynamic profiles;
-@dynamic statuses;
-@dynamic testerBoolean;
-@dynamic testerInteger;
-@dynamic testerIpAddr;
-@dynamic testerStringPlural;
 @synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)captureUserId

@@ -37,6 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JRPrimaryAddress.h"
 
 @interface JRPrimaryAddress ()
@@ -56,16 +57,6 @@
     NSString *_zip;
     NSString *_zipPlus4;
 }
-@dynamic address1;
-@dynamic address2;
-@dynamic city;
-@dynamic company;
-@dynamic country;
-@dynamic mobile;
-@dynamic phone;
-@dynamic stateAbbreviation;
-@dynamic zip;
-@dynamic zipPlus4;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)address1

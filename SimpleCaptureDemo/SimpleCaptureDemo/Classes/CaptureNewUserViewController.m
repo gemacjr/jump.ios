@@ -43,6 +43,7 @@
 
 #import "CaptureNewUserViewController.h"
 #import "SharedData.h"
+#import "JRCaptureObject+Internal.h"
 
 @interface CaptureNewUserViewController ()
 //@property (nonatomic, retain) NSMutableDictionary *engageUser;
@@ -223,7 +224,7 @@
 //        [captureUser createForDelegate:self];
 //    else if ([captureUser accessToken])
 //        [captureUser updateForDelegate:self];
-    [captureUser createUserOnCaptureForDelegate:self withContext:nil];
+    [captureUser createOnCaptureForDelegate:self context:nil];
 }
 
 #define LOCATION_TEXT_VIEW_TAG 10

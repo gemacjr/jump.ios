@@ -29,7 +29,9 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
-#import "JRCapture.h"
+#import "JRCaptureObject.h"
+#import "JRCaptureTypes.h"
+#import "JRNSDate+ISO8601_CaptureDateTimeString.h"
 #import "JRBasicPluralElement.h"
 #import "JRBasicObject.h"
 #import "JRObjectTestRequired.h"
@@ -48,18 +50,6 @@
 #import "JROinonipL1PluralElement.h"
 #import "JROnipinoL1Object.h"
 #import "JROinoinoL1Object.h"
-
-@interface NSArray (CaptureUser_ArrayComparison)
-- (BOOL)isEqualToBasicPluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToPluralTestUniqueArray:(NSArray *)otherArray;
-- (BOOL)isEqualToPluralTestAlphabeticArray:(NSArray *)otherArray;
-- (BOOL)isEqualToPinapL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOnipL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToPinapinapL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToPinonipL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOnipinapL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOinonipL1PluralArray:(NSArray *)otherArray;
-@end
 
 /**
  * @brief A JRCaptureUser object
@@ -131,111 +121,6 @@
  **/
 + (id)captureUser;
 
-/**
- * Returns a JRCaptureUser object created from an \e NSDictionary representing the object
- *
- * @param dictionary
- *   An \e NSDictionary containing keys/values which map the the object's 
- *   properties and their values/types.  This value cannot be nil
- *
- * @param capturePath
- *   This is the qualified name used to refer to specific elements in a record;
- *   a pound sign (#) is used to refer to plural elements with an id. The path
- *   of the root object is "/"
- *
- * @par Example:
- * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
- * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
- *
- * @return
- *   A JRCaptureUser object
- **/
-+ (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
-/*@}*/
-
-/**
- * @name Dictionary Serialization/Deserialization
- **/
-/*@{*/
-/**
- * Creates an  NSDictionary represention of a JRCaptureUser object
- * populated with all of the object's properties, as the dictionary's 
- * keys, and the properties' values as the dictionary's values
- *
- * @return
- *   An \e NSDictionary representation of a JRCaptureUser object
- **/
-- (NSDictionary*)toDictionary;
-
-/**
- * @internal
- * Updates the object from an \e NSDictionary populated with some of the object's
- * properties, as the dictionary's keys, and the properties' values as the dictionary's values. 
- * This method is used by other JRCaptureObjects and should not be used by consumers of the 
- * mobile Capture library
- *
- * @param dictionary
- *   An \e NSDictionary containing keys/values which map the the object's 
- *   properties and their values/types
- *
- * @param capturePath
- *   This is the qualified name used to refer to specific elements in a record;
- *   a pound sign (#) is used to refer to plural elements with an id. The path
- *   of the root object is "/"
- *
- * @par Example:
- * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
- * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
- *
- * @note 
- * The main difference between this method and the replaceFromDictionary:withPath:(), is that
- * in this method properties are only updated if they exist in the dictionary, and in 
- * replaceFromDictionary:withPath:(), all properties are replaced.  Even if the value is \e [NSNull null]
- * so long as the key exists in the dictionary, the property is updated.
- **/
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
-
-/**
- * @internal
- * Replaces the object from an \e NSDictionary populated with some or all of the object's
- * properties, as the dictionary's keys, and the properties' values as the dictionary's values.
- * This method is used by other JRCaptureObjects and should not be used by consumers of the 
- * mobile Capture library
- *
- * @param dictionary
- *   An \e NSDictionary containing keys/values which map the the object's 
- *   properties and their values/types
- *
- * @param capturePath
- *   This is the qualified name used to refer to specific elements in a record;
- *   a pound sign (#) is used to refer to plural elements with an id. The path
- *   of the root object is "/"
- *
- * @par Example:
- * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
- * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
- *
- * @note 
- * The main difference between this method and the updateFromDictionary:withPath:(), is that
- * in this method \e all the properties are replaced, and in updateFromDictionary:withPath:(),
- * they are only updated if the exist in the dictionary.  If the key does not exist in
- * the dictionary, the property is set to \e nil
- **/
-- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
-/*@}*/
-
-/**
- * @name Object Introspection
- **/
-/*@{*/
-/**
- * TODO: Doxygen doc
- **/
-- (BOOL)isEqualToCaptureUser:(JRCaptureUser *)otherCaptureUser;
-/**
- * TODO: Doxygen doc
- **/
-- (NSDictionary*)objectProperties;
 /*@}*/
 
 /**

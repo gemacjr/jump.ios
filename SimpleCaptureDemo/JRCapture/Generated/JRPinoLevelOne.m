@@ -37,7 +37,13 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JRPinoLevelOne.h"
+
+@interface JRPinoLevelTwo (PinoLevelTwoInternalMethods)
++ (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToPinoLevelTwo:(JRPinoLevelTwo *)otherPinoLevelTwo;
+@end
 
 @interface JRPinoLevelOne ()
 @property BOOL canBeUpdatedOrReplaced;
@@ -49,9 +55,6 @@
     NSString *_name;
     JRPinoLevelTwo *_pinoLevelTwo;
 }
-@dynamic level;
-@dynamic name;
-@dynamic pinoLevelTwo;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)level

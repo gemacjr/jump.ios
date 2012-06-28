@@ -37,6 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JRObjectTestRequiredUnique.h"
 
 @interface JRObjectTestRequiredUnique ()
@@ -49,9 +50,6 @@
     NSString *_uniqueString;
     NSString *_requiredUniqueString;
 }
-@dynamic requiredString;
-@dynamic uniqueString;
-@dynamic requiredUniqueString;
 @synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)requiredString

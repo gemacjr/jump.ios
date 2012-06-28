@@ -220,7 +220,6 @@
 		9F578C901593E3EE00478D15 /* JRPluralTestUniqueElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F578C5F1593E3EE00478D15 /* JRPluralTestUniqueElement.m */; };
 		9F578C911593E3EE00478D15 /* JRCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F578C611593E3EE00478D15 /* JRCapture.m */; };
 		9F578C921593E3EE00478D15 /* JRCaptureApidInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F578C631593E3EE00478D15 /* JRCaptureApidInterface.m */; };
-		9F578C931593E3EE00478D15 /* JRCaptureInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F578C651593E3EE00478D15 /* JRCaptureInternal.m */; };
 		9F578C941593E3EE00478D15 /* JRCaptureObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F578C671593E3EE00478D15 /* JRCaptureObject.m */; };
 		9F578C951593E3EE00478D15 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F578C691593E3EE00478D15 /* JRCaptureUser+Extras.m */; };
 		9FDBD404158127B500DCB32C /* GHUnitIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FDBD403158127B500DCB32C /* GHUnitIOS.framework */; };
@@ -251,6 +250,15 @@
 		DDE0B9A67F00A1DC4B6DFC00 /* SimpleObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBFF /* SimpleObjectTests.m */; };
 		DDE0B9A67F00A1DC4B6DFC03 /* NestedPluralObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC02 /* NestedPluralObjectTests.m */; };
 		DDE0B9A67F00A1DC4B6DFC06 /* ReservedWordsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC05 /* ReservedWordsTests.m */; };
+		DDE0B9A67F00A1DC4B6DFC08 /* JRApidWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC07 /* JRApidWrapper.m */; };
+		DDE0B9A67F00A1DC4B6DFC0A /* JRCaptureData.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC09 /* JRCaptureData.m */; };
+		DDE0B9A67F00A1DC4B6DFC0C /* JRCaptureError.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC0B /* JRCaptureError.m */; };
+		DDE0B9A67F00A1DC4B6DFC0E /* JRCaptureObject+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC0D /* JRCaptureObject+Internal.m */; };
+		DDE0B9A67F00A1DC4B6DFC10 /* JRCaptureScratch.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC0F /* JRCaptureScratch.m */; };
+		DDE0B9A67F00A1DC4B6DFC12 /* JREngageWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC11 /* JREngageWrapper.m */; };
+		DDE0B9A67F00A1DC4B6DFC14 /* JRNativeSigninViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC13 /* JRNativeSigninViewController.m */; };
+		DDE0B9A67F00A1DC4B6DFC16 /* JRWebviewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC15 /* JRWebviewWrapper.m */; };
+		DDE0B9A67F00A1DC4B6DFC22 /* JRNSDate+ISO8601_CaptureDateTimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC21 /* JRNSDate+ISO8601_CaptureDateTimeString.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -523,8 +531,6 @@
 		9F578C611593E3EE00478D15 /* JRCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCapture.m; sourceTree = "<group>"; };
 		9F578C621593E3EE00478D15 /* JRCaptureApidInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureApidInterface.h; sourceTree = "<group>"; };
 		9F578C631593E3EE00478D15 /* JRCaptureApidInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureApidInterface.m; sourceTree = "<group>"; };
-		9F578C641593E3EE00478D15 /* JRCaptureInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureInternal.h; sourceTree = "<group>"; };
-		9F578C651593E3EE00478D15 /* JRCaptureInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureInternal.m; sourceTree = "<group>"; };
 		9F578C661593E3EE00478D15 /* JRCaptureObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureObject.h; sourceTree = "<group>"; };
 		9F578C671593E3EE00478D15 /* JRCaptureObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureObject.m; sourceTree = "<group>"; };
 		9F578C681593E3EE00478D15 /* JRCaptureUser+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRCaptureUser+Extras.h"; sourceTree = "<group>"; };
@@ -557,7 +563,26 @@
 		DDE0B9A67F00A1DC4B6DFBFF /* SimpleObjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleObjectTests.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC02 /* NestedPluralObjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NestedPluralObjectTests.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC05 /* ReservedWordsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservedWordsTests.m; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFC07 /* ucfirst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ucfirst.h; path = ucfirst.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC07 /* JRApidWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRApidWrapper.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC09 /* JRCaptureData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureData.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC0B /* JRCaptureError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureError.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC0D /* JRCaptureObject+Internal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRCaptureObject+Internal.m"; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC0F /* JRCaptureScratch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureScratch.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC11 /* JREngageWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JREngageWrapper.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC13 /* JRNativeSigninViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRNativeSigninViewController.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC15 /* JRWebviewWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRWebviewWrapper.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC17 /* JRApidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRApidWrapper.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC18 /* JRCaptureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureData.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC19 /* JRCaptureError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureError.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC1A /* JRCaptureObject+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRCaptureObject+Internal.h"; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC1B /* JRCaptureScratch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureScratch.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC1C /* JRCaptureTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureTypes.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC1D /* JREngageWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JREngageWrapper.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC1E /* JRNativeSigninViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRNativeSigninViewController.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC1F /* JRWebviewWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRWebviewWrapper.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC20 /* ClassCategories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassCategories.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC21 /* JRNSDate+ISO8601_CaptureDateTimeString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRNSDate+ISO8601_CaptureDateTimeString.m"; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC23 /* JRNSDate+ISO8601_CaptureDateTimeString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRNSDate+ISO8601_CaptureDateTimeString.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -928,13 +953,30 @@
 		9F578C101593E3EE00478D15 /* JRCapture */ = {
 			isa = PBXGroup;
 			children = (
+				DDE0B9A67F00A1DC4B6DFC23 /* JRNSDate+ISO8601_CaptureDateTimeString.h */,
+				DDE0B9A67F00A1DC4B6DFC21 /* JRNSDate+ISO8601_CaptureDateTimeString.m */,
+				DDE0B9A67F00A1DC4B6DFC1F /* JRWebviewWrapper.h */,
+				DDE0B9A67F00A1DC4B6DFC1E /* JRNativeSigninViewController.h */,
+				DDE0B9A67F00A1DC4B6DFC1D /* JREngageWrapper.h */,
+				DDE0B9A67F00A1DC4B6DFC1C /* JRCaptureTypes.h */,
+				DDE0B9A67F00A1DC4B6DFC1B /* JRCaptureScratch.h */,
+				DDE0B9A67F00A1DC4B6DFC1A /* JRCaptureObject+Internal.h */,
+				DDE0B9A67F00A1DC4B6DFC19 /* JRCaptureError.h */,
+				DDE0B9A67F00A1DC4B6DFC18 /* JRCaptureData.h */,
+				DDE0B9A67F00A1DC4B6DFC17 /* JRApidWrapper.h */,
+				DDE0B9A67F00A1DC4B6DFC15 /* JRWebviewWrapper.m */,
+				DDE0B9A67F00A1DC4B6DFC13 /* JRNativeSigninViewController.m */,
+				DDE0B9A67F00A1DC4B6DFC11 /* JREngageWrapper.m */,
+				DDE0B9A67F00A1DC4B6DFC0F /* JRCaptureScratch.m */,
+				DDE0B9A67F00A1DC4B6DFC0D /* JRCaptureObject+Internal.m */,
+				DDE0B9A67F00A1DC4B6DFC0B /* JRCaptureError.m */,
+				DDE0B9A67F00A1DC4B6DFC09 /* JRCaptureData.m */,
+				DDE0B9A67F00A1DC4B6DFC07 /* JRApidWrapper.m */,
 				9F578C111593E3EE00478D15 /* Generated */,
 				9F578C601593E3EE00478D15 /* JRCapture.h */,
 				9F578C611593E3EE00478D15 /* JRCapture.m */,
 				9F578C621593E3EE00478D15 /* JRCaptureApidInterface.h */,
 				9F578C631593E3EE00478D15 /* JRCaptureApidInterface.m */,
-				9F578C641593E3EE00478D15 /* JRCaptureInternal.h */,
-				9F578C651593E3EE00478D15 /* JRCaptureInternal.m */,
 				9F578C661593E3EE00478D15 /* JRCaptureObject.h */,
 				9F578C671593E3EE00478D15 /* JRCaptureObject.m */,
 				9F578C681593E3EE00478D15 /* JRCaptureUser+Extras.h */,
@@ -1062,7 +1104,7 @@
 		DDE0B9A67F00A1DC4B6DFBBB /* CaptureInterfaceUnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				DDE0B9A67F00A1DC4B6DFC07 /* ucfirst.h */,
+				DDE0B9A67F00A1DC4B6DFC20 /* ClassCategories.h */,
 				DDE0B9A67F00A1DC4B6DFC05 /* ReservedWordsTests.m */,
 				DDE0B9A67F00A1DC4B6DFC02 /* NestedPluralObjectTests.m */,
 				DDE0B9A67F00A1DC4B6DFBFF /* SimpleObjectTests.m */,
@@ -1388,9 +1430,17 @@
 				9F578C901593E3EE00478D15 /* JRPluralTestUniqueElement.m in Sources */,
 				9F578C911593E3EE00478D15 /* JRCapture.m in Sources */,
 				9F578C921593E3EE00478D15 /* JRCaptureApidInterface.m in Sources */,
-				9F578C931593E3EE00478D15 /* JRCaptureInternal.m in Sources */,
 				9F578C941593E3EE00478D15 /* JRCaptureObject.m in Sources */,
 				9F578C951593E3EE00478D15 /* JRCaptureUser+Extras.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC08 /* JRApidWrapper.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC0A /* JRCaptureData.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC0C /* JRCaptureError.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC0E /* JRCaptureObject+Internal.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC10 /* JRCaptureScratch.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC12 /* JREngageWrapper.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC14 /* JRNativeSigninViewController.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC16 /* JRWebviewWrapper.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC22 /* JRNSDate+ISO8601_CaptureDateTimeString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

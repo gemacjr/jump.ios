@@ -37,6 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JRAddressesElement.h"
 
 @interface JRAddressesElement ()
@@ -59,19 +60,6 @@
     NSString *_streetAddress;
     NSString *_type;
 }
-@dynamic addressesElementId;
-@dynamic country;
-@dynamic extendedAddress;
-@dynamic formatted;
-@dynamic latitude;
-@dynamic locality;
-@dynamic longitude;
-@dynamic poBox;
-@dynamic postalCode;
-@dynamic primary;
-@dynamic region;
-@dynamic streetAddress;
-@dynamic type;
 @synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)addressesElementId

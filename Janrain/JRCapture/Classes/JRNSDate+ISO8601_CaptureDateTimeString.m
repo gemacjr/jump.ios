@@ -12,7 +12,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#import "NSDate+ISO8601_CaptureDateTimeString.h"
+#import "JRNSDate+ISO8601_CaptureDateTimeString.h"
 
 @implementation NSDate (ISO8601_CaptureDateTimeString)
 + (NSDate *)dateFromISO8601DateString:(NSString *)dateString

@@ -37,7 +37,13 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+#import "JRCaptureObject+Internal.h"
 #import "JROnipLevelOneElement.h"
+
+@interface JROnipLevelTwo (OnipLevelTwoInternalMethods)
++ (id)onipLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (BOOL)isEqualToOnipLevelTwo:(JROnipLevelTwo *)otherOnipLevelTwo;
+@end
 
 @interface JROnipLevelOneElement ()
 @property BOOL canBeUpdatedOrReplaced;
@@ -50,10 +56,6 @@
     NSString *_name;
     JROnipLevelTwo *_onipLevelTwo;
 }
-@dynamic onipLevelOneElementId;
-@dynamic level;
-@dynamic name;
-@dynamic onipLevelTwo;
 @synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)onipLevelOneElementId
