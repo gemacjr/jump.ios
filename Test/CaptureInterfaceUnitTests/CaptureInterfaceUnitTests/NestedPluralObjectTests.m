@@ -1082,7 +1082,19 @@ void (^contBlock)() = nil;
 /* Create array and sync on Capture. Add elements locally, replace again, verify sync */
 - (void)test_b372a_oinonipReplace_Level2_AddedElements
 {
-
+    [self oinonipCreate];
+    [self genericTestApidMethod:replace forObject:captureUser
+                   expectResult:success forTest:_sel forPlural:@"oinonipL1Plural"
+                      withArray:currentL1Plural continueBlock:^(){
+        NSMutableArray *a = [NSMutableArray arrayWithArray:currentL1Plural];
+        JROinonipL1PluralElement *o = [self objectOfType:[JROinonipL1PluralElement class]
+                                         withConstructor:@selector(oinonipL1PluralElement)
+                                      fillerFodderOffset:2];
+        [a addObject:o];
+        self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
+        [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
+                          forPlural:@"oinonipL1Plural" withArray:currentL1Plural continueBlock:nil];
+    }];
 }
 
 /* Create array and sync on Capture. Add elements locally, replace again, verify sync */
