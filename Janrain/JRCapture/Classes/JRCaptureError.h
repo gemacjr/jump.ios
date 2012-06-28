@@ -21,9 +21,12 @@ typedef enum
 typedef enum
 {
     JRCaptureLocalApidErrorGeneric             = LOCAL_APID_ERROR_RANGE,
-    JRCaptureLocalApidErrorInvalidArrayElement = JRCaptureLocalApidErrorGeneric + 100,
-    JRCaptureLocalApidErrorUrlConnection       = JRCaptureLocalApidErrorGeneric + 200,
-    JRCaptureLocalApidErrorConnectionDidFail   = JRCaptureLocalApidErrorGeneric + 201,
+    JRCaptureLocalApidErrorInvalidArrayElement = JRCaptureLocalApidErrorGeneric + 101,
+    JRCaptureLocalApidErrorUrlConnection       = JRCaptureLocalApidErrorGeneric + 201,
+    JRCaptureLocalApidErrorConnectionDidFail   = JRCaptureLocalApidErrorGeneric + 202,
+    JRCaptureLocalApidErrorInvalidResultClass  = JRCaptureLocalApidErrorGeneric + 301,
+    JRCaptureLocalApidErrorInvalidResultStat   = JRCaptureLocalApidErrorGeneric + 302,
+    JRCaptureLocalApidErrorInvalidResultData   = JRCaptureLocalApidErrorGeneric + 303,
 } JRCaptureLocalApidError;
 
 typedef enum

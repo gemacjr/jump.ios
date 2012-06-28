@@ -21,6 +21,12 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
+@interface JRCaptureError (ApidResultErrorHelpers)
++ (NSDictionary *)invalidClassErrorForResult:(NSObject *)result;
++ (NSDictionary *)invalidStatErrorForResult:(NSObject *)result;
++ (NSDictionary *)invalidDataErrorForResult:(NSObject *)result;
+@end
+
 @interface JRCaptureUserApidHandler : NSObject <JRCaptureInterfaceDelegate>
 @end
 
@@ -39,12 +45,14 @@
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
+    /* Calling the old protocol methods for testing purposes, but have to make sure we pass the result string... */
     if ([delegate conformsToProtocol:@protocol(JRCaptureUserTesterDelegate)] &&
         [delegate respondsToSelector:@selector(createCaptureUser:didFailWithResult:context:)])
             [((id<JRCaptureUserTesterDelegate>)delegate) createCaptureUser:captureUser
                                                          didFailWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
                                                                    context:callerContext];
-    else if ([delegate respondsToSelector:@selector(createDidFailForUser:withError:context:)])
+
+    if ([delegate respondsToSelector:@selector(createDidFailForUser:withError:context:)])
             [delegate createDidFailForUser:captureUser withError:[JRCaptureError errorFromResult:result] context:callerContext];
 }
 
@@ -68,12 +76,14 @@
 
     [captureUser replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
 
+    /* Calling the old protocol methods for testing purposes, but have to make sure we pass the result string... */
     if ([delegate conformsToProtocol:@protocol(JRCaptureUserTesterDelegate)] &&
         [delegate respondsToSelector:@selector(createCaptureUser:didSucceedWithResult:context:)])
             [((id<JRCaptureUserTesterDelegate>)delegate) createCaptureUser:captureUser
                                                       didSucceedWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
                                                                    context:callerContext];
-    else if ([delegate respondsToSelector:@selector(createDidSucceedForUser:context:)])
+
+    if ([delegate respondsToSelector:@selector(createDidSucceedForUser:context:)])
             [delegate createDidSucceedForUser:captureUser context:callerContext];
 }
 
@@ -99,19 +109,22 @@
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    NSDictionary *resultDictionary = [(NSString *)result objectFromJSONString];
+    NSDictionary *resultDictionary;
+    if ([result isKindOfClass:[NSString class]])
+        resultDictionary = [(NSString *)result objectFromJSONString];
+    else /* Uh-oh!! */
+        return [self getCaptureUserDidFailWithResult:[JRCaptureError invalidClassErrorForResult:result] context:context];
 
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
-        [self getCaptureUserDidFailWithResult:result context:context];
+        return [self getCaptureUserDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result] context:context];
 
     if (![resultDictionary objectForKey:@"result"])
-        [self getCaptureUserDidFailWithResult:result context:context];
+        return [self getCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]  context:context];
 
     JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:[resultDictionary objectForKey:@"result"]];
 
     if ([delegate respondsToSelector:@selector(fetchUserDidSucceed:context:)])
         [delegate fetchUserDidSucceed:captureUser context:callerContext];
-
 }
 
 - (void)getCaptureObjectDidFailWithResult:(NSObject *)result context:(NSObject *)context
@@ -141,13 +154,17 @@
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    NSDictionary *resultDictionary = [(NSString *)result objectFromJSONString];
+    NSDictionary *resultDictionary;
+    if ([result isKindOfClass:[NSString class]])
+        resultDictionary = [(NSString *)result objectFromJSONString];
+    else /* Uh-oh!! */
+        return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidClassErrorForResult:result] context:context];
 
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
-        [self getCaptureObjectDidFailWithResult:result context:context];
+        return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result] context:context];
 
     if (![resultDictionary objectForKey:@"result"])
-        [self getCaptureObjectDidFailWithResult:result context:context];
+        return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]  context:context];
 
     // TODO: Implement me!!!
 
@@ -155,7 +172,6 @@
     {
         if ([delegate respondsToSelector:@selector(fetchLastUpdatedDidSucceed:isOutdated:context:)])
                 [delegate fetchLastUpdatedDidSucceed:nil isOutdated:YES context:callerContext];
-
     }
 }
 @end
@@ -230,4 +246,35 @@
 {
     return [JRCaptureUser captureUserObjectFromDictionary:dictionary withPath:@""];
 }
+
++ (void)testCaptureUserApidHandlerCreateCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context
+{
+    [[JRCaptureUserApidHandler captureUserApidHandler] createCaptureUserDidFailWithResult:result context:context];
+}
+
++ (void)testCaptureUserApidHandlerCreateCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
+{
+    [[JRCaptureUserApidHandler captureUserApidHandler] createCaptureUserDidSucceedWithResult:result context:context];
+}
+
++ (void)testCaptureUserApidHandlerGetCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context
+{
+    [[JRCaptureUserApidHandler captureUserApidHandler] getCaptureUserDidFailWithResult:result context:context];
+}
+
++ (void)testCaptureUserApidHandlerGetCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
+{
+    [[JRCaptureUserApidHandler captureUserApidHandler] getCaptureUserDidSucceedWithResult:result context:context];
+}
+
++ (void)testCaptureUserApidHandlerGetCaptureObjectDidFailWithResult:(NSObject *)result context:(NSObject *)context
+{
+    [[JRCaptureUserApidHandler captureUserApidHandler] getCaptureObjectDidFailWithResult:result context:context];
+}
+
++ (void)testCaptureUserApidHandlerGetCaptureObjectDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
+{
+    [[JRCaptureUserApidHandler captureUserApidHandler] getCaptureObjectDidSucceedWithResult:result context:context];
+}
+
 @end

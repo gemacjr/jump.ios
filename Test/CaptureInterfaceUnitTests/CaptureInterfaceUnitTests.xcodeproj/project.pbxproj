@@ -259,6 +259,9 @@
 		DDE0B9A67F00A1DC4B6DFC14 /* JRNativeSigninViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC13 /* JRNativeSigninViewController.m */; };
 		DDE0B9A67F00A1DC4B6DFC16 /* JRWebviewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC15 /* JRWebviewWrapper.m */; };
 		DDE0B9A67F00A1DC4B6DFC22 /* JRNSDate+ISO8601_CaptureDateTimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC21 /* JRNSDate+ISO8601_CaptureDateTimeString.m */; };
+		DDE0B9A67F00A1DC4B6DFC25 /* ErrorHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC24 /* ErrorHandlerTests.m */; };
+		DDE0B9A67F00A1DC4B6DFC28 /* CaptureUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC27 /* CaptureUserTests.m */; };
+		DDE0B9A67F00A1DC4B6DFC2B /* ApidHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC2A /* ApidHandlerTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -583,6 +586,9 @@
 		DDE0B9A67F00A1DC4B6DFC20 /* ClassCategories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassCategories.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC21 /* JRNSDate+ISO8601_CaptureDateTimeString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRNSDate+ISO8601_CaptureDateTimeString.m"; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC23 /* JRNSDate+ISO8601_CaptureDateTimeString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRNSDate+ISO8601_CaptureDateTimeString.h"; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC24 /* ErrorHandlerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorHandlerTests.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC27 /* CaptureUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureUserTests.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC2A /* ApidHandlerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApidHandlerTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1104,6 +1110,9 @@
 		DDE0B9A67F00A1DC4B6DFBBB /* CaptureInterfaceUnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				DDE0B9A67F00A1DC4B6DFC2A /* ApidHandlerTests.m */,
+				DDE0B9A67F00A1DC4B6DFC27 /* CaptureUserTests.m */,
+				DDE0B9A67F00A1DC4B6DFC24 /* ErrorHandlerTests.m */,
 				DDE0B9A67F00A1DC4B6DFC20 /* ClassCategories.h */,
 				DDE0B9A67F00A1DC4B6DFC05 /* ReservedWordsTests.m */,
 				DDE0B9A67F00A1DC4B6DFC02 /* NestedPluralObjectTests.m */,
@@ -1441,6 +1450,9 @@
 				DDE0B9A67F00A1DC4B6DFC14 /* JRNativeSigninViewController.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC16 /* JRWebviewWrapper.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC22 /* JRNSDate+ISO8601_CaptureDateTimeString.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC25 /* ErrorHandlerTests.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC28 /* CaptureUserTests.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC2B /* ApidHandlerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
