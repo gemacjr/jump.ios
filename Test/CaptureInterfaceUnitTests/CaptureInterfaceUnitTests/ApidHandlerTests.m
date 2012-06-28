@@ -47,6 +47,7 @@
 @implementation e2_ApidHandlerTests
 @synthesize captureUser;
 @synthesize defaultContext;
+@synthesize logWriter;
 
 - (void)setUpClass
 {
@@ -63,7 +64,8 @@
 - (void)setUp
 {
     self.captureUser = [SharedData getBlankCaptureUser];
-    self.defaultContext = [NSMutableDictionary dictionaryWithObjectsAndKeys:self, @"delegate", nil];
+    self.defaultContext = [NSMutableDictionary dictionaryWithObjectsAndKeys:self, @"delegate",
+                                               NSStringFromSelector(self.currentSelector), @"callerContext", nil];
 }
 
 - (void)tearDown
@@ -102,6 +104,7 @@
 - (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
 {
     GHTestLog(result);
+    GHTestLog(context);
     [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(@"test_e201_foo")];
 }
 
@@ -184,6 +187,7 @@
 - (void)dealloc
 {
     [captureUser release];
+    [defaultContext release];
     [super dealloc];
 }
 @end
