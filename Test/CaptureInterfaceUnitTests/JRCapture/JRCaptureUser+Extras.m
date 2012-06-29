@@ -68,11 +68,13 @@
 
     NSDictionary *resultDictionary = [(NSString *)result objectFromJSONString];
 
-    if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
-        [self createCaptureUserDidFailWithResult:result context:context];
+    if (![((NSString *) [resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result]
+                     context:context];
 
     if (![resultDictionary objectForKey:@"result"])
-        [self createCaptureUserDidFailWithResult:result context:context];
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]
+                     context:context];
 
     [captureUser replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
 
