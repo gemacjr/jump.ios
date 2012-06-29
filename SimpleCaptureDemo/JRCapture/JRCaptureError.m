@@ -142,4 +142,32 @@ NSString * JRCaptureErrorDomain = @"JRCapture.ErrorDomain";
 }
 
 
++ (NSDictionary *)invalidClassErrorForResult:(NSObject *)result
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"error", @"stat",
+                             @"invalid_result", @"error",
+                             [NSString stringWithFormat:@"The result object was not a string or dictionary: %@", [result description]], @"error_description",
+                             [NSNumber numberWithInteger:JRCaptureLocalApidErrorInvalidResultClass], @"code", nil];
+}
+
++ (NSDictionary *)invalidStatErrorForResult:(NSObject *)result
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"error", @"stat",
+                             @"invalid_result", @"error",
+                             [NSString stringWithFormat:@"The result object did not have the expected stat: %@", [result description]], @"error_description",
+                             [NSNumber numberWithInteger:JRCaptureLocalApidErrorInvalidResultStat], @"code", nil];
+}
+
++ (NSDictionary *)invalidDataErrorForResult:(NSObject *)result
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"error", @"stat",
+                             @"invalid_result", @"error",
+                             [NSString stringWithFormat:@"The result object did not have the expected data: %@", [result description]], @"error_description",
+                             [NSNumber numberWithInteger:JRCaptureLocalApidErrorInvalidResultData], @"code", nil];
+}
+
+
 @end
