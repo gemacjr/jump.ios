@@ -1091,6 +1091,7 @@ void (^contBlock)() = nil;
                                          withConstructor:@selector(oinonipL1PluralElement)
                                       fillerFodderOffset:2];
         [a addObject:o];
+        DLog(@"b372a New object: %@", [[o toDictionary] description]);
         self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
         [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
                           forPlural:@"oinonipL1Plural" withArray:currentL1Plural continueBlock:nil];
@@ -1100,13 +1101,39 @@ void (^contBlock)() = nil;
 /* Create array and sync on Capture. Add elements locally, replace again, verify sync */
 - (void)test_b372b_oinonipReplace_Level3_AddedElements
 {
-// Level 2 test might suffice
+    [self oinonipCreate];
+    [self genericTestApidMethod:replace forObject:captureUser
+                   expectResult:success forTest:_sel forPlural:@"oinonipL1Plural"
+                      withArray:currentL1Plural continueBlock:^(){
+        NSMutableArray *a = [NSMutableArray arrayWithArray:currentL1Plural];
+        JROinonipL1PluralElement *o = [self objectOfType:[JROinonipL1PluralElement class]
+                                         withConstructor:@selector(oinonipL1PluralElement)
+                                      fillerFodderOffset:2];
+        o.oinonipL2Object.oinonipL3Object = [self objectOfType:[JROinonipL3Object class]
+                                                  withConstructor:@selector(oinonipL3Object)
+                                               fillerFodderOffset:4];
+        [a addObject:o];
+        DLog(@"b372b New object: %@", [[o toDictionary] description]);
+        self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
+        [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
+                          forPlural:@"oinonipL1Plural" withArray:currentL1Plural continueBlock:nil];
+    }];
 }
 
 /* Create array and sync on Capture. Remove elements locally, replace again, verify sync */
 - (void)test_b373a_oinonipReplace_Level2_RemovedElements
 {
-
+    [self oinonipCreate];
+    [self genericTestApidMethod:replace forObject:captureUser
+                   expectResult:success forTest:_sel forPlural:@"oinonipL1Plural"
+                      withArray:currentL1Plural continueBlock:^(){
+        NSMutableArray *a = [NSMutableArray arrayWithArray:currentL1Plural];
+        [a removeLastObject];
+        //DLog(@"b372b New array: %@", [[o toDictionary] description]);
+        self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
+        [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
+                          forPlural:@"oinonipL1Plural" withArray:currentL1Plural continueBlock:nil];
+    }];
 }
 
 /* Create array and sync on Capture. Remove elements locally, replace again, verify sync */
@@ -1118,7 +1145,21 @@ void (^contBlock)() = nil;
 /* Create array and sync on Capture. Add and remove elements locally, replace again, verify sync */
 - (void)test_b374a_oinonipReplace_Level2_AddedRemovedElements
 {
-
+    [self oinonipCreate];
+    [self genericTestApidMethod:replace forObject:captureUser
+                   expectResult:success forTest:_sel forPlural:@"oinonipL1Plural"
+                      withArray:currentL1Plural continueBlock:^(){
+        NSMutableArray *a = [NSMutableArray arrayWithArray:currentL1Plural];
+        [a removeLastObject];
+        JROinonipL1PluralElement *o = [self objectOfType:[JROinonipL1PluralElement class]
+                                         withConstructor:@selector(oinonipL1PluralElement)
+                                      fillerFodderOffset:2];
+        [a addObject:o];
+        DLog(@"b372a New object: %@", [[o toDictionary] description]);
+        self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
+        [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
+                          forPlural:@"oinonipL1Plural" withArray:currentL1Plural continueBlock:nil];
+    }];
 }
 
 /* Create array and sync on Capture. Add and remove elements locally, replace again, verify sync */
@@ -1131,7 +1172,23 @@ void (^contBlock)() = nil;
  updated, even though there are new elements. Verify new elements can't.  Replace whole array again, verify sync */
 - (void)test_b374c_oinonipReplace_Level2_AddedUpdatedElements
 {
-
+    [self oinonipCreate];
+    [self genericTestApidMethod:replace forObject:captureUser
+                   expectResult:success forTest:_sel forPlural:@"oinonipL1Plural"
+                      withArray:currentL1Plural continueBlock:^(){
+        NSMutableArray *a = [NSMutableArray arrayWithArray:captureUser.oinonipL1Plural];
+        JROinonipL1PluralElement *o = [self objectOfType:[JROinonipL1PluralElement class]
+                                         withConstructor:@selector(oinonipL1PluralElement)
+                                      fillerFodderOffset:2];
+        [a addObject:o];
+        DLog(@"b372a New object: %@", [[o toDictionary] description]);
+        GHAssertTrue([o canBeUpdatedOrReplaced] == NO, nil);
+        GHAssertTrue([((JRCaptureObject *) [a objectAtIndex:0]) canBeUpdatedOrReplaced], nil);
+        ((JROinonipL2Object *) currentL2Object).string1 = @"sldkafjlk";
+        self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
+        [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
+                          forPlural:@"oinonipL1Plural" withArray:currentL1Plural continueBlock:nil];
+    }];
 }
 
 /* Create array and sync on Capture. Add new elements locally, update others. Verify current elements can still be
