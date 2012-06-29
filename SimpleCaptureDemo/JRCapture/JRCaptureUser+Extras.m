@@ -76,6 +76,8 @@
 
     [captureUser replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
 
+    [JRCaptureData setAccessToken:[resultDictionary objectForKey:@"access_token"]];
+
     /* Calling the old protocol methods for testing purposes, but have to make sure we pass the result string... */
     if ([delegate conformsToProtocol:@protocol(JRCaptureUserTesterDelegate)] &&
         [delegate respondsToSelector:@selector(createCaptureUser:didSucceedWithResult:context:)])

@@ -141,7 +141,6 @@ NSString * JRCaptureErrorDomain = @"JRCapture.ErrorDomain";
               description:errorDescription andExtraFields:extraFields];
 }
 
-
 + (NSDictionary *)invalidClassErrorForResult:(NSObject *)result
 {
     return [NSDictionary dictionaryWithObjectsAndKeys:
