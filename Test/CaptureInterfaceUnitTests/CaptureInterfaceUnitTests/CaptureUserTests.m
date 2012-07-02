@@ -64,6 +64,35 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+- (void)test_d102_fetchLastUpdated
+{
+    [self prepare];
+    [captureUser fetchLastUpdatedFromServerForDelegate:self context:nil];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)fetchLastUpdatedDidFailWithError:(NSError *)error context:(NSObject *)context
+{
+    DLog("e: %@", [error description]);
+
+    GHAssertFalse([captureUser respondsToSelector:NSSelectorFromString(@"lastUpdated")], nil);
+
+    [self notify:kGHUnitWaitStatusSuccess];
+}
+
+- (void)fetchLastUpdatedDidSucceed:(JRDateTime *)serverLastUpdated
+                        isOutdated:(BOOL)isOutdated
+                           context:(NSObject *)context
+{
+    DLog("lu: %@ io: %d", [serverLastUpdated description], isOutdated);
+    GHAssertTrue([captureUser respondsToSelector:NSSelectorFromString(@"lastUpdated")], nil);
+
+    //GHAssertTrue(isOutdated != [serverLastUpdated isEqual:[captureUser lastUpdated]]);
+
+    //[self notify:kGHUnitWaitStatusSuccess];
+    [self notify:kGHUnitWaitStatusFailure];
+}
+
 - (void)dealloc
 {
     [captureUser release];
