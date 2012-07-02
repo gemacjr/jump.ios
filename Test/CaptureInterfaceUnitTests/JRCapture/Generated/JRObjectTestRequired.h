@@ -37,9 +37,9 @@
  * @brief Object for testing getting/setting, updating, and replacing properties when one property has the constraint of being required
  **/
 @interface JRObjectTestRequired : JRCaptureObject
-@property (nonatomic, copy)   NSString *requiredString; /**< The object's \e requiredString property */ 
-@property (nonatomic, copy)   NSString *string1; /**< The object's \e string1 property */ 
-@property (nonatomic, copy)   NSString *string2; /**< The object's \e string2 property */ 
+@property (nonatomic, copy)     NSString *requiredString; /**< The object's \e requiredString property */ 
+@property (nonatomic, copy)     NSString *string1; /**< The object's \e string1 property */ 
+@property (nonatomic, copy)     NSString *string2; /**< The object's \e string2 property */ 
 
 /**
  * @name Constructors

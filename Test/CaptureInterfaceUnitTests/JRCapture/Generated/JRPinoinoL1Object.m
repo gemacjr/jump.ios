@@ -41,7 +41,7 @@
 #import "JRPinoinoL1Object.h"
 
 @interface JRPinoinoL2Object (PinoinoL2ObjectInternalMethods)
-+ (id)pinoinoL2ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)pinoinoL2ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinoinoL2Object:(JRPinoinoL2Object *)otherPinoinoL2Object;
 @end
 
@@ -126,28 +126,41 @@
     return pinoinoL1ObjectCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.string1 ? self.string1 : [NSNull null])
-             forKey:@"string1"];
-    [dict setObject:(self.string2 ? self.string2 : [NSNull null])
-             forKey:@"string2"];
-    [dict setObject:(self.pinoinoL2Object ? [self.pinoinoL2Object toDictionary] : [NSNull null])
-             forKey:@"pinoinoL2Object"];
+    [dictionary setObject:(self.string1 ? self.string1 : [NSNull null])
+                   forKey:@"string1"];
+    [dictionary setObject:(self.string2 ? self.string2 : [NSNull null])
+                   forKey:@"string2"];
+    [dictionary setObject:(self.pinoinoL2Object ? [self.pinoinoL2Object toDictionaryForEncoder:forEncoder] : [NSNull null])
+                   forKey:@"pinoinoL2Object"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)pinoinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)pinoinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JRPinoinoL1Object *pinoinoL1Object = [JRPinoinoL1Object pinoinoL1Object];
 
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        pinoinoL1Object.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+    }
 
     pinoinoL1Object.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
@@ -159,11 +172,19 @@
 
     pinoinoL1Object.pinoinoL2Object =
         [dictionary objectForKey:@"pinoinoL2Object"] != [NSNull null] ? 
-        [JRPinoinoL2Object pinoinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"pinoinoL2Object"] withPath:pinoinoL1Object.captureObjectPath] : nil;
+        [JRPinoinoL2Object pinoinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"pinoinoL2Object"] withPath:pinoinoL1Object.captureObjectPath fromDecoder:fromDecoder] : nil;
 
-    [pinoinoL1Object.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [pinoinoL1Object.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [pinoinoL1Object.dirtyPropertySet removeAllObjects];
     
     return pinoinoL1Object;
+}
+
++ (id)pinoinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JRPinoinoL1Object pinoinoL1ObjectObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -185,7 +206,7 @@
     if ([dictionary objectForKey:@"pinoinoL2Object"] == [NSNull null])
         self.pinoinoL2Object = nil;
     else if ([dictionary objectForKey:@"pinoinoL2Object"] && !self.pinoinoL2Object)
-        self.pinoinoL2Object = [JRPinoinoL2Object pinoinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"pinoinoL2Object"] withPath:self.captureObjectPath];
+        self.pinoinoL2Object = [JRPinoinoL2Object pinoinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"pinoinoL2Object"] withPath:self.captureObjectPath fromDecoder:NO];
     else if ([dictionary objectForKey:@"pinoinoL2Object"])
         [self.pinoinoL2Object updateFromDictionary:[dictionary objectForKey:@"pinoinoL2Object"] withPath:self.captureObjectPath];
 
@@ -211,7 +232,7 @@
     if (![dictionary objectForKey:@"pinoinoL2Object"] || [dictionary objectForKey:@"pinoinoL2Object"] == [NSNull null])
         self.pinoinoL2Object = nil;
     else if (!self.pinoinoL2Object)
-        self.pinoinoL2Object = [JRPinoinoL2Object pinoinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"pinoinoL2Object"] withPath:self.captureObjectPath];
+        self.pinoinoL2Object = [JRPinoinoL2Object pinoinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"pinoinoL2Object"] withPath:self.captureObjectPath fromDecoder:NO];
     else
         [self.pinoinoL2Object replaceFromDictionary:[dictionary objectForKey:@"pinoinoL2Object"] withPath:self.captureObjectPath];
 
@@ -220,41 +241,41 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"string1"])
-        [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
+        [dictionary setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
 
     if ([self.dirtyPropertySet containsObject:@"string2"])
-        [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+        [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     if ([self.dirtyPropertySet containsObject:@"pinoinoL2Object"])
-        [dict setObject:(self.pinoinoL2Object ?
+        [dictionary setObject:(self.pinoinoL2Object ?
                               [self.pinoinoL2Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JRPinoinoL2Object pinoinoL2Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
-                 forKey:@"pinoinoL2Object"];
+                       forKey:@"pinoinoL2Object"];
     else if ([self.pinoinoL2Object needsUpdate])
-        [dict setObject:[self.pinoinoL2Object toUpdateDictionary]
-                 forKey:@"pinoinoL2Object"];
+        [dictionary setObject:[self.pinoinoL2Object toUpdateDictionary]
+                       forKey:@"pinoinoL2Object"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
-    [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+    [dictionary setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
+    [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
-    [dict setObject:(self.pinoinoL2Object ?
+    [dictionary setObject:(self.pinoinoL2Object ?
                           [self.pinoinoL2Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JRPinoinoL2Object pinoinoL2Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-             forKey:@"pinoinoL2Object"];
+                     forKey:@"pinoinoL2Object"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -288,14 +309,14 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"NSString" forKey:@"string1"];
-    [dict setObject:@"NSString" forKey:@"string2"];
-    [dict setObject:@"JRPinoinoL2Object" forKey:@"pinoinoL2Object"];
+    [dictionary setObject:@"NSString" forKey:@"string1"];
+    [dictionary setObject:@"NSString" forKey:@"string2"];
+    [dictionary setObject:@"JRPinoinoL2Object" forKey:@"pinoinoL2Object"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

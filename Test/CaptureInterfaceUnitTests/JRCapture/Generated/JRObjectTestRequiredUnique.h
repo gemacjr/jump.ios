@@ -37,9 +37,9 @@
  * @brief Object for testing getting/setting, updating, and replacing properties when the properties have the constraints of being required and unique
  **/
 @interface JRObjectTestRequiredUnique : JRCaptureObject
-@property (nonatomic, copy)   NSString *requiredString; /**< The object's \e requiredString property */ 
-@property (nonatomic, copy)   NSString *uniqueString; /**< The object's \e uniqueString property */ 
-@property (nonatomic, copy)   NSString *requiredUniqueString; /**< The object's \e requiredUniqueString property */ 
+@property (nonatomic, copy)     NSString *requiredString; /**< The object's \e requiredString property */ 
+@property (nonatomic, copy)     NSString *uniqueString; /**< The object's \e uniqueString property */ 
+@property (nonatomic, copy)     NSString *requiredUniqueString; /**< The object's \e requiredUniqueString property */ 
 
 /**
  * @name Constructors

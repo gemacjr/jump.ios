@@ -120,31 +120,48 @@
     return statusesElementCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.statusesElementId ? [NSNumber numberWithInteger:[self.statusesElementId integerValue]] : [NSNull null])
-             forKey:@"id"];
-    [dict setObject:(self.status ? self.status : [NSNull null])
-             forKey:@"status"];
-    [dict setObject:(self.statusCreated ? [self.statusCreated stringFromISO8601DateTime] : [NSNull null])
-             forKey:@"statusCreated"];
+    [dictionary setObject:(self.statusesElementId ? [NSNumber numberWithInteger:[self.statusesElementId integerValue]] : [NSNull null])
+                   forKey:@"id"];
+    [dictionary setObject:(self.status ? self.status : [NSNull null])
+                   forKey:@"status"];
+    [dictionary setObject:(self.statusCreated ? [self.statusCreated stringFromISO8601DateTime] : [NSNull null])
+                   forKey:@"statusCreated"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)statusesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)statusesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JRStatusesElement *statusesElement = [JRStatusesElement statusesElement];
 
-    statusesElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-// TODO: Is this safe to assume?
-    statusesElement.canBeUpdatedOrReplaced = YES;
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        statusesElement.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+        statusesElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+    }
+    else
+    {
+        statusesElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+        // TODO: Is this safe to assume?
+        statusesElement.canBeUpdatedOrReplaced = YES;
+    }
 
     statusesElement.statusesElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -158,9 +175,17 @@
         [dictionary objectForKey:@"statusCreated"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
 
-    [statusesElement.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [statusesElement.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [statusesElement.dirtyPropertySet removeAllObjects];
     
     return statusesElement;
+}
+
++ (id)statusesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JRStatusesElement statusesElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -213,27 +238,27 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"status"])
-        [dict setObject:(self.status ? self.status : [NSNull null]) forKey:@"status"];
+        [dictionary setObject:(self.status ? self.status : [NSNull null]) forKey:@"status"];
 
     if ([self.dirtyPropertySet containsObject:@"statusCreated"])
-        [dict setObject:(self.statusCreated ? [self.statusCreated stringFromISO8601DateTime] : [NSNull null]) forKey:@"statusCreated"];
+        [dictionary setObject:(self.statusCreated ? [self.statusCreated stringFromISO8601DateTime] : [NSNull null]) forKey:@"statusCreated"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.status ? self.status : [NSNull null]) forKey:@"status"];
-    [dict setObject:(self.statusCreated ? [self.statusCreated stringFromISO8601DateTime] : [NSNull null]) forKey:@"statusCreated"];
+    [dictionary setObject:(self.status ? self.status : [NSNull null]) forKey:@"status"];
+    [dictionary setObject:(self.statusCreated ? [self.statusCreated stringFromISO8601DateTime] : [NSNull null]) forKey:@"statusCreated"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -259,14 +284,14 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"statusesElementId"];
-    [dict setObject:@"NSString" forKey:@"status"];
-    [dict setObject:@"JRDateTime" forKey:@"statusCreated"];
+    [dictionary setObject:@"JRObjectId" forKey:@"statusesElementId"];
+    [dictionary setObject:@"NSString" forKey:@"status"];
+    [dictionary setObject:@"JRDateTime" forKey:@"statusCreated"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

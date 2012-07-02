@@ -120,31 +120,48 @@
     return photosElementCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.photosElementId ? [NSNumber numberWithInteger:[self.photosElementId integerValue]] : [NSNull null])
-             forKey:@"id"];
-    [dict setObject:(self.type ? self.type : [NSNull null])
-             forKey:@"type"];
-    [dict setObject:(self.value ? self.value : [NSNull null])
-             forKey:@"value"];
+    [dictionary setObject:(self.photosElementId ? [NSNumber numberWithInteger:[self.photosElementId integerValue]] : [NSNull null])
+                   forKey:@"id"];
+    [dictionary setObject:(self.type ? self.type : [NSNull null])
+                   forKey:@"type"];
+    [dictionary setObject:(self.value ? self.value : [NSNull null])
+                   forKey:@"value"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)photosElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)photosElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JRPhotosElement *photosElement = [JRPhotosElement photosElement];
 
-    photosElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-// TODO: Is this safe to assume?
-    photosElement.canBeUpdatedOrReplaced = YES;
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        photosElement.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+        photosElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+    }
+    else
+    {
+        photosElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+        // TODO: Is this safe to assume?
+        photosElement.canBeUpdatedOrReplaced = YES;
+    }
 
     photosElement.photosElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -158,9 +175,17 @@
         [dictionary objectForKey:@"value"] != [NSNull null] ? 
         [dictionary objectForKey:@"value"] : nil;
 
-    [photosElement.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [photosElement.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [photosElement.dirtyPropertySet removeAllObjects];
     
     return photosElement;
+}
+
++ (id)photosElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JRPhotosElement photosElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -213,27 +238,27 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"type"])
-        [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
+        [dictionary setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
 
     if ([self.dirtyPropertySet containsObject:@"value"])
-        [dict setObject:(self.value ? self.value : [NSNull null]) forKey:@"value"];
+        [dictionary setObject:(self.value ? self.value : [NSNull null]) forKey:@"value"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
-    [dict setObject:(self.value ? self.value : [NSNull null]) forKey:@"value"];
+    [dictionary setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
+    [dictionary setObject:(self.value ? self.value : [NSNull null]) forKey:@"value"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -259,14 +284,14 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"photosElementId"];
-    [dict setObject:@"NSString" forKey:@"type"];
-    [dict setObject:@"NSString" forKey:@"value"];
+    [dictionary setObject:@"JRObjectId" forKey:@"photosElementId"];
+    [dictionary setObject:@"NSString" forKey:@"type"];
+    [dictionary setObject:@"NSString" forKey:@"value"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

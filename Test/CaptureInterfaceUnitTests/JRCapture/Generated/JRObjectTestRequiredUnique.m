@@ -146,28 +146,41 @@
     return objectTestRequiredUniqueCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.requiredString ? self.requiredString : [NSNull null])
-             forKey:@"requiredString"];
-    [dict setObject:(self.uniqueString ? self.uniqueString : [NSNull null])
-             forKey:@"uniqueString"];
-    [dict setObject:(self.requiredUniqueString ? self.requiredUniqueString : [NSNull null])
-             forKey:@"requiredUniqueString"];
+    [dictionary setObject:(self.requiredString ? self.requiredString : [NSNull null])
+                   forKey:@"requiredString"];
+    [dictionary setObject:(self.uniqueString ? self.uniqueString : [NSNull null])
+                   forKey:@"uniqueString"];
+    [dictionary setObject:(self.requiredUniqueString ? self.requiredUniqueString : [NSNull null])
+                   forKey:@"requiredUniqueString"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)objectTestRequiredUniqueObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)objectTestRequiredUniqueObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JRObjectTestRequiredUnique *objectTestRequiredUnique = [JRObjectTestRequiredUnique objectTestRequiredUnique];
 
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        objectTestRequiredUnique.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+    }
 
     objectTestRequiredUnique.requiredString =
         [dictionary objectForKey:@"requiredString"] != [NSNull null] ? 
@@ -181,9 +194,17 @@
         [dictionary objectForKey:@"requiredUniqueString"] != [NSNull null] ? 
         [dictionary objectForKey:@"requiredUniqueString"] : nil;
 
-    [objectTestRequiredUnique.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [objectTestRequiredUnique.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [objectTestRequiredUnique.dirtyPropertySet removeAllObjects];
     
     return objectTestRequiredUnique;
+}
+
++ (id)objectTestRequiredUniqueObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JRObjectTestRequiredUnique objectTestRequiredUniqueObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -234,31 +255,31 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"requiredString"])
-        [dict setObject:(self.requiredString ? self.requiredString : [NSNull null]) forKey:@"requiredString"];
+        [dictionary setObject:(self.requiredString ? self.requiredString : [NSNull null]) forKey:@"requiredString"];
 
     if ([self.dirtyPropertySet containsObject:@"uniqueString"])
-        [dict setObject:(self.uniqueString ? self.uniqueString : [NSNull null]) forKey:@"uniqueString"];
+        [dictionary setObject:(self.uniqueString ? self.uniqueString : [NSNull null]) forKey:@"uniqueString"];
 
     if ([self.dirtyPropertySet containsObject:@"requiredUniqueString"])
-        [dict setObject:(self.requiredUniqueString ? self.requiredUniqueString : [NSNull null]) forKey:@"requiredUniqueString"];
+        [dictionary setObject:(self.requiredUniqueString ? self.requiredUniqueString : [NSNull null]) forKey:@"requiredUniqueString"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.requiredString ? self.requiredString : [NSNull null]) forKey:@"requiredString"];
-    [dict setObject:(self.uniqueString ? self.uniqueString : [NSNull null]) forKey:@"uniqueString"];
-    [dict setObject:(self.requiredUniqueString ? self.requiredUniqueString : [NSNull null]) forKey:@"requiredUniqueString"];
+    [dictionary setObject:(self.requiredString ? self.requiredString : [NSNull null]) forKey:@"requiredString"];
+    [dictionary setObject:(self.uniqueString ? self.uniqueString : [NSNull null]) forKey:@"uniqueString"];
+    [dictionary setObject:(self.requiredUniqueString ? self.requiredUniqueString : [NSNull null]) forKey:@"requiredUniqueString"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -288,14 +309,14 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"NSString" forKey:@"requiredString"];
-    [dict setObject:@"NSString" forKey:@"uniqueString"];
-    [dict setObject:@"NSString" forKey:@"requiredUniqueString"];
+    [dictionary setObject:@"NSString" forKey:@"requiredString"];
+    [dictionary setObject:@"NSString" forKey:@"uniqueString"];
+    [dictionary setObject:@"NSString" forKey:@"requiredUniqueString"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

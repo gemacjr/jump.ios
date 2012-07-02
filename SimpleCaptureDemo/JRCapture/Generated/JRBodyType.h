@@ -37,11 +37,11 @@
  * @brief Person's body characteristics.
  **/
 @interface JRBodyType : JRCaptureObject
-@property (nonatomic, copy)   NSString *build; /**< The object's \e build property */ 
-@property (nonatomic, copy)   NSString *color; /**< The object's \e color property */ 
-@property (nonatomic, copy)   NSString *eyeColor; /**< The object's \e eyeColor property */ 
-@property (nonatomic, copy)   NSString *hairColor; /**< The object's \e hairColor property */ 
-@property (nonatomic, copy)   NSNumber *height; /**< The object's \e height property */ 
+@property (nonatomic, copy)     NSString *build; /**< The object's \e build property */ 
+@property (nonatomic, copy)     NSString *color; /**< The object's \e color property */ 
+@property (nonatomic, copy)     NSString *eyeColor; /**< The object's \e eyeColor property */ 
+@property (nonatomic, copy)     NSString *hairColor; /**< The object's \e hairColor property */ 
+@property (nonatomic, copy)     NSNumber *height; /**< The object's \e height property */ 
 
 /**
  * @name Constructors

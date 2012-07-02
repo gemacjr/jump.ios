@@ -38,9 +38,9 @@
  * @brief A JROnipinoL2PluralElement object
  **/
 @interface JROnipinoL2PluralElement : JRCaptureObject
-@property (nonatomic, copy)   NSString *string1; /**< The object's \e string1 property */ 
-@property (nonatomic, copy)   NSString *string2; /**< The object's \e string2 property */ 
-@property (nonatomic, retain) JROnipinoL3Object *onipinoL3Object; /**< The object's \e onipinoL3Object property */ 
+@property (nonatomic, copy)     NSString *string1; /**< The object's \e string1 property */ 
+@property (nonatomic, copy)     NSString *string2; /**< The object's \e string2 property */ 
+@property (nonatomic, retain)   JROnipinoL3Object *onipinoL3Object; /**< The object's \e onipinoL3Object property */ 
 
 /**
  * @name Constructors

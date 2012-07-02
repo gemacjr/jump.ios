@@ -286,13 +286,27 @@ my @copyConstructorParts = (
 #  * properties <requiredProperties>.  These properties are required  <--------------+
 #  * when updating the object on Capture.
 #  **/
-# + (id)<objectName>[Object/Element]FromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+# + (id)<objectName>[Object/Element]FromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 # {
 #     if (!dictionary)
 #         return nil;
-#                                                                     For elements in a plural
-#     <className> *<object> = [<className> <object>];                             |
-#                                                                                 V
+#                                                                                                                 For elements in a plural
+#     <className> *<object> = [<className> <object>];                                                                         |
+#                                                                                                                             |
+#     NSSet *dirtyPropertySetCopy;                                                                                            |
+#     if (fromDecoder)                                                                                                        |
+#     {                                                                                                                       |
+#         dirtyPropertySetCopy            = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];             |
+#         <object>.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue]; <----+
+#         <object>.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"]; <---------------------------------+
+#     }
+#     else
+#     {                                                                                         Only if an element of a plural
+#         dirtyPropertySetCopy            = [[self.dirtyPropertySet copy] autorelease];                +----------|
+#         <object>.canBeUpdatedOrReplaced = YES;  <----------------------------------------------------+          V
+#         <object>.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"<object>", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+#     }
+#
 #     <object>.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"<object>", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 #     self.canBeUpdatedOrReplaced = YES; 
 #
@@ -303,9 +317,17 @@ my @copyConstructorParts = (
 #                                   [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"<property>"]] : nil;
 #       ...
 #
-#     [<object>.dirtyPropertySet removeAllObjects];
+#     if (fromDecoder)
+#         [<object>.dirtyPropertySet setSet:dirtyPropertySetCopy];
+#     else
+#         [<object>.dirtyPropertySet removeAllObjects];
 #
 #     return <object>;
+# }
+#
+# + (id)<objectName>[Object/Element]FromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
+# {
+#      return [<className> <objectName>[Object/Element]FromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 # }
 ###################################################################
 
@@ -332,17 +354,65 @@ my @fromDictionaryDocParts = (
 " **/\n");
 
 my @fromDictionaryParts = (
-"+ (id)","","FromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
-"\n{\n",
-"    if (!dictionary)\n        return nil;\n\n",
-""," = [","","];\n\n",
-"    ","",".captureObjectPath = [NSString stringWithFormat:\@\"%@/%@","","\", capturePath, ","","","];\n",
+"+ (id)","","FromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
+{
+    if (!dictionary)
+        return nil;\n\n",
+""," = [","","];
+
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:\@\"dirtyPropertiesSet\"]];
+        ","",".captureObjectPath      = [dictionary objectForKey:\@\"captureObjectPath\"];",
+        "","
+    }
+    else
+    {
+        ","",".captureObjectPath      = [NSString stringWithFormat:\@\"\%\@/\%\@","","\", capturePath, ","","","];",
+        "","
+    }\n",
 "",
 "
-    [","",".dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [","",".dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [","",".dirtyPropertySet removeAllObjects];
     
-    return ","",";",
+    return ","",";
+}
+
++ (id)","","FromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [","","FromDictionary:dictionary withPath:capturePath fromDecoder:NO];",
 "\n}\n\n");
+
+
+###################################################################
+# DECODE CAPTURE USER OBJECT FROM DICTIONARY
+#                                               
+# - (void)decodeFromDictionary:(NSDictionary*)dictionary
+# {
+#     NSSet *dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+#
+#     self.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
+#                                   [dictionary objectForKey:@"<property>"] : nil;
+#       OR
+#     self.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
+#                                   [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"<property>"]] : nil;
+#       ...
+#
+#     [<object>.dirtyPropertySet setSet:dirtyPropertySetCopy];
+# }
+###################################################################
+
+my @decodeUserFromDictParts = (
+"- (void)decodeFromDictionary:(NSDictionary*)dictionary",
+"\n{\n",
+"    NSSet *dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:\@\"dirtyPropertiesSet\"]];",
+"",
+"\n    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+}\n\n");
 
 
 ###################################################################
@@ -356,16 +426,23 @@ my @fromDictionaryParts = (
 #  * \@return
 #  *   An \e NSDictionary represention of a <objectClass> object
 #  **/
-# - (NSDictionary*)toDictionary
+# - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 # {
-#     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
+#     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:10];
 #
-#     [dict setObject:(<property> ? <property> : [NSNull null]) forKey:@"<propertyKey>"];
+#     [dictionary setObject:(<property> ? <property> : [NSNull null]) forKey:@"<propertyKey>"];
 #       OR
-#     [dict setObject:(<property> ? <propertyToDictionaryMethod> : [NSNull null]) forKey:@"<propertyKey>"];
+#     [dictionary setObject:(<property> ? <propertyToDictionaryMethod> : [NSNull null]) forKey:@"<propertyKey>"];
 #       ...
 #
-#     return [NSDictionary dictionaryWithDictionary:dict];
+#     if (forEncoder)
+#     {
+#         [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+#         [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+#         [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+#     }
+#
+#     return [NSDictionary dictionaryWithDictionary:dictionary];
 #  }
 ###################################################################
 
@@ -380,12 +457,19 @@ my @toDictionaryDocParts = (
 " **/\n");
 
 my @toDictionaryParts = (
-"- (NSDictionary*)toDictionary",
+"- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder",
 "\n{\n",
-"    NSMutableDictionary *dict = 
+"    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
-"", 
-"\n    return [NSDictionary dictionaryWithDictionary:dict];",
+"","
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:\@\"dirtyPropertySet\"];
+        [dictionary setObject:self.captureObjectPath forKey:\@\"captureObjectPath\"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:\@\"canBeUpdatedOrReplaced\"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];",
 "\n}\n\n");
 
 
@@ -473,7 +557,7 @@ my @updateFrDictParts = (
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;\n",
-"    self.captureObjectPath = [NSString stringWithFormat:\@\"%@/%@","","\", capturePath, ","","","];\n",
+"    self.captureObjectPath = [NSString stringWithFormat:\@\"\%\@/\%\@","","\", capturePath, ","","","];\n",
 "","
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }\n\n");
@@ -510,10 +594,7 @@ my @updateFrDictParts = (
 #  **/
 # - (void)replaceFromDictionary:(NSDictionary *)dictionary withPath:(NSString *)capturePath
 # {
-#     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-#
-#     self.canBeUpdatedOrReplaced = YES;
-#     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"<object>", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+#     DLog(@"%@ %@", capturePath, [dictionary description]);
 #
 #     self.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
 #                                   [dictionary objectForKey:@"<property>"] : nil;
@@ -549,17 +630,18 @@ my @replaceFrDictDocParts = (
  * \@note 
  * The main difference between this method and the updateFromDictionary:withPath:(), is that
  * in this method \\e all the properties are replaced, and in updateFromDictionary:withPath:(),
- * they are only updated if the exist in the dictionary.  If the key does not exist in
+ * they are only updated if the exist in the dictionary.  If the key does not exist in 
  * the dictionary, the property is set to \\e nil
  **/\n");
 
 my @replaceFrDictParts = (
 "- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
-"\n{\n    DLog(@\"\%\@ \%\@\", capturePath, [dictionary description]);\n","
+"\n{
+    DLog(@\"\%\@ \%\@\", capturePath, [dictionary description]);\n","
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;\n",
-"    self.captureObjectPath = [NSString stringWithFormat:\@\"%@/%@","","\", capturePath, ","","","];\n",
+"    self.captureObjectPath = [NSString stringWithFormat:\@\"\%\@/\%\@","","\", capturePath, ","","","];\n",
 "","
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }\n\n");
@@ -569,15 +651,15 @@ my @replaceFrDictParts = (
 #
 # - (NSDictionary *)toUpdateDictionary
 # {
-#     NSMutableDictionary *dict =
+#     NSMutableDictionary *dictionary =
 #          [NSMutableDictionary dictionaryWithCapacity:10];
 # 
 #     if ([self.dirtyPropertySet containsObject:@"<property>"])
-#         [dict setObject:(self.<property> ? self.<property> : [NSNull null]) forKey:@"<property>"];
+#         [dictionary setObject:(self.<property> ? self.<property> : [NSNull null]) forKey:@"<property>"];
 #           OR
-#         [dict setObject:(self.<property> ? <propertyToUpdateDictionaryMethod> : [NSNull null]) forKey:@"<property>"];
+#         [dictionary setObject:(self.<property> ? <propertyToUpdateDictionaryMethod> : [NSNull null]) forKey:@"<property>"];
 # 
-#     return dict;
+#     return [NSDictionary dictionaryWithDictionary:dictionary];
 # }
 # 
 # /**
@@ -607,10 +689,10 @@ my @updateRemotelyDocParts = (
 my @toUpdateDictionaryParts = (
 "- (NSDictionary *)toUpdateDictionary",
 "\n{\n",
-"    NSMutableDictionary *dict =
+"    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];\n",
 "",         
-"\n    return dict;",
+"\n    return [NSDictionary dictionaryWithDictionary:dictionary];",
 "\n}\n\n");
 
 #my @updateRemotelyParts = (
@@ -636,14 +718,14 @@ my @toUpdateDictionaryParts = (
 #
 # - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 # {
-#     NSMutableDictionary *dict =
+#     NSMutableDictionary *dictionary =
 #          [NSMutableDictionary dictionaryWithCapacity:10];
 # 
-#     [dict setObject:(self.<property> ? self.<property> : [NSNull null]) forKey:@"<property>"];
+#     [dictionary setObject:(self.<property> ? self.<property> : [NSNull null]) forKey:@"<property>"];
 #       OR
-#     [dict setObject:(self.<property> ? <propertyToUpdateDictionaryMethod> : [NSNull null]) forKey:@"<property>"];
+#     [dictionary setObject:(self.<property> ? <propertyToUpdateDictionaryMethod> : [NSNull null]) forKey:@"<property>"];
 # 
-#     return dict;
+#     return [NSDictionary dictionaryWithDictionary:dictionary];
 # }
 # 
 # /**
@@ -651,9 +733,6 @@ my @toUpdateDictionaryParts = (
 #  **/
 # - (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 # {
-#     NSMutableDictionary *dict =
-#         [NSMutableDictionary dictionaryWithCapacity:10];
-# 
 #     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
 #                                                      self, @"captureObject",
 #                                                      delegate, @"delegate",
@@ -676,10 +755,10 @@ my @replaceRemotelyDocParts = (
 my @toReplaceDictionaryParts = (
 "- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays",
 "\n{\n",
-"    NSMutableDictionary *dict =
+"    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
 "",         
-"\n    return dict;",
+"\n    return [NSDictionary dictionaryWithDictionary:dictionary];",
 "\n}\n\n");
 
 #my @replaceRemotelyParts = (
@@ -774,11 +853,11 @@ my @needsUpdateParts = (
 #  **/
 # - (NSDictionary*)objectProperties
 # {
-#     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
+#     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:10];
 #
-#     [dict setObject:@"<propertyType>" forKey:@"<propertyName>"];
+#     [dictionary setObject:@"<propertyType>" forKey:@"<propertyName>"];
 #
-#     return [NSDictionary dictionaryWithDictionary:dict];
+#     return [NSDictionary dictionaryWithDictionary:dictionary];
 #  }
 ###################################################################
 
@@ -790,10 +869,10 @@ my @objectPropertiesDocParts = (
 my @objectPropertiesParts = (
 "- (NSDictionary*)objectProperties",
 "\n{\n",
-"    NSMutableDictionary *dict = 
+"    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
 "", 
-"\n    return [NSDictionary dictionaryWithDictionary:dict];",
+"\n    return [NSDictionary dictionaryWithDictionary:dictionary];",
 "\n}\n\n");
 
 
@@ -861,8 +940,8 @@ sub createArrayCategoryForSubobject {
   my $arrayCategoryIntf = "\@interface NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
   my $arrayCategoryImpl = "\@implementation NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
 
-  my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:(NSString*)capturePath";
-  my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Elements";
+  my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder";
+  my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "ElementsForEncoder:(BOOL)forEncoder";
   my $methodName3 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Elements";
  
   $arrayCategoryIntf .= "$methodName1;\n$methodName2;\n$methodName3;\n\@end\n\n";
@@ -872,7 +951,7 @@ sub createArrayCategoryForSubobject {
        "    NSMutableArray *filtered" . ucfirst($propertyName) . "Array = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *dictionary in self)\n" . 
        "        if ([dictionary isKindOfClass:[NSDictionary class]])\n" . 
-       "            [filtered" . ucfirst($propertyName) . "Array addObject:[JR" . ucfirst($propertyName) . "Element " . $propertyName . "ElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];\n\n" . 
+       "            [filtered" . ucfirst($propertyName) . "Array addObject:[JR" . ucfirst($propertyName) . "Element " . $propertyName . "ElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath fromDecoder:fromDecoder]];\n\n" . 
        "    return filtered" . ucfirst($propertyName) . "Array;\n}\n\n";
        
   $arrayCategoryImpl .= "$methodName2\n{\n";
@@ -880,7 +959,7 @@ sub createArrayCategoryForSubobject {
        "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *object in self)\n" . 
        "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . "Element class]])\n" . 
-       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "Element*)object toDictionary]];\n\n" . 
+       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "Element*)object toDictionaryForEncoder:forEncoder]];\n\n" . 
        "    return filteredDictionaryArray;\n}\n\n";
 
   $arrayCategoryImpl .= "$methodName3\n{\n";
@@ -899,7 +978,7 @@ sub createObjectCategoryForSubobject {
   my $isArrayElement = $_[1];
   
   my $objectCategoryIntf = "\@interface JR" . ucfirst($propertyName) . " (" . ucfirst($propertyName) . "InternalMethods)\n" . 
-                           "+ (id)" . $propertyName . ($isArrayElement ? "" : "Object") . "FromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;\n" . 
+                           "+ (id)" . $propertyName . ($isArrayElement ? "" : "Object") . "FromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;\n" . 
                            "- (BOOL)isEqualTo" . ucfirst($propertyName) . ":(JR" . ucfirst($propertyName) . " *)other" . ucfirst($propertyName) . ";\n" . 
                            "\@end\n\n";
 
@@ -1075,6 +1154,10 @@ sub getToDictionaryParts {
 
 sub getFromDictionaryParts {
   return @fromDictionaryParts;
+}
+
+sub getDecodeUserFromDictParts {
+  return @decodeUserFromDictParts;
 }
 
 sub getUpdateFromDictParts {

@@ -1,0 +1,1797 @@
+{
+    "schema": {
+        "name": "user_dev",
+        "attr_defs": [
+            {
+                "name": "id",
+                "description": "simple identifier for this entity",
+                "type": "id"
+            },
+            {
+                "name": "uuid",
+                "description": "globally unique indentifier for this entity",
+                "type": "uuid"
+            },
+            {
+                "name": "created",
+                "description": "when this entity was created",
+                "type": "dateTime"
+            },
+            {
+                "name": "lastUpdated",
+                "description": "when this entity was last updated",
+                "type": "dateTime"
+            },
+            {
+                "case-sensitive": false,
+                "name": "aboutMe",
+                "length": null,
+                "type": "string"
+            },
+            {
+                "name": "birthday",
+                "type": "date"
+            },
+            {
+                "case-sensitive": false,
+                "name": "currentLocation",
+                "length": 1000,
+                "type": "string"
+            },
+            {
+                "name": "display",
+                "type": "json"
+            },
+            {
+                "case-sensitive": false,
+                "name": "displayName",
+                "features": [
+                    "query"
+                ],
+                "description": "The name of this Contact, suitable for display to end-users.",
+                "length": 1000,
+                "type": "string"
+            },
+            {
+                "case-sensitive": false,
+                "name": "email",
+                "constraints": [
+                    "required"
+                ],
+                "length": 256,
+                "type": "string"
+            },
+            {
+                "name": "emailVerified",
+                "type": "dateTime"
+            },
+            {
+                "case-sensitive": false,
+                "name": "familyName",
+                "constraints": [
+                    "unicode-printable"
+                ],
+                "length": 1000,
+                "type": "string"
+            },
+            {
+                "name": "games",
+                "type": "plural",
+                "attr_defs": [
+                    {
+                        "name": "id",
+                        "description": "simple identifier for this sub-entity",
+                        "type": "id"
+                    },
+                    {
+                        "name": "isFavorite",
+                        "description": "if the game is a favorite",
+                        "type": "boolean"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "name",
+                        "description": "the name of the game",
+                        "length": null,
+                        "type": "string"
+                    },
+                    {
+                        "name": "opponents",
+                        "type": "plural",
+                        "attr_defs": [
+                            {
+                                "name": "id",
+                                "description": "simple identifier for this sub-entity",
+                                "type": "id"
+                            },
+                            {
+                                "case-sensitive": true,
+                                "name": "name",
+                                "description": "the name of the opponent",
+                                "length": null,
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "rating",
+                        "description": "user's rating of the game",
+                        "type": "integer"
+                    }
+                ]
+            },
+            {
+                "case-sensitive": false,
+                "name": "gender",
+                "length": 100,
+                "type": "string"
+            },
+            {
+                "case-sensitive": false,
+                "name": "givenName",
+                "constraints": [
+                    "unicode-printable"
+                ],
+                "length": 1000,
+                "type": "string"
+            },
+            {
+                "name": "lastLogin",
+                "type": "dateTime"
+            },
+            {
+                "case-sensitive": false,
+                "name": "middleName",
+                "constraints": [
+                    "unicode-printable"
+                ],
+                "length": 1000,
+                "type": "string"
+            },
+            {
+                "name": "objectLevelOne",
+                "type": "object",
+                "attr_defs": [
+                    {
+                        "case-sensitive": true,
+                        "name": "level",
+                        "length": null,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "name",
+                        "length": null,
+                        "type": "string"
+                    },
+                    {
+                        "name": "objectLevelTwo",
+                        "type": "object",
+                        "attr_defs": [
+                            {
+                                "case-sensitive": true,
+                                "name": "level",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": true,
+                                "name": "name",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "objectLevelThree",
+                                "type": "object",
+                                "attr_defs": [
+                                    {
+                                        "case-sensitive": true,
+                                        "name": "level",
+                                        "length": null,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": true,
+                                        "name": "name",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "onipLevelOne",
+                "type": "plural",
+                "attr_defs": [
+                    {
+                        "name": "id",
+                        "description": "simple identifier for this sub-entity",
+                        "type": "id"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "level",
+                        "length": null,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "name",
+                        "length": null,
+                        "type": "string"
+                    },
+                    {
+                        "name": "onipLevelTwo",
+                        "type": "object",
+                        "attr_defs": [
+                            {
+                                "case-sensitive": true,
+                                "name": "level",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": true,
+                                "name": "name",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "onipLevelThree",
+                                "type": "object",
+                                "attr_defs": [
+                                    {
+                                        "case-sensitive": true,
+                                        "name": "level",
+                                        "length": null,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": true,
+                                        "name": "name",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "password",
+                "type": "password-bcrypt"
+            },
+            {
+                "name": "photos",
+                "type": "plural",
+                "attr_defs": [
+                    {
+                        "name": "id",
+                        "description": "simple identifier for this sub-entity",
+                        "type": "id"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "type",
+                        "length": null,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "value",
+                        "length": null,
+                        "type": "string"
+                    }
+                ]
+            },
+            {
+                "name": "pinoLevelOne",
+                "type": "object",
+                "attr_defs": [
+                    {
+                        "case-sensitive": true,
+                        "name": "level",
+                        "length": null,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "name",
+                        "length": null,
+                        "type": "string"
+                    },
+                    {
+                        "name": "pinoLevelTwo",
+                        "type": "object",
+                        "attr_defs": [
+                            {
+                                "case-sensitive": true,
+                                "name": "level",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": true,
+                                "name": "name",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "pinoLevelThree",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": true,
+                                        "name": "level",
+                                        "length": null,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": true,
+                                        "name": "name",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "pluralLevelOne",
+                "type": "plural",
+                "attr_defs": [
+                    {
+                        "name": "id",
+                        "description": "simple identifier for this sub-entity",
+                        "type": "id"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "level",
+                        "length": null,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "name",
+                        "length": null,
+                        "type": "string"
+                    },
+                    {
+                        "name": "pluralLevelTwo",
+                        "type": "plural",
+                        "attr_defs": [
+                            {
+                                "name": "id",
+                                "description": "simple identifier for this sub-entity",
+                                "type": "id"
+                            },
+                            {
+                                "case-sensitive": true,
+                                "name": "level",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": true,
+                                "name": "name",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "pluralLevelThree",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": true,
+                                        "name": "level",
+                                        "length": null,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": true,
+                                        "name": "name",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "primaryAddress",
+                "type": "object",
+                "attr_defs": [
+                    {
+                        "case-sensitive": false,
+                        "name": "address1",
+                        "constraints": [
+                            "unicode-printable"
+                        ],
+                        "length": 1000,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "address2",
+                        "constraints": [
+                            "unicode-printable"
+                        ],
+                        "length": 1000,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "city",
+                        "constraints": [
+                            "unicode-printable"
+                        ],
+                        "length": 1000,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "company",
+                        "constraints": [
+                            "unicode-printable"
+                        ],
+                        "length": 1000,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "country",
+                        "constraints": [
+                            "unicode-printable"
+                        ],
+                        "length": 1000,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "mobile",
+                        "constraints": [
+                            "unicode-printable"
+                        ],
+                        "length": 100,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "phone",
+                        "constraints": [
+                            "unicode-printable"
+                        ],
+                        "length": 100,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "stateAbbreviation",
+                        "constraints": [
+                            "unicode-printable"
+                        ],
+                        "length": 100,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "zip",
+                        "constraints": [
+                            "unicode-printable"
+                        ],
+                        "length": 100,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "zipPlus4",
+                        "constraints": [
+                            "unicode-printable"
+                        ],
+                        "length": 100,
+                        "type": "string"
+                    }
+                ]
+            },
+            {
+                "name": "profiles",
+                "type": "plural",
+                "attr_defs": [
+                    {
+                        "name": "id",
+                        "description": "simple identifier for this sub-entity",
+                        "type": "id"
+                    },
+                    {
+                        "name": "accessCredentials",
+                        "description": "User's authorization credentials for this provider",
+                        "type": "json"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "domain",
+                        "constraints": [
+                            "required"
+                        ],
+                        "length": 1000,
+                        "type": "string"
+                    },
+                    {
+                        "name": "followers",
+                        "description": "User's followers",
+                        "type": "plural",
+                        "attr_defs": [
+                            {
+                                "name": "id",
+                                "description": "simple identifier for this sub-entity",
+                                "type": "id"
+                            },
+                            {
+                                "case-sensitive": true,
+                                "name": "identifier",
+                                "constraints": [
+                                    "required"
+                                ],
+                                "length": null,
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "following",
+                        "description": "who the user is following",
+                        "type": "plural",
+                        "attr_defs": [
+                            {
+                                "name": "id",
+                                "description": "simple identifier for this sub-entity",
+                                "type": "id"
+                            },
+                            {
+                                "case-sensitive": true,
+                                "name": "identifier",
+                                "constraints": [
+                                    "required"
+                                ],
+                                "length": null,
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "friends",
+                        "description": "User's friends",
+                        "type": "plural",
+                        "attr_defs": [
+                            {
+                                "name": "id",
+                                "description": "simple identifier for this sub-entity",
+                                "type": "id"
+                            },
+                            {
+                                "case-sensitive": true,
+                                "name": "identifier",
+                                "constraints": [
+                                    "required"
+                                ],
+                                "length": null,
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "identifier",
+                        "description": "Profile provider unique identifier",
+                        "constraints": [
+                            "required",
+                            "unique"
+                        ],
+                        "length": 1000,
+                        "type": "string"
+                    },
+                    {
+                        "name": "profile",
+                        "type": "object",
+                        "attr_defs": [
+                            {
+                                "case-sensitive": false,
+                                "name": "aboutMe",
+                                "description": "A general statement about the person.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "accounts",
+                                "description": "Describes an account held by this Contact, which MAY be on the Service Provider's service, or MAY be on a different service.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "domain",
+                                        "description": "The top-most authoritative domain for this account.",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "name": "primary",
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "userid",
+                                        "description": "A user ID number, usually chosen automatically, and usually numeric but sometimes alphanumeric.",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": true,
+                                        "name": "username",
+                                        "description": "An alphanumeric user name, usually chosen by the user.",
+                                        "length": 1000,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "addresses",
+                                "description": "A physical mailing address for this Contact.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "country",
+                                        "description": "The country name component.",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "extendedAddress",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "formatted",
+                                        "description": "The full mailing address, formatted for display or use with a mailing label.",
+                                        "length": null,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "name": "latitude",
+                                        "type": "decimal"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "locality",
+                                        "description": "The city or locality component.",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "name": "longitude",
+                                        "type": "decimal"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "poBox",
+                                        "length": 100,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "postalCode",
+                                        "description": "The zipcode or postal code component.",
+                                        "length": 100,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "name": "primary",
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "region",
+                                        "description": "The state or region component.",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "streetAddress",
+                                        "description": "The full street address component, which may include house number, street name, PO BOX, and multi-line extended street address information.",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "type",
+                                        "length": 1000,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "anniversary",
+                                "description": "The wedding anniversary of this contact.",
+                                "type": "date"
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "birthday",
+                                "description": "The birthday of this contact.",
+                                "length": 100,
+                                "type": "string"
+                            },
+                            {
+                                "name": "bodyType",
+                                "description": "Person's body characteristics.",
+                                "type": "object",
+                                "attr_defs": [
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "build",
+                                        "length": 100,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "color",
+                                        "length": 100,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "eyeColor",
+                                        "length": 100,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "hairColor",
+                                        "length": 100,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "name": "height",
+                                        "type": "decimal"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "books",
+                                "description": "Person's favorite books.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "book",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "cars",
+                                "description": "Person's favorite cars.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "car",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "children",
+                                "description": "Description of the person's children.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "value",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "currentLocation",
+                                "type": "object",
+                                "attr_defs": [
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "country",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "extendedAddress",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "formatted",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "name": "latitude",
+                                        "type": "decimal"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "locality",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "name": "longitude",
+                                        "type": "decimal"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "poBox",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "postalCode",
+                                        "length": 100,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "region",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "streetAddress",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "type",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "case-sensitive": true,
+                                "name": "displayName",
+                                "description": "The name of this Contact, suitable for display to end-users.",
+                                "length": 1000,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "drinker",
+                                "description": "Person's drinking status.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "emails",
+                                "description": "E-mail address for this Contact.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "name": "primary",
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "type",
+                                        "length": 256,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "value",
+                                        "length": 256,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "ethnicity",
+                                "description": "Person's ethnicity.",
+                                "length": 1000,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "fashion",
+                                "description": "Person's thoughts on fashion.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "food",
+                                "description": "Person's favorite food.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "food",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "gender",
+                                "description": "The gender of this contact.",
+                                "length": 100,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "happiestWhen",
+                                "description": "Describes when the person is happiest.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "heroes",
+                                "description": "Person's favorite heroes.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "hero",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "humor",
+                                "description": "Person's thoughts on humor.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "ims",
+                                "description": "Instant messaging address for this Contact.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "name": "primary",
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "type",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "value",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "interestedInMeeting",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "interests",
+                                "description": "Person's interests, hobbies or passions.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "interest",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "jobInterests",
+                                "description": "Person's favorite jobs, or job interests and skills.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "jobInterest",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "languages",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "language",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "languagesSpoken",
+                                "description": "List of the languages that the person speaks as ISO 639-1 codes.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "languageSpoken",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "livingArrangement",
+                                "description": "Description of the person's living arrangement.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "lookingFor",
+                                "description": "Person's statement about who or what they are looking for, or what they are interested in meeting people for.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "value",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "movies",
+                                "description": "Person's favorite movies.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "movie",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "music",
+                                "description": "Person's favorite music.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "music",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "name",
+                                "type": "object",
+                                "attr_defs": [
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "familyName",
+                                        "description": "The family name of this Contact, or 'Last Name' in most Western languages",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "formatted",
+                                        "description": "The full name, including all middle names, titles, and suffixes as appropriate, formatted for display",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "givenName",
+                                        "description": "The given name of this Contact, or 'First Name' in most Western languages",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "honorificPrefix",
+                                        "description": "The honorific prefix(es) of this Contact, or 'Title' in most Western languages",
+                                        "length": null,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "honorificSuffix",
+                                        "description": "The honorifix suffix(es) of this Contact, or 'Suffix' in most Western languages",
+                                        "length": null,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "middleName",
+                                        "description": "The middle name(s) of this Contact",
+                                        "length": 1000,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "nickname",
+                                "description": "The casual way to address this Contact in real life",
+                                "length": 1000,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "note",
+                                "description": "Notes about this person, with an unspecified meaning or usage.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "organizations",
+                                "description": "Describes a current or past organizational affiliation of this contact.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "department",
+                                        "description": "The department within this organization.",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "description",
+                                        "description": "A textual description of the role this Contact played in this organization.",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "endDate",
+                                        "description": "The date this Contact left this organization or the role specified by title within this organization.",
+                                        "length": null,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "name": "location",
+                                        "type": "object",
+                                        "attr_defs": [
+                                            {
+                                                "case-sensitive": false,
+                                                "name": "country",
+                                                "length": 1000,
+                                                "type": "string"
+                                            },
+                                            {
+                                                "case-sensitive": false,
+                                                "name": "extendedAddress",
+                                                "length": 1000,
+                                                "type": "string"
+                                            },
+                                            {
+                                                "case-sensitive": false,
+                                                "name": "formatted",
+                                                "length": null,
+                                                "type": "string"
+                                            },
+                                            {
+                                                "name": "latitude",
+                                                "type": "decimal"
+                                            },
+                                            {
+                                                "case-sensitive": false,
+                                                "name": "locality",
+                                                "length": 1000,
+                                                "type": "string"
+                                            },
+                                            {
+                                                "name": "longitude",
+                                                "type": "decimal"
+                                            },
+                                            {
+                                                "case-sensitive": false,
+                                                "name": "poBox",
+                                                "length": 1000,
+                                                "type": "string"
+                                            },
+                                            {
+                                                "case-sensitive": false,
+                                                "name": "postalCode",
+                                                "length": 100,
+                                                "type": "string"
+                                            },
+                                            {
+                                                "case-sensitive": false,
+                                                "name": "region",
+                                                "length": 1000,
+                                                "type": "string"
+                                            },
+                                            {
+                                                "case-sensitive": false,
+                                                "name": "streetAddress",
+                                                "length": 1000,
+                                                "type": "string"
+                                            },
+                                            {
+                                                "case-sensitive": false,
+                                                "name": "type",
+                                                "length": 1000,
+                                                "type": "string"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "name",
+                                        "description": "The name of the organization.",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "name": "primary",
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "startDate",
+                                        "description": "The date this Contact joined this organization.",
+                                        "length": null,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "title",
+                                        "description": "The job title or role within this organization.",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "type",
+                                        "description": "The type of organization, with Canonical Values 'job' and 'school'.",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "pets",
+                                "description": "Description of the person's pets",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "value",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "phoneNumbers",
+                                "description": "Phone number for this Contact.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "name": "primary",
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "type",
+                                        "length": null,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "value",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "photos",
+                                "description": "URL of a photo of this contact.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "name": "primary",
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "type",
+                                        "length": null,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "value",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "politicalViews",
+                                "description": "Person's political views.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": true,
+                                "name": "preferredUsername",
+                                "features": [
+                                    "query"
+                                ],
+                                "description": "The preferred username of this contact on sites that ask for a username.",
+                                "length": 1000,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "profileSong",
+                                "description": "URL of a person's profile song.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "profileUrl",
+                                "description": "Person's profile URL, specified as a string.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "profileVideo",
+                                "description": "URL of a person's profile video.",
+                                "length": 1000,
+                                "type": "string"
+                            },
+                            {
+                                "name": "published",
+                                "description": "The date this Contact was first added to the user's address book or friends list.",
+                                "type": "dateTime"
+                            },
+                            {
+                                "name": "quotes",
+                                "description": "Person's favorite quotes",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "quote",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "relationshipStatus",
+                                "description": "Person's relationship status.",
+                                "length": 1000,
+                                "type": "string"
+                            },
+                            {
+                                "name": "relationships",
+                                "description": "A bi-directionally asserted relationship type that was established between the user and this contact by the Service Provider.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "relationship",
+                                        "length": 1000,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "religion",
+                                "description": "Person's relgion or religious views.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "romance",
+                                "description": "Person's comments about romance.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "scaredOf",
+                                "description": "What the person is scared of.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "sexualOrientation",
+                                "description": "Person's sexual orientation.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "smoker",
+                                "description": "Person's smoking status.",
+                                "length": null,
+                                "type": "string"
+                            },
+                            {
+                                "name": "sports",
+                                "description": "Person's favorite sports",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "sport",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "status",
+                                "description": "Person's status, headline or shoutout.",
+                                "length": 1000,
+                                "type": "string"
+                            },
+                            {
+                                "name": "tags",
+                                "description": "A user-defined category or label for this contact.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "tag",
+                                        "length": 1000,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "turnOffs",
+                                "description": "Person's turn offs.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "turnOff",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "turnOns",
+                                "description": "Person's turn ons.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "turnOn",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "tvShows",
+                                "description": "Person's favorite TV shows.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "tvShow",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "updated",
+                                "description": "The most recent date the details of this Contact were updated.",
+                                "type": "dateTime"
+                            },
+                            {
+                                "name": "urls",
+                                "description": "URL of a web page relating to this Contact.",
+                                "type": "plural",
+                                "attr_defs": [
+                                    {
+                                        "name": "id",
+                                        "description": "simple identifier for this sub-entity",
+                                        "type": "id"
+                                    },
+                                    {
+                                        "name": "primary",
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "type",
+                                        "length": 1000,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "case-sensitive": false,
+                                        "name": "value",
+                                        "length": null,
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            {
+                                "case-sensitive": false,
+                                "name": "utcOffset",
+                                "description": "The offset from UTC of this Contact's current time zone.",
+                                "length": null,
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "provider",
+                        "description": "Provider for this profile",
+                        "type": "json"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "remote_key",
+                        "description": "primaryKey field from Engage",
+                        "length": 4096,
+                        "type": "string"
+                    }
+                ]
+            },
+            {
+                "name": "statuses",
+                "type": "plural",
+                "attr_defs": [
+                    {
+                        "name": "id",
+                        "description": "simple identifier for this sub-entity",
+                        "type": "id"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "status",
+                        "length": 1000,
+                        "type": "string"
+                    },
+                    {
+                        "name": "statusCreated",
+                        "type": "dateTime"
+                    }
+                ]
+            },
+            {
+                "name": "testerBoolean",
+                "type": "boolean"
+            },
+            {
+                "name": "testerInteger",
+                "type": "integer"
+            },
+            {
+                "name": "testerIpAddr",
+                "type": "ipAddress"
+            },
+            {
+                "name": "testerStringPlural",
+                "type": "plural",
+                "attr_defs": [
+                    {
+                        "name": "id",
+                        "description": "simple identifier for this sub-entity",
+                        "type": "id"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "stringPluralItem",
+                        "length": null,
+                        "type": "string"
+                    }
+                ]
+            },
+            {
+                "case-sensitive": true,
+                "name": "testerUniqueString",
+                "constraints": [
+                    "unique"
+                ],
+                "length": null,
+                "type": "string"
+            }
+        ]
+    },
+    "stat": "ok"
+}

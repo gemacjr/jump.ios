@@ -41,7 +41,7 @@
 #import "JRPinoLevelOne.h"
 
 @interface JRPinoLevelTwo (PinoLevelTwoInternalMethods)
-+ (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinoLevelTwo:(JRPinoLevelTwo *)otherPinoLevelTwo;
 @end
 
@@ -126,28 +126,41 @@
     return pinoLevelOneCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.level ? self.level : [NSNull null])
-             forKey:@"level"];
-    [dict setObject:(self.name ? self.name : [NSNull null])
-             forKey:@"name"];
-    [dict setObject:(self.pinoLevelTwo ? [self.pinoLevelTwo toDictionary] : [NSNull null])
-             forKey:@"pinoLevelTwo"];
+    [dictionary setObject:(self.level ? self.level : [NSNull null])
+                   forKey:@"level"];
+    [dictionary setObject:(self.name ? self.name : [NSNull null])
+                   forKey:@"name"];
+    [dictionary setObject:(self.pinoLevelTwo ? [self.pinoLevelTwo toDictionaryForEncoder:forEncoder] : [NSNull null])
+                   forKey:@"pinoLevelTwo"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)pinoLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)pinoLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JRPinoLevelOne *pinoLevelOne = [JRPinoLevelOne pinoLevelOne];
 
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        pinoLevelOne.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+    }
 
     pinoLevelOne.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -159,11 +172,19 @@
 
     pinoLevelOne.pinoLevelTwo =
         [dictionary objectForKey:@"pinoLevelTwo"] != [NSNull null] ? 
-        [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:pinoLevelOne.captureObjectPath] : nil;
+        [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:pinoLevelOne.captureObjectPath fromDecoder:fromDecoder] : nil;
 
-    [pinoLevelOne.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [pinoLevelOne.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [pinoLevelOne.dirtyPropertySet removeAllObjects];
     
     return pinoLevelOne;
+}
+
++ (id)pinoLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JRPinoLevelOne pinoLevelOneObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -185,7 +206,7 @@
     if ([dictionary objectForKey:@"pinoLevelTwo"] == [NSNull null])
         self.pinoLevelTwo = nil;
     else if ([dictionary objectForKey:@"pinoLevelTwo"] && !self.pinoLevelTwo)
-        self.pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:self.captureObjectPath];
+        self.pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:self.captureObjectPath fromDecoder:NO];
     else if ([dictionary objectForKey:@"pinoLevelTwo"])
         [self.pinoLevelTwo updateFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:self.captureObjectPath];
 
@@ -211,7 +232,7 @@
     if (![dictionary objectForKey:@"pinoLevelTwo"] || [dictionary objectForKey:@"pinoLevelTwo"] == [NSNull null])
         self.pinoLevelTwo = nil;
     else if (!self.pinoLevelTwo)
-        self.pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:self.captureObjectPath];
+        self.pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:self.captureObjectPath fromDecoder:NO];
     else
         [self.pinoLevelTwo replaceFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:self.captureObjectPath];
 
@@ -220,41 +241,41 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"level"])
-        [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
+        [dictionary setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
 
     if ([self.dirtyPropertySet containsObject:@"name"])
-        [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
+        [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"pinoLevelTwo"])
-        [dict setObject:(self.pinoLevelTwo ?
+        [dictionary setObject:(self.pinoLevelTwo ?
                               [self.pinoLevelTwo toReplaceDictionaryIncludingArrays:NO] :
                               [[JRPinoLevelTwo pinoLevelTwo] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
-                 forKey:@"pinoLevelTwo"];
+                       forKey:@"pinoLevelTwo"];
     else if ([self.pinoLevelTwo needsUpdate])
-        [dict setObject:[self.pinoLevelTwo toUpdateDictionary]
-                 forKey:@"pinoLevelTwo"];
+        [dictionary setObject:[self.pinoLevelTwo toUpdateDictionary]
+                       forKey:@"pinoLevelTwo"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
-    [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
+    [dictionary setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
+    [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
-    [dict setObject:(self.pinoLevelTwo ?
+    [dictionary setObject:(self.pinoLevelTwo ?
                           [self.pinoLevelTwo toReplaceDictionaryIncludingArrays:YES] :
                           [[JRPinoLevelTwo pinoLevelTwo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-             forKey:@"pinoLevelTwo"];
+                     forKey:@"pinoLevelTwo"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -288,14 +309,14 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"NSString" forKey:@"level"];
-    [dict setObject:@"NSString" forKey:@"name"];
-    [dict setObject:@"JRPinoLevelTwo" forKey:@"pinoLevelTwo"];
+    [dictionary setObject:@"NSString" forKey:@"level"];
+    [dictionary setObject:@"NSString" forKey:@"name"];
+    [dictionary setObject:@"JRPinoLevelTwo" forKey:@"pinoLevelTwo"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

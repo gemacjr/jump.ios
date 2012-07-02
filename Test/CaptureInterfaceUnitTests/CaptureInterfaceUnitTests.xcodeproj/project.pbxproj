@@ -541,7 +541,7 @@
 		9FDBD403158127B500DCB32C /* GHUnitIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GHUnitIOS.framework; sourceTree = "<group>"; };
 		9FEB3886158130E1007706DC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9FEB3887158130E1007706DC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		DDE0B9A67F00A1DC4B6DFBAC /* CaptureInterfaceUnitTests.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaptureInterfaceUnitTests.1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDE0B9A67F00A1DC4B6DFBAC /* CaptureInterfaceUnitTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaptureInterfaceUnitTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDE0B9A67F00A1DC4B6DFBB5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DDE0B9A67F00A1DC4B6DFBB7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DDE0B9A67F00A1DC4B6DFBB9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1089,7 +1089,7 @@
 		DDE0B9A67F00A1DC4B6DFBA9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DDE0B9A67F00A1DC4B6DFBAC /* CaptureInterfaceUnitTests.1.app */,
+				DDE0B9A67F00A1DC4B6DFBAC /* CaptureInterfaceUnitTests.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1164,7 +1164,7 @@
 			);
 			name = CaptureInterfaceUnitTests;
 			productName = CaptureInterfaceUnitTests;
-			productReference = DDE0B9A67F00A1DC4B6DFBAC /* CaptureInterfaceUnitTests.1.app */;
+			productReference = DDE0B9A67F00A1DC4B6DFBAC /* CaptureInterfaceUnitTests.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1546,7 +1546,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME).1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

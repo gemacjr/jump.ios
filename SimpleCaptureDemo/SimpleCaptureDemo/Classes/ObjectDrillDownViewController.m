@@ -219,7 +219,7 @@ static Class getClassFromKey(NSString *key)
         self.captureObject       = object;
         self.parentCaptureObject = parentObject;
 
-        self.tableData = [object toDictionary];
+        self.tableData = [object toDictionaryForEncoder:NO];
 
         self.tableHeader = key;
         propertyDataArray = [self createPropertyArrayFromObject:object];
@@ -1039,7 +1039,7 @@ typedef enum
        }
        else
        {/* and, if it's not null, let's indicate that as well. */
-           subtitle = [[(JRCaptureObject *)value toDictionary] JSONString];
+           subtitle = [[(JRCaptureObject *)value toDictionaryForEncoder:NO] JSONString];
            subtitleLabel.textColor = [UIColor grayColor];
 
            if (!isEditing)

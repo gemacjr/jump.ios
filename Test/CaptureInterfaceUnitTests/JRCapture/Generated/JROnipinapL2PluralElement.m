@@ -41,7 +41,7 @@
 #import "JROnipinapL2PluralElement.h"
 
 @interface JROnipinapL3Object (OnipinapL3ObjectInternalMethods)
-+ (id)onipinapL3ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)onipinapL3ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipinapL3Object:(JROnipinapL3Object *)otherOnipinapL3Object;
 @end
 
@@ -126,31 +126,48 @@
     return onipinapL2PluralElementCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.string1 ? self.string1 : [NSNull null])
-             forKey:@"string1"];
-    [dict setObject:(self.string2 ? self.string2 : [NSNull null])
-             forKey:@"string2"];
-    [dict setObject:(self.onipinapL3Object ? [self.onipinapL3Object toDictionary] : [NSNull null])
-             forKey:@"onipinapL3Object"];
+    [dictionary setObject:(self.string1 ? self.string1 : [NSNull null])
+                   forKey:@"string1"];
+    [dictionary setObject:(self.string2 ? self.string2 : [NSNull null])
+                   forKey:@"string2"];
+    [dictionary setObject:(self.onipinapL3Object ? [self.onipinapL3Object toDictionaryForEncoder:forEncoder] : [NSNull null])
+                   forKey:@"onipinapL3Object"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)onipinapL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)onipinapL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JROnipinapL2PluralElement *onipinapL2PluralElement = [JROnipinapL2PluralElement onipinapL2PluralElement];
 
-    onipinapL2PluralElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinapL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-// TODO: Is this safe to assume?
-    onipinapL2PluralElement.canBeUpdatedOrReplaced = YES;
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        onipinapL2PluralElement.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+        onipinapL2PluralElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+    }
+    else
+    {
+        onipinapL2PluralElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinapL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+        // TODO: Is this safe to assume?
+        onipinapL2PluralElement.canBeUpdatedOrReplaced = YES;
+    }
 
     onipinapL2PluralElement.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
@@ -162,11 +179,19 @@
 
     onipinapL2PluralElement.onipinapL3Object =
         [dictionary objectForKey:@"onipinapL3Object"] != [NSNull null] ? 
-        [JROnipinapL3Object onipinapL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:onipinapL2PluralElement.captureObjectPath] : nil;
+        [JROnipinapL3Object onipinapL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:onipinapL2PluralElement.captureObjectPath fromDecoder:fromDecoder] : nil;
 
-    [onipinapL2PluralElement.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [onipinapL2PluralElement.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [onipinapL2PluralElement.dirtyPropertySet removeAllObjects];
     
     return onipinapL2PluralElement;
+}
+
++ (id)onipinapL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JROnipinapL2PluralElement onipinapL2PluralElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -189,7 +214,7 @@
     if ([dictionary objectForKey:@"onipinapL3Object"] == [NSNull null])
         self.onipinapL3Object = nil;
     else if ([dictionary objectForKey:@"onipinapL3Object"] && !self.onipinapL3Object)
-        self.onipinapL3Object = [JROnipinapL3Object onipinapL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:self.captureObjectPath];
+        self.onipinapL3Object = [JROnipinapL3Object onipinapL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:self.captureObjectPath fromDecoder:NO];
     else if ([dictionary objectForKey:@"onipinapL3Object"])
         [self.onipinapL3Object updateFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:self.captureObjectPath];
 
@@ -216,7 +241,7 @@
     if (![dictionary objectForKey:@"onipinapL3Object"] || [dictionary objectForKey:@"onipinapL3Object"] == [NSNull null])
         self.onipinapL3Object = nil;
     else if (!self.onipinapL3Object)
-        self.onipinapL3Object = [JROnipinapL3Object onipinapL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:self.captureObjectPath];
+        self.onipinapL3Object = [JROnipinapL3Object onipinapL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:self.captureObjectPath fromDecoder:NO];
     else
         [self.onipinapL3Object replaceFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:self.captureObjectPath];
 
@@ -225,41 +250,41 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"string1"])
-        [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
+        [dictionary setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
 
     if ([self.dirtyPropertySet containsObject:@"string2"])
-        [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+        [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     if ([self.dirtyPropertySet containsObject:@"onipinapL3Object"])
-        [dict setObject:(self.onipinapL3Object ?
+        [dictionary setObject:(self.onipinapL3Object ?
                               [self.onipinapL3Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JROnipinapL3Object onipinapL3Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
-                 forKey:@"onipinapL3Object"];
+                       forKey:@"onipinapL3Object"];
     else if ([self.onipinapL3Object needsUpdate])
-        [dict setObject:[self.onipinapL3Object toUpdateDictionary]
-                 forKey:@"onipinapL3Object"];
+        [dictionary setObject:[self.onipinapL3Object toUpdateDictionary]
+                       forKey:@"onipinapL3Object"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
-    [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+    [dictionary setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
+    [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
-    [dict setObject:(self.onipinapL3Object ?
+    [dictionary setObject:(self.onipinapL3Object ?
                           [self.onipinapL3Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JROnipinapL3Object onipinapL3Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-             forKey:@"onipinapL3Object"];
+                     forKey:@"onipinapL3Object"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -293,14 +318,14 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"NSString" forKey:@"string1"];
-    [dict setObject:@"NSString" forKey:@"string2"];
-    [dict setObject:@"JROnipinapL3Object" forKey:@"onipinapL3Object"];
+    [dictionary setObject:@"NSString" forKey:@"string1"];
+    [dictionary setObject:@"NSString" forKey:@"string2"];
+    [dictionary setObject:@"JROnipinapL3Object" forKey:@"onipinapL3Object"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

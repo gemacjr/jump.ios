@@ -207,6 +207,7 @@ static void handleCustomInterfaceException(NSException* exception, NSString* kJR
 @synthesize directProvider;
 
 static JRUserInterfaceMaestro* singleton = nil;
+
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro
 {
     return singleton;

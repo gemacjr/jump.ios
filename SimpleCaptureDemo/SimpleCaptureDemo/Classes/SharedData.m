@@ -77,8 +77,8 @@ static NSString *entityTypeName     = @"user_dev";
 
         DLog(@"%@", [prefs objectForKey:@"captureUser"]);
 
-        [JRCapture setAccessToken:accessToken];
-        [JRCapture setCreationToken:creationToken];
+//        [JRCapture setAccessToken:accessToken];
+//        [JRCapture setCreationToken:creationToken];
 //        captureUser.accessToken = accessToken;
 //        captureUser.creationToken = creationToken;
     }
@@ -213,7 +213,7 @@ static NSString *entityTypeName     = @"user_dev";
 
 - (void)resaveCaptureUser
 {
-    [prefs setObject:[self nullWalker:[captureUser toDictionary]] forKey:@"captureUser"];
+    [prefs setObject:[self nullWalker:[captureUser toDictionaryForEncoder:NO]] forKey:@"captureUser"];
 }
 
 - (void)jrAuthenticationCallToTokenUrl:(NSString *)tokenUrl didFailWithError:(NSError *)error forProvider:(NSString *)provider
@@ -309,13 +309,13 @@ static NSString *entityTypeName     = @"user_dev";
 //    [captureUser setAccessToken:accessToken];
 //    [captureUser setCreationToken:creationToken];
 
-    [JRCapture setAccessToken:accessToken];
-    [JRCapture setCreationToken:creationToken];
+//    [JRCapture setAccessToken:accessToken];
+//    [JRCapture setCreationToken:creationToken];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     [prefs setObject:engageUser forKey:@"engageUser"];
-    [prefs setObject:[self nullWalker:[captureUser toDictionary]] forKey:@"captureUser"];
+    [prefs setObject:[self nullWalker:[captureUser toDictionaryForEncoder:NO]] forKey:@"captureUser"];
     [prefs setObject:accessToken forKey:@"accessToken"];
     [prefs setObject:creationToken forKey:@"creationToken"];
 

@@ -38,10 +38,10 @@
  * @brief A JRPluralLevelTwoElement object
  **/
 @interface JRPluralLevelTwoElement : JRCaptureObject
-@property (nonatomic, copy)   JRObjectId *pluralLevelTwoElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
-@property (nonatomic, copy)   NSString *level; /**< The object's \e level property */ 
-@property (nonatomic, copy)   NSString *name; /**< The object's \e name property */ 
-@property (nonatomic, copy)   NSArray *pluralLevelThree; /**< The object's \e pluralLevelThree property @note This is an array of \c JRPluralLevelThreeElement objects */ 
+@property (nonatomic, readonly) JRObjectId *pluralLevelTwoElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy)     NSString *level; /**< The object's \e level property */ 
+@property (nonatomic, copy)     NSString *name; /**< The object's \e name property */ 
+@property (nonatomic, copy)     NSArray *pluralLevelThree; /**< The object's \e pluralLevelThree property @note This is an array of \c JRPluralLevelThreeElement objects */ 
 
 /**
  * @name Constructors

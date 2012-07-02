@@ -41,7 +41,7 @@
 #import "JROinoL1Object.h"
 
 @interface JROinoL2Object (OinoL2ObjectInternalMethods)
-+ (id)oinoL2ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)oinoL2ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOinoL2Object:(JROinoL2Object *)otherOinoL2Object;
 @end
 
@@ -126,28 +126,41 @@
     return oinoL1ObjectCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.string1 ? self.string1 : [NSNull null])
-             forKey:@"string1"];
-    [dict setObject:(self.string2 ? self.string2 : [NSNull null])
-             forKey:@"string2"];
-    [dict setObject:(self.oinoL2Object ? [self.oinoL2Object toDictionary] : [NSNull null])
-             forKey:@"oinoL2Object"];
+    [dictionary setObject:(self.string1 ? self.string1 : [NSNull null])
+                   forKey:@"string1"];
+    [dictionary setObject:(self.string2 ? self.string2 : [NSNull null])
+                   forKey:@"string2"];
+    [dictionary setObject:(self.oinoL2Object ? [self.oinoL2Object toDictionaryForEncoder:forEncoder] : [NSNull null])
+                   forKey:@"oinoL2Object"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)oinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)oinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JROinoL1Object *oinoL1Object = [JROinoL1Object oinoL1Object];
 
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        oinoL1Object.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+    }
 
     oinoL1Object.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
@@ -159,11 +172,19 @@
 
     oinoL1Object.oinoL2Object =
         [dictionary objectForKey:@"oinoL2Object"] != [NSNull null] ? 
-        [JROinoL2Object oinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"oinoL2Object"] withPath:oinoL1Object.captureObjectPath] : nil;
+        [JROinoL2Object oinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"oinoL2Object"] withPath:oinoL1Object.captureObjectPath fromDecoder:fromDecoder] : nil;
 
-    [oinoL1Object.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [oinoL1Object.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [oinoL1Object.dirtyPropertySet removeAllObjects];
     
     return oinoL1Object;
+}
+
++ (id)oinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JROinoL1Object oinoL1ObjectObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -185,7 +206,7 @@
     if ([dictionary objectForKey:@"oinoL2Object"] == [NSNull null])
         self.oinoL2Object = nil;
     else if ([dictionary objectForKey:@"oinoL2Object"] && !self.oinoL2Object)
-        self.oinoL2Object = [JROinoL2Object oinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"oinoL2Object"] withPath:self.captureObjectPath];
+        self.oinoL2Object = [JROinoL2Object oinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"oinoL2Object"] withPath:self.captureObjectPath fromDecoder:NO];
     else if ([dictionary objectForKey:@"oinoL2Object"])
         [self.oinoL2Object updateFromDictionary:[dictionary objectForKey:@"oinoL2Object"] withPath:self.captureObjectPath];
 
@@ -211,7 +232,7 @@
     if (![dictionary objectForKey:@"oinoL2Object"] || [dictionary objectForKey:@"oinoL2Object"] == [NSNull null])
         self.oinoL2Object = nil;
     else if (!self.oinoL2Object)
-        self.oinoL2Object = [JROinoL2Object oinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"oinoL2Object"] withPath:self.captureObjectPath];
+        self.oinoL2Object = [JROinoL2Object oinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"oinoL2Object"] withPath:self.captureObjectPath fromDecoder:NO];
     else
         [self.oinoL2Object replaceFromDictionary:[dictionary objectForKey:@"oinoL2Object"] withPath:self.captureObjectPath];
 
@@ -220,41 +241,41 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"string1"])
-        [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
+        [dictionary setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
 
     if ([self.dirtyPropertySet containsObject:@"string2"])
-        [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+        [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     if ([self.dirtyPropertySet containsObject:@"oinoL2Object"])
-        [dict setObject:(self.oinoL2Object ?
+        [dictionary setObject:(self.oinoL2Object ?
                               [self.oinoL2Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JROinoL2Object oinoL2Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
-                 forKey:@"oinoL2Object"];
+                       forKey:@"oinoL2Object"];
     else if ([self.oinoL2Object needsUpdate])
-        [dict setObject:[self.oinoL2Object toUpdateDictionary]
-                 forKey:@"oinoL2Object"];
+        [dictionary setObject:[self.oinoL2Object toUpdateDictionary]
+                       forKey:@"oinoL2Object"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
-    [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+    [dictionary setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
+    [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
-    [dict setObject:(self.oinoL2Object ?
+    [dictionary setObject:(self.oinoL2Object ?
                           [self.oinoL2Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JROinoL2Object oinoL2Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-             forKey:@"oinoL2Object"];
+                     forKey:@"oinoL2Object"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -288,14 +309,14 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"NSString" forKey:@"string1"];
-    [dict setObject:@"NSString" forKey:@"string2"];
-    [dict setObject:@"JROinoL2Object" forKey:@"oinoL2Object"];
+    [dictionary setObject:@"NSString" forKey:@"string1"];
+    [dictionary setObject:@"NSString" forKey:@"string2"];
+    [dictionary setObject:@"JROinoL2Object" forKey:@"oinoL2Object"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

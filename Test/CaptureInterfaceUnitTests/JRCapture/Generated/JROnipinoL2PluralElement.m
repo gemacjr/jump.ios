@@ -41,7 +41,7 @@
 #import "JROnipinoL2PluralElement.h"
 
 @interface JROnipinoL3Object (OnipinoL3ObjectInternalMethods)
-+ (id)onipinoL3ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)onipinoL3ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipinoL3Object:(JROnipinoL3Object *)otherOnipinoL3Object;
 @end
 
@@ -126,31 +126,48 @@
     return onipinoL2PluralElementCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.string1 ? self.string1 : [NSNull null])
-             forKey:@"string1"];
-    [dict setObject:(self.string2 ? self.string2 : [NSNull null])
-             forKey:@"string2"];
-    [dict setObject:(self.onipinoL3Object ? [self.onipinoL3Object toDictionary] : [NSNull null])
-             forKey:@"onipinoL3Object"];
+    [dictionary setObject:(self.string1 ? self.string1 : [NSNull null])
+                   forKey:@"string1"];
+    [dictionary setObject:(self.string2 ? self.string2 : [NSNull null])
+                   forKey:@"string2"];
+    [dictionary setObject:(self.onipinoL3Object ? [self.onipinoL3Object toDictionaryForEncoder:forEncoder] : [NSNull null])
+                   forKey:@"onipinoL3Object"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)onipinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)onipinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JROnipinoL2PluralElement *onipinoL2PluralElement = [JROnipinoL2PluralElement onipinoL2PluralElement];
 
-    onipinoL2PluralElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinoL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-// TODO: Is this safe to assume?
-    onipinoL2PluralElement.canBeUpdatedOrReplaced = YES;
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        onipinoL2PluralElement.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+        onipinoL2PluralElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+    }
+    else
+    {
+        onipinoL2PluralElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinoL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+        // TODO: Is this safe to assume?
+        onipinoL2PluralElement.canBeUpdatedOrReplaced = YES;
+    }
 
     onipinoL2PluralElement.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
@@ -162,11 +179,19 @@
 
     onipinoL2PluralElement.onipinoL3Object =
         [dictionary objectForKey:@"onipinoL3Object"] != [NSNull null] ? 
-        [JROnipinoL3Object onipinoL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinoL3Object"] withPath:onipinoL2PluralElement.captureObjectPath] : nil;
+        [JROnipinoL3Object onipinoL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinoL3Object"] withPath:onipinoL2PluralElement.captureObjectPath fromDecoder:fromDecoder] : nil;
 
-    [onipinoL2PluralElement.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [onipinoL2PluralElement.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [onipinoL2PluralElement.dirtyPropertySet removeAllObjects];
     
     return onipinoL2PluralElement;
+}
+
++ (id)onipinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JROnipinoL2PluralElement onipinoL2PluralElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -189,7 +214,7 @@
     if ([dictionary objectForKey:@"onipinoL3Object"] == [NSNull null])
         self.onipinoL3Object = nil;
     else if ([dictionary objectForKey:@"onipinoL3Object"] && !self.onipinoL3Object)
-        self.onipinoL3Object = [JROnipinoL3Object onipinoL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinoL3Object"] withPath:self.captureObjectPath];
+        self.onipinoL3Object = [JROnipinoL3Object onipinoL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinoL3Object"] withPath:self.captureObjectPath fromDecoder:NO];
     else if ([dictionary objectForKey:@"onipinoL3Object"])
         [self.onipinoL3Object updateFromDictionary:[dictionary objectForKey:@"onipinoL3Object"] withPath:self.captureObjectPath];
 
@@ -216,7 +241,7 @@
     if (![dictionary objectForKey:@"onipinoL3Object"] || [dictionary objectForKey:@"onipinoL3Object"] == [NSNull null])
         self.onipinoL3Object = nil;
     else if (!self.onipinoL3Object)
-        self.onipinoL3Object = [JROnipinoL3Object onipinoL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinoL3Object"] withPath:self.captureObjectPath];
+        self.onipinoL3Object = [JROnipinoL3Object onipinoL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinoL3Object"] withPath:self.captureObjectPath fromDecoder:NO];
     else
         [self.onipinoL3Object replaceFromDictionary:[dictionary objectForKey:@"onipinoL3Object"] withPath:self.captureObjectPath];
 
@@ -225,41 +250,41 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"string1"])
-        [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
+        [dictionary setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
 
     if ([self.dirtyPropertySet containsObject:@"string2"])
-        [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+        [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     if ([self.dirtyPropertySet containsObject:@"onipinoL3Object"])
-        [dict setObject:(self.onipinoL3Object ?
+        [dictionary setObject:(self.onipinoL3Object ?
                               [self.onipinoL3Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JROnipinoL3Object onipinoL3Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
-                 forKey:@"onipinoL3Object"];
+                       forKey:@"onipinoL3Object"];
     else if ([self.onipinoL3Object needsUpdate])
-        [dict setObject:[self.onipinoL3Object toUpdateDictionary]
-                 forKey:@"onipinoL3Object"];
+        [dictionary setObject:[self.onipinoL3Object toUpdateDictionary]
+                       forKey:@"onipinoL3Object"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
-    [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+    [dictionary setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
+    [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
-    [dict setObject:(self.onipinoL3Object ?
+    [dictionary setObject:(self.onipinoL3Object ?
                           [self.onipinoL3Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JROnipinoL3Object onipinoL3Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-             forKey:@"onipinoL3Object"];
+                     forKey:@"onipinoL3Object"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -293,14 +318,14 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"NSString" forKey:@"string1"];
-    [dict setObject:@"NSString" forKey:@"string2"];
-    [dict setObject:@"JROnipinoL3Object" forKey:@"onipinoL3Object"];
+    [dictionary setObject:@"NSString" forKey:@"string1"];
+    [dictionary setObject:@"NSString" forKey:@"string2"];
+    [dictionary setObject:@"JROnipinoL3Object" forKey:@"onipinoL3Object"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc
