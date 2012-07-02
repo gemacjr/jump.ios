@@ -410,6 +410,7 @@
         return;
     }
 
+
     [JRCaptureApidInterface updateCaptureObject:[self toUpdateDictionary]
                                          atPath:self.captureObjectPath
                                       withToken:[JRCaptureData accessToken]

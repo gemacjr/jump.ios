@@ -232,9 +232,9 @@ typedef enum
        captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId
      andEntityTypeName:(NSString *)newEntityTypeName;
 
-+ (NSString *)captureMobileEndpointUrl;
+//+ (NSString *)captureMobileEndpointUrl;
 + (void)setAccessToken:(NSString *)newAccessToken;
-+ (void)setCreationToken:(NSString *)newCreationToken;
+//+ (void)setCreationToken:(NSString *)newCreationToken;
 
 
 /**

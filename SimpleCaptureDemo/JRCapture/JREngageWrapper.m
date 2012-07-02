@@ -212,14 +212,16 @@ static JREngageWrapper *singleton = nil;
                                    didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
                                         forProvider:provider];
 
-    JRCaptureUser *captureUser   = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+    JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
 
-    if (!captureProfile)
+    if (!captureUser)
         return [self jrAuthenticationCallToTokenUrl:tokenUrl
                                    didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
                                         forProvider:provider];
 
-    [JRCaptureData setAccessToken:accessToken];
+    NSString *uuid = [captureUser performSelector:NSSelectorFromString(@"uuid")];
+
+    [JRCaptureData setAccessToken:accessToken forUser:uuid];
     [JRCaptureData setCreationToken:creationToken];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;

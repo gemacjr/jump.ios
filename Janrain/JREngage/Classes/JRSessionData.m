@@ -99,7 +99,7 @@ static NSString * const iconNamesSocial[11] = { @"icon_%@_30x30.png",
 #define cJRLastUsedSocialProvider       @"jrengage.sessionData.lastUsedSocialProvider"
 #define cJRLastUsedBasicProvider        @"jrengage.sessionData.lastUsedBasicProvider"
 
-#define cJRKeychainIdentifier    @"device_tokens.janrain"
+#define cJREngageKeychainIdentifier     @"device_tokens.janrain"
 
 #define cJRProviderName                     @"jrengage.provider.name"
 #define cJRProviderFriendlyName             @"jrengage.provider.friendlyName"
@@ -226,7 +226,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     [SFHFKeychainUtils storeUsername:_providerName
                          andPassword:_deviceToken
                       forServiceName:[NSString stringWithFormat:@"%@.%@.",
-                                      cJRKeychainIdentifier,
+                                               cJREngageKeychainIdentifier,
                                       applicationBundleDisplayNameAndIdentifier()]
                       updateExisting:YES
                                error:&error];
@@ -250,7 +250,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
         NSError *error = nil;
         _deviceToken = [[SFHFKeychainUtils getPasswordForUsername:_providerName
                                                    andServiceName:[NSString stringWithFormat:@"%@.%@.",
-                                                                   cJRKeychainIdentifier,
+                                                                            cJREngageKeychainIdentifier,
                                                                    applicationBundleDisplayNameAndIdentifier()]
                                                             error:&error] retain];
 
@@ -272,7 +272,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 {
     NSError *error = nil;
     [SFHFKeychainUtils deleteItemForUsername:_providerName
-                              andServiceName:[NSString stringWithFormat:@"%@.%@.", cJRKeychainIdentifier, applicationBundleDisplayNameAndIdentifier()]
+                              andServiceName:[NSString stringWithFormat:@"%@.%@.", cJREngageKeychainIdentifier, applicationBundleDisplayNameAndIdentifier()]
                                        error:&error];
     if (error)
         ALog (@"Error deleting device token from keychain: %@", [error localizedDescription]);

@@ -9,14 +9,15 @@
 #import <Foundation/Foundation.h>
 
 @interface JRCaptureData : NSObject
-+ (NSString *)accessToken;
-+ (NSString *)creationToken;
++ (void)setAccessToken:(NSString *)newAccessToken forUser:(NSString *)userId;
++ (void)setCreationToken:(NSString *)newCreationToken;
++ (NSString *)accessTokenForUser:(NSString *)userId;
++ (NSString *)accessToken;//ForUser:(NSString *)userId;
++ (NSString *)creationToken;//ForUser:(NSString *)userId;
 + (NSString *)captureApidDomain;
 + (NSString *)captureUIDomain;
 + (NSString *)clientId;
 + (NSString *)entityTypeName;
-+ (void)setAccessToken:(NSString *)newAccessToken;
-+ (void)setCreationToken:(NSString *)newCreationToken;
 + (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain
             captureUIDomain:(NSString *)newCaptureUIDomain
                    clientId:(NSString *)newClientId
