@@ -117,7 +117,7 @@
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
-    captureUser.basicDecimal = [NSNumber numberWithDouble:[@"1/4" doubleValue]];
+    captureUser.basicDecimal = [NSNumber numberWithDouble:[@"0.25" doubleValue]];
     GHAssertEquals([captureUser.basicDecimal doubleValue], 0.25, nil);
 
     [self prepare];
