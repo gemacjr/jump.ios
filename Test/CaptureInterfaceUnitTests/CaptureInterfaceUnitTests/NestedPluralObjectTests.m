@@ -1202,7 +1202,20 @@ void (^contBlock)() = nil;
  updated, even though some are removed. Replace whole array again, verify sync */
 - (void)test_b374e_oinonipReplace_Level2_RemovedUpdatedElements
 {
-
+    [self oinonipCreate];
+    [self genericTestApidMethod:replace forObject:captureUser
+                   expectResult:success forTest:_sel forPlural:@"oinonipL1Plural"
+                      withArray:currentL1Plural continueBlock:^(){
+        NSMutableArray *a = [NSMutableArray arrayWithArray:captureUser.oinonipL1Plural];
+        [a removeLastObject];
+        JROinonipL1PluralElement *o = (JROinonipL1PluralElement *) [a lastObject];
+        o.string1 = @"asdfklhj";
+        GHAssertTrue([o canBeUpdatedOrReplaced], nil);
+        ((JROinonipL2Object *) currentL2Object).string1 = @"sldkafjlk";
+        self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
+        [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
+                          forPlural:@"oinonipL1Plural" withArray:currentL1Plural continueBlock:nil];
+    }];
 }
 
 /* Create array and sync on Capture. Remove elements locally, update others. Verify current elements can still be
@@ -1214,7 +1227,25 @@ void (^contBlock)() = nil;
 
 - (void)test_b374g_oinonipReplace_Level2_AddedRemovedUpdatedElements
 {
-
+    [self oinonipCreate];
+    [self genericTestApidMethod:replace forObject:captureUser
+                   expectResult:success forTest:_sel forPlural:@"oinonipL1Plural"
+                      withArray:currentL1Plural continueBlock:^(){
+        NSMutableArray *a = [NSMutableArray arrayWithArray:captureUser.oinonipL1Plural];
+        [a removeLastObject];
+        JROinonipL1PluralElement *o = (JROinonipL1PluralElement *) [a lastObject];
+        o.string1 = @"asdfklhj";
+        GHAssertTrue([o canBeUpdatedOrReplaced], nil);
+        ((JROinonipL2Object *) currentL2Object).string1 = @"sldkafjlk";
+        JROinonipL1PluralElement *o_ = [self objectOfType:[JROinonipL1PluralElement class]
+                                          withConstructor:@selector(oinonipL1PluralElement)
+                                       fillerFodderOffset:2];
+        [a addObject:o_];
+        GHAssertFalse([o_ canBeUpdatedOrReplaced], nil);
+        self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
+        [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
+                          forPlural:@"oinonipL1Plural" withArray:currentL1Plural continueBlock:nil];
+    }];
 }
 
 - (void)test_b374h_oinonipReplace_Level3_AddedRemovedUpdatedElements
@@ -1236,7 +1267,7 @@ void (^contBlock)() = nil;
 }
 
 - (void)continue_b375a_oinonipUpdate_Level3_CopiedL3_PostReplace_FailCase_withArguments:(NSDictionary *)arguments
-                                                               andTestSelectorString:(NSString *)testSelectorString
+                                                                  andTestSelectorString:(NSString *)testSelectorString
 {
     /* Copy the level 3 object, saving it for later, */
     self.currentL3Object =
@@ -1247,7 +1278,7 @@ void (^contBlock)() = nil;
 }
 
 - (void)continue1_b375a_oinonipUpdate_Level3_CopiedL3_PostReplace_FailCase_withArguments:(NSDictionary *)arguments
-                                                               andTestSelectorString:(NSString *)testSelectorString
+                                                                   andTestSelectorString:(NSString *)testSelectorString
 {
     DLog(@"");
 
@@ -1257,7 +1288,7 @@ void (^contBlock)() = nil;
 }
 
 - (void)finish_b375a_oinonipUpdate_Level3_CopiedL3_PostReplace_FailCase_withArguments:(NSDictionary *)arguments
-                                                            andTestSelectorString:(NSString *)testSelectorString
+                                                                andTestSelectorString:(NSString *)testSelectorString
 { /* Should fail here */ }
 
 
@@ -1338,6 +1369,7 @@ void (^contBlock)() = nil;
 
 /* Object in a plural in an object (380-389) */
 // onipino
+
 /* Object in an object (390-399) */
 // oinoino
 - (void)oinoinoCreate
