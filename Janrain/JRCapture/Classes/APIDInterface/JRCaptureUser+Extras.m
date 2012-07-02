@@ -69,13 +69,16 @@
     NSDictionary *resultDictionary = [(NSString *)result objectFromJSONString];
 
     if (!resultDictionary)
-        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]
+                                                context:context];
 
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
-        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result] context:context];
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result]
+                                                context:context];
 
     if (![resultDictionary objectForKey:@"result"])
-        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]
+                                                context:context];
 
     [captureUser replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
 
@@ -183,12 +186,18 @@
     if (![resultDictionary objectForKey:@"result"])
         return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]  context:context];
 
-    // TODO: Implement me!!!
-
     if ([capturePath isEqualToString:@"/lastUpdated"])
     {
+        JRDateTime *lastUpdated = [JRDateTime dateFromISO8601DateTimeString:[resultDictionary objectForKey:@"result"]];
+        const SEL lastUpdatedSelector = NSSelectorFromString(@"lastUpdated");
+        if (![captureUser respondsToSelector:lastUpdatedSelector])
+            return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]
+                                                   context:context];
+        JRDateTime *oldDate = [captureUser performSelector:lastUpdatedSelector];
+        BOOL isOutdated = [lastUpdated compare:oldDate] != NSOrderedSame;
+
         if ([delegate respondsToSelector:@selector(fetchLastUpdatedDidSucceed:isOutdated:context:)])
-                [delegate fetchLastUpdatedDidSucceed:nil isOutdated:YES context:callerContext];
+                [delegate fetchLastUpdatedDidSucceed:lastUpdated isOutdated:isOutdated context:callerContext];
     }
 }
 @end

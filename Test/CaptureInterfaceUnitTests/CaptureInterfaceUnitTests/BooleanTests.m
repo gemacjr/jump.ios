@@ -145,8 +145,7 @@
     GHAssertEqualObjects(captureUser.basicBoolean, [NSNull null], nil);
 
     [self prepare];
-    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
-    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+    GHAssertThrows([captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)], nil);
 }
 
 /* Set a boolean with a primitive boolean setters/getters */
