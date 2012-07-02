@@ -246,7 +246,7 @@ typedef enum
         else if ([NSStringFromClass([object superclass]) isEqualToString:@"JRCaptureObject"])
         {
             self.dataType = DataTypeObject;
-            self.tableViewData = [object toDictionary];
+            self.tableViewData = [object toDictionaryForEncoder:NO];
             self.dataCount = [[(NSDictionary *)tableViewData allKeys] count];
         }
         else
@@ -415,7 +415,7 @@ typedef enum
             [newPropertySubObject performSelector:xselectorFromKey(propertyString) withObject:@"xxx"];
     }
 
-    DLog(@"%@", [[newPropertySubObject toDictionary] description]);
+    DLog(@"%@", [[newPropertySubObject toDictionaryForEncoder:NO] description]);
 
     JRCaptureObject *newParentObject;
     if ([propertyWithAddButton isKindOfClass:[NSArray class]])
@@ -656,8 +656,8 @@ typedef enum
      /* get the current item in our array */
         value = [((NSArray *)tableViewData) objectAtIndex:(NSUInteger)indexPath.row];
 
-        if ([value respondsToSelector:@selector(toDictionary)])
-            value = [(JRCaptureObject *)value toDictionary];
+        if ([value respondsToSelector:@selector(toDictionaryForEncoder:)])
+            value = [(JRCaptureObject *)value toDictionaryForEncoder:NO];
     }
  /* If our data is a dictionary, */
     else if ([tableViewData isKindOfClass:[NSDictionary class]])
@@ -666,8 +666,8 @@ typedef enum
         key   = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:(NSUInteger)indexPath.row];
         value = [((NSDictionary *)tableViewData) objectForKey:key];
 
-        if ([value respondsToSelector:@selector(toDictionary)])
-            value = [(JRCaptureObject *)value toDictionary];
+        if ([value respondsToSelector:@selector(toDictionaryForEncoder:)])
+            value = [(JRCaptureObject *)value toDictionaryForEncoder:NO];
 
      /* and set the cell title as the key */
         cellTitle = key;
@@ -789,8 +789,8 @@ typedef enum
         captureSubObj = [captureObject performSelector:NSSelectorFromString(key)];
     }
 
-    if ([value respondsToSelector:@selector(toDictionary)])
-        value = [(JRCaptureObject *)value toDictionary];
+    if ([value respondsToSelector:@selector(toDictionaryForEncoder:)])
+        value = [(JRCaptureObject *)value toDictionaryForEncoder:NO];
 
  /* If our value isn't an array or dictionary, don't drill down. */
     if (![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]])

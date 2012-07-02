@@ -68,13 +68,24 @@
 
     NSDictionary *resultDictionary = [(NSString *)result objectFromJSONString];
 
+    if (!resultDictionary)
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
+
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
-        [self createCaptureUserDidFailWithResult:result context:context];
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result] context:context];
 
     if (![resultDictionary objectForKey:@"result"])
-        [self createCaptureUserDidFailWithResult:result context:context];
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
 
     [captureUser replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
+
+    if (!captureUser)
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
+
+    NSString *accessToken = [resultDictionary objectForKey:@"access_token"];
+    NSString *uuid        = [captureUser performSelector:NSSelectorFromString(@"uuid")];
+
+    [JRCaptureData setAccessToken:accessToken forUser:uuid];
 
     /* Calling the old protocol methods for testing purposes, but have to make sure we pass the result string... */
     if ([delegate conformsToProtocol:@protocol(JRCaptureUserTesterDelegate)] &&
@@ -114,6 +125,9 @@
         resultDictionary = [(NSString *)result objectFromJSONString];
     else /* Uh-oh!! */
         return [self getCaptureUserDidFailWithResult:[JRCaptureError invalidClassErrorForResult:result] context:context];
+
+    if (!resultDictionary)
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
 
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
         return [self getCaptureUserDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result] context:context];
@@ -160,6 +174,9 @@
     else /* Uh-oh!! */
         return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidClassErrorForResult:result] context:context];
 
+    if (!resultDictionary)
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
+
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
         return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result] context:context];
 
@@ -178,22 +195,25 @@
 
 @interface JRCaptureUser (Internal)
 + (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (void)decodeFromDictionary:(NSDictionary *)dictionary;
 @end
 
 @implementation JRCaptureUser (Extras)
 
+#define cJREncodedCaptureUser @"jrcapture.encodedCaptureUser"
+
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    NSDictionary *dictionary = [self toDictionary];
-    [coder encodeObject:dictionary forKey:@"captureUser"];
+    NSDictionary *dictionary = [self toDictionaryForEncoder:YES];
+    [coder encodeObject:dictionary forKey:cJREncodedCaptureUser];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
     if (self != nil)
     {
-        NSDictionary *dictionary = [coder decodeObjectForKey:@"captureUser"];
-        [self replaceFromDictionary:dictionary withPath:@""];
+        NSDictionary *dictionary = [coder decodeObjectForKey:cJREncodedCaptureUser];
+        [self decodeFromDictionary:dictionary];
     }
 
     return self;

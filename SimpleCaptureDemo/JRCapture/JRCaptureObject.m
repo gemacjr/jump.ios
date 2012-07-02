@@ -336,7 +336,7 @@
     return objectCopy;
 }
 
-- (NSDictionary *)toDictionary
+- (NSDictionary *)toDictionaryForEncoder:(BOOL)forEncoder
 {
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];

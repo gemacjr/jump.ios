@@ -395,7 +395,7 @@ static Class getClassFromKey(NSString *key)
     NSObject *value = [localCopyArray objectAtIndex:index];
 
     objectData.titleLabel.text    = key;
-    objectData.subtitleLabel.text = [[(JRCaptureObject *)value toDictionary] JSONString];
+    objectData.subtitleLabel.text = [[(JRCaptureObject *)value toDictionaryForEncoder:NO] JSONString];
 }
 
 - (void)createCellViewsForObjectData:(ElementData *)objectData atIndex:(NSUInteger)index

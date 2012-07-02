@@ -38,9 +38,9 @@
  * @brief A JROnipLevelTwo object
  **/
 @interface JROnipLevelTwo : JRCaptureObject
-@property (nonatomic, copy)   NSString *level; /**< The object's \e level property */ 
-@property (nonatomic, copy)   NSString *name; /**< The object's \e name property */ 
-@property (nonatomic, retain) JROnipLevelThree *onipLevelThree; /**< The object's \e onipLevelThree property */ 
+@property (nonatomic, copy)     NSString *level; /**< The object's \e level property */ 
+@property (nonatomic, copy)     NSString *name; /**< The object's \e name property */ 
+@property (nonatomic, retain)   JROnipLevelThree *onipLevelThree; /**< The object's \e onipLevelThree property */ 
 
 /**
  * @name Constructors

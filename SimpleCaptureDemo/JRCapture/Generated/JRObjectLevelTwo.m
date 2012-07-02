@@ -41,7 +41,7 @@
 #import "JRObjectLevelTwo.h"
 
 @interface JRObjectLevelThree (ObjectLevelThreeInternalMethods)
-+ (id)objectLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)objectLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToObjectLevelThree:(JRObjectLevelThree *)otherObjectLevelThree;
 @end
 
@@ -126,28 +126,41 @@
     return objectLevelTwoCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.level ? self.level : [NSNull null])
-             forKey:@"level"];
-    [dict setObject:(self.name ? self.name : [NSNull null])
-             forKey:@"name"];
-    [dict setObject:(self.objectLevelThree ? [self.objectLevelThree toDictionary] : [NSNull null])
-             forKey:@"objectLevelThree"];
+    [dictionary setObject:(self.level ? self.level : [NSNull null])
+                   forKey:@"level"];
+    [dictionary setObject:(self.name ? self.name : [NSNull null])
+                   forKey:@"name"];
+    [dictionary setObject:(self.objectLevelThree ? [self.objectLevelThree toDictionaryForEncoder:forEncoder] : [NSNull null])
+                   forKey:@"objectLevelThree"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)objectLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)objectLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JRObjectLevelTwo *objectLevelTwo = [JRObjectLevelTwo objectLevelTwo];
 
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        objectLevelTwo.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+    }
 
     objectLevelTwo.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -159,11 +172,19 @@
 
     objectLevelTwo.objectLevelThree =
         [dictionary objectForKey:@"objectLevelThree"] != [NSNull null] ? 
-        [JRObjectLevelThree objectLevelThreeObjectFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:objectLevelTwo.captureObjectPath] : nil;
+        [JRObjectLevelThree objectLevelThreeObjectFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:objectLevelTwo.captureObjectPath fromDecoder:fromDecoder] : nil;
 
-    [objectLevelTwo.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [objectLevelTwo.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [objectLevelTwo.dirtyPropertySet removeAllObjects];
     
     return objectLevelTwo;
+}
+
++ (id)objectLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -185,7 +206,7 @@
     if ([dictionary objectForKey:@"objectLevelThree"] == [NSNull null])
         self.objectLevelThree = nil;
     else if ([dictionary objectForKey:@"objectLevelThree"] && !self.objectLevelThree)
-        self.objectLevelThree = [JRObjectLevelThree objectLevelThreeObjectFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:self.captureObjectPath];
+        self.objectLevelThree = [JRObjectLevelThree objectLevelThreeObjectFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:self.captureObjectPath fromDecoder:NO];
     else if ([dictionary objectForKey:@"objectLevelThree"])
         [self.objectLevelThree updateFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:self.captureObjectPath];
 
@@ -211,7 +232,7 @@
     if (![dictionary objectForKey:@"objectLevelThree"] || [dictionary objectForKey:@"objectLevelThree"] == [NSNull null])
         self.objectLevelThree = nil;
     else if (!self.objectLevelThree)
-        self.objectLevelThree = [JRObjectLevelThree objectLevelThreeObjectFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:self.captureObjectPath];
+        self.objectLevelThree = [JRObjectLevelThree objectLevelThreeObjectFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:self.captureObjectPath fromDecoder:NO];
     else
         [self.objectLevelThree replaceFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:self.captureObjectPath];
 
@@ -220,41 +241,41 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"level"])
-        [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
+        [dictionary setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
 
     if ([self.dirtyPropertySet containsObject:@"name"])
-        [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
+        [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"objectLevelThree"])
-        [dict setObject:(self.objectLevelThree ?
+        [dictionary setObject:(self.objectLevelThree ?
                               [self.objectLevelThree toReplaceDictionaryIncludingArrays:NO] :
                               [[JRObjectLevelThree objectLevelThree] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
-                 forKey:@"objectLevelThree"];
+                       forKey:@"objectLevelThree"];
     else if ([self.objectLevelThree needsUpdate])
-        [dict setObject:[self.objectLevelThree toUpdateDictionary]
-                 forKey:@"objectLevelThree"];
+        [dictionary setObject:[self.objectLevelThree toUpdateDictionary]
+                       forKey:@"objectLevelThree"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
-    [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
+    [dictionary setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
+    [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
-    [dict setObject:(self.objectLevelThree ?
+    [dictionary setObject:(self.objectLevelThree ?
                           [self.objectLevelThree toReplaceDictionaryIncludingArrays:YES] :
                           [[JRObjectLevelThree objectLevelThree] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-             forKey:@"objectLevelThree"];
+                     forKey:@"objectLevelThree"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -288,14 +309,14 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"NSString" forKey:@"level"];
-    [dict setObject:@"NSString" forKey:@"name"];
-    [dict setObject:@"JRObjectLevelThree" forKey:@"objectLevelThree"];
+    [dictionary setObject:@"NSString" forKey:@"level"];
+    [dictionary setObject:@"NSString" forKey:@"name"];
+    [dictionary setObject:@"JRObjectLevelThree" forKey:@"objectLevelThree"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

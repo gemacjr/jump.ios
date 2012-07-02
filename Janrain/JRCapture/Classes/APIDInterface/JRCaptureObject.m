@@ -336,7 +336,7 @@
     return objectCopy;
 }
 
-- (NSDictionary *)toDictionary
+- (NSDictionary *)toDictionaryForEncoder:(BOOL)forEncoder
 {
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
@@ -409,6 +409,7 @@
 
         return;
     }
+
 
     [JRCaptureApidInterface updateCaptureObject:[self toUpdateDictionary]
                                          atPath:self.captureObjectPath

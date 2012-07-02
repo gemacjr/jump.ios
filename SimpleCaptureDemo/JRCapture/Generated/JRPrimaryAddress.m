@@ -225,42 +225,55 @@
     return primaryAddressCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.address1 ? self.address1 : [NSNull null])
-             forKey:@"address1"];
-    [dict setObject:(self.address2 ? self.address2 : [NSNull null])
-             forKey:@"address2"];
-    [dict setObject:(self.city ? self.city : [NSNull null])
-             forKey:@"city"];
-    [dict setObject:(self.company ? self.company : [NSNull null])
-             forKey:@"company"];
-    [dict setObject:(self.country ? self.country : [NSNull null])
-             forKey:@"country"];
-    [dict setObject:(self.mobile ? self.mobile : [NSNull null])
-             forKey:@"mobile"];
-    [dict setObject:(self.phone ? self.phone : [NSNull null])
-             forKey:@"phone"];
-    [dict setObject:(self.stateAbbreviation ? self.stateAbbreviation : [NSNull null])
-             forKey:@"stateAbbreviation"];
-    [dict setObject:(self.zip ? self.zip : [NSNull null])
-             forKey:@"zip"];
-    [dict setObject:(self.zipPlus4 ? self.zipPlus4 : [NSNull null])
-             forKey:@"zipPlus4"];
+    [dictionary setObject:(self.address1 ? self.address1 : [NSNull null])
+                   forKey:@"address1"];
+    [dictionary setObject:(self.address2 ? self.address2 : [NSNull null])
+                   forKey:@"address2"];
+    [dictionary setObject:(self.city ? self.city : [NSNull null])
+                   forKey:@"city"];
+    [dictionary setObject:(self.company ? self.company : [NSNull null])
+                   forKey:@"company"];
+    [dictionary setObject:(self.country ? self.country : [NSNull null])
+                   forKey:@"country"];
+    [dictionary setObject:(self.mobile ? self.mobile : [NSNull null])
+                   forKey:@"mobile"];
+    [dictionary setObject:(self.phone ? self.phone : [NSNull null])
+                   forKey:@"phone"];
+    [dictionary setObject:(self.stateAbbreviation ? self.stateAbbreviation : [NSNull null])
+                   forKey:@"stateAbbreviation"];
+    [dictionary setObject:(self.zip ? self.zip : [NSNull null])
+                   forKey:@"zip"];
+    [dictionary setObject:(self.zipPlus4 ? self.zipPlus4 : [NSNull null])
+                   forKey:@"zipPlus4"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)primaryAddressObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)primaryAddressObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JRPrimaryAddress *primaryAddress = [JRPrimaryAddress primaryAddress];
 
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        primaryAddress.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+    }
 
     primaryAddress.address1 =
         [dictionary objectForKey:@"address1"] != [NSNull null] ? 
@@ -302,9 +315,17 @@
         [dictionary objectForKey:@"zipPlus4"] != [NSNull null] ? 
         [dictionary objectForKey:@"zipPlus4"] : nil;
 
-    [primaryAddress.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [primaryAddress.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [primaryAddress.dirtyPropertySet removeAllObjects];
     
     return primaryAddress;
+}
+
++ (id)primaryAddressObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JRPrimaryAddress primaryAddressObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -411,59 +432,59 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"address1"])
-        [dict setObject:(self.address1 ? self.address1 : [NSNull null]) forKey:@"address1"];
+        [dictionary setObject:(self.address1 ? self.address1 : [NSNull null]) forKey:@"address1"];
 
     if ([self.dirtyPropertySet containsObject:@"address2"])
-        [dict setObject:(self.address2 ? self.address2 : [NSNull null]) forKey:@"address2"];
+        [dictionary setObject:(self.address2 ? self.address2 : [NSNull null]) forKey:@"address2"];
 
     if ([self.dirtyPropertySet containsObject:@"city"])
-        [dict setObject:(self.city ? self.city : [NSNull null]) forKey:@"city"];
+        [dictionary setObject:(self.city ? self.city : [NSNull null]) forKey:@"city"];
 
     if ([self.dirtyPropertySet containsObject:@"company"])
-        [dict setObject:(self.company ? self.company : [NSNull null]) forKey:@"company"];
+        [dictionary setObject:(self.company ? self.company : [NSNull null]) forKey:@"company"];
 
     if ([self.dirtyPropertySet containsObject:@"country"])
-        [dict setObject:(self.country ? self.country : [NSNull null]) forKey:@"country"];
+        [dictionary setObject:(self.country ? self.country : [NSNull null]) forKey:@"country"];
 
     if ([self.dirtyPropertySet containsObject:@"mobile"])
-        [dict setObject:(self.mobile ? self.mobile : [NSNull null]) forKey:@"mobile"];
+        [dictionary setObject:(self.mobile ? self.mobile : [NSNull null]) forKey:@"mobile"];
 
     if ([self.dirtyPropertySet containsObject:@"phone"])
-        [dict setObject:(self.phone ? self.phone : [NSNull null]) forKey:@"phone"];
+        [dictionary setObject:(self.phone ? self.phone : [NSNull null]) forKey:@"phone"];
 
     if ([self.dirtyPropertySet containsObject:@"stateAbbreviation"])
-        [dict setObject:(self.stateAbbreviation ? self.stateAbbreviation : [NSNull null]) forKey:@"stateAbbreviation"];
+        [dictionary setObject:(self.stateAbbreviation ? self.stateAbbreviation : [NSNull null]) forKey:@"stateAbbreviation"];
 
     if ([self.dirtyPropertySet containsObject:@"zip"])
-        [dict setObject:(self.zip ? self.zip : [NSNull null]) forKey:@"zip"];
+        [dictionary setObject:(self.zip ? self.zip : [NSNull null]) forKey:@"zip"];
 
     if ([self.dirtyPropertySet containsObject:@"zipPlus4"])
-        [dict setObject:(self.zipPlus4 ? self.zipPlus4 : [NSNull null]) forKey:@"zipPlus4"];
+        [dictionary setObject:(self.zipPlus4 ? self.zipPlus4 : [NSNull null]) forKey:@"zipPlus4"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.address1 ? self.address1 : [NSNull null]) forKey:@"address1"];
-    [dict setObject:(self.address2 ? self.address2 : [NSNull null]) forKey:@"address2"];
-    [dict setObject:(self.city ? self.city : [NSNull null]) forKey:@"city"];
-    [dict setObject:(self.company ? self.company : [NSNull null]) forKey:@"company"];
-    [dict setObject:(self.country ? self.country : [NSNull null]) forKey:@"country"];
-    [dict setObject:(self.mobile ? self.mobile : [NSNull null]) forKey:@"mobile"];
-    [dict setObject:(self.phone ? self.phone : [NSNull null]) forKey:@"phone"];
-    [dict setObject:(self.stateAbbreviation ? self.stateAbbreviation : [NSNull null]) forKey:@"stateAbbreviation"];
-    [dict setObject:(self.zip ? self.zip : [NSNull null]) forKey:@"zip"];
-    [dict setObject:(self.zipPlus4 ? self.zipPlus4 : [NSNull null]) forKey:@"zipPlus4"];
+    [dictionary setObject:(self.address1 ? self.address1 : [NSNull null]) forKey:@"address1"];
+    [dictionary setObject:(self.address2 ? self.address2 : [NSNull null]) forKey:@"address2"];
+    [dictionary setObject:(self.city ? self.city : [NSNull null]) forKey:@"city"];
+    [dictionary setObject:(self.company ? self.company : [NSNull null]) forKey:@"company"];
+    [dictionary setObject:(self.country ? self.country : [NSNull null]) forKey:@"country"];
+    [dictionary setObject:(self.mobile ? self.mobile : [NSNull null]) forKey:@"mobile"];
+    [dictionary setObject:(self.phone ? self.phone : [NSNull null]) forKey:@"phone"];
+    [dictionary setObject:(self.stateAbbreviation ? self.stateAbbreviation : [NSNull null]) forKey:@"stateAbbreviation"];
+    [dictionary setObject:(self.zip ? self.zip : [NSNull null]) forKey:@"zip"];
+    [dictionary setObject:(self.zipPlus4 ? self.zipPlus4 : [NSNull null]) forKey:@"zipPlus4"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -521,21 +542,21 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"NSString" forKey:@"address1"];
-    [dict setObject:@"NSString" forKey:@"address2"];
-    [dict setObject:@"NSString" forKey:@"city"];
-    [dict setObject:@"NSString" forKey:@"company"];
-    [dict setObject:@"NSString" forKey:@"country"];
-    [dict setObject:@"NSString" forKey:@"mobile"];
-    [dict setObject:@"NSString" forKey:@"phone"];
-    [dict setObject:@"NSString" forKey:@"stateAbbreviation"];
-    [dict setObject:@"NSString" forKey:@"zip"];
-    [dict setObject:@"NSString" forKey:@"zipPlus4"];
+    [dictionary setObject:@"NSString" forKey:@"address1"];
+    [dictionary setObject:@"NSString" forKey:@"address2"];
+    [dictionary setObject:@"NSString" forKey:@"city"];
+    [dictionary setObject:@"NSString" forKey:@"company"];
+    [dictionary setObject:@"NSString" forKey:@"country"];
+    [dictionary setObject:@"NSString" forKey:@"mobile"];
+    [dictionary setObject:@"NSString" forKey:@"phone"];
+    [dictionary setObject:@"NSString" forKey:@"stateAbbreviation"];
+    [dictionary setObject:@"NSString" forKey:@"zip"];
+    [dictionary setObject:@"NSString" forKey:@"zipPlus4"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

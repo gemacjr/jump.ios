@@ -161,35 +161,52 @@
     return accountsElementCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.accountsElementId ? [NSNumber numberWithInteger:[self.accountsElementId integerValue]] : [NSNull null])
-             forKey:@"id"];
-    [dict setObject:(self.domain ? self.domain : [NSNull null])
-             forKey:@"domain"];
-    [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null])
-             forKey:@"primary"];
-    [dict setObject:(self.userid ? self.userid : [NSNull null])
-             forKey:@"userid"];
-    [dict setObject:(self.username ? self.username : [NSNull null])
-             forKey:@"username"];
+    [dictionary setObject:(self.accountsElementId ? [NSNumber numberWithInteger:[self.accountsElementId integerValue]] : [NSNull null])
+                   forKey:@"id"];
+    [dictionary setObject:(self.domain ? self.domain : [NSNull null])
+                   forKey:@"domain"];
+    [dictionary setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null])
+                   forKey:@"primary"];
+    [dictionary setObject:(self.userid ? self.userid : [NSNull null])
+                   forKey:@"userid"];
+    [dictionary setObject:(self.username ? self.username : [NSNull null])
+                   forKey:@"username"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)accountsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)accountsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JRAccountsElement *accountsElement = [JRAccountsElement accountsElement];
 
-    accountsElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-// TODO: Is this safe to assume?
-    accountsElement.canBeUpdatedOrReplaced = YES;
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        accountsElement.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+        accountsElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+    }
+    else
+    {
+        accountsElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+        // TODO: Is this safe to assume?
+        accountsElement.canBeUpdatedOrReplaced = YES;
+    }
 
     accountsElement.accountsElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -211,9 +228,17 @@
         [dictionary objectForKey:@"username"] != [NSNull null] ? 
         [dictionary objectForKey:@"username"] : nil;
 
-    [accountsElement.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [accountsElement.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [accountsElement.dirtyPropertySet removeAllObjects];
     
     return accountsElement;
+}
+
++ (id)accountsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JRAccountsElement accountsElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -282,35 +307,35 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"domain"])
-        [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
+        [dictionary setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
 
     if ([self.dirtyPropertySet containsObject:@"primary"])
-        [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
+        [dictionary setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
 
     if ([self.dirtyPropertySet containsObject:@"userid"])
-        [dict setObject:(self.userid ? self.userid : [NSNull null]) forKey:@"userid"];
+        [dictionary setObject:(self.userid ? self.userid : [NSNull null]) forKey:@"userid"];
 
     if ([self.dirtyPropertySet containsObject:@"username"])
-        [dict setObject:(self.username ? self.username : [NSNull null]) forKey:@"username"];
+        [dictionary setObject:(self.username ? self.username : [NSNull null]) forKey:@"username"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
-    [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
-    [dict setObject:(self.userid ? self.userid : [NSNull null]) forKey:@"userid"];
-    [dict setObject:(self.username ? self.username : [NSNull null]) forKey:@"username"];
+    [dictionary setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
+    [dictionary setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
+    [dictionary setObject:(self.userid ? self.userid : [NSNull null]) forKey:@"userid"];
+    [dictionary setObject:(self.username ? self.username : [NSNull null]) forKey:@"username"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -344,16 +369,16 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"accountsElementId"];
-    [dict setObject:@"NSString" forKey:@"domain"];
-    [dict setObject:@"JRBoolean" forKey:@"primary"];
-    [dict setObject:@"NSString" forKey:@"userid"];
-    [dict setObject:@"NSString" forKey:@"username"];
+    [dictionary setObject:@"JRObjectId" forKey:@"accountsElementId"];
+    [dictionary setObject:@"NSString" forKey:@"domain"];
+    [dictionary setObject:@"JRBoolean" forKey:@"primary"];
+    [dictionary setObject:@"NSString" forKey:@"userid"];
+    [dictionary setObject:@"NSString" forKey:@"username"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

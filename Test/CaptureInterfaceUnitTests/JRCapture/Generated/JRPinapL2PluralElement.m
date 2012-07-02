@@ -105,29 +105,46 @@
     return pinapL2PluralElementCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.string1 ? self.string1 : [NSNull null])
-             forKey:@"string1"];
-    [dict setObject:(self.string2 ? self.string2 : [NSNull null])
-             forKey:@"string2"];
+    [dictionary setObject:(self.string1 ? self.string1 : [NSNull null])
+                   forKey:@"string1"];
+    [dictionary setObject:(self.string2 ? self.string2 : [NSNull null])
+                   forKey:@"string2"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)pinapL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)pinapL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JRPinapL2PluralElement *pinapL2PluralElement = [JRPinapL2PluralElement pinapL2PluralElement];
 
-    pinapL2PluralElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-// TODO: Is this safe to assume?
-    pinapL2PluralElement.canBeUpdatedOrReplaced = YES;
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        pinapL2PluralElement.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+        pinapL2PluralElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+    }
+    else
+    {
+        pinapL2PluralElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+        // TODO: Is this safe to assume?
+        pinapL2PluralElement.canBeUpdatedOrReplaced = YES;
+    }
 
     pinapL2PluralElement.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
@@ -137,9 +154,17 @@
         [dictionary objectForKey:@"string2"] != [NSNull null] ? 
         [dictionary objectForKey:@"string2"] : nil;
 
-    [pinapL2PluralElement.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [pinapL2PluralElement.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [pinapL2PluralElement.dirtyPropertySet removeAllObjects];
     
     return pinapL2PluralElement;
+}
+
++ (id)pinapL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JRPinapL2PluralElement pinapL2PluralElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -184,27 +209,27 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"string1"])
-        [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
+        [dictionary setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
 
     if ([self.dirtyPropertySet containsObject:@"string2"])
-        [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+        [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
-    [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+    [dictionary setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
+    [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -230,13 +255,13 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"NSString" forKey:@"string1"];
-    [dict setObject:@"NSString" forKey:@"string2"];
+    [dictionary setObject:@"NSString" forKey:@"string1"];
+    [dictionary setObject:@"NSString" forKey:@"string2"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

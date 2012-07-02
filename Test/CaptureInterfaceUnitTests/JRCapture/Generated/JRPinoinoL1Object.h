@@ -38,9 +38,9 @@
  * @brief Plural in an object in a object (element in a plural in an object in an object)
  **/
 @interface JRPinoinoL1Object : JRCaptureObject
-@property (nonatomic, copy)   NSString *string1; /**< The object's \e string1 property */ 
-@property (nonatomic, copy)   NSString *string2; /**< The object's \e string2 property */ 
-@property (nonatomic, retain) JRPinoinoL2Object *pinoinoL2Object; /**< The object's \e pinoinoL2Object property */ 
+@property (nonatomic, copy)     NSString *string1; /**< The object's \e string1 property */ 
+@property (nonatomic, copy)     NSString *string2; /**< The object's \e string2 property */ 
+@property (nonatomic, retain)   JRPinoinoL2Object *pinoinoL2Object; /**< The object's \e pinoinoL2Object property */ 
 
 /**
  * @name Constructors

@@ -213,7 +213,7 @@ static NSString *entityTypeName     = @"user_dev";
 
 - (void)resaveCaptureUser
 {
-    [prefs setObject:[self nullWalker:[captureUser toDictionary]] forKey:@"captureUser"];
+    [prefs setObject:[self nullWalker:[captureUser toDictionaryForEncoder:NO]] forKey:@"captureUser"];
 }
 
 - (void)jrAuthenticationCallToTokenUrl:(NSString *)tokenUrl didFailWithError:(NSError *)error forProvider:(NSString *)provider
@@ -315,7 +315,7 @@ static NSString *entityTypeName     = @"user_dev";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     [prefs setObject:engageUser forKey:@"engageUser"];
-    [prefs setObject:[self nullWalker:[captureUser toDictionary]] forKey:@"captureUser"];
+    [prefs setObject:[self nullWalker:[captureUser toDictionaryForEncoder:NO]] forKey:@"captureUser"];
     [prefs setObject:accessToken forKey:@"accessToken"];
     [prefs setObject:creationToken forKey:@"creationToken"];
 

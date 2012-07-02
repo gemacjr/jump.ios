@@ -41,7 +41,7 @@
 #import "JROnipLevelOneElement.h"
 
 @interface JROnipLevelTwo (OnipLevelTwoInternalMethods)
-+ (id)onipLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)onipLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipLevelTwo:(JROnipLevelTwo *)otherOnipLevelTwo;
 @end
 
@@ -141,33 +141,50 @@
     return onipLevelOneElementCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.onipLevelOneElementId ? [NSNumber numberWithInteger:[self.onipLevelOneElementId integerValue]] : [NSNull null])
-             forKey:@"id"];
-    [dict setObject:(self.level ? self.level : [NSNull null])
-             forKey:@"level"];
-    [dict setObject:(self.name ? self.name : [NSNull null])
-             forKey:@"name"];
-    [dict setObject:(self.onipLevelTwo ? [self.onipLevelTwo toDictionary] : [NSNull null])
-             forKey:@"onipLevelTwo"];
+    [dictionary setObject:(self.onipLevelOneElementId ? [NSNumber numberWithInteger:[self.onipLevelOneElementId integerValue]] : [NSNull null])
+                   forKey:@"id"];
+    [dictionary setObject:(self.level ? self.level : [NSNull null])
+                   forKey:@"level"];
+    [dictionary setObject:(self.name ? self.name : [NSNull null])
+                   forKey:@"name"];
+    [dictionary setObject:(self.onipLevelTwo ? [self.onipLevelTwo toDictionaryForEncoder:forEncoder] : [NSNull null])
+                   forKey:@"onipLevelTwo"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)onipLevelOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)onipLevelOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JROnipLevelOneElement *onipLevelOneElement = [JROnipLevelOneElement onipLevelOneElement];
 
-    onipLevelOneElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-// TODO: Is this safe to assume?
-    onipLevelOneElement.canBeUpdatedOrReplaced = YES;
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        onipLevelOneElement.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+        onipLevelOneElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+    }
+    else
+    {
+        onipLevelOneElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+        // TODO: Is this safe to assume?
+        onipLevelOneElement.canBeUpdatedOrReplaced = YES;
+    }
 
     onipLevelOneElement.onipLevelOneElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -183,11 +200,19 @@
 
     onipLevelOneElement.onipLevelTwo =
         [dictionary objectForKey:@"onipLevelTwo"] != [NSNull null] ? 
-        [JROnipLevelTwo onipLevelTwoObjectFromDictionary:[dictionary objectForKey:@"onipLevelTwo"] withPath:onipLevelOneElement.captureObjectPath] : nil;
+        [JROnipLevelTwo onipLevelTwoObjectFromDictionary:[dictionary objectForKey:@"onipLevelTwo"] withPath:onipLevelOneElement.captureObjectPath fromDecoder:fromDecoder] : nil;
 
-    [onipLevelOneElement.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [onipLevelOneElement.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [onipLevelOneElement.dirtyPropertySet removeAllObjects];
     
     return onipLevelOneElement;
+}
+
++ (id)onipLevelOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JROnipLevelOneElement onipLevelOneElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -214,7 +239,7 @@
     if ([dictionary objectForKey:@"onipLevelTwo"] == [NSNull null])
         self.onipLevelTwo = nil;
     else if ([dictionary objectForKey:@"onipLevelTwo"] && !self.onipLevelTwo)
-        self.onipLevelTwo = [JROnipLevelTwo onipLevelTwoObjectFromDictionary:[dictionary objectForKey:@"onipLevelTwo"] withPath:self.captureObjectPath];
+        self.onipLevelTwo = [JROnipLevelTwo onipLevelTwoObjectFromDictionary:[dictionary objectForKey:@"onipLevelTwo"] withPath:self.captureObjectPath fromDecoder:NO];
     else if ([dictionary objectForKey:@"onipLevelTwo"])
         [self.onipLevelTwo updateFromDictionary:[dictionary objectForKey:@"onipLevelTwo"] withPath:self.captureObjectPath];
 
@@ -245,7 +270,7 @@
     if (![dictionary objectForKey:@"onipLevelTwo"] || [dictionary objectForKey:@"onipLevelTwo"] == [NSNull null])
         self.onipLevelTwo = nil;
     else if (!self.onipLevelTwo)
-        self.onipLevelTwo = [JROnipLevelTwo onipLevelTwoObjectFromDictionary:[dictionary objectForKey:@"onipLevelTwo"] withPath:self.captureObjectPath];
+        self.onipLevelTwo = [JROnipLevelTwo onipLevelTwoObjectFromDictionary:[dictionary objectForKey:@"onipLevelTwo"] withPath:self.captureObjectPath fromDecoder:NO];
     else
         [self.onipLevelTwo replaceFromDictionary:[dictionary objectForKey:@"onipLevelTwo"] withPath:self.captureObjectPath];
 
@@ -254,41 +279,41 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"level"])
-        [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
+        [dictionary setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
 
     if ([self.dirtyPropertySet containsObject:@"name"])
-        [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
+        [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"onipLevelTwo"])
-        [dict setObject:(self.onipLevelTwo ?
+        [dictionary setObject:(self.onipLevelTwo ?
                               [self.onipLevelTwo toReplaceDictionaryIncludingArrays:NO] :
                               [[JROnipLevelTwo onipLevelTwo] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
-                 forKey:@"onipLevelTwo"];
+                       forKey:@"onipLevelTwo"];
     else if ([self.onipLevelTwo needsUpdate])
-        [dict setObject:[self.onipLevelTwo toUpdateDictionary]
-                 forKey:@"onipLevelTwo"];
+        [dictionary setObject:[self.onipLevelTwo toUpdateDictionary]
+                       forKey:@"onipLevelTwo"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
-    [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
+    [dictionary setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
+    [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
-    [dict setObject:(self.onipLevelTwo ?
+    [dictionary setObject:(self.onipLevelTwo ?
                           [self.onipLevelTwo toReplaceDictionaryIncludingArrays:YES] :
                           [[JROnipLevelTwo onipLevelTwo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-             forKey:@"onipLevelTwo"];
+                     forKey:@"onipLevelTwo"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -322,15 +347,15 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"onipLevelOneElementId"];
-    [dict setObject:@"NSString" forKey:@"level"];
-    [dict setObject:@"NSString" forKey:@"name"];
-    [dict setObject:@"JROnipLevelTwo" forKey:@"onipLevelTwo"];
+    [dictionary setObject:@"JRObjectId" forKey:@"onipLevelOneElementId"];
+    [dictionary setObject:@"NSString" forKey:@"level"];
+    [dictionary setObject:@"NSString" forKey:@"name"];
+    [dictionary setObject:@"JROnipLevelTwo" forKey:@"onipLevelTwo"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

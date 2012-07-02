@@ -38,9 +38,9 @@
  * @brief A JRPinapinoL2PluralElement object
  **/
 @interface JRPinapinoL2PluralElement : JRCaptureObject
-@property (nonatomic, copy)   NSString *string1; /**< The object's \e string1 property */ 
-@property (nonatomic, copy)   NSString *string2; /**< The object's \e string2 property */ 
-@property (nonatomic, copy)   NSArray *pinapinoL3Plural; /**< The object's \e pinapinoL3Plural property @note This is an array of \c JRPinapinoL3PluralElement objects */ 
+@property (nonatomic, copy)     NSString *string1; /**< The object's \e string1 property */ 
+@property (nonatomic, copy)     NSString *string2; /**< The object's \e string2 property */ 
+@property (nonatomic, copy)     NSArray *pinapinoL3Plural; /**< The object's \e pinapinoL3Plural property @note This is an array of \c JRPinapinoL3PluralElement objects */ 
 
 /**
  * @name Constructors

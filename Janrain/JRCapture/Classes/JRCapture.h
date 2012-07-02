@@ -80,7 +80,7 @@ typedef enum
  * is based on the possibility that your application may preemptively configure JREngage, but never actually
  * use it.  If that is the case, then you won't get any error.
  **/
-- (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
+- (void)engageAuthenticationDialogDidFailToShowWithError:(NSError*)error;
 /*@}*/
 
 /**
@@ -95,7 +95,10 @@ typedef enum
  * cancelAuthentication message, or if configuration of the library is taking more than about
  * 16 seconds (rare) to download.
  **/
-- (void)jrAuthenticationDidNotComplete;
+- (void)engageAuthenticationDidNotComplete;
+
+
+- (void)engageAuthenticationDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider;
 
 /**
 // * Tells the delegate that the user has successfully authenticated with the given provider, passing to
@@ -132,8 +135,8 @@ typedef enum
 // * <a href="http://documentation.janrain.com/engage/api/auth_info">auth_info response</a>
 // * section of the Janrain Engage API documentation.
  **/
-- (void)jrAuthenticationDidSucceedForUser:(JRCaptureUser*)captureUser withToken:(NSString *)captureToken
-                                andStatus:(JRCaptureRecordStatus)status;
+- (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser*)captureUser withToken:(NSString *)captureToken
+                                     andStatus:(JRCaptureRecordStatus)status;
 
 /**
  * Sent when authentication failed and could not be recovered by the library.
@@ -149,30 +152,45 @@ typedef enum
  * This message is not sent if authentication was canceled.  To be notified of a canceled authentication,
  * see jrAuthenticationDidNotComplete().
  **/
-- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+- (void)engageAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+
+/**
+ * Sent when the call to the token URL has failed.
+ *
+ * @param tokenUrl
+ *   The URL on the server where the token was posted and server-side authentication was completed
+ *
+ * @param error
+ *   The error that occurred during server-side authentication
+ *
+ * @param provider
+ *   The name of the provider on which the user authenticated.  For a list of possible strings,
+ *   please see the \ref basicProviders "List of Providers"
+ **/
+- (void)captureAuthenticationDidFailWithError:(NSError*)error;
 @end
 
-@protocol JRCaptureSocialSharingDelegate <NSObject>
+@protocol JRCaptureSocialSharingDelegate <JRCaptureAuthenticationDelegate>
 @optional
 /**
  * @name SocialPublishing
  * Messages sent by JREngage during social publishing
  **/
 /*@{*/
-
+- (void)engageSocialSharingDialogDidFailToShowWithError:(NSError*)error;
 /**
  * Sent if social publishing was canceled for any reason other than an error.  For example,
  * the user hits the "Cancel" button, any class (e.g., the %JREngage delegate) calls the cancelPublishing
  * message, or if configuration of the library is taking more than about 16 seconds (rare) to download.
  **/
-- (void)jrSocialDidNotCompletePublishing;
+- (void)engageSocialSharingDidNotComplete;
 
 /**
  * Sent after the social publishing dialog is closed (e.g., the user hits the "Close" button) and publishing
  * is complete. You can receive multiple jrSocialDidPublishActivity:forProvider:()
  * messages before the dialog is closed and publishing is complete.
  **/
-- (void)jrSocialDidCompletePublishing;
+- (void)engageSocialSharingDidComplete;
 
 /**
  * Sent after the user successfully shares an activity on the given provider.
@@ -184,7 +202,7 @@ typedef enum
  *   The name of the provider on which the user published the activity.  For a list of possible strings,
  *   please see the \ref socialProviders "List of Social Providers"
  **/
-- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
+- (void)engageSocialSharingDidSucceedForActivity:(JRActivityObject*)activity onProvider:(NSString*)provider;
 
 /**
  * Sent when publishing an activity failed and could not be recovered by the library.
@@ -199,17 +217,8 @@ typedef enum
  *   The name of the provider on which the user attempted to publish the activity.  For a list of possible strings,
  *   please see the \ref socialProviders "List of Social Providers"
  **/
-- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+- (void)engageSocialSharingDidFailForActivity:(JRActivityObject*)activity withError:(NSError*)error onProvider:(NSString*)provider;
 /*@}*/
-
-
-/**
- * Sent if the authentication was canceled for any reason other than an error.  For example,
- * the user hits the "Cancel" button, any class (e.g., the %JREngage delegate) calls the
- * cancelAuthentication message, or if configuration of the library is taking more than about
- * 16 seconds (rare) to download.
- **/
-- (void)jrAuthenticationDidNotComplete;
 @end
 
 @interface JRCapture : NSObject
@@ -223,9 +232,9 @@ typedef enum
        captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId
      andEntityTypeName:(NSString *)newEntityTypeName;
 
-+ (NSString *)captureMobileEndpointUrl;
+//+ (NSString *)captureMobileEndpointUrl;
 + (void)setAccessToken:(NSString *)newAccessToken;
-+ (void)setCreationToken:(NSString *)newCreationToken;
+//+ (void)setCreationToken:(NSString *)newCreationToken;
 
 
 /**

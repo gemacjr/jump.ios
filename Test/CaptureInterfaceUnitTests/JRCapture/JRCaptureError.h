@@ -66,7 +66,8 @@ typedef enum
 
 typedef enum
 {
-    JRCaptureWrappedEngageErrorGeneric = CAPTURE_WRAPPED_ENGAGE_ERROR_RANGE,
+    JRCaptureWrappedEngageErrorGeneric                = CAPTURE_WRAPPED_ENGAGE_ERROR_RANGE,
+    JRCaptureWrappedEngageErrorInvalidEndpointPayload = JRCaptureWrappedEngageErrorGeneric + 100,
 } JRCaptureWrappedEngageError;
 
 typedef enum

@@ -238,7 +238,7 @@
 
     /* What we have in our captureUser should be equal to our result. */
     GHAssertTrue([l2PluralElement isEqualToPinapL2PluralElement:(JRPinapL2PluralElement *)captureObject], nil);
-    GHAssertTrue([l2PluralElement isEqualToPinapL2PluralElement:[JRPinapL2PluralElement pinapL2PluralElementFromDictionary:captureObjectDictionary withPath:nil]], nil);
+    GHAssertTrue([l2PluralElement isEqualToPinapL2PluralElement:[JRPinapL2PluralElement pinapL2PluralElementFromDictionary:captureObjectDictionary withPath:nil fromDecoder:NO]], nil);
 
     /* And what we have saved as the old currentL2object should not be the same */
     GHAssertFalse([l2PluralElement isEqualToPinapL2PluralElement:(JRPinapL2PluralElement *)currentL2Object], nil);
@@ -301,7 +301,7 @@
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
     GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:(JRPinoL1Object*)captureObject], nil);
-    GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:[JRPinoL1Object pinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil]], nil);
+    GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:[JRPinoL1Object pinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil fromDecoder:NO]], nil);
 }
 
 - (void)test_b307_pinoUpdate_Level1_PostReplace
@@ -333,7 +333,7 @@
 
     /* And since we replaced the object first, both should have equal arrays too. */
     GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:(JRPinoL1Object*)captureObject], nil);
-    GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:[JRPinoL1Object pinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil]], nil);
+    GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:[JRPinoL1Object pinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil fromDecoder:NO]], nil);
 }
 
 /* Object in a plural (310-314) */
@@ -397,7 +397,7 @@
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
-    JROnipL2Object  *onipL2Object = [JROnipL2Object onipL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+    JROnipL2Object  *onipL2Object = [JROnipL2Object onipL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil fromDecoder:NO];
 
     GHAssertTrue([onipL2Object isEqualToOnipL2Object:((JROnipL2Object *)captureObject)], nil);
     GHAssertFalse([onipL2Object isEqualToOnipL2Object:((JROnipL2Object *)currentL2Object)], nil);
@@ -437,7 +437,7 @@
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
-    JROinoL1Object  *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+    JROinoL1Object  *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil fromDecoder:NO];
 
     GHAssertTrue([oinoL1Object isEqualToOinoL1Object:((JROinoL1Object *)currentL1Object)], nil);
 }
@@ -460,7 +460,7 @@
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
-    JROinoL1Object  *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+    JROinoL1Object  *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil fromDecoder:NO];
 
     GHAssertTrue([captureUser.oinoL1Object isEqualToOinoL1Object:oinoL1Object], nil);
 }
@@ -483,7 +483,7 @@
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
-    JROinoL1Object  *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+    JROinoL1Object  *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil fromDecoder:NO];
 
     GHAssertTrue([captureUser.oinoL1Object isEqualToOinoL1Object:oinoL1Object], nil);
     GHAssertTrue([captureUser.oinoL1Object.oinoL2Object isEqualToOinoL2Object:oinoL1Object.oinoL2Object], nil);
@@ -509,7 +509,7 @@
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
     JROinoL1Object  *oinoL1Object =
-            [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+            [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil fromDecoder:NO];
 
     GHAssertTrue([oinoL1Object isEqualToOinoL1Object:captureUser.oinoL1Object], nil);
     GHAssertTrue([oinoL1Object.oinoL2Object isEqualToOinoL2Object:((JROinoL2Object *)currentL2Object)], nil);
@@ -538,7 +538,7 @@
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
-    JROinoL2Object  *oinoL2Object = [JROinoL2Object oinoL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+    JROinoL2Object  *oinoL2Object = [JROinoL2Object oinoL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil fromDecoder:NO];
 
     GHAssertTrue([oinoL2Object isEqualToOinoL2Object:captureUser.oinoL1Object.oinoL2Object], nil);
 }
@@ -566,7 +566,7 @@
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
-    JROinoL2Object  *oinoL2Object = [JROinoL2Object oinoL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+    JROinoL2Object  *oinoL2Object = [JROinoL2Object oinoL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil fromDecoder:NO];
 
     GHAssertTrue([oinoL2Object isEqualToOinoL2Object:captureUser.oinoL1Object.oinoL2Object], nil);
 }
@@ -597,7 +597,7 @@
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
     JROinoL2Object  *oinoL2Object =
-            [JROinoL2Object oinoL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+            [JROinoL2Object oinoL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil fromDecoder:NO];
 
     GHAssertTrue([oinoL2Object isEqualToOinoL2Object:captureUser.oinoL1Object.oinoL2Object], nil);
 }
@@ -1091,7 +1091,7 @@ void (^contBlock)() = nil;
                                          withConstructor:@selector(oinonipL1PluralElement)
                                       fillerFodderOffset:2];
         [a addObject:o];
-        DLog(@"b372a New object: %@", [[o toDictionary] description]);
+        DLog(@"b372a New object: %@", [[o toDictionaryForEncoder:NO] description]);
         self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
         [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
                           forPlural:@"oinonipL1Plural" withArray:currentL1Plural continueBlock:nil];
@@ -1113,7 +1113,7 @@ void (^contBlock)() = nil;
                                                   withConstructor:@selector(oinonipL3Object)
                                                fillerFodderOffset:4];
         [a addObject:o];
-        DLog(@"b372b New object: %@", [[o toDictionary] description]);
+        DLog(@"b372b New object: %@", [[o toDictionaryForEncoder:NO] description]);
         self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
         [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
                           forPlural:@"oinonipL1Plural" withArray:currentL1Plural continueBlock:nil];
@@ -1155,7 +1155,7 @@ void (^contBlock)() = nil;
                                          withConstructor:@selector(oinonipL1PluralElement)
                                       fillerFodderOffset:2];
         [a addObject:o];
-        DLog(@"b372a New object: %@", [[o toDictionary] description]);
+        DLog(@"b372a New object: %@", [[o toDictionaryForEncoder:NO] description]);
         self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
         [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
                           forPlural:@"oinonipL1Plural" withArray:currentL1Plural continueBlock:nil];
@@ -1181,7 +1181,7 @@ void (^contBlock)() = nil;
                                          withConstructor:@selector(oinonipL1PluralElement)
                                       fillerFodderOffset:2];
         [a addObject:o];
-        DLog(@"b372a New object: %@", [[o toDictionary] description]);
+        DLog(@"b372a New object: %@", [[o toDictionaryForEncoder:NO] description]);
         GHAssertTrue([o canBeUpdatedOrReplaced] == NO, nil);
         GHAssertTrue([((JRCaptureObject *) [a objectAtIndex:0]) canBeUpdatedOrReplaced], nil);
         ((JROinonipL2Object *) currentL2Object).string1 = @"sldkafjlk";

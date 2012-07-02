@@ -37,12 +37,12 @@
  * @brief A JRName object
  **/
 @interface JRName : JRCaptureObject
-@property (nonatomic, copy)   NSString *familyName; /**< The family name of this Contact, or 'Last Name' in most Western languages */ 
-@property (nonatomic, copy)   NSString *formatted; /**< The full name, including all middle names, titles, and suffixes as appropriate, formatted for display */ 
-@property (nonatomic, copy)   NSString *givenName; /**< The given name of this Contact, or 'First Name' in most Western languages */ 
-@property (nonatomic, copy)   NSString *honorificPrefix; /**< The honorific prefix(es) of this Contact, or 'Title' in most Western languages */ 
-@property (nonatomic, copy)   NSString *honorificSuffix; /**< The honorifix suffix(es) of this Contact, or 'Suffix' in most Western languages */ 
-@property (nonatomic, copy)   NSString *middleName; /**< The middle name(s) of this Contact */ 
+@property (nonatomic, copy)     NSString *familyName; /**< The family name of this Contact, or 'Last Name' in most Western languages */ 
+@property (nonatomic, copy)     NSString *formatted; /**< The full name, including all middle names, titles, and suffixes as appropriate, formatted for display */ 
+@property (nonatomic, copy)     NSString *givenName; /**< The given name of this Contact, or 'First Name' in most Western languages */ 
+@property (nonatomic, copy)     NSString *honorificPrefix; /**< The honorific prefix(es) of this Contact, or 'Title' in most Western languages */ 
+@property (nonatomic, copy)     NSString *honorificSuffix; /**< The honorifix suffix(es) of this Contact, or 'Suffix' in most Western languages */ 
+@property (nonatomic, copy)     NSString *middleName; /**< The middle name(s) of this Contact */ 
 
 /**
  * @name Constructors

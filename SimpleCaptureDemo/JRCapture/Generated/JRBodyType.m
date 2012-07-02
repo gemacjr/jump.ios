@@ -150,35 +150,52 @@
     return bodyTypeCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.build ? self.build : [NSNull null])
-             forKey:@"build"];
-    [dict setObject:(self.color ? self.color : [NSNull null])
-             forKey:@"color"];
-    [dict setObject:(self.eyeColor ? self.eyeColor : [NSNull null])
-             forKey:@"eyeColor"];
-    [dict setObject:(self.hairColor ? self.hairColor : [NSNull null])
-             forKey:@"hairColor"];
-    [dict setObject:(self.height ? self.height : [NSNull null])
-             forKey:@"height"];
+    [dictionary setObject:(self.build ? self.build : [NSNull null])
+                   forKey:@"build"];
+    [dictionary setObject:(self.color ? self.color : [NSNull null])
+                   forKey:@"color"];
+    [dictionary setObject:(self.eyeColor ? self.eyeColor : [NSNull null])
+                   forKey:@"eyeColor"];
+    [dictionary setObject:(self.hairColor ? self.hairColor : [NSNull null])
+                   forKey:@"hairColor"];
+    [dictionary setObject:(self.height ? self.height : [NSNull null])
+                   forKey:@"height"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JRBodyType *bodyType = [JRBodyType bodyType];
 
-    bodyType.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
-// TODO: Is this safe to assume?
-    bodyType.canBeUpdatedOrReplaced = YES;
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        bodyType.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+        bodyType.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+    }
+    else
+    {
+        bodyType.captureObjectPath      = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
+        // TODO: Is this safe to assume?
+        bodyType.canBeUpdatedOrReplaced = YES;
+    }
 
     bodyType.build =
         [dictionary objectForKey:@"build"] != [NSNull null] ? 
@@ -200,9 +217,17 @@
         [dictionary objectForKey:@"height"] != [NSNull null] ? 
         [dictionary objectForKey:@"height"] : nil;
 
-    [bodyType.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [bodyType.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [bodyType.dirtyPropertySet removeAllObjects];
     
     return bodyType;
+}
+
++ (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JRBodyType bodyTypeObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -271,39 +296,39 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"build"])
-        [dict setObject:(self.build ? self.build : [NSNull null]) forKey:@"build"];
+        [dictionary setObject:(self.build ? self.build : [NSNull null]) forKey:@"build"];
 
     if ([self.dirtyPropertySet containsObject:@"color"])
-        [dict setObject:(self.color ? self.color : [NSNull null]) forKey:@"color"];
+        [dictionary setObject:(self.color ? self.color : [NSNull null]) forKey:@"color"];
 
     if ([self.dirtyPropertySet containsObject:@"eyeColor"])
-        [dict setObject:(self.eyeColor ? self.eyeColor : [NSNull null]) forKey:@"eyeColor"];
+        [dictionary setObject:(self.eyeColor ? self.eyeColor : [NSNull null]) forKey:@"eyeColor"];
 
     if ([self.dirtyPropertySet containsObject:@"hairColor"])
-        [dict setObject:(self.hairColor ? self.hairColor : [NSNull null]) forKey:@"hairColor"];
+        [dictionary setObject:(self.hairColor ? self.hairColor : [NSNull null]) forKey:@"hairColor"];
 
     if ([self.dirtyPropertySet containsObject:@"height"])
-        [dict setObject:(self.height ? self.height : [NSNull null]) forKey:@"height"];
+        [dictionary setObject:(self.height ? self.height : [NSNull null]) forKey:@"height"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.build ? self.build : [NSNull null]) forKey:@"build"];
-    [dict setObject:(self.color ? self.color : [NSNull null]) forKey:@"color"];
-    [dict setObject:(self.eyeColor ? self.eyeColor : [NSNull null]) forKey:@"eyeColor"];
-    [dict setObject:(self.hairColor ? self.hairColor : [NSNull null]) forKey:@"hairColor"];
-    [dict setObject:(self.height ? self.height : [NSNull null]) forKey:@"height"];
+    [dictionary setObject:(self.build ? self.build : [NSNull null]) forKey:@"build"];
+    [dictionary setObject:(self.color ? self.color : [NSNull null]) forKey:@"color"];
+    [dictionary setObject:(self.eyeColor ? self.eyeColor : [NSNull null]) forKey:@"eyeColor"];
+    [dictionary setObject:(self.hairColor ? self.hairColor : [NSNull null]) forKey:@"hairColor"];
+    [dictionary setObject:(self.height ? self.height : [NSNull null]) forKey:@"height"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -341,16 +366,16 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"NSString" forKey:@"build"];
-    [dict setObject:@"NSString" forKey:@"color"];
-    [dict setObject:@"NSString" forKey:@"eyeColor"];
-    [dict setObject:@"NSString" forKey:@"hairColor"];
-    [dict setObject:@"NSNumber" forKey:@"height"];
+    [dictionary setObject:@"NSString" forKey:@"build"];
+    [dictionary setObject:@"NSString" forKey:@"color"];
+    [dictionary setObject:@"NSString" forKey:@"eyeColor"];
+    [dictionary setObject:@"NSString" forKey:@"hairColor"];
+    [dictionary setObject:@"NSNumber" forKey:@"height"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

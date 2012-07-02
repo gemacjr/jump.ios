@@ -41,7 +41,7 @@
 #import "JROrganizationsElement.h"
 
 @interface JRLocation (LocationInternalMethods)
-+ (id)locationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)locationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToLocation:(JRLocation *)otherLocation;
 @end
 
@@ -242,45 +242,62 @@
     return organizationsElementCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.organizationsElementId ? [NSNumber numberWithInteger:[self.organizationsElementId integerValue]] : [NSNull null])
-             forKey:@"id"];
-    [dict setObject:(self.department ? self.department : [NSNull null])
-             forKey:@"department"];
-    [dict setObject:(self.description ? self.description : [NSNull null])
-             forKey:@"description"];
-    [dict setObject:(self.endDate ? self.endDate : [NSNull null])
-             forKey:@"endDate"];
-    [dict setObject:(self.location ? [self.location toDictionary] : [NSNull null])
-             forKey:@"location"];
-    [dict setObject:(self.name ? self.name : [NSNull null])
-             forKey:@"name"];
-    [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null])
-             forKey:@"primary"];
-    [dict setObject:(self.startDate ? self.startDate : [NSNull null])
-             forKey:@"startDate"];
-    [dict setObject:(self.title ? self.title : [NSNull null])
-             forKey:@"title"];
-    [dict setObject:(self.type ? self.type : [NSNull null])
-             forKey:@"type"];
+    [dictionary setObject:(self.organizationsElementId ? [NSNumber numberWithInteger:[self.organizationsElementId integerValue]] : [NSNull null])
+                   forKey:@"id"];
+    [dictionary setObject:(self.department ? self.department : [NSNull null])
+                   forKey:@"department"];
+    [dictionary setObject:(self.description ? self.description : [NSNull null])
+                   forKey:@"description"];
+    [dictionary setObject:(self.endDate ? self.endDate : [NSNull null])
+                   forKey:@"endDate"];
+    [dictionary setObject:(self.location ? [self.location toDictionaryForEncoder:forEncoder] : [NSNull null])
+                   forKey:@"location"];
+    [dictionary setObject:(self.name ? self.name : [NSNull null])
+                   forKey:@"name"];
+    [dictionary setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null])
+                   forKey:@"primary"];
+    [dictionary setObject:(self.startDate ? self.startDate : [NSNull null])
+                   forKey:@"startDate"];
+    [dictionary setObject:(self.title ? self.title : [NSNull null])
+                   forKey:@"title"];
+    [dictionary setObject:(self.type ? self.type : [NSNull null])
+                   forKey:@"type"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)organizationsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)organizationsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JROrganizationsElement *organizationsElement = [JROrganizationsElement organizationsElement];
 
-    organizationsElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-// TODO: Is this safe to assume?
-    organizationsElement.canBeUpdatedOrReplaced = YES;
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        organizationsElement.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+        organizationsElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+    }
+    else
+    {
+        organizationsElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+        // TODO: Is this safe to assume?
+        organizationsElement.canBeUpdatedOrReplaced = YES;
+    }
 
     organizationsElement.organizationsElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -300,7 +317,7 @@
 
     organizationsElement.location =
         [dictionary objectForKey:@"location"] != [NSNull null] ? 
-        [JRLocation locationObjectFromDictionary:[dictionary objectForKey:@"location"] withPath:organizationsElement.captureObjectPath] : nil;
+        [JRLocation locationObjectFromDictionary:[dictionary objectForKey:@"location"] withPath:organizationsElement.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     organizationsElement.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
@@ -322,9 +339,17 @@
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
         [dictionary objectForKey:@"type"] : nil;
 
-    [organizationsElement.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [organizationsElement.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [organizationsElement.dirtyPropertySet removeAllObjects];
     
     return organizationsElement;
+}
+
++ (id)organizationsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JROrganizationsElement organizationsElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -355,7 +380,7 @@
     if ([dictionary objectForKey:@"location"] == [NSNull null])
         self.location = nil;
     else if ([dictionary objectForKey:@"location"] && !self.location)
-        self.location = [JRLocation locationObjectFromDictionary:[dictionary objectForKey:@"location"] withPath:self.captureObjectPath];
+        self.location = [JRLocation locationObjectFromDictionary:[dictionary objectForKey:@"location"] withPath:self.captureObjectPath fromDecoder:NO];
     else if ([dictionary objectForKey:@"location"])
         [self.location updateFromDictionary:[dictionary objectForKey:@"location"] withPath:self.captureObjectPath];
 
@@ -410,7 +435,7 @@
     if (![dictionary objectForKey:@"location"] || [dictionary objectForKey:@"location"] == [NSNull null])
         self.location = nil;
     else if (!self.location)
-        self.location = [JRLocation locationObjectFromDictionary:[dictionary objectForKey:@"location"] withPath:self.captureObjectPath];
+        self.location = [JRLocation locationObjectFromDictionary:[dictionary objectForKey:@"location"] withPath:self.captureObjectPath fromDecoder:NO];
     else
         [self.location replaceFromDictionary:[dictionary objectForKey:@"location"] withPath:self.captureObjectPath];
 
@@ -439,65 +464,65 @@
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"department"])
-        [dict setObject:(self.department ? self.department : [NSNull null]) forKey:@"department"];
+        [dictionary setObject:(self.department ? self.department : [NSNull null]) forKey:@"department"];
 
     if ([self.dirtyPropertySet containsObject:@"description"])
-        [dict setObject:(self.description ? self.description : [NSNull null]) forKey:@"description"];
+        [dictionary setObject:(self.description ? self.description : [NSNull null]) forKey:@"description"];
 
     if ([self.dirtyPropertySet containsObject:@"endDate"])
-        [dict setObject:(self.endDate ? self.endDate : [NSNull null]) forKey:@"endDate"];
+        [dictionary setObject:(self.endDate ? self.endDate : [NSNull null]) forKey:@"endDate"];
 
     if ([self.dirtyPropertySet containsObject:@"location"])
-        [dict setObject:(self.location ?
+        [dictionary setObject:(self.location ?
                               [self.location toReplaceDictionaryIncludingArrays:NO] :
                               [[JRLocation location] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
-                 forKey:@"location"];
+                       forKey:@"location"];
     else if ([self.location needsUpdate])
-        [dict setObject:[self.location toUpdateDictionary]
-                 forKey:@"location"];
+        [dictionary setObject:[self.location toUpdateDictionary]
+                       forKey:@"location"];
 
     if ([self.dirtyPropertySet containsObject:@"name"])
-        [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
+        [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"primary"])
-        [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
+        [dictionary setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
 
     if ([self.dirtyPropertySet containsObject:@"startDate"])
-        [dict setObject:(self.startDate ? self.startDate : [NSNull null]) forKey:@"startDate"];
+        [dictionary setObject:(self.startDate ? self.startDate : [NSNull null]) forKey:@"startDate"];
 
     if ([self.dirtyPropertySet containsObject:@"title"])
-        [dict setObject:(self.title ? self.title : [NSNull null]) forKey:@"title"];
+        [dictionary setObject:(self.title ? self.title : [NSNull null]) forKey:@"title"];
 
     if ([self.dirtyPropertySet containsObject:@"type"])
-        [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
+        [dictionary setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.department ? self.department : [NSNull null]) forKey:@"department"];
-    [dict setObject:(self.description ? self.description : [NSNull null]) forKey:@"description"];
-    [dict setObject:(self.endDate ? self.endDate : [NSNull null]) forKey:@"endDate"];
+    [dictionary setObject:(self.department ? self.department : [NSNull null]) forKey:@"department"];
+    [dictionary setObject:(self.description ? self.description : [NSNull null]) forKey:@"description"];
+    [dictionary setObject:(self.endDate ? self.endDate : [NSNull null]) forKey:@"endDate"];
 
-    [dict setObject:(self.location ?
+    [dictionary setObject:(self.location ?
                           [self.location toReplaceDictionaryIncludingArrays:YES] :
                           [[JRLocation location] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-             forKey:@"location"];
-    [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
-    [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
-    [dict setObject:(self.startDate ? self.startDate : [NSNull null]) forKey:@"startDate"];
-    [dict setObject:(self.title ? self.title : [NSNull null]) forKey:@"title"];
-    [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
+                     forKey:@"location"];
+    [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
+    [dictionary setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
+    [dictionary setObject:(self.startDate ? self.startDate : [NSNull null]) forKey:@"startDate"];
+    [dictionary setObject:(self.title ? self.title : [NSNull null]) forKey:@"title"];
+    [dictionary setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (BOOL)needsUpdate
@@ -555,21 +580,21 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"organizationsElementId"];
-    [dict setObject:@"NSString" forKey:@"department"];
-    [dict setObject:@"NSString" forKey:@"description"];
-    [dict setObject:@"NSString" forKey:@"endDate"];
-    [dict setObject:@"JRLocation" forKey:@"location"];
-    [dict setObject:@"NSString" forKey:@"name"];
-    [dict setObject:@"JRBoolean" forKey:@"primary"];
-    [dict setObject:@"NSString" forKey:@"startDate"];
-    [dict setObject:@"NSString" forKey:@"title"];
-    [dict setObject:@"NSString" forKey:@"type"];
+    [dictionary setObject:@"JRObjectId" forKey:@"organizationsElementId"];
+    [dictionary setObject:@"NSString" forKey:@"department"];
+    [dictionary setObject:@"NSString" forKey:@"description"];
+    [dictionary setObject:@"NSString" forKey:@"endDate"];
+    [dictionary setObject:@"JRLocation" forKey:@"location"];
+    [dictionary setObject:@"NSString" forKey:@"name"];
+    [dictionary setObject:@"JRBoolean" forKey:@"primary"];
+    [dictionary setObject:@"NSString" forKey:@"startDate"];
+    [dictionary setObject:@"NSString" forKey:@"title"];
+    [dictionary setObject:@"NSString" forKey:@"type"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

@@ -41,33 +41,33 @@
 #import "JRPinapinoL1Object.h"
 
 @interface JRPinapinoL2PluralElement (PinapinoL2PluralElementInternalMethods)
-+ (id)pinapinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)pinapinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinapinoL2PluralElement:(JRPinapinoL2PluralElement *)otherPinapinoL2PluralElement;
 @end
 
 @interface NSArray (PinapinoL2PluralToFromDictionary)
-- (NSArray*)arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinapinoL2PluralDictionariesFromPinapinoL2PluralElements;
+- (NSArray*)arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfPinapinoL2PluralDictionariesFromPinapinoL2PluralElementsForEncoder:(BOOL)forEncoder;
 - (NSArray*)arrayOfPinapinoL2PluralReplaceDictionariesFromPinapinoL2PluralElements;
 @end
 
 @implementation NSArray (PinapinoL2PluralToFromDictionary)
-- (NSArray*)arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPinapinoL2PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPinapinoL2PluralArray addObject:[JRPinapinoL2PluralElement pinapinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPinapinoL2PluralArray addObject:[JRPinapinoL2PluralElement pinapinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath fromDecoder:fromDecoder]];
 
     return filteredPinapinoL2PluralArray;
 }
 
-- (NSArray*)arrayOfPinapinoL2PluralDictionariesFromPinapinoL2PluralElements
+- (NSArray*)arrayOfPinapinoL2PluralDictionariesFromPinapinoL2PluralElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPinapinoL2PluralElement class]])
-            [filteredDictionaryArray addObject:[(JRPinapinoL2PluralElement*)object toDictionary]];
+            [filteredDictionaryArray addObject:[(JRPinapinoL2PluralElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
 }
@@ -179,28 +179,41 @@
     return pinapinoL1ObjectCopy;
 }
 
-- (NSDictionary*)toDictionary
+- (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.string1 ? self.string1 : [NSNull null])
-             forKey:@"string1"];
-    [dict setObject:(self.string2 ? self.string2 : [NSNull null])
-             forKey:@"string2"];
-    [dict setObject:(self.pinapinoL2Plural ? [self.pinapinoL2Plural arrayOfPinapinoL2PluralDictionariesFromPinapinoL2PluralElements] : [NSNull null])
-             forKey:@"pinapinoL2Plural"];
+    [dictionary setObject:(self.string1 ? self.string1 : [NSNull null])
+                   forKey:@"string1"];
+    [dictionary setObject:(self.string2 ? self.string2 : [NSNull null])
+                   forKey:@"string2"];
+    [dictionary setObject:(self.pinapinoL2Plural ? [self.pinapinoL2Plural arrayOfPinapinoL2PluralDictionariesFromPinapinoL2PluralElementsForEncoder:forEncoder] : [NSNull null])
+                   forKey:@"pinapinoL2Plural"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    if (forEncoder)
+    {
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-+ (id)pinapinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)pinapinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder
 {
     if (!dictionary)
         return nil;
 
     JRPinapinoL1Object *pinapinoL1Object = [JRPinapinoL1Object pinapinoL1Object];
 
+    NSSet *dirtyPropertySetCopy = nil;
+    if (fromDecoder)
+    {
+        dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+        pinapinoL1Object.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+    }
 
     pinapinoL1Object.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
@@ -212,11 +225,19 @@
 
     pinapinoL1Object.pinapinoL2Plural =
         [dictionary objectForKey:@"pinapinoL2Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinapinoL2Plural"] arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:pinapinoL1Object.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinapinoL2Plural"] arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:pinapinoL1Object.captureObjectPath fromDecoder:fromDecoder] : nil;
 
-    [pinapinoL1Object.dirtyPropertySet removeAllObjects];
+    if (fromDecoder)
+        [pinapinoL1Object.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    else
+        [pinapinoL1Object.dirtyPropertySet removeAllObjects];
     
     return pinapinoL1Object;
+}
+
++ (id)pinapinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    return [JRPinapinoL1Object pinapinoL1ObjectObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -256,40 +277,40 @@
 
     self.pinapinoL2Plural =
         [dictionary objectForKey:@"pinapinoL2Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinapinoL2Plural"] arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinapinoL2Plural"] arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:self.captureObjectPath fromDecoder:NO] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"string1"])
-        [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
+        [dictionary setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
 
     if ([self.dirtyPropertySet containsObject:@"string2"])
-        [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+        [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
-    [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+    [dictionary setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
+    [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     if (includingArrays)
-        [dict setObject:(self.pinapinoL2Plural ?
+        [dictionary setObject:(self.pinapinoL2Plural ?
                           [self.pinapinoL2Plural arrayOfPinapinoL2PluralReplaceDictionariesFromPinapinoL2PluralElements] :
                           [NSArray array])
-                 forKey:@"pinapinoL2Plural"];
+                       forKey:@"pinapinoL2Plural"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)replacePinapinoL2PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
@@ -326,14 +347,14 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"NSString" forKey:@"string1"];
-    [dict setObject:@"NSString" forKey:@"string2"];
-    [dict setObject:@"NSArray" forKey:@"pinapinoL2Plural"];
+    [dictionary setObject:@"NSString" forKey:@"string1"];
+    [dictionary setObject:@"NSString" forKey:@"string2"];
+    [dictionary setObject:@"NSArray" forKey:@"pinapinoL2Plural"];
 
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 - (void)dealloc

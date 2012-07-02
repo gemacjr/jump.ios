@@ -37,9 +37,9 @@
  * @brief Plural for testing getting/setting, updating, and replacing elements when one element property has the constraint of being unique
  **/
 @interface JRPluralTestUniqueElement : JRCaptureObject
-@property (nonatomic, copy)   NSString *uniqueString; /**< The object's \e uniqueString property */ 
-@property (nonatomic, copy)   NSString *string1; /**< The object's \e string1 property */ 
-@property (nonatomic, copy)   NSString *string2; /**< The object's \e string2 property */ 
+@property (nonatomic, copy)     NSString *uniqueString; /**< The object's \e uniqueString property */ 
+@property (nonatomic, copy)     NSString *string1; /**< The object's \e string1 property */ 
+@property (nonatomic, copy)     NSString *string2; /**< The object's \e string2 property */ 
 
 /**
  * @name Constructors
