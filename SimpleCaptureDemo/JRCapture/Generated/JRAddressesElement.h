@@ -46,7 +46,7 @@
 @property (nonatomic, copy)     NSNumber *longitude; /**< The object's \e longitude property */ 
 @property (nonatomic, copy)     NSString *poBox; /**< The object's \e poBox property */ 
 @property (nonatomic, copy)     NSString *postalCode; /**< The zipcode or postal code component. */ 
-@property (nonatomic, copy)     JRBoolean *primary; /**< The object's \e primary property @note This is a property of type \ref types "boolean", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>[NSNull null]</code> */ 
+@property (nonatomic, copy)     JRBoolean *primary; /**< The object's \e primary property @note This is a property of type \ref types "boolean", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>nil</code> */ 
 @property (nonatomic, copy)     NSString *region; /**< The state or region component. */ 
 @property (nonatomic, copy)     NSString *streetAddress; /**< The full street address component, which may include house number, street name, PO BOX, and multi-line extended street address information. */ 
 @property (nonatomic, copy)     NSString *type; /**< The object's \e type property */ 

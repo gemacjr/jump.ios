@@ -26,6 +26,7 @@
 - (void)createCaptureUser:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
 @end
 
+
 @interface JRCaptureObject ()
 @property (retain)   NSString     *captureObjectPath;
 @property (readonly) NSMutableSet *dirtyPropertySet;
@@ -43,4 +44,6 @@
 
 - (void)replaceArrayOnCapture:(NSArray *)array named:(NSString *)arrayName isArrayOfStrings:(BOOL)isStringArray withType:(NSString *)type
                   forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+- (BOOL)isEqualByPrivateProperties:(JRCaptureObject *)otherObj;
 @end

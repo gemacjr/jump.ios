@@ -1403,7 +1403,7 @@
 
     if (forEncoder)
     {
-        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
+        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
         [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
     }
