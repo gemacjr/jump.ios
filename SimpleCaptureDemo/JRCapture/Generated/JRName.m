@@ -186,7 +186,7 @@
     if (forEncoder)
     {
         [dictionary setObject:([self.dirtyPropertySet allObjects] ? [self.dirtyPropertySet allObjects] : [NSArray array])
-                       forKey:@"dirtyPropertySet"];
+                       forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:@"captureObjectPath"];
         [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 

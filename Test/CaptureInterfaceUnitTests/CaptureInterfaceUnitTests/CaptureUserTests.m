@@ -17,7 +17,7 @@
 #import <GHUnitIOS/GHUnit.h>
 #import "SharedData.h"
 #import "JRCaptureObject+Internal.h"
-#import "JSONKit.h"
+#import "ClassCategories.h"
 
 @interface d1_CaptureUserTests : GHAsyncTestCase <JRCaptureObjectTesterDelegate, JRCaptureUserTesterDelegate>
 {
@@ -70,6 +70,60 @@
     [captureUser fetchLastUpdatedFromServerForDelegate:self context:nil];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
+
+- (void)test_d111_codingEmptyUser
+{
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:captureUser];
+    JRCaptureUser *t = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    GHAssertTrue([captureUser isEqualToCaptureUser:t], nil);
+    GHAssertTrue([captureUser isEqualByPrivateProperties:t], nil);
+}
+
+- (void)test_d112_codingFetchedUser
+{
+    // capture path dirty property set can be updated or replaced
+    [self prepare];
+    void (^t)(JRCaptureUser *, NSError *) = ^(JRCaptureUser *u, NSError *e) {
+            if (u)
+            {
+                self.captureUser = u;
+                [self test_d111_codingEmptyUser];
+                DLog("success");
+                [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(test_d112_codingFetchedUser)];
+            }
+            else GHFail(nil);
+        };
+    t = [t copy];
+    [JRCaptureUser fetchCaptureUserFromServerForDelegate:self context:t];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+    [t release];
+    DLog("finished");
+}
+
+- (void)fetchUserDidSucceed:(JRCaptureUser *)fetchedUser context:(NSObject *)context
+{
+    void (^block)(JRCaptureUser *, NSError *) = (void (^)(JRCaptureUser *, NSError *)) context;
+    if ([context isKindOfClass:NSClassFromString(@"NSBlock")])
+    {
+        block(fetchedUser, nil);
+        return;
+    }
+
+    GHFail(nil);
+}
+
+- (void)fetchUserDidFailWithError:(NSError *)error context:(NSObject *)context
+{
+    void (^block)(JRCaptureUser *, NSError *) = (void (^)(JRCaptureUser *, NSError *)) context;
+    if ([context isKindOfClass:NSClassFromString(@"NSBlock")])
+    {
+        block(nil, error);
+        return;
+    }
+
+    GHFail(nil);
+}
+
 
 - (void)fetchLastUpdatedDidFailWithError:(NSError *)error context:(NSObject *)context
 {

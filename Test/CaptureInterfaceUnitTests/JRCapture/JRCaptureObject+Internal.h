@@ -45,4 +45,6 @@
 
 - (void)replaceArrayOnCapture:(NSArray *)array named:(NSString *)arrayName isArrayOfStrings:(BOOL)isStringArray withType:(NSString *)type
                   forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+- (BOOL)isEqualByPrivateProperties:(JRCaptureObject *)otherObj;
 @end

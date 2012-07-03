@@ -452,7 +452,7 @@ my @decodeUserFromDictParts = (
 
 my @toDictionaryDocParts = (
 "/**
- * Creates an \e NSDictionary represention of a ",""," object
+ * Creates an \e NSDictionary representation of a ",""," object
  * populated with all of the object's properties, as the dictionary's 
  * keys, and the properties' values as the dictionary's values
  *
@@ -469,7 +469,7 @@ my @toDictionaryParts = (
     if (forEncoder)
     {
         [dictionary setObject:([self.dirtyPropertySet allObjects] ? [self.dirtyPropertySet allObjects] : [NSArray array])
-                       forKey:\@\"dirtyPropertySet\"];
+                       forKey:\@\"dirtyPropertiesSet\"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:\@\"captureObjectPath\"];
         [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
