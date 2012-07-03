@@ -221,6 +221,7 @@
 {
     if (self != nil)
     {
+        [self init];
         NSDictionary *dictionary = [coder decodeObjectForKey:cJREncodedCaptureUser];
         [self decodeFromDictionary:dictionary];
     }

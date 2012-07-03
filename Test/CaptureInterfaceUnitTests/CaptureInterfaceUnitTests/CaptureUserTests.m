@@ -71,7 +71,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_d111_asdf
+- (void)test_d111_codingEmptyUser
 {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:captureUser];
     JRCaptureUser *t = [NSKeyedUnarchiver unarchiveObjectWithData:data];
@@ -79,7 +79,7 @@
     GHAssertTrue([captureUser isEqualByPrivateProperties:t], nil);
 }
 
-- (void)test_d112_asdf
+- (void)test_d112_codingFetchedUser
 {
     // capture path dirty property set can be updated or replaced
     [self prepare];
@@ -87,9 +87,9 @@
             if (u)
             {
                 self.captureUser = u;
-                [self test_d111_asdf];
+                [self test_d111_codingEmptyUser];
                 DLog("success");
-                [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(test_d112_asdf)];
+                [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(test_d112_codingFetchedUser)];
             }
             else GHFail(nil);
         };
