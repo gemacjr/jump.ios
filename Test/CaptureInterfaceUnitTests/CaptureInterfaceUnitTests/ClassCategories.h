@@ -35,6 +35,8 @@
 #import "JRObjectTestRequired.h"
 #import "JRObjectTestRequiredUnique.h"
 
+@class JRCaptureUser;
+
 @interface JROinoL1Object (TestCategory)
 - (BOOL)isEqualToOinoL1Object:(JROinoL1Object *)otherOinoL1Object;
 + (id)oinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
@@ -212,6 +214,10 @@
 @interface JRObjectTestRequiredUnique (TestCategory)
 - (BOOL)isEqualToObjectTestRequiredUnique:(JRObjectTestRequiredUnique *)otherObjectTestRequiredUnique;
 + (id)objectTestRequiredUniqueObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
+@end
+
+@interface JRCaptureUser (TestCategory)
+- (BOOL)isEqualToCaptureUser:(JRCaptureUser *)otherCaptureUser;
 @end
 
 @interface NSArray (CaptureUser_ArrayComparison)
