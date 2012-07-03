@@ -55,6 +55,9 @@
  * @brief A JRCaptureUser object
  **/
 @interface JRCaptureUser : JRCaptureObject
+@property (nonatomic, readonly) JRUuid *uuid; /**< Globally unique indentifier for this entity @note This is a property of type \ref types "uuid", which is a typedef of \e NSString */ 
+@property (nonatomic, readonly) JRDateTime *created; /**< When this entity was created @note This is a property of type \ref types "dateTime", which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., <code>yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ</code>) */ 
+@property (nonatomic, readonly) JRDateTime *lastUpdated; /**< When this entity was last updated @note This is a property of type \ref types "dateTime", which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., <code>yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ</code>) */ 
 @property (nonatomic, copy)     NSString *email; /**< The object's \e email property */ 
 @property (nonatomic, copy)     JRBoolean *basicBoolean; /**< Basic boolean property for testing getting/setting with NSNumbers and primitives, updating, and replacing @note This is a property of type \ref types "boolean", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>nil</code> */ 
 @property (nonatomic, copy)     NSString *basicString; /**< Basic string property for testing getting/setting, updating, and replacing */ 

@@ -189,6 +189,7 @@ static JRCaptureData *singleton = nil;
 {
     NSString *oldUuid = [[JRCaptureData captureDataInstance] uuid];
 
+    // TODO: Don't delete the tokens if they aren't already there
     [JRCaptureData deleteTokenFromKeychainOfType:JRTokenTypeAccess forUser:oldUuid];
     [JRCaptureData deleteTokenFromKeychainOfType:JRTokenTypeCreation forUser:oldUuid];
 

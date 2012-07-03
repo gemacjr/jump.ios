@@ -3,6 +3,21 @@
     "name": "test_user1",
     "attr_defs": [
       {
+          "name": "uuid",
+          "description": "globally unique indentifier for this entity",
+          "type": "uuid"
+      },
+      {
+          "name": "created",
+          "description": "when this entity was created",
+          "type": "dateTime"
+      },
+      {
+          "name": "lastUpdated",
+          "description": "when this entity was last updated",
+          "type": "dateTime"
+      },
+      {
         "case-sensitive": false,
         "name": "email",
         "constraints": [

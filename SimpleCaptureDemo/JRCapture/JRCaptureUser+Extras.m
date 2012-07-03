@@ -86,7 +86,10 @@
         return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
 
     NSString *accessToken = [resultDictionary objectForKey:@"access_token"];
-    NSString *uuid        = [captureUser performSelector:NSSelectorFromString(@"uuid")];
+    NSString *uuid        = nil;
+
+    if ([captureUser respondsToSelector:NSSelectorFromString(@"uuid")])
+        uuid = [captureUser performSelector:NSSelectorFromString(@"uuid")];
 
     [JRCaptureData setAccessToken:accessToken forUser:uuid];
 
@@ -111,7 +114,6 @@
 
     if ([delegate respondsToSelector:@selector(fetchUserDidFailWithError:context:)])
         [delegate fetchUserDidFailWithError:[JRCaptureError errorFromResult:result] context:callerContext];
-
 }
 
 - (void)getCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
@@ -154,11 +156,8 @@
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    if ([capturePath isEqualToString:@"/lastUpdated"])
-    {
-        if ([delegate respondsToSelector:@selector(fetchLastUpdatedDidFailWithError:context:)])
-            [delegate fetchLastUpdatedDidFailWithError:[JRCaptureError errorFromResult:result] context:callerContext];
-    }
+    if ([delegate respondsToSelector:@selector(fetchLastUpdatedDidFailWithError:context:)])
+        [delegate fetchLastUpdatedDidFailWithError:[JRCaptureError errorFromResult:result] context:callerContext];
 }
 
 - (void)getCaptureObjectDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
@@ -198,6 +197,10 @@
 
         if ([delegate respondsToSelector:@selector(fetchLastUpdatedDidSucceed:isOutdated:context:)])
                 [delegate fetchLastUpdatedDidSucceed:lastUpdated isOutdated:isOutdated context:callerContext];
+    }
+    else
+    {
+        return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]  context:context];
     }
 }
 @end

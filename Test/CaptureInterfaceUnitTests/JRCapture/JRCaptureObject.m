@@ -85,11 +85,13 @@
 {
     DLog(@"");
 
-    NSDictionary    *myContext     = (NSDictionary *)context;
-    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
-    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
-    id<JRCaptureObjectDelegate>
-                     delegate      = [myContext objectForKey:@"delegate"];
+    NSDictionary    *myContext             = (NSDictionary *)context;
+    JRCaptureObject *captureObject         = [myContext objectForKey:@"captureObject"];
+    NSSet           *dirtyPropertySnapshot = [myContext objectForKey:@"dirtyPropertySnapshot"];
+    NSObject        *callerContext         = [myContext objectForKey:@"callerContext"];
+    id<JRCaptureObjectDelegate> delegate   = [myContext objectForKey:@"delegate"];
+
+    [captureObject.dirtyPropertySet setByAddingObjectsFromSet:dirtyPropertySnapshot];
 
     /* Calling the old protocol methods for testing purposes, but have to make sure we pass the result string... */
     if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
@@ -198,7 +200,9 @@
     if (![resultDictionary objectForKey:@"result"])
         return [self replaceCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]  context:context];
 
-    [captureObject replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];// includingStateVariables:NO];
+    // TODO: There's an issue in the replaceOnCapture code where if a captureObject changes between the call to capture
+    // and the return, those changes will be lost.  Since this is no longer a public method, I'll table it for now...
+    [captureObject replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
 
     /* Calling the old protocol methods for testing purposes */
     if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
@@ -394,8 +398,12 @@
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      self.captureObjectPath, @"capturePath",
+                                                     [NSSet setWithSet:self.dirtyPropertySet], @"dirtyPropertySnapshot",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
+
+    /* Removing the objects from the set here, because if there's an error, they will all get put back anyway... */
+    [dirtyPropertySet removeAllObjects];
 
     if (!self.canBeUpdatedOrReplaced)
     {
@@ -410,7 +418,6 @@
 
         return;
     }
-
 
     [JRCaptureApidInterface updateCaptureObject:[self toUpdateDictionary]
                                          atPath:self.captureObjectPath
