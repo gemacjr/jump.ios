@@ -1402,7 +1402,7 @@ void (^contBlock)() = nil;
 
 }
 
--(void)callSelectorPrefixed:(NSString *)prefixed withArguments:(NSObject *)arguments andTestSelectorString:(NSString *)testSelectorString
+- (void)callSelectorPrefixed:(NSString *)prefixed withArguments:(NSObject *)arguments andTestSelectorString:(NSString *)testSelectorString
 {
     DLog(@"testSelectorString: %@", testSelectorString);
 

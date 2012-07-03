@@ -160,7 +160,7 @@
             [((id<JRCaptureObjectTesterDelegate>)delegate) replaceCaptureObject:captureObject
                                                               didFailWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
                                                                         context:callerContext];
-    
+
     if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
         [delegate respondsToSelector:@selector(replaceDidFailForObject:withError:context:)])
             [((id<JRCaptureObjectTesterDelegate>)delegate) replaceDidFailForObject:captureObject withError:[JRCaptureError errorFromResult:result] context:callerContext];
@@ -238,10 +238,9 @@
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
     NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
     NSString        *arrayName     = [myContext objectForKey:@"arrayName"];
-    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     NSString        *elementType   = [myContext objectForKey:@"elementType"];
     BOOL             isStringArray = [((NSNumber *)[myContext objectForKey:@"isStringArray"]) boolValue];
-
+    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     id<JRCaptureObjectDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
