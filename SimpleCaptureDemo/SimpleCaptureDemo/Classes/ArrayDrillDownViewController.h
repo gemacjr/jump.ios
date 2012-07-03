@@ -13,7 +13,7 @@
 
 
 @interface ArrayDrillDownViewController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
-UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
+                                                            UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
 {
     UITableView    *myTableView;
     NSMutableArray *objectDataArray;
@@ -26,8 +26,6 @@ UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
 @property (nonatomic, strong) IBOutlet UITableView     *myTableView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *myUpdateButton;
 - (IBAction)replaceButtonPressed:(id)sender;
-
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forArray:(NSArray*)array
   captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key;
-
 @end

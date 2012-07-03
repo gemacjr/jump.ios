@@ -13,12 +13,20 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "SharedData.h"
-#import "JRCaptureUser+Extras.h"
-#import "JRCaptureObject+Internal.h"
+
+#define cJRCurrentDisplayName @"simpleCaptureDemo.currentDisplayName"
+#define cJRCurrentProvider    @"simpleCaptureDemo.currentProvider"
+#define cJRCaptureUser        @"simpleCaptureDemo.captureUser"
 
 @interface SharedData ()
-@property (nonatomic, retain) JREngage *jrEngage;
-@property (strong) NSUserDefaults      *prefs;
+@property (strong) NSUserDefaults     *prefs;
+@property (strong) JRCaptureUser      *captureUser;
+@property          BOOL                isNew;
+@property          BOOL                notYetCreated;
+@property (strong) NSString           *currentDisplayName;
+@property (strong) NSString           *currentProvider;
+@property (weak)   id<SignInDelegate>  signInDelegate;
+
 @end
 
 @implementation SharedData
@@ -42,12 +50,8 @@ static NSString *entityTypeName     = @"user_dev";
 //static NSString *clientId       = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
 //static NSString *entityTypeName = @"demo_user";
 
-@synthesize engageUser;
 @synthesize captureUser;
-@synthesize accessToken;
-@synthesize creationToken;
 @synthesize prefs;
-@synthesize jrEngage;
 @synthesize currentDisplayName;
 @synthesize currentProvider;
 @synthesize signInDelegate;
@@ -63,31 +67,23 @@ static NSString *entityTypeName     = @"user_dev";
                               clientId:clientId andEntityTypeName:entityTypeName];
 
         [JRCapture setEngageAppId:appId];
-//        self.jrEngage = [JREngage jrEngageWithAppId:appId
-//                                        andTokenUrl:[JRCapture captureMobileEndpointUrl]
-//                                           delegate:self];
 
-        self.prefs = [NSUserDefaults standardUserDefaults];
-        self.engageUser = [NSMutableDictionary dictionaryWithDictionary:[prefs objectForKey:@"engageUser"]];
-        self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:[prefs objectForKey:@"captureUser"]];
-        self.accessToken = [prefs objectForKey:@"accessToken"];
-        self.creationToken = [prefs objectForKey:@"creationToken"];
-        self.currentDisplayName = [prefs objectForKey:@"currentDisplayName"];
-        self.currentProvider = [prefs objectForKey:@"currentProvider"];
+        prefs = [NSUserDefaults standardUserDefaults];
+        currentDisplayName = [prefs objectForKey:cJRCurrentDisplayName];
+        currentProvider    = [prefs objectForKey:cJRCurrentProvider];
 
-        DLog(@"%@", [prefs objectForKey:@"captureUser"]);
-
-//        [JRCapture setAccessToken:accessToken];
-//        [JRCapture setCreationToken:creationToken];
-//        captureUser.accessToken = accessToken;
-//        captureUser.creationToken = creationToken;
+        NSData *archivedCaptureUser = [prefs objectForKey:cJRCaptureUser];
+        if (archivedCaptureUser)
+        {
+            captureUser = [NSKeyedUnarchiver unarchiveObjectWithData:archivedCaptureUser];
+        }
     }
 
     return self;
 }
 
 /* Return the singleton instance of this class. */
-+ (SharedData *)sharedData
++ (SharedData *)singletonInstance
 {
     if (singleton == nil) {
         singleton = (SharedData *) [[super allocWithZone:NULL] init];
@@ -98,7 +94,7 @@ static NSString *entityTypeName     = @"user_dev";
 
 + (id)allocWithZone:(NSZone *)zone
 {
-    return [self sharedData];
+    return [self singletonInstance];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -106,29 +102,57 @@ static NSString *entityTypeName     = @"user_dev";
     return self;
 }
 
-//- (id)retain
-//{
-//    return self;
-//}
-
-//- (NSUInteger)retainCount
-//{
-//    return NSUIntegerMax; /* Denotes an object that cannot be released */
-//}
-
-//- (oneway void)release { /* Do nothing */ }
-
-//- (id)autorelease
-//{
-//    return self;
-//}
-
-- (void)startAuthenticationWithCustomInterface:(NSDictionary *)customInterface forDelegate:(id<SignInDelegate>)delegate
++ (JRCaptureUser *)captureUser
 {
-    [self setSignInDelegate:delegate];
+    return [[SharedData singletonInstance] captureUser];
+}
+
++ (BOOL)isNew
+{
+    return [[SharedData singletonInstance] isNew];
+}
+
++ (BOOL)notYetCreated
+{
+    return [[SharedData singletonInstance] notYetCreated];
+}
+
++ (NSString *)currentDisplayName
+{
+    return [[SharedData singletonInstance] currentDisplayName];
+}
+
++ (NSString *)currentProvider
+{
+    return [[SharedData singletonInstance] currentProvider];
+}
+
+- (void)signoutCurrentUser
+{
+    self.currentDisplayName = nil;
+    self.currentProvider    = nil;
+    self.captureUser        = nil;
+
+    self.isNew         = NO;
+    self.notYetCreated = NO;
+
+    [prefs setObject:nil forKey:cJRCurrentDisplayName];
+    [prefs setObject:nil forKey:cJRCurrentProvider];
+    [prefs setObject:nil forKey:cJRCaptureUser];
+}
+
++ (void)signoutCurrentUser
+{
+    [[SharedData singletonInstance] signoutCurrentUser];
+}
+
++ (void)startAuthenticationWithCustomInterface:(NSDictionary *)customInterface forDelegate:(id<SignInDelegate>)delegate
+{
+    [SharedData signoutCurrentUser];
+    [[SharedData singletonInstance] setSignInDelegate:delegate];
+
     [JRCapture startAuthenticationDialogWithNativeSignin:JRNativeSigninNone
-                             andCustomInterfaceOverrides:customInterface forDelegate:self];
-    //[jrEngage showAuthenticationDialogWithCustomInterfaceOverrides:customInterface];
+                             andCustomInterfaceOverrides:customInterface forDelegate:[SharedData singletonInstance]];
 }
 
 + (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile
@@ -161,178 +185,84 @@ static NSString *entityTypeName     = @"user_dev";
     return name;
 }
 
-/**
- * Horrible hack to remove NSNulls from profile data to allow it to be stored in an NSUserDefaults
- * (Capture profiles can have null values and JSONKit parses them to NSNulls, but Engage profiles don't and so
- * didn't trigger this incompatibility.)
- */
-// TODO: Can't do this; need nulls... instead, turn dictionary into string and save that, then back again
-- (id)nullWalker:(id)structure
-{
-    if ([structure isKindOfClass:[NSDictionary class]])
-    {
-        NSDictionary *dict = (NSDictionary *) structure;
-        NSMutableDictionary *retval = [NSMutableDictionary dictionary];
-        NSArray *keys = [dict allKeys];
-        for (NSString *key in keys)
-        {
-            NSObject *val = [dict objectForKey:key];
-            if ([val isKindOfClass:[NSNull class]])
-                /* don't add */;
-            else if ([val isKindOfClass:[NSDictionary class]])
-                [retval setObject:[self nullWalker:val] forKey:key];
-            else if ([val isKindOfClass:[NSArray class]])
-                [retval setObject:[self nullWalker:val] forKey:key];
-            else
-                [retval setObject:val forKey:key];
-        }
-        return retval;
-    }
-    else if ([structure isKindOfClass:[NSArray class]])
-    {
-        NSArray *array = (NSArray *) structure;
-        NSMutableArray *retval = [NSMutableArray array];
-        for (NSObject *val in array)
-            if ([val isKindOfClass:[NSNull class]])
-                /* don't add */;
-            else if ([val isKindOfClass:[NSDictionary class]])
-                [retval addObject:[self nullWalker:val]];
-            else if ([val isKindOfClass:[NSArray class]])
-                [retval addObject:[self nullWalker:val]];
-            else
-                [retval addObject:val];
-        return retval;
-    }
-    else
-    {
-        ALog(@"Unrecognized stucture: %@", [structure description]);
-        return nil;
-        // TODO: Better error handling
-    }
-}
-
 - (void)resaveCaptureUser
 {
-    [prefs setObject:[self nullWalker:[captureUser toDictionaryForEncoder:NO]] forKey:@"captureUser"];
+    [prefs setObject:[NSKeyedArchiver archivedDataWithRootObject:captureUser]
+              forKey:cJRCaptureUser];
 }
 
-- (void)jrAuthenticationCallToTokenUrl:(NSString *)tokenUrl didFailWithError:(NSError *)error forProvider:(NSString *)provider
++ (void)resaveCaptureUser
+{
+    [[SharedData singletonInstance] resaveCaptureUser];
+}
+
+- (void)postEngageErrorToDelegate:(NSError *)error
 {
     if ([signInDelegate respondsToSelector:@selector(engageSignInDidFailWithError:)])
         [signInDelegate engageSignInDidFailWithError:error];
 }
 
-- (void)jrAuthenticationDidFailWithError:(NSError *)error forProvider:(NSString *)provider
+- (void)postCaptureErrorToDelegate:(NSError *)error
 {
-    if ([signInDelegate respondsToSelector:@selector(engageSignInDidFailWithError:)])
-        [signInDelegate engageSignInDidFailWithError:error];
+    if ([signInDelegate respondsToSelector:@selector(captureSignInDidFailWithError:)])
+        [signInDelegate captureSignInDidFailWithError:error];
 }
 
-- (void)jrAuthenticationDidNotComplete
+- (void)engageAuthenticationDidNotComplete
 {
-    if ([signInDelegate respondsToSelector:@selector(engageSignInDidFailWithError:)])
-        [signInDelegate engageSignInDidFailWithError:nil];
+    [self postEngageErrorToDelegate:nil];
 }
 
-- (void)jrAuthenticationDidSucceedForUser:(NSDictionary *)auth_info forProvider:(NSString *)provider
+- (void)engageAuthenticationDialogDidFailToShowWithError:(NSError *)error
 {
-    self.engageUser    = [NSMutableDictionary dictionaryWithDictionary:auth_info];
+    [self postEngageErrorToDelegate:error];
+}
 
-    currentDisplayName = [SharedData getDisplayNameFromProfile:[engageUser objectForKey:@"profile"]];
-    currentProvider    = [provider copy];
+- (void)engageAuthenticationDidFailWithError:(NSError *)error forProvider:(NSString *)provider
+{
+    [self postEngageErrorToDelegate:error];
+}
 
-    [prefs setObject:engageUser forKey:@"engageUser"];
-    [prefs setObject:currentDisplayName forKey:@"currentDisplayName"];
-    [prefs setObject:currentProvider forKey:@"currentProvider"];
+- (void)captureAuthenticationDidFailWithError:(NSError *)error
+{
+    [self postCaptureErrorToDelegate:error];
+}
+
+- (void)engageAuthenticationDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider
+{
+    self.currentDisplayName = [SharedData getDisplayNameFromProfile:[engageAuthInfo objectForKey:@"profile"]];
+    self.currentProvider    = [provider copy];
+
+    [prefs setObject:currentDisplayName forKey:cJRCurrentDisplayName];
+    [prefs setObject:currentProvider forKey:cJRCurrentProvider];
 
     if ([signInDelegate respondsToSelector:@selector(engageSignInDidSucceed)])
         [signInDelegate engageSignInDidSucceed];
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
-- (void)jrAuthenticationDidReachTokenUrl:(NSString *)tokenUrl withResponse:(NSURLResponse *)response
-                              andPayload:(NSData *)tokenUrlPayload forProvider:(NSString *)provider
+- (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser *)theCaptureUser withToken:(NSString *)captureToken andStatus:(JRCaptureRecordStatus)captureRecordStatus
 {
     DLog(@"");
-
-    NSString     *payload     = [[NSString alloc] initWithData:tokenUrlPayload encoding:NSUTF8StringEncoding];
-    NSDictionary *payloadDict = [payload objectFromJSONString];
-
-    DLog(@"token url payload: %@", [payload description]);
-
-    if (!payloadDict)
-    {
-        ALog(@"Unable to parse token URL response: %@", payload);
-        if ([signInDelegate respondsToSelector:@selector(captureSignInDidFailWithError:)])
-            [signInDelegate engageSignInDidFailWithError:nil];
-
-        return;
-    }
-
-    self.accessToken   = [payloadDict objectForKey:@"access_token"];
-    self.creationToken = [payloadDict objectForKey:@"creation_token"];
-    self.isNew         = [(NSNumber*)[payloadDict objectForKey:@"is_new"] boolValue];
-    self.notYetCreated = creationToken ? YES: NO;
-
-//<<<<<<< HEAD
-//    if (accessToken)
-//    {
-//        NSDictionary *captureProfile = [payloadDict objectForKey:@"profile"];//[self nullWalker:[payloadDict objectForKey:@"profile"]];
-//
-//        DLog(@"user dictionary: %@", [captureProfile description]);
-//        self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
-//
-//        captureUser.statuses = nil;
-//        captureUser.aboutMe = nil;
-//
-//        NSDictionary *backAgain = [captureUser dictionaryFromObject];
-//
-//        DLog(@"user dictionary back again: %@", [backAgain description]);
-//        DLog(@"json string: %@", [backAgain JSONString]);
-//
-//    }
-//    else if (creationToken)
-//    {
-//        self.captureUser = [JRCaptureUser captureUser];
-//
-//        captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
-//
-//        JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
-//
-//        if (profilesObject)
-//            captureUser.profiles = [NSArray arrayWithObject:profilesObject];
-//    }
-//=======
-
-    NSDictionary *captureProfile = [payloadDict objectForKey:@"capture_user"];
-    self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
-
-//    [captureUser setAccessToken:accessToken];
-//    [captureUser setCreationToken:creationToken];
-
-//    [JRCapture setAccessToken:accessToken];
-//    [JRCapture setCreationToken:creationToken];
-
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
-    [prefs setObject:engageUser forKey:@"engageUser"];
-    [prefs setObject:[self nullWalker:[captureUser toDictionaryForEncoder:NO]] forKey:@"captureUser"];
-    [prefs setObject:accessToken forKey:@"accessToken"];
-    [prefs setObject:creationToken forKey:@"creationToken"];
+    if (captureRecordStatus == JRCaptureRecordNewlyCreated)
+        self.isNew = YES;
+    else
+        self.isNew = NO;
+
+    if (captureRecordStatus == JRCaptureRecordMissingRequiredFields)
+        self.notYetCreated = YES;
+    else
+        self.notYetCreated = NO;
+
+    self.captureUser = theCaptureUser;
+
+    [prefs setObject:[NSKeyedArchiver archivedDataWithRootObject:captureUser]
+              forKey:cJRCaptureUser];
 
     if ([signInDelegate respondsToSelector:@selector(captureSignInDidSucceed)])
         [signInDelegate captureSignInDidSucceed];
 }
-
-- (void)jrEngageDialogDidFailToShowWithError:(NSError *)error
-{
-    if ([signInDelegate respondsToSelector:@selector(engageSignInDidFailWithError:)])
-        [signInDelegate engageSignInDidFailWithError:error];
-}
-
-- (void)jrAuthenticationDidSucceedForUser:(JRCaptureUser *)newCaptureUser withToken:(NSString *)captureToken andStatus:(JRCaptureRecordStatus)status
-{
-
-}
-
-
 @end

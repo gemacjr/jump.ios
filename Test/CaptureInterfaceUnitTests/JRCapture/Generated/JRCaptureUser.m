@@ -1403,9 +1403,12 @@
 
     if (forEncoder)
     {
-        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertiesSet"];
-        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:([self.dirtyPropertySet allObjects] ? [self.dirtyPropertySet allObjects] : [NSArray array])
+                       forKey:@"dirtyPropertiesSet"];
+        [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
+                       forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
+                       forKey:@"canBeUpdatedOrReplaced"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -1422,7 +1425,8 @@
     if (fromDecoder)
     {
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
-        captureUser.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+        captureUser.captureObjectPath = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
+                                                              nil : [dictionary objectForKey:@"captureObjectPath"]);
     }
 
     captureUser.email =
@@ -1621,6 +1625,10 @@
 - (void)decodeFromDictionary:(NSDictionary*)dictionary
 {
     NSSet *dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+
+    self.captureObjectPath = @"";
+    self.canBeUpdatedOrReplaced = YES;
+
     self.email =
         [dictionary objectForKey:@"email"] != [NSNull null] ? 
         [dictionary objectForKey:@"email"] : nil;

@@ -8,9 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "SharedData.h"
-#import "ArrayDrillDownViewController.h"
-#import "JRCapture.h"
+#import "JRCaptureObject.h"
 
 @interface ObjectDrillDownViewController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
                                                     UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
@@ -26,18 +24,14 @@
 
     UIDatePicker *myDatePicker;
     UIView       *myPickerView;
-
-//    BOOL isSimplePluralElement;
 }
 @property (nonatomic, strong) IBOutlet UITableView     *myTableView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *myUpdateButton;
 @property (nonatomic, retain) IBOutlet UIDatePicker    *myDatePicker;
-//@property (nonatomic, retain) IBOutlet UIToolbar       *myPickerToolbar;
 @property (nonatomic, retain) IBOutlet UIView          *myPickerView;
 @property (nonatomic, retain) IBOutlet UIToolbar       *myKeyboardToolbar;
 - (IBAction)updateButtonPressed:(id)sender;
 - (IBAction)datePickerChanged:(id)sender;
-//- (void)changeDateButtonPressed:(id)sender;
 - (IBAction)hidePickerButtonPressed:(id)sender;
 - (IBAction)doneEditingTextButtonPressed:(id)sender;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forObject:(JRCaptureObject*)object

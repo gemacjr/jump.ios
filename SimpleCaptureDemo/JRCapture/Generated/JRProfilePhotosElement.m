@@ -162,9 +162,12 @@
 
     if (forEncoder)
     {
-        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertiesSet"];
-        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:([self.dirtyPropertySet allObjects] ? [self.dirtyPropertySet allObjects] : [NSArray array])
+                       forKey:@"dirtyPropertiesSet"];
+        [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
+                       forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
+                       forKey:@"canBeUpdatedOrReplaced"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -181,7 +184,8 @@
     if (fromDecoder)
     {
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
-        profilePhotosElement.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+        profilePhotosElement.captureObjectPath = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
+                                                              nil : [dictionary objectForKey:@"captureObjectPath"]);
         profilePhotosElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
     }
     else

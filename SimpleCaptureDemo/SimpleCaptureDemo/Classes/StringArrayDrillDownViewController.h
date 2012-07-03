@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "SharedData.h"
-#import "JRCapture.h"
+#import "JRCaptureObject.h"
 
 
 @interface StringArrayDrillDownViewController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
-UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
+                                                      UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
 {
     UITableView    *myTableView;
     NSMutableArray *objectDataArray;
@@ -30,5 +30,4 @@ UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
 - (IBAction)doneEditingTextButtonPressed:(id)sender;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forArray:(NSArray*)array
   captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key;
-
 @end

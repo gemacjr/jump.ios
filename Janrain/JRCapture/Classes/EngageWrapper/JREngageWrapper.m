@@ -113,34 +113,34 @@ static JREngageWrapper *singleton = nil;
 
     NSMutableDictionary *expandedCustomInterfaceOverrides =
                                 [NSMutableDictionary dictionaryWithDictionary:customInterfaceOverrides];
-
-//    switch (nativeSigninState)
-//    {
-//        case JRNativeSigninUsernamePassword:
-//        case JRNativeSigninEmailPassword:
-
-            JRNativeSigninViewController *nativeSigninViewController =
-                                                 [[[JRNativeSigninViewController alloc] init] autorelease];
-
-//            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-//            {
-//                UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
-//                navigationController.navigationBar.barStyle = UIBarStyleBlack;
-//            }
-
-            [expandedCustomInterfaceOverrides setObject:nativeSigninViewController.view forKey:kJRProviderTableHeaderView];
-
-//            moreCustomizations = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
-//                                        embeddedTable.view, kJRProviderTableHeaderView,
-//                                        @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString,
-//                                        navigationController, ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ?
-//                                                   kJRCustomModalNavigationController : kJRApplicationNavigationController),
-//                                        nil] autorelease];
-
-//            break;
-//        default:
-//            break;
-//    }
+//
+////    switch (nativeSigninState)
+////    {
+////        case JRNativeSigninUsernamePassword:
+////        case JRNativeSigninEmailPassword:
+//
+//            JRNativeSigninViewController *nativeSigninViewController =
+//                                                 [[[JRNativeSigninViewController alloc] init] autorelease];
+//
+////            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+////            {
+////                UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+////                navigationController.navigationBar.barStyle = UIBarStyleBlack;
+////            }
+//
+//            [expandedCustomInterfaceOverrides setObject:nativeSigninViewController.view forKey:kJRProviderTableHeaderView];
+//
+////            moreCustomizations = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
+////                                        embeddedTable.view, kJRProviderTableHeaderView,
+////                                        @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString,
+////                                        navigationController, ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ?
+////                                                   kJRCustomModalNavigationController : kJRApplicationNavigationController),
+////                                        nil] autorelease];
+//
+////            break;
+////        default:
+////            break;
+////    }
 
     [JREngage showAuthenticationDialogWithCustomInterfaceOverrides:
                       [NSDictionary dictionaryWithDictionary:expandedCustomInterfaceOverrides]];
@@ -190,6 +190,8 @@ static JREngageWrapper *singleton = nil;
     NSString     *payload     = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSUTF8StringEncoding] autorelease];
     NSDictionary *payloadDict = [payload objectFromJSONString];
 
+    DLog(@"%@", payload);
+
     if (!payloadDict)
         return [self jrAuthenticationCallToTokenUrl:tokenUrl
                                    didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
@@ -221,8 +223,10 @@ static JREngageWrapper *singleton = nil;
 
     NSString *uuid = [captureUser performSelector:NSSelectorFromString(@"uuid")];
 
-    [JRCaptureData setAccessToken:accessToken forUser:uuid];
-    [JRCaptureData setCreationToken:creationToken];
+    if (accessToken)
+        [JRCaptureData setAccessToken:accessToken forUser:uuid];
+    else if (creationToken)
+        [JRCaptureData setCreationToken:creationToken];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 

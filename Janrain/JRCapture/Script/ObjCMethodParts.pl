@@ -364,7 +364,8 @@ my @fromDictionaryParts = (
     if (fromDecoder)
     {
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:\@\"dirtyPropertiesSet\"]];
-        ","",".captureObjectPath      = [dictionary objectForKey:\@\"captureObjectPath\"];",
+        ","",".captureObjectPath = ([dictionary objectForKey:\@\"captureObjectPath\"] == [NSNull null] ?
+                                                              nil : [dictionary objectForKey:\@\"captureObjectPath\"]);",
         "","
     }
     else
@@ -409,8 +410,11 @@ my @fromDictionaryParts = (
 my @decodeUserFromDictParts = (
 "- (void)decodeFromDictionary:(NSDictionary*)dictionary",
 "\n{\n",
-"    NSSet *dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:\@\"dirtyPropertiesSet\"]];",
-"",
+"    NSSet *dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:\@\"dirtyPropertiesSet\"]];
+
+    self.captureObjectPath = \@\"\";
+    self.canBeUpdatedOrReplaced = YES;
+","",
 "\n    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }\n\n");
 
@@ -464,9 +468,12 @@ my @toDictionaryParts = (
 "","
     if (forEncoder)
     {
-        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:\@\"dirtyPropertiesSet\"];
-        [dictionary setObject:self.captureObjectPath forKey:\@\"captureObjectPath\"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:\@\"canBeUpdatedOrReplaced\"];
+        [dictionary setObject:([self.dirtyPropertySet allObjects] ? [self.dirtyPropertySet allObjects] : [NSArray array])
+                       forKey:\@\"dirtyPropertiesSet\"];
+        [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
+                       forKey:\@\"captureObjectPath\"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
+                       forKey:\@\"canBeUpdatedOrReplaced\"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];",

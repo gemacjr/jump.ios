@@ -95,8 +95,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="Yue-dQ-Nym"/>
                     <connections>
+                        <outlet property="browseButton" destination="Sdc-xo-ZC1" id="3Sx-RY-vcP"/>
                         <outlet property="currentUserLabel" destination="Hq8-yJ-Rmg" id="hGr-bA-Zvn"/>
                         <outlet property="currentUserProviderIcon" destination="PZq-1X-zH2" id="vdO-gn-iv0"/>
+                        <outlet property="signinButton" destination="gAk-C3-t5t" id="xiB-Pk-aug"/>
+                        <outlet property="testerButton" destination="9l8-Zj-RBh" id="ejt-0w-bUN"/>
+                        <outlet property="updateButton" destination="3Ab-Cb-7AE" id="ewh-dj-wSs"/>
                     </connections>
                 </viewController>
             </objects>
@@ -123,6 +127,23 @@
     <resources>
         <image name="background.png" width="320" height="460"/>
     </resources>
+    <classes>
+        <class className="ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="browseButtonPressed:"/>
+                <relationship kind="action" name="signInButtonPressed:"/>
+                <relationship kind="action" name="testerButtonPressed:"/>
+                <relationship kind="action" name="updateButtonPressed:"/>
+                <relationship kind="outlet" name="browseButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="currentUserLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="currentUserProviderIcon" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="signinButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="testerButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="updateButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -1473,25 +1473,25 @@ sub recursiveParse {
               "    else if (![self." . $propertyName . " " . $isEqualMethod . "other" . ucfirst($objectName) . "." . $propertyName . "]) return NO;\n\n";
 
       }    
+
+    }
+
+    #### Special case ####
+    if ($objectName eq "captureUser") {      
       
-      #### Special case ####
-      if ($objectName eq "captureUser") {      
-        
-        # e.g.:
-        #   exampleElement.baz = 
-        #       [dictionary objectForKey:@"baz"] != [NSNull null] ? 
-        #       [dictionary objectForKey:@"baz"] : nil;
-        $decodeUserFromDictSection[3]   .= "\n    self." . $propertyName . " =\n";
-        $decodeUserFromDictSection[3]   .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
-        
-        if (($isArray || $isObject) && !$isStringArray) {
-          $decodeUserFromDictSection[3] .= "        " . $frDcdDictionary . " : nil;\n";  
-        } else {
-          $decodeUserFromDictSection[3] .= "        " . $frDictionary    . " : nil;\n";  
-        }
+      # e.g.:
+      #   exampleElement.baz = 
+      #       [dictionary objectForKey:@"baz"] != [NSNull null] ? 
+      #       [dictionary objectForKey:@"baz"] : nil;
+      $decodeUserFromDictSection[3]   .= "\n    self." . $propertyName . " =\n";
+      $decodeUserFromDictSection[3]   .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
       
+      if (($isArray || $isObject) && !$isStringArray) {
+        $decodeUserFromDictSection[3] .= "        " . $frDcdDictionary . " : nil;\n";  
+      } else {
+        $decodeUserFromDictSection[3] .= "        " . $frDictionary    . " : nil;\n";  
       }
-                 
+    
     }
 
   ##########################################################################
