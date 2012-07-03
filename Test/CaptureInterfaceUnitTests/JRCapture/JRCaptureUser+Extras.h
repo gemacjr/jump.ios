@@ -23,7 +23,7 @@
 - (void)fetchLastUpdatedDidFailWithError:(NSError *)error context:(NSObject *)context;
 @end
 
-@interface JRCaptureUser (Extras)
+@interface JRCaptureUser (Extras) <NSCoding>
 // save
 // load
 

@@ -76,6 +76,7 @@
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:captureUser];
     JRCaptureUser *t = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     GHAssertTrue([captureUser isEqualToCaptureUser:t], nil);
+    GHAssertTrue([captureUser isEqualByPrivateProperties:t], nil);
 }
 
 - (void)test_d112_asdf
