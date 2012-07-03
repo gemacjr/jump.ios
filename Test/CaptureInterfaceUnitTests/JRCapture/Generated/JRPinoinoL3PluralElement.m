@@ -139,8 +139,8 @@
     if (fromDecoder)
     {
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
-        pinoinoL3PluralElement.captureObjectPath      = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
-                                             nil : [dictionary objectForKey:@"captureObjectPath"] == [NSNull null]);
+        pinoinoL3PluralElement.captureObjectPath = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
+                                                              nil : [dictionary objectForKey:@"captureObjectPath"]);
         pinoinoL3PluralElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
     }
     else

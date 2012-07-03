@@ -337,8 +337,8 @@
     if (fromDecoder)
     {
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
-        addressesElement.captureObjectPath      = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
-                                             nil : [dictionary objectForKey:@"captureObjectPath"] == [NSNull null]);
+        addressesElement.captureObjectPath = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
+                                                              nil : [dictionary objectForKey:@"captureObjectPath"]);
         addressesElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
     }
     else

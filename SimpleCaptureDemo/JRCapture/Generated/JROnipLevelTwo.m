@@ -162,8 +162,8 @@
     if (fromDecoder)
     {
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
-        onipLevelTwo.captureObjectPath      = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
-                                             nil : [dictionary objectForKey:@"captureObjectPath"] == [NSNull null]);
+        onipLevelTwo.captureObjectPath = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
+                                                              nil : [dictionary objectForKey:@"captureObjectPath"]);
         onipLevelTwo.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
     }
     else

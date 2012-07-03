@@ -139,8 +139,8 @@
     if (fromDecoder)
     {
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
-        oinoL2Object.captureObjectPath      = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
-                                             nil : [dictionary objectForKey:@"captureObjectPath"] == [NSNull null]);
+        oinoL2Object.captureObjectPath = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
+                                                              nil : [dictionary objectForKey:@"captureObjectPath"]);
     }
 
     oinoL2Object.string1 =

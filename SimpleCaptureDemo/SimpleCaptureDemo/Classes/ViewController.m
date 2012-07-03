@@ -37,6 +37,8 @@
 
     if ([SharedData currentDisplayName])
         currentUserLabel.text = [NSString stringWithFormat:@"Current user: %@", [SharedData currentDisplayName]];
+    else
+        currentUserLabel.text = @"No current user";
 
     if ([SharedData currentProvider])
         currentUserProviderIcon.image = [UIImage imageNamed:
@@ -48,7 +50,6 @@
     [browseButton setEnabled:enabled];
     [testerButton setEnabled:enabled];
     [updateButton setEnabled:enabled];
-
 }
 
 - (IBAction)browseButtonPressed:(id)sender
@@ -79,7 +80,7 @@
 - (IBAction)signInButtonPressed:(id)sender
 {
     [self setButtonsEnabled:NO];
-    currentUserLabel.text         = @"";
+    currentUserLabel.text         = @"No current user   ";
     currentUserProviderIcon.image = nil;
 
     NSDictionary *customInterface = [NSDictionary dictionaryWithObject:self.navigationController

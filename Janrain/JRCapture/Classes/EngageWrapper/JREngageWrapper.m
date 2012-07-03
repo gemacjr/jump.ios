@@ -113,34 +113,34 @@ static JREngageWrapper *singleton = nil;
 
     NSMutableDictionary *expandedCustomInterfaceOverrides =
                                 [NSMutableDictionary dictionaryWithDictionary:customInterfaceOverrides];
-
-//    switch (nativeSigninState)
-//    {
-//        case JRNativeSigninUsernamePassword:
-//        case JRNativeSigninEmailPassword:
-
-            JRNativeSigninViewController *nativeSigninViewController =
-                                                 [[[JRNativeSigninViewController alloc] init] autorelease];
-
-//            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-//            {
-//                UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
-//                navigationController.navigationBar.barStyle = UIBarStyleBlack;
-//            }
-
-            [expandedCustomInterfaceOverrides setObject:nativeSigninViewController.view forKey:kJRProviderTableHeaderView];
-
-//            moreCustomizations = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
-//                                        embeddedTable.view, kJRProviderTableHeaderView,
-//                                        @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString,
-//                                        navigationController, ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ?
-//                                                   kJRCustomModalNavigationController : kJRApplicationNavigationController),
-//                                        nil] autorelease];
-
-//            break;
-//        default:
-//            break;
-//    }
+//
+////    switch (nativeSigninState)
+////    {
+////        case JRNativeSigninUsernamePassword:
+////        case JRNativeSigninEmailPassword:
+//
+//            JRNativeSigninViewController *nativeSigninViewController =
+//                                                 [[[JRNativeSigninViewController alloc] init] autorelease];
+//
+////            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+////            {
+////                UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+////                navigationController.navigationBar.barStyle = UIBarStyleBlack;
+////            }
+//
+//            [expandedCustomInterfaceOverrides setObject:nativeSigninViewController.view forKey:kJRProviderTableHeaderView];
+//
+////            moreCustomizations = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
+////                                        embeddedTable.view, kJRProviderTableHeaderView,
+////                                        @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString,
+////                                        navigationController, ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ?
+////                                                   kJRCustomModalNavigationController : kJRApplicationNavigationController),
+////                                        nil] autorelease];
+//
+////            break;
+////        default:
+////            break;
+////    }
 
     [JREngage showAuthenticationDialogWithCustomInterfaceOverrides:
                       [NSDictionary dictionaryWithDictionary:expandedCustomInterfaceOverrides]];

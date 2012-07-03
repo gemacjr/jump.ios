@@ -364,8 +364,8 @@ my @fromDictionaryParts = (
     if (fromDecoder)
     {
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:\@\"dirtyPropertiesSet\"]];
-        ","",".captureObjectPath      = ([dictionary objectForKey:\@\"captureObjectPath\"] == [NSNull null] ?
-                                             nil : [dictionary objectForKey:\@\"captureObjectPath\"] == [NSNull null]);",
+        ","",".captureObjectPath = ([dictionary objectForKey:\@\"captureObjectPath\"] == [NSNull null] ?
+                                                              nil : [dictionary objectForKey:\@\"captureObjectPath\"]);",
         "","
     }
     else

@@ -13,7 +13,6 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "SharedData.h"
-#import "JREngage.h"
 
 #define cJRCurrentDisplayName @"simpleCaptureDemo.currentDisplayName"
 #define cJRCurrentProvider    @"simpleCaptureDemo.currentProvider"
@@ -68,7 +67,6 @@ static NSString *entityTypeName     = @"user_dev";
                               clientId:clientId andEntityTypeName:entityTypeName];
 
         [JRCapture setEngageAppId:appId];
-        [JREngage alwaysForceReauthentication:YES];
 
         prefs = [NSUserDefaults standardUserDefaults];
         currentDisplayName = [prefs objectForKey:cJRCurrentDisplayName];

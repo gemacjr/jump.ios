@@ -111,6 +111,8 @@ static Class getClassFromKey(NSString *key)
 
         [objectDataArray addObject:objectData];
     }
+    
+    DLog(@"%@", [tableData description]);
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forArray:(NSArray*)array
@@ -123,8 +125,6 @@ static Class getClassFromKey(NSString *key)
 
         [self setTableDataWithArray:array];
     }
-
-    DLog(@"%@", [tableData description]);
 
     return self;
 }

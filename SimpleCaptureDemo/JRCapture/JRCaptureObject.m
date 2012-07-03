@@ -160,9 +160,10 @@
             [((id<JRCaptureObjectTesterDelegate>)delegate) replaceCaptureObject:captureObject
                                                               didFailWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
                                                                         context:callerContext];
-
-    if ([delegate respondsToSelector:@selector(replaceDidFailForObject:withError:context:)])
-            [delegate replaceDidFailForObject:captureObject withError:[JRCaptureError errorFromResult:result] context:callerContext];
+    
+    if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
+        [delegate respondsToSelector:@selector(replaceDidFailForObject:withError:context:)])
+            [((id<JRCaptureObjectTesterDelegate>)delegate) replaceDidFailForObject:captureObject withError:[JRCaptureError errorFromResult:result] context:callerContext];
 }
 
 - (void)replaceCaptureObjectDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
@@ -206,8 +207,9 @@
                                                            didSucceedWithResult:resultString
                                                                         context:callerContext];
 
-    if ([delegate respondsToSelector:@selector(replaceDidSucceedForObject:context:)])
-            [delegate replaceDidSucceedForObject:captureObject context:callerContext];
+    if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
+        [delegate respondsToSelector:@selector(replaceDidSucceedForObject:context:)])
+            [((id<JRCaptureObjectTesterDelegate>)delegate) replaceDidSucceedForObject:captureObject context:callerContext];
 }
 
 - (void)replaceCaptureArrayDidFailWithResult:(NSObject *)result context:(NSObject *)context
