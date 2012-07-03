@@ -534,6 +534,7 @@
 
 - (BOOL)isEqualByPrivateProperties:(JRCaptureObject *)otherObj
 {
+    //DLog(@"%@: %@", [[self class] description], self.captureObjectPath);
     if (![self.captureObjectPath isEqual:otherObj.captureObjectPath]) return NO;
     if (![self.dirtyPropertySet isEqual:otherObj.dirtyPropertySet]) return NO;
     if (self.canBeUpdatedOrReplaced != otherObj.canBeUpdatedOrReplaced) return NO;
@@ -541,18 +542,20 @@
     NSDictionary *const props = [self objectProperties];
     for (NSString *key in props)
     {
-        NSString *val = [props objectForKey:key];
         const SEL selectorForProp = NSSelectorFromString(key);
         id prop = [self performSelector:selectorForProp];
         id otherProp = [otherObj performSelector:selectorForProp];
+
         if ([prop isKindOfClass:[JRCaptureObject class]])
             if (![((JRCaptureObject *) prop) isEqualByPrivateProperties:otherProp]) return NO;
+
         if ([prop isKindOfClass:[NSArray class]])
         {
             for (id elmt in ((NSArray *) prop))
             {
-                if ([prop isKindOfClass:[JRCaptureObject class]])
-                    if (![((JRCaptureObject *) prop) isEqualByPrivateProperties:otherProp]) return NO;
+                id otherElmt = [((NSArray *) otherProp) objectAtIndex:[((NSArray *) prop) indexOfObject:elmt]];
+                if ([elmt isKindOfClass:[JRCaptureObject class]])
+                    if (![((JRCaptureObject *) elmt) isEqualByPrivateProperties:otherElmt]) return NO;
             }
         }
     }
