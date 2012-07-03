@@ -190,6 +190,8 @@ static JREngageWrapper *singleton = nil;
     NSString     *payload     = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSUTF8StringEncoding] autorelease];
     NSDictionary *payloadDict = [payload objectFromJSONString];
 
+    DLog(@"%@", payload);
+
     if (!payloadDict)
         return [self jrAuthenticationCallToTokenUrl:tokenUrl
                                    didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
@@ -221,8 +223,10 @@ static JREngageWrapper *singleton = nil;
 
     NSString *uuid = [captureUser performSelector:NSSelectorFromString(@"uuid")];
 
-    [JRCaptureData setAccessToken:accessToken forUser:uuid];
-    [JRCaptureData setCreationToken:creationToken];
+    if (accessToken)
+        [JRCaptureData setAccessToken:accessToken forUser:uuid];
+    else if (creationToken)
+        [JRCaptureData setCreationToken:creationToken];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 

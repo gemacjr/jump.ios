@@ -36,8 +36,11 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "ObjectDrillDownViewController.h"
+#import "SharedData.h"
+#import "ArrayDrillDownViewController.h"
 #import "StringArrayDrillDownViewController.h"
 #import "JRCaptureObject+Internal.h"
+#import "JSONKit.h"
 
 typedef enum propertyTypes
 {
@@ -623,7 +626,6 @@ typedef enum
     DLog(@"");
     [self doneButtonPressed:nil];
     [captureObject updateOnCaptureForDelegate:self context:nil];
-    //[captureObject updateOnCaptureForDelegate:self context:nil];
 }
 
 #define HIGHER_SUBTITLE 10
@@ -1153,48 +1155,25 @@ typedef enum
     [[self navigationController] pushViewController:drillDown animated:YES];
 }
 
-- (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)updateDidFailForObject:(JRCaptureObject *)object withError:(NSError *)error context:(NSObject *)context
 {
     DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:result
+                                                        message:error.localizedFailureReason
                                                        delegate:nil
                                               cancelButtonTitle:@"Dismiss"
                                               otherButtonTitles:nil];
     [alertView show];
+
 }
 
-- (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)updateDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context
 {
     DLog(@"");
-    [[SharedData sharedData] resaveCaptureUser];
+    [SharedData resaveCaptureUser];
 
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
-                                                        message:result
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-    [alertView show];
-}
-
-- (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
-{
-    DLog(@"");
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:result
-                                                       delegate:nil
-                                              cancelButtonTitle:@"Dismiss"
-                                              otherButtonTitles:nil];
-    [alertView show];
-}
-
-- (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
-{
-    DLog(@"");
-    [[SharedData sharedData] resaveCaptureUser];
-
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
-                                                        message:result
+                                                        message:[[object toDictionaryForEncoder:NO] JSONString]
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];

@@ -136,7 +136,7 @@ typedef enum
 // * section of the Janrain Engage API documentation.
  **/
 - (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser*)captureUser withToken:(NSString *)captureToken
-                                     andStatus:(JRCaptureRecordStatus)status;
+                                     andStatus:(JRCaptureRecordStatus)captureRecordStatus;
 
 /**
  * Sent when authentication failed and could not be recovered by the library.

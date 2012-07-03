@@ -44,7 +44,7 @@
 @property (nonatomic, copy)     NSString *endDate; /**< The date this Contact left this organization or the role specified by title within this organization. */ 
 @property (nonatomic, retain)   JRLocation *location; /**< The object's \e location property */ 
 @property (nonatomic, copy)     NSString *name; /**< The name of the organization. */ 
-@property (nonatomic, copy)     JRBoolean *primary; /**< The object's \e primary property @note This is a property of type \ref types "boolean", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>[NSNull null]</code> */ 
+@property (nonatomic, copy)     JRBoolean *primary; /**< The object's \e primary property @note This is a property of type \ref types "boolean", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>nil</code> */ 
 @property (nonatomic, copy)     NSString *startDate; /**< The date this Contact joined this organization. */ 
 @property (nonatomic, copy)     NSString *title; /**< The job title or role within this organization. */ 
 @property (nonatomic, copy)     NSString *type; /**< The type of organization, with Canonical Values 'job' and 'school'. */ 

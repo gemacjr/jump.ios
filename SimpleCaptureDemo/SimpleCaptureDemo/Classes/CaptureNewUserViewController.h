@@ -33,13 +33,11 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
-#import "JRCaptureApidInterface.h"
 #import "JRCaptureUser+Extras.h"
 
-@interface CaptureNewUserViewController : UIViewController <JRCaptureInterfaceDelegate, UITextViewDelegate,
-        UIAlertViewDelegate, JRCaptureUserDelegate, UITextFieldDelegate>
+@interface CaptureNewUserViewController : UIViewController <UITextViewDelegate, UIAlertViewDelegate,
+                                                            JRCaptureUserDelegate, UITextFieldDelegate>
 {
-    NSMutableDictionary *engageUser;
     UIScrollView *myScrollView;
 
     NSDate       *myBirthdate;

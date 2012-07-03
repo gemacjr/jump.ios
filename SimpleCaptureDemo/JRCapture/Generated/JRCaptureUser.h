@@ -72,10 +72,11 @@
 @property (nonatomic, retain)   JRPrimaryAddress *primaryAddress; /**< The object's \e primaryAddress property */ 
 @property (nonatomic, copy)     NSArray *profiles; /**< The object's \e profiles property @note This is an array of \c JRProfilesElement objects */ 
 @property (nonatomic, copy)     NSArray *statuses; /**< The object's \e statuses property @note This is an array of \c JRStatusesElement objects */ 
-@property (nonatomic, copy)     JRBoolean *testerBoolean; /**< The object's \e testerBoolean property @note This is a property of type \ref types "boolean", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>[NSNull null]</code> */ 
-@property (nonatomic, copy)     JRInteger *testerInteger; /**< The object's \e testerInteger property @note This is a property of type \ref types "integer", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:<em>myInteger</em>]</code>, <code>[NSNumber numberWithInt:<em>myInt</em>]</code>, or <code>[NSNull null]</code> */ 
+@property (nonatomic, copy)     JRBoolean *testerBoolean; /**< The object's \e testerBoolean property @note This is a property of type \ref types "boolean", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>nil</code> */ 
+@property (nonatomic, copy)     JRInteger *testerInteger; /**< The object's \e testerInteger property @note This is a property of type \ref types "integer", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:<em>myInteger</em>]</code>, <code>[NSNumber numberWithInt:<em>myInt</em>]</code>, or <code>nil</code> */ 
 @property (nonatomic, copy)     JRIpAddress *testerIpAddr; /**< The object's \e testerIpAddr property @note This is a property of type \ref types "ipAddress", which is a typedef of \e NSString. */ 
 @property (nonatomic, copy)     JRStringArray *testerStringPlural; /**< The object's \e testerStringPlural property @note This is an array of \c NSStrings representing a list of \c stringPluralItem objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
+@property (nonatomic, copy)     NSString *testerUniqueString; /**< The object's \e testerUniqueString property */ 
 
 /**
  * @name Constructors

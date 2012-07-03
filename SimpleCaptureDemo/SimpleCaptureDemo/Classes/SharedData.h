@@ -6,9 +6,7 @@
 
 
 #import <Foundation/Foundation.h>
-//#import "JRCaptureApidInterface.h"
 #import "JRCaptureUser.h"
-#import "JREngage.h"
 #import "JRCapture.h"
 
 @protocol SignInDelegate <NSObject>
@@ -19,18 +17,14 @@
 - (void)captureSignInDidFailWithError:(NSError *)error;
 @end
 
-@interface SharedData : NSObject <JREngageDelegate, JRCaptureAuthenticationDelegate>
-@property (strong) NSMutableDictionary *engageUser;
-@property (strong) JRCaptureUser       *captureUser;
-@property (strong) NSString            *accessToken;
-@property (strong) NSString            *creationToken;
-@property          BOOL                 isNew;
-@property          BOOL                 notYetCreated;
-@property (strong) NSString            *currentDisplayName;
-@property (strong) NSString            *currentProvider;
-@property (weak)   id<SignInDelegate>   signInDelegate;
-+ (SharedData *)sharedData;
-- (void)startAuthenticationWithCustomInterface:(NSDictionary *)customInterface forDelegate:(id<SignInDelegate>)delegate;
-- (void)resaveCaptureUser;
+@interface SharedData : NSObject <JRCaptureAuthenticationDelegate>
++ (JRCaptureUser *)captureUser;
++ (BOOL)isNew;
++ (BOOL)notYetCreated;
++ (NSString *)currentDisplayName;
++ (NSString *)currentProvider;
++ (void)startAuthenticationWithCustomInterface:(NSDictionary *)customInterface forDelegate:(id<SignInDelegate>)delegate;
++ (void)resaveCaptureUser;
++ (void)signoutCurrentUser;
 @end
 

@@ -427,6 +427,7 @@
     JRInteger *_testerInteger;
     JRIpAddress *_testerIpAddr;
     JRStringArray *_testerStringPlural;
+    NSString *_testerUniqueString;
 }
 @synthesize canBeUpdatedOrReplaced;
 
@@ -828,6 +829,19 @@
     _testerStringPlural = [newTesterStringPlural copy];
 }
 
+- (NSString *)testerUniqueString
+{
+    return _testerUniqueString;
+}
+
+- (void)setTesterUniqueString:(NSString *)newTesterUniqueString
+{
+    [self.dirtyPropertySet addObject:@"testerUniqueString"];
+
+    [_testerUniqueString autorelease];
+    _testerUniqueString = [newTesterUniqueString copy];
+}
+
 - (id)init
 {
     if ((self = [super init]))
@@ -839,7 +853,7 @@
         _pinoLevelOne = [[JRPinoLevelOne alloc] init];
         _primaryAddress = [[JRPrimaryAddress alloc] init];
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"captureUserId", @"uuid", @"created", @"lastUpdated", @"aboutMe", @"birthday", @"currentLocation", @"display", @"displayName", @"email", @"emailVerified", @"familyName", @"gender", @"givenName", @"lastLogin", @"middleName", @"objectLevelOne", @"password", @"pinoLevelOne", @"primaryAddress", @"testerBoolean", @"testerInteger", @"testerIpAddr", nil]];
+        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"captureUserId", @"uuid", @"created", @"lastUpdated", @"aboutMe", @"birthday", @"currentLocation", @"display", @"displayName", @"email", @"emailVerified", @"familyName", @"gender", @"givenName", @"lastLogin", @"middleName", @"objectLevelOne", @"password", @"pinoLevelOne", @"primaryAddress", @"testerBoolean", @"testerInteger", @"testerIpAddr", @"testerUniqueString", nil]];
     }
     return self;
 }
@@ -862,7 +876,7 @@
         _pinoLevelOne = [[JRPinoLevelOne alloc] init];
         _primaryAddress = [[JRPrimaryAddress alloc] init];
     
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"captureUserId", @"uuid", @"created", @"lastUpdated", @"aboutMe", @"birthday", @"currentLocation", @"display", @"displayName", @"email", @"emailVerified", @"familyName", @"gender", @"givenName", @"lastLogin", @"middleName", @"objectLevelOne", @"password", @"pinoLevelOne", @"primaryAddress", @"testerBoolean", @"testerInteger", @"testerIpAddr", nil]];
+        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"captureUserId", @"uuid", @"created", @"lastUpdated", @"aboutMe", @"birthday", @"currentLocation", @"display", @"displayName", @"email", @"emailVerified", @"familyName", @"gender", @"givenName", @"lastLogin", @"middleName", @"objectLevelOne", @"password", @"pinoLevelOne", @"primaryAddress", @"testerBoolean", @"testerInteger", @"testerIpAddr", @"testerUniqueString", nil]];
     }
     return self;
 }
@@ -911,6 +925,7 @@
     captureUserCopy.testerInteger = self.testerInteger;
     captureUserCopy.testerIpAddr = self.testerIpAddr;
     captureUserCopy.testerStringPlural = self.testerStringPlural;
+    captureUserCopy.testerUniqueString = self.testerUniqueString;
 
     return captureUserCopy;
 }
@@ -980,12 +995,17 @@
                    forKey:@"testerIpAddr"];
     [dictionary setObject:(self.testerStringPlural ? self.testerStringPlural : [NSNull null])
                    forKey:@"testerStringPlural"];
+    [dictionary setObject:(self.testerUniqueString ? self.testerUniqueString : [NSNull null])
+                   forKey:@"testerUniqueString"];
 
     if (forEncoder)
     {
-        [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
-        [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:([self.dirtyPropertySet allObjects] ? [self.dirtyPropertySet allObjects] : [NSArray array])
+                       forKey:@"dirtyPropertySet"];
+        [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
+                       forKey:@"captureObjectPath"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
+                       forKey:@"canBeUpdatedOrReplaced"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -1002,7 +1022,8 @@
     if (fromDecoder)
     {
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
-        captureUser.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"];
+        captureUser.captureObjectPath      = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
+                                             nil : [dictionary objectForKey:@"captureObjectPath"] == [NSNull null]);
     }
 
     captureUser.captureUserId =
@@ -1125,6 +1146,10 @@
         [dictionary objectForKey:@"testerStringPlural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"testerStringPlural"] arrayOfStringsFromStringPluralDictionariesWithType:@"stringPluralItem"] : nil;
 
+    captureUser.testerUniqueString =
+        [dictionary objectForKey:@"testerUniqueString"] != [NSNull null] ? 
+        [dictionary objectForKey:@"testerUniqueString"] : nil;
+
     if (fromDecoder)
         [captureUser.dirtyPropertySet setSet:dirtyPropertySetCopy];
     else
@@ -1141,6 +1166,26 @@
 - (void)decodeFromDictionary:(NSDictionary*)dictionary
 {
     NSSet *dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
+
+    self.captureObjectPath = @"";
+    self.canBeUpdatedOrReplaced = YES;
+
+    self.captureUserId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
+
+    self.uuid =
+        [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
+        [dictionary objectForKey:@"uuid"] : nil;
+
+    self.created =
+        [dictionary objectForKey:@"created"] != [NSNull null] ? 
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
+
+    self.lastUpdated =
+        [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ? 
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
+
     self.aboutMe =
         [dictionary objectForKey:@"aboutMe"] != [NSNull null] ? 
         [dictionary objectForKey:@"aboutMe"] : nil;
@@ -1244,6 +1289,10 @@
     self.testerStringPlural =
         [dictionary objectForKey:@"testerStringPlural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"testerStringPlural"] arrayOfStringsFromStringPluralDictionariesWithType:@"stringPluralItem"] : nil;
+
+    self.testerUniqueString =
+        [dictionary objectForKey:@"testerUniqueString"] != [NSNull null] ? 
+        [dictionary objectForKey:@"testerUniqueString"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
@@ -1356,6 +1405,10 @@
     if ([dictionary objectForKey:@"testerIpAddr"])
         self.testerIpAddr = [dictionary objectForKey:@"testerIpAddr"] != [NSNull null] ? 
             [dictionary objectForKey:@"testerIpAddr"] : nil;
+
+    if ([dictionary objectForKey:@"testerUniqueString"])
+        self.testerUniqueString = [dictionary objectForKey:@"testerUniqueString"] != [NSNull null] ? 
+            [dictionary objectForKey:@"testerUniqueString"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
@@ -1497,6 +1550,10 @@
         [dictionary objectForKey:@"testerStringPlural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"testerStringPlural"] arrayOfStringsFromStringPluralDictionariesWithType:@"stringPluralItem"] : nil;
 
+    self.testerUniqueString =
+        [dictionary objectForKey:@"testerUniqueString"] != [NSNull null] ? 
+        [dictionary objectForKey:@"testerUniqueString"] : nil;
+
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
@@ -1580,6 +1637,9 @@
     if ([self.dirtyPropertySet containsObject:@"testerIpAddr"])
         [dictionary setObject:(self.testerIpAddr ? self.testerIpAddr : [NSNull null]) forKey:@"testerIpAddr"];
 
+    if ([self.dirtyPropertySet containsObject:@"testerUniqueString"])
+        [dictionary setObject:(self.testerUniqueString ? self.testerUniqueString : [NSNull null]) forKey:@"testerUniqueString"];
+
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
@@ -1661,6 +1721,7 @@
                           self.testerStringPlural :
                           [NSArray array])
                        forKey:@"testerStringPlural"];
+    [dictionary setObject:(self.testerUniqueString ? self.testerUniqueString : [NSNull null]) forKey:@"testerUniqueString"];
 
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
@@ -1840,6 +1901,10 @@
     else if (!otherCaptureUser.testerStringPlural && ![self.testerStringPlural count]) /* Keep going... */;
     else if (![self.testerStringPlural isEqualToArray:otherCaptureUser.testerStringPlural]) return NO;
 
+    if (!self.testerUniqueString && !otherCaptureUser.testerUniqueString) /* Keep going... */;
+    else if ((self.testerUniqueString == nil) ^ (otherCaptureUser.testerUniqueString == nil)) return NO; // xor
+    else if (![self.testerUniqueString isEqualToString:otherCaptureUser.testerUniqueString]) return NO;
+
     return YES;
 }
 
@@ -1878,6 +1943,7 @@
     [dictionary setObject:@"JRInteger" forKey:@"testerInteger"];
     [dictionary setObject:@"JRIpAddress" forKey:@"testerIpAddr"];
     [dictionary setObject:@"JRStringArray" forKey:@"testerStringPlural"];
+    [dictionary setObject:@"NSString" forKey:@"testerUniqueString"];
 
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
@@ -1914,6 +1980,7 @@
     [_testerInteger release];
     [_testerIpAddr release];
     [_testerStringPlural release];
+    [_testerUniqueString release];
 
     [super dealloc];
 }

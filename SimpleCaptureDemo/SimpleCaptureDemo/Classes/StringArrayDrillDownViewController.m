@@ -37,6 +37,7 @@
 
 #import "StringArrayDrillDownViewController.h"
 #import "ObjectDrillDownViewController.h"
+#import "JSONKit.h"
 
 typedef enum propertyTypes
 {
@@ -541,30 +542,33 @@ static Class getClassFromKey(NSString *key)
 - (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result
                   context:(NSObject *)context
 {
+}
+
+- (void)replaceArrayDidFailForObject:(JRCaptureObject *)object arrayNamed:(NSString *)arrayName withError:(NSError *)error context:(NSObject *)context
+{
     DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:result
+                                                        message:error.localizedFailureReason
                                                        delegate:nil
                                               cancelButtonTitle:@"Dismiss"
                                               otherButtonTitles:nil];
     [alertView show];
 }
 
-
-- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object
-didSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceArrayDidSucceedForObject:(JRCaptureObject *)object newArray:(NSArray *)replacedArray named:(NSString *)arrayName context:(NSObject *)context
 {
     DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
-                                                        message:result
+                                                        message:[replacedArray JSONString]
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
     [alertView show];
 
-    [self setTableDataWithArray:newArray];
+    [self setTableDataWithArray:replacedArray];
     [myTableView reloadData];
-    [[SharedData sharedData] resaveCaptureUser];
+
+    [SharedData resaveCaptureUser];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

@@ -43,12 +43,11 @@
 
 #import "CaptureNewUserViewController.h"
 #import "SharedData.h"
-#import "JRCaptureObject+Internal.h"
 
 @interface CaptureNewUserViewController ()
-//@property (nonatomic, retain) NSMutableDictionary *engageUser;
-@property (nonatomic, retain) id      firstResponder;
-@property (nonatomic, retain) NSDate *myBirthdate;
+@property (nonatomic, retain) id             firstResponder;
+@property (nonatomic, retain) NSDate        *myBirthdate;
+@property (nonatomic, strong) JRCaptureUser *captureUser;
 @end
 
 @implementation CaptureNewUserViewController
@@ -63,7 +62,7 @@
 @synthesize myKeyboardToolbar;
 @synthesize firstResponder;
 @synthesize myBirthdate;
-//@synthesize engageUser;
+@synthesize captureUser;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -84,16 +83,16 @@
     [myAboutMeTextView setInputAccessoryView:myKeyboardToolbar];
     [myEmailTextField setInputAccessoryView:myKeyboardToolbar];
 
-    JRCaptureUser *captureUser = [[SharedData sharedData] captureUser];
+    self.captureUser = [SharedData captureUser];
+
     if (captureUser.email)
         myEmailTextField.text  = captureUser.email;
     if (captureUser.aboutMe)
         myAboutMeTextView.text = captureUser.aboutMe;
-    if ([captureUser.gender isEqualToString:@"F"] ||
-        [captureUser.gender isEqualToString:@"f"] ||
-        [captureUser.gender isEqualToString:@"female"] ||
-        [captureUser.gender isEqualToString:@"Female"] ||
-        [captureUser.gender isEqualToString:@"FEMALE"])
+    if ([[captureUser.gender lowercaseString] isEqualToString:[@"F" lowercaseString]] ||
+        [[captureUser.gender lowercaseString] isEqualToString:[@"female" lowercaseString]] ||
+        [[captureUser.gender lowercaseString] isEqualToString:[@"girl" lowercaseString]] ||
+        [[captureUser.gender lowercaseString] isEqualToString:[@"woman" lowercaseString]]) /* Blah, blah, loose test... */
         [myGenderIdentitySegControl setSelectedSegmentIndex:0];
     if (captureUser.birthday)
         [myBirthdayPicker setDate:captureUser.birthday];
@@ -170,43 +169,8 @@
     [self setFirstResponder:nil];
 }
 
-//- (void)updateUser
-//{
-//    JRCaptureUser *captureUser = [JRCaptureUser captureUser];
-//
-//    captureUser.aboutMe  = myAboutMeTextView.text;
-//    captureUser.birthday = myBirthdate;
-//    captureUser.currentLocation = myLocationTextView.text;
-//
-//    if (myGenderIdentitySegControl.selectedSegmentIndex == 0)
-//        captureUser.gender = @"female";
-//    else if (myGenderIdentitySegControl.selectedSegmentIndex == 1)
-//        captureUser.gender = @"male";
-//
-//    captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
-//
-////    JRBooks *book1 = [JRBooks books];
-////    book1.book = @"fdadfafszadfas";
-////    book1.booksId = 178808;
-////
-////    JRBooks *book2 = [JRBooks books];
-////    book2.book = @"bar";
-//
-////    profilesObject.profile.books = [NSArray arrayWithObjects:book1, book2, nil];
-////    profilesObject.profilesId = 174721;
-//
-////    if (profilesObject)
-////        captureUser.profiles = [NSArray arrayWithObject:profilesObject];
-//
-////    [JRCaptureInterface updateCaptureUser:[captureUser dictionaryFromObject]
-////                          withAccessToken:[[UserModel getUserModel] latestAccessToken]
-////                              forDelegate:self];
-//}
-
 - (IBAction)doneButtonPressed:(id)sender
 {
-    JRCaptureUser *captureUser = [[SharedData sharedData] captureUser];
-
     captureUser.aboutMe  = myAboutMeTextView.text;
     captureUser.birthday = myBirthdate;
     captureUser.email    = myEmailTextField.text;
@@ -216,14 +180,6 @@
     else if (myGenderIdentitySegControl.selectedSegmentIndex == 1)
         captureUser.gender = @"male";
 
-//    captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
-
-    DLog(@"captureUser: %@", [[captureUser toDictionaryForEncoder:NO] description]);
-
-//    if ([captureUser creationToken])
-//        [captureUser createForDelegate:self];
-//    else if ([captureUser accessToken])
-//        [captureUser updateForDelegate:self];
     [captureUser createOnCaptureForDelegate:self context:nil];
 }
 
@@ -255,22 +211,8 @@
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView { return YES; }
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView { return YES; }
 
-- (void)createCaptureUser:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)createDidFailForUser:(JRCaptureUser *)user withError:(NSError *)error context:(NSObject *)context
 {
-    DLog(@"%@", result);
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-                                                     message:@"Profile created"
-                                                    delegate:nil
-                                           cancelButtonTitle:nil
-                                           otherButtonTitles:@"OK", nil];
-    [alert show];
-
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)createCaptureUser:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
-{
-    DLog(@"%@", result);
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failure"
                                                      message:@"Profile not created"
                                                     delegate:nil
@@ -279,32 +221,22 @@
     [alert show];
 
     [self.navigationController popViewControllerAnimated:YES];
+
+    [SharedData resaveCaptureUser];
 }
 
-- (void)updateCaptureUser:(JRCaptureUser *)user didSucceedWithResult:(NSString *)result
+- (void)createDidSucceedForUser:(JRCaptureUser *)user context:(NSObject *)context
 {
-    DLog(@"%@", result);
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-                                                     message:@"Profile updated"
+                                                     message:@"Profile created"
                                                     delegate:nil
                                            cancelButtonTitle:nil
                                            otherButtonTitles:@"OK", nil];
     [alert show];
 
     [self.navigationController popViewControllerAnimated:YES];
-}
 
-- (void)updateCaptureUser:(JRCaptureUser *)user didFailWithResult:(NSString *)result
-{
-    DLog(@"%@", result);
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failure"
-                                                     message:@"Profile not updated"
-                                                    delegate:nil
-                                           cancelButtonTitle:@"Dismiss"
-                                           otherButtonTitles:nil];
-    [alert show];
-
-    [self.navigationController popViewControllerAnimated:YES];
+    [SharedData resaveCaptureUser];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

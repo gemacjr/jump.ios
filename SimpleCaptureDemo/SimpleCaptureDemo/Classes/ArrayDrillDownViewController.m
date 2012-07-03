@@ -38,6 +38,7 @@
 #import "ArrayDrillDownViewController.h"
 #import "ObjectDrillDownViewController.h"
 #import "JRCaptureObject+Internal.h"
+#import "JSONKit.h"
 
 typedef enum propertyTypes
 {
@@ -508,86 +509,32 @@ static Class getClassFromKey(NSString *key)
     }
 }
 
-- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result
-                  context:(NSObject *)context
+- (void)replaceArrayDidFailForObject:(JRCaptureObject *)object arrayNamed:(NSString *)arrayName withError:(NSError *)error context:(NSObject *)context
 {
     DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:result
+                                                        message:error.localizedFailureReason // TODO: Figure out which fields to use for what
                                                        delegate:nil
                                               cancelButtonTitle:@"Dismiss"
                                               otherButtonTitles:nil];
     [alertView show];
 }
 
-
-- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object
-didSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceArrayDidSucceedForObject:(JRCaptureObject *)object newArray:(NSArray *)replacedArray named:(NSString *)arrayName context:(NSObject *)context
 {
     DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
-                                                        message:result
+                                                        message:[replacedArray JSONString]
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
     [alertView show];
 
-    //SEL getArraySelector = NSSelectorFromString(tableHeader);
-    //NSArray *array       = [object performSelector:getArraySelector];
-
-    [self setTableDataWithArray:newArray];
+    [self setTableDataWithArray:replacedArray];
     [myTableView reloadData];
-    [[SharedData sharedData] resaveCaptureUser];
-}
 
-//- (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
-//{
-//    DLog(@"");
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-//                                                        message:result
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"Dismiss"
-//                                              otherButtonTitles:nil];
-//    [alertView show];
-//}
-//
-//- (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
-//{
-//    DLog(@"");
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
-//                                                        message:result
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"OK"
-//                                              otherButtonTitles:nil];
-//    [alertView show];
-//
-//    SEL getArraySelector = NSSelectorFromString(tableHeader);
-//    NSArray *array       = [object performSelector:getArraySelector];
-//
-//    [self setTableDataWithArray:array];
-//}
-//
-//- (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
-//{
-//    DLog(@"");
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-//                                                        message:result
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"Dismiss"
-//                                              otherButtonTitles:nil];
-//    [alertView show];
-//}
-//
-//- (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
-//{
-//    DLog(@"");
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
-//                                                        message:result
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"OK"
-//                                              otherButtonTitles:nil];
-//    [alertView show];
-//}
+    [SharedData resaveCaptureUser];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {

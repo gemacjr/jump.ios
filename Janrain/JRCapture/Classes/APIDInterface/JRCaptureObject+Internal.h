@@ -18,6 +18,9 @@
 - (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
 - (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
 - (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
+
+- (void)replaceDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context;
+- (void)replaceDidFailForObject:(JRCaptureObject *)object withError:(NSError *)error context:(NSObject *)context;
 @end
 
 @protocol JRCaptureUserTesterDelegate <JRCaptureUserDelegate>
@@ -25,6 +28,7 @@
 - (void)createCaptureUser:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
 - (void)createCaptureUser:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
 @end
+
 
 @interface JRCaptureObject ()
 @property (retain)   NSString     *captureObjectPath;
@@ -35,11 +39,9 @@
 - (NSDictionary *)objectProperties;
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
-- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;// includingStateVariables:(BOOL)includingStateVariables;
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 
 - (void)replaceOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
-
-//- (id)captureObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 
 - (void)replaceArrayOnCapture:(NSArray *)array named:(NSString *)arrayName isArrayOfStrings:(BOOL)isStringArray withType:(NSString *)type
                   forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
