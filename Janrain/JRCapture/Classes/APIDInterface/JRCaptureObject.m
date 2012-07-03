@@ -542,7 +542,7 @@
     for (NSString *key in props)
     {
         NSString *val = [props objectForKey:key];
-        const SEL selectorForProp = NSSelectorFromString(val);
+        const SEL selectorForProp = NSSelectorFromString(key);
         id prop = [self performSelector:selectorForProp];
         id otherProp = [otherObj performSelector:selectorForProp];
         if ([prop isKindOfClass:[JRCaptureObject class]])
