@@ -532,9 +532,9 @@
 
 - (BOOL)isEqualByPrivateProperties:(JRCaptureObject *)otherObj
 {
-    if (![captureObjectPath isEqual:otherObj.captureObjectPath]) return NO;
-    if (![dirtyPropertySet isEqual:otherObj.dirtyPropertySet]) return NO;
-    if (canBeUpdatedOrReplaced != otherObj.canBeUpdatedOrReplaced) return NO;
+    if (![self.captureObjectPath isEqual:otherObj.captureObjectPath]) return NO;
+    if (![self.dirtyPropertySet isEqual:otherObj.dirtyPropertySet]) return NO;
+    if (self.canBeUpdatedOrReplaced != otherObj.canBeUpdatedOrReplaced) return NO;
 
     NSDictionary *const props = [self objectProperties];
     for (NSString *key in props)
