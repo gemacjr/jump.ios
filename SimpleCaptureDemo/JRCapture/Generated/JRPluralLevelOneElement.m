@@ -47,7 +47,9 @@
 
 @interface NSArray (PluralLevelTwoToFromDictionary)
 - (NSArray*)arrayOfPluralLevelTwoElementsFromPluralLevelTwoDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfPluralLevelTwoElementsFromPluralLevelTwoDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPluralLevelTwoDictionariesFromPluralLevelTwoElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfPluralLevelTwoDictionariesFromPluralLevelTwoElements;
 - (NSArray*)arrayOfPluralLevelTwoReplaceDictionariesFromPluralLevelTwoElements;
 @end
 
@@ -62,6 +64,11 @@
     return filteredPluralLevelTwoArray;
 }
 
+- (NSArray*)arrayOfPluralLevelTwoElementsFromPluralLevelTwoDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfPluralLevelTwoElementsFromPluralLevelTwoDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfPluralLevelTwoDictionariesFromPluralLevelTwoElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -70,6 +77,11 @@
             [filteredDictionaryArray addObject:[(JRPluralLevelTwoElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPluralLevelTwoDictionariesFromPluralLevelTwoElements
+{
+    return [self arrayOfPluralLevelTwoDictionariesFromPluralLevelTwoElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfPluralLevelTwoReplaceDictionariesFromPluralLevelTwoElements

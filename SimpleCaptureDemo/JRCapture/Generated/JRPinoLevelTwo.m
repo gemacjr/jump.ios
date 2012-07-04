@@ -47,7 +47,9 @@
 
 @interface NSArray (PinoLevelThreeToFromDictionary)
 - (NSArray*)arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeElements;
 - (NSArray*)arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeElements;
 @end
 
@@ -62,6 +64,11 @@
     return filteredPinoLevelThreeArray;
 }
 
+- (NSArray*)arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -70,6 +77,11 @@
             [filteredDictionaryArray addObject:[(JRPinoLevelThreeElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeElements
+{
+    return [self arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeElements

@@ -132,7 +132,9 @@
 
 @interface NSArray (BasicPluralToFromDictionary)
 - (NSArray*)arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfBasicPluralDictionariesFromBasicPluralElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfBasicPluralDictionariesFromBasicPluralElements;
 - (NSArray*)arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements;
 @end
 
@@ -147,6 +149,11 @@
     return filteredBasicPluralArray;
 }
 
+- (NSArray*)arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfBasicPluralDictionariesFromBasicPluralElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -155,6 +162,11 @@
             [filteredDictionaryArray addObject:[(JRBasicPluralElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfBasicPluralDictionariesFromBasicPluralElements
+{
+    return [self arrayOfBasicPluralDictionariesFromBasicPluralElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements
@@ -170,7 +182,9 @@
 
 @interface NSArray (PluralTestUniqueToFromDictionary)
 - (NSArray*)arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueElements;
 - (NSArray*)arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements;
 @end
 
@@ -185,6 +199,11 @@
     return filteredPluralTestUniqueArray;
 }
 
+- (NSArray*)arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -193,6 +212,11 @@
             [filteredDictionaryArray addObject:[(JRPluralTestUniqueElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueElements
+{
+    return [self arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements
@@ -208,7 +232,9 @@
 
 @interface NSArray (PluralTestAlphabeticToFromDictionary)
 - (NSArray*)arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticElements;
 - (NSArray*)arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements;
 @end
 
@@ -223,6 +249,11 @@
     return filteredPluralTestAlphabeticArray;
 }
 
+- (NSArray*)arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -231,6 +262,11 @@
             [filteredDictionaryArray addObject:[(JRPluralTestAlphabeticElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticElements
+{
+    return [self arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements
@@ -246,7 +282,9 @@
 
 @interface NSArray (PinapL1PluralToFromDictionary)
 - (NSArray*)arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinapL1PluralDictionariesFromPinapL1PluralElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfPinapL1PluralDictionariesFromPinapL1PluralElements;
 - (NSArray*)arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements;
 @end
 
@@ -261,6 +299,11 @@
     return filteredPinapL1PluralArray;
 }
 
+- (NSArray*)arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfPinapL1PluralDictionariesFromPinapL1PluralElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -269,6 +312,11 @@
             [filteredDictionaryArray addObject:[(JRPinapL1PluralElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPinapL1PluralDictionariesFromPinapL1PluralElements
+{
+    return [self arrayOfPinapL1PluralDictionariesFromPinapL1PluralElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements
@@ -284,7 +332,9 @@
 
 @interface NSArray (OnipL1PluralToFromDictionary)
 - (NSArray*)arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOnipL1PluralDictionariesFromOnipL1PluralElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfOnipL1PluralDictionariesFromOnipL1PluralElements;
 - (NSArray*)arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements;
 @end
 
@@ -299,6 +349,11 @@
     return filteredOnipL1PluralArray;
 }
 
+- (NSArray*)arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfOnipL1PluralDictionariesFromOnipL1PluralElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -307,6 +362,11 @@
             [filteredDictionaryArray addObject:[(JROnipL1PluralElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfOnipL1PluralDictionariesFromOnipL1PluralElements
+{
+    return [self arrayOfOnipL1PluralDictionariesFromOnipL1PluralElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements
@@ -322,7 +382,9 @@
 
 @interface NSArray (PinapinapL1PluralToFromDictionary)
 - (NSArray*)arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralElements;
 - (NSArray*)arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements;
 @end
 
@@ -337,6 +399,11 @@
     return filteredPinapinapL1PluralArray;
 }
 
+- (NSArray*)arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -345,6 +412,11 @@
             [filteredDictionaryArray addObject:[(JRPinapinapL1PluralElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralElements
+{
+    return [self arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements
@@ -360,7 +432,9 @@
 
 @interface NSArray (PinonipL1PluralToFromDictionary)
 - (NSArray*)arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralElements;
 - (NSArray*)arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements;
 @end
 
@@ -375,6 +449,11 @@
     return filteredPinonipL1PluralArray;
 }
 
+- (NSArray*)arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -383,6 +462,11 @@
             [filteredDictionaryArray addObject:[(JRPinonipL1PluralElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralElements
+{
+    return [self arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements
@@ -398,7 +482,9 @@
 
 @interface NSArray (OnipinapL1PluralToFromDictionary)
 - (NSArray*)arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralElements;
 - (NSArray*)arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements;
 @end
 
@@ -413,6 +499,11 @@
     return filteredOnipinapL1PluralArray;
 }
 
+- (NSArray*)arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -421,6 +512,11 @@
             [filteredDictionaryArray addObject:[(JROnipinapL1PluralElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralElements
+{
+    return [self arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements
@@ -436,7 +532,9 @@
 
 @interface NSArray (OinonipL1PluralToFromDictionary)
 - (NSArray*)arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralElements;
 - (NSArray*)arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements;
 @end
 
@@ -451,6 +549,11 @@
     return filteredOinonipL1PluralArray;
 }
 
+- (NSArray*)arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -459,6 +562,11 @@
             [filteredDictionaryArray addObject:[(JROinonipL1PluralElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralElements
+{
+    return [self arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements
@@ -1352,7 +1460,7 @@
 
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
-    NSMutableDictionary *dictionary =
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dictionary setObject:(self.uuid ? self.uuid : [NSNull null])
@@ -1458,10 +1566,10 @@
                        forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced]
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
                        forKey:@"canBeUpdatedOrReplaced"];
     }
-
+    
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
@@ -1481,202 +1589,202 @@
     }
 
     captureUser.uuid =
-        [dictionary objectForKey:@"uuid"] != [NSNull null] ?
+        [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
         [dictionary objectForKey:@"uuid"] : nil;
 
     captureUser.created =
-        [dictionary objectForKey:@"created"] != [NSNull null] ?
+        [dictionary objectForKey:@"created"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
 
     captureUser.lastUpdated =
-        [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ?
+        [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
 
     captureUser.email =
-        [dictionary objectForKey:@"email"] != [NSNull null] ?
+        [dictionary objectForKey:@"email"] != [NSNull null] ? 
         [dictionary objectForKey:@"email"] : nil;
 
     captureUser.basicBoolean =
-        [dictionary objectForKey:@"basicBoolean"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicBoolean"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"basicBoolean"] boolValue]] : nil;
 
     captureUser.basicString =
-        [dictionary objectForKey:@"basicString"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicString"] != [NSNull null] ? 
         [dictionary objectForKey:@"basicString"] : nil;
 
     captureUser.basicInteger =
-        [dictionary objectForKey:@"basicInteger"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicInteger"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"basicInteger"] integerValue]] : nil;
 
     captureUser.basicDecimal =
-        [dictionary objectForKey:@"basicDecimal"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicDecimal"] != [NSNull null] ? 
         [dictionary objectForKey:@"basicDecimal"] : nil;
 
     captureUser.basicDate =
-        [dictionary objectForKey:@"basicDate"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicDate"] != [NSNull null] ? 
         [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"basicDate"]] : nil;
 
     captureUser.basicDateTime =
-        [dictionary objectForKey:@"basicDateTime"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicDateTime"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"basicDateTime"]] : nil;
 
     captureUser.basicIpAddress =
-        [dictionary objectForKey:@"basicIpAddress"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicIpAddress"] != [NSNull null] ? 
         [dictionary objectForKey:@"basicIpAddress"] : nil;
 
     captureUser.basicPassword =
-        [dictionary objectForKey:@"basicPassword"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicPassword"] != [NSNull null] ? 
         [dictionary objectForKey:@"basicPassword"] : nil;
 
     captureUser.jsonNumber =
-        [dictionary objectForKey:@"jsonNumber"] != [NSNull null] ?
+        [dictionary objectForKey:@"jsonNumber"] != [NSNull null] ? 
         [dictionary objectForKey:@"jsonNumber"] : nil;
 
     captureUser.jsonString =
-        [dictionary objectForKey:@"jsonString"] != [NSNull null] ?
+        [dictionary objectForKey:@"jsonString"] != [NSNull null] ? 
         [dictionary objectForKey:@"jsonString"] : nil;
 
     captureUser.jsonArray =
-        [dictionary objectForKey:@"jsonArray"] != [NSNull null] ?
+        [dictionary objectForKey:@"jsonArray"] != [NSNull null] ? 
         [dictionary objectForKey:@"jsonArray"] : nil;
 
     captureUser.jsonDictionary =
-        [dictionary objectForKey:@"jsonDictionary"] != [NSNull null] ?
+        [dictionary objectForKey:@"jsonDictionary"] != [NSNull null] ? 
         [dictionary objectForKey:@"jsonDictionary"] : nil;
 
     captureUser.stringTestJson =
-        [dictionary objectForKey:@"stringTestJson"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestJson"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestJson"] : nil;
 
     captureUser.stringTestEmpty =
-        [dictionary objectForKey:@"stringTestEmpty"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestEmpty"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestEmpty"] : nil;
 
     captureUser.stringTestNull =
-        [dictionary objectForKey:@"stringTestNull"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestNull"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestNull"] : nil;
 
     captureUser.stringTestInvalid =
-        [dictionary objectForKey:@"stringTestInvalid"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestInvalid"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestInvalid"] : nil;
 
     captureUser.stringTestNSNull =
-        [dictionary objectForKey:@"stringTestNSNull"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestNSNull"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestNSNull"] : nil;
 
     captureUser.stringTestAlphanumeric =
-        [dictionary objectForKey:@"stringTestAlphanumeric"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestAlphanumeric"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestAlphanumeric"] : nil;
 
     captureUser.stringTestUnicodeLetters =
-        [dictionary objectForKey:@"stringTestUnicodeLetters"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestUnicodeLetters"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestUnicodeLetters"] : nil;
 
     captureUser.stringTestUnicodePrintable =
-        [dictionary objectForKey:@"stringTestUnicodePrintable"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestUnicodePrintable"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestUnicodePrintable"] : nil;
 
     captureUser.stringTestEmailAddress =
-        [dictionary objectForKey:@"stringTestEmailAddress"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestEmailAddress"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestEmailAddress"] : nil;
 
     captureUser.stringTestLength =
-        [dictionary objectForKey:@"stringTestLength"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestLength"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestLength"] : nil;
 
     captureUser.stringTestCaseSensitive =
-        [dictionary objectForKey:@"stringTestCaseSensitive"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestCaseSensitive"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestCaseSensitive"] : nil;
 
     captureUser.stringTestFeatures =
-        [dictionary objectForKey:@"stringTestFeatures"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestFeatures"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestFeatures"] : nil;
 
     captureUser.basicPlural =
-        [dictionary objectForKey:@"basicPlural"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicPlural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"basicPlural"] arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.basicObject =
-        [dictionary objectForKey:@"basicObject"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicObject"] != [NSNull null] ? 
         [JRBasicObject basicObjectObjectFromDictionary:[dictionary objectForKey:@"basicObject"] withPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.objectTestRequired =
-        [dictionary objectForKey:@"objectTestRequired"] != [NSNull null] ?
+        [dictionary objectForKey:@"objectTestRequired"] != [NSNull null] ? 
         [JRObjectTestRequired objectTestRequiredObjectFromDictionary:[dictionary objectForKey:@"objectTestRequired"] withPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.pluralTestUnique =
-        [dictionary objectForKey:@"pluralTestUnique"] != [NSNull null] ?
+        [dictionary objectForKey:@"pluralTestUnique"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pluralTestUnique"] arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.objectTestRequiredUnique =
-        [dictionary objectForKey:@"objectTestRequiredUnique"] != [NSNull null] ?
+        [dictionary objectForKey:@"objectTestRequiredUnique"] != [NSNull null] ? 
         [JRObjectTestRequiredUnique objectTestRequiredUniqueObjectFromDictionary:[dictionary objectForKey:@"objectTestRequiredUnique"] withPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.pluralTestAlphabetic =
-        [dictionary objectForKey:@"pluralTestAlphabetic"] != [NSNull null] ?
+        [dictionary objectForKey:@"pluralTestAlphabetic"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pluralTestAlphabetic"] arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.simpleStringPluralOne =
-        [dictionary objectForKey:@"simpleStringPluralOne"] != [NSNull null] ?
+        [dictionary objectForKey:@"simpleStringPluralOne"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"simpleStringPluralOne"] arrayOfStringsFromStringPluralDictionariesWithType:@"simpleTypeOne"] : nil;
 
     captureUser.simpleStringPluralTwo =
-        [dictionary objectForKey:@"simpleStringPluralTwo"] != [NSNull null] ?
+        [dictionary objectForKey:@"simpleStringPluralTwo"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"simpleStringPluralTwo"] arrayOfStringsFromStringPluralDictionariesWithType:@"simpleTypeTwo"] : nil;
 
     captureUser.pinapL1Plural =
-        [dictionary objectForKey:@"pinapL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinapL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pinapL1Plural"] arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.pinoL1Object =
-        [dictionary objectForKey:@"pinoL1Object"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinoL1Object"] != [NSNull null] ? 
         [JRPinoL1Object pinoL1ObjectObjectFromDictionary:[dictionary objectForKey:@"pinoL1Object"] withPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.onipL1Plural =
-        [dictionary objectForKey:@"onipL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"onipL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"onipL1Plural"] arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.oinoL1Object =
-        [dictionary objectForKey:@"oinoL1Object"] != [NSNull null] ?
+        [dictionary objectForKey:@"oinoL1Object"] != [NSNull null] ? 
         [JROinoL1Object oinoL1ObjectObjectFromDictionary:[dictionary objectForKey:@"oinoL1Object"] withPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.pinapinapL1Plural =
-        [dictionary objectForKey:@"pinapinapL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinapinapL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pinapinapL1Plural"] arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.pinonipL1Plural =
-        [dictionary objectForKey:@"pinonipL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinonipL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pinonipL1Plural"] arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.pinapinoL1Object =
-        [dictionary objectForKey:@"pinapinoL1Object"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinapinoL1Object"] != [NSNull null] ? 
         [JRPinapinoL1Object pinapinoL1ObjectObjectFromDictionary:[dictionary objectForKey:@"pinapinoL1Object"] withPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.pinoinoL1Object =
-        [dictionary objectForKey:@"pinoinoL1Object"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinoinoL1Object"] != [NSNull null] ? 
         [JRPinoinoL1Object pinoinoL1ObjectObjectFromDictionary:[dictionary objectForKey:@"pinoinoL1Object"] withPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.onipinapL1Plural =
-        [dictionary objectForKey:@"onipinapL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"onipinapL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"onipinapL1Plural"] arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.oinonipL1Plural =
-        [dictionary objectForKey:@"oinonipL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"oinonipL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"oinonipL1Plural"] arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.onipinoL1Object =
-        [dictionary objectForKey:@"onipinoL1Object"] != [NSNull null] ?
+        [dictionary objectForKey:@"onipinoL1Object"] != [NSNull null] ? 
         [JROnipinoL1Object onipinoL1ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinoL1Object"] withPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     captureUser.oinoinoL1Object =
-        [dictionary objectForKey:@"oinoinoL1Object"] != [NSNull null] ?
+        [dictionary objectForKey:@"oinoinoL1Object"] != [NSNull null] ? 
         [JROinoinoL1Object oinoinoL1ObjectObjectFromDictionary:[dictionary objectForKey:@"oinoinoL1Object"] withPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
 
     if (fromDecoder)
         [captureUser.dirtyPropertySet setSet:dirtyPropertySetCopy];
     else
         [captureUser.dirtyPropertySet removeAllObjects];
-
+    
     return captureUser;
 }
 
@@ -1693,195 +1801,195 @@
     self.canBeUpdatedOrReplaced = YES;
 
     self.uuid =
-        [dictionary objectForKey:@"uuid"] != [NSNull null] ?
+        [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
         [dictionary objectForKey:@"uuid"] : nil;
 
     self.created =
-        [dictionary objectForKey:@"created"] != [NSNull null] ?
+        [dictionary objectForKey:@"created"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
 
     self.lastUpdated =
-        [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ?
+        [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
 
     self.email =
-        [dictionary objectForKey:@"email"] != [NSNull null] ?
+        [dictionary objectForKey:@"email"] != [NSNull null] ? 
         [dictionary objectForKey:@"email"] : nil;
 
     self.basicBoolean =
-        [dictionary objectForKey:@"basicBoolean"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicBoolean"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"basicBoolean"] boolValue]] : nil;
 
     self.basicString =
-        [dictionary objectForKey:@"basicString"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicString"] != [NSNull null] ? 
         [dictionary objectForKey:@"basicString"] : nil;
 
     self.basicInteger =
-        [dictionary objectForKey:@"basicInteger"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicInteger"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"basicInteger"] integerValue]] : nil;
 
     self.basicDecimal =
-        [dictionary objectForKey:@"basicDecimal"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicDecimal"] != [NSNull null] ? 
         [dictionary objectForKey:@"basicDecimal"] : nil;
 
     self.basicDate =
-        [dictionary objectForKey:@"basicDate"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicDate"] != [NSNull null] ? 
         [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"basicDate"]] : nil;
 
     self.basicDateTime =
-        [dictionary objectForKey:@"basicDateTime"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicDateTime"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"basicDateTime"]] : nil;
 
     self.basicIpAddress =
-        [dictionary objectForKey:@"basicIpAddress"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicIpAddress"] != [NSNull null] ? 
         [dictionary objectForKey:@"basicIpAddress"] : nil;
 
     self.basicPassword =
-        [dictionary objectForKey:@"basicPassword"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicPassword"] != [NSNull null] ? 
         [dictionary objectForKey:@"basicPassword"] : nil;
 
     self.jsonNumber =
-        [dictionary objectForKey:@"jsonNumber"] != [NSNull null] ?
+        [dictionary objectForKey:@"jsonNumber"] != [NSNull null] ? 
         [dictionary objectForKey:@"jsonNumber"] : nil;
 
     self.jsonString =
-        [dictionary objectForKey:@"jsonString"] != [NSNull null] ?
+        [dictionary objectForKey:@"jsonString"] != [NSNull null] ? 
         [dictionary objectForKey:@"jsonString"] : nil;
 
     self.jsonArray =
-        [dictionary objectForKey:@"jsonArray"] != [NSNull null] ?
+        [dictionary objectForKey:@"jsonArray"] != [NSNull null] ? 
         [dictionary objectForKey:@"jsonArray"] : nil;
 
     self.jsonDictionary =
-        [dictionary objectForKey:@"jsonDictionary"] != [NSNull null] ?
+        [dictionary objectForKey:@"jsonDictionary"] != [NSNull null] ? 
         [dictionary objectForKey:@"jsonDictionary"] : nil;
 
     self.stringTestJson =
-        [dictionary objectForKey:@"stringTestJson"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestJson"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestJson"] : nil;
 
     self.stringTestEmpty =
-        [dictionary objectForKey:@"stringTestEmpty"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestEmpty"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestEmpty"] : nil;
 
     self.stringTestNull =
-        [dictionary objectForKey:@"stringTestNull"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestNull"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestNull"] : nil;
 
     self.stringTestInvalid =
-        [dictionary objectForKey:@"stringTestInvalid"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestInvalid"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestInvalid"] : nil;
 
     self.stringTestNSNull =
-        [dictionary objectForKey:@"stringTestNSNull"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestNSNull"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestNSNull"] : nil;
 
     self.stringTestAlphanumeric =
-        [dictionary objectForKey:@"stringTestAlphanumeric"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestAlphanumeric"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestAlphanumeric"] : nil;
 
     self.stringTestUnicodeLetters =
-        [dictionary objectForKey:@"stringTestUnicodeLetters"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestUnicodeLetters"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestUnicodeLetters"] : nil;
 
     self.stringTestUnicodePrintable =
-        [dictionary objectForKey:@"stringTestUnicodePrintable"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestUnicodePrintable"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestUnicodePrintable"] : nil;
 
     self.stringTestEmailAddress =
-        [dictionary objectForKey:@"stringTestEmailAddress"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestEmailAddress"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestEmailAddress"] : nil;
 
     self.stringTestLength =
-        [dictionary objectForKey:@"stringTestLength"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestLength"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestLength"] : nil;
 
     self.stringTestCaseSensitive =
-        [dictionary objectForKey:@"stringTestCaseSensitive"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestCaseSensitive"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestCaseSensitive"] : nil;
 
     self.stringTestFeatures =
-        [dictionary objectForKey:@"stringTestFeatures"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestFeatures"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestFeatures"] : nil;
 
     self.basicPlural =
-        [dictionary objectForKey:@"basicPlural"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicPlural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"basicPlural"] arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.basicObject =
-        [dictionary objectForKey:@"basicObject"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicObject"] != [NSNull null] ? 
         [JRBasicObject basicObjectObjectFromDictionary:[dictionary objectForKey:@"basicObject"] withPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.objectTestRequired =
-        [dictionary objectForKey:@"objectTestRequired"] != [NSNull null] ?
+        [dictionary objectForKey:@"objectTestRequired"] != [NSNull null] ? 
         [JRObjectTestRequired objectTestRequiredObjectFromDictionary:[dictionary objectForKey:@"objectTestRequired"] withPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.pluralTestUnique =
-        [dictionary objectForKey:@"pluralTestUnique"] != [NSNull null] ?
+        [dictionary objectForKey:@"pluralTestUnique"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pluralTestUnique"] arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.objectTestRequiredUnique =
-        [dictionary objectForKey:@"objectTestRequiredUnique"] != [NSNull null] ?
+        [dictionary objectForKey:@"objectTestRequiredUnique"] != [NSNull null] ? 
         [JRObjectTestRequiredUnique objectTestRequiredUniqueObjectFromDictionary:[dictionary objectForKey:@"objectTestRequiredUnique"] withPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.pluralTestAlphabetic =
-        [dictionary objectForKey:@"pluralTestAlphabetic"] != [NSNull null] ?
+        [dictionary objectForKey:@"pluralTestAlphabetic"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pluralTestAlphabetic"] arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.simpleStringPluralOne =
-        [dictionary objectForKey:@"simpleStringPluralOne"] != [NSNull null] ?
+        [dictionary objectForKey:@"simpleStringPluralOne"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"simpleStringPluralOne"] arrayOfStringsFromStringPluralDictionariesWithType:@"simpleTypeOne"] : nil;
 
     self.simpleStringPluralTwo =
-        [dictionary objectForKey:@"simpleStringPluralTwo"] != [NSNull null] ?
+        [dictionary objectForKey:@"simpleStringPluralTwo"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"simpleStringPluralTwo"] arrayOfStringsFromStringPluralDictionariesWithType:@"simpleTypeTwo"] : nil;
 
     self.pinapL1Plural =
-        [dictionary objectForKey:@"pinapL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinapL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pinapL1Plural"] arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.pinoL1Object =
-        [dictionary objectForKey:@"pinoL1Object"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinoL1Object"] != [NSNull null] ? 
         [JRPinoL1Object pinoL1ObjectObjectFromDictionary:[dictionary objectForKey:@"pinoL1Object"] withPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.onipL1Plural =
-        [dictionary objectForKey:@"onipL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"onipL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"onipL1Plural"] arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.oinoL1Object =
-        [dictionary objectForKey:@"oinoL1Object"] != [NSNull null] ?
+        [dictionary objectForKey:@"oinoL1Object"] != [NSNull null] ? 
         [JROinoL1Object oinoL1ObjectObjectFromDictionary:[dictionary objectForKey:@"oinoL1Object"] withPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.pinapinapL1Plural =
-        [dictionary objectForKey:@"pinapinapL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinapinapL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pinapinapL1Plural"] arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.pinonipL1Plural =
-        [dictionary objectForKey:@"pinonipL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinonipL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pinonipL1Plural"] arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.pinapinoL1Object =
-        [dictionary objectForKey:@"pinapinoL1Object"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinapinoL1Object"] != [NSNull null] ? 
         [JRPinapinoL1Object pinapinoL1ObjectObjectFromDictionary:[dictionary objectForKey:@"pinapinoL1Object"] withPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.pinoinoL1Object =
-        [dictionary objectForKey:@"pinoinoL1Object"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinoinoL1Object"] != [NSNull null] ? 
         [JRPinoinoL1Object pinoinoL1ObjectObjectFromDictionary:[dictionary objectForKey:@"pinoinoL1Object"] withPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.onipinapL1Plural =
-        [dictionary objectForKey:@"onipinapL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"onipinapL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"onipinapL1Plural"] arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.oinonipL1Plural =
-        [dictionary objectForKey:@"oinonipL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"oinonipL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"oinonipL1Plural"] arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.onipinoL1Object =
-        [dictionary objectForKey:@"onipinoL1Object"] != [NSNull null] ?
+        [dictionary objectForKey:@"onipinoL1Object"] != [NSNull null] ? 
         [JROnipinoL1Object onipinoL1ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinoL1Object"] withPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     self.oinoinoL1Object =
-        [dictionary objectForKey:@"oinoinoL1Object"] != [NSNull null] ?
+        [dictionary objectForKey:@"oinoinoL1Object"] != [NSNull null] ? 
         [JROinoinoL1Object oinoinoL1ObjectObjectFromDictionary:[dictionary objectForKey:@"oinoinoL1Object"] withPath:self.captureObjectPath fromDecoder:YES] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -1896,115 +2004,115 @@
     self.canBeUpdatedOrReplaced = YES;
 
     if ([dictionary objectForKey:@"uuid"])
-        self.uuid = [dictionary objectForKey:@"uuid"] != [NSNull null] ?
+        self.uuid = [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
             [dictionary objectForKey:@"uuid"] : nil;
 
     if ([dictionary objectForKey:@"created"])
-        self.created = [dictionary objectForKey:@"created"] != [NSNull null] ?
+        self.created = [dictionary objectForKey:@"created"] != [NSNull null] ? 
             [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
 
     if ([dictionary objectForKey:@"lastUpdated"])
-        self.lastUpdated = [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ?
+        self.lastUpdated = [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ? 
             [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
 
     if ([dictionary objectForKey:@"email"])
-        self.email = [dictionary objectForKey:@"email"] != [NSNull null] ?
+        self.email = [dictionary objectForKey:@"email"] != [NSNull null] ? 
             [dictionary objectForKey:@"email"] : nil;
 
     if ([dictionary objectForKey:@"basicBoolean"])
-        self.basicBoolean = [dictionary objectForKey:@"basicBoolean"] != [NSNull null] ?
+        self.basicBoolean = [dictionary objectForKey:@"basicBoolean"] != [NSNull null] ? 
             [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"basicBoolean"] boolValue]] : nil;
 
     if ([dictionary objectForKey:@"basicString"])
-        self.basicString = [dictionary objectForKey:@"basicString"] != [NSNull null] ?
+        self.basicString = [dictionary objectForKey:@"basicString"] != [NSNull null] ? 
             [dictionary objectForKey:@"basicString"] : nil;
 
     if ([dictionary objectForKey:@"basicInteger"])
-        self.basicInteger = [dictionary objectForKey:@"basicInteger"] != [NSNull null] ?
+        self.basicInteger = [dictionary objectForKey:@"basicInteger"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"basicInteger"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"basicDecimal"])
-        self.basicDecimal = [dictionary objectForKey:@"basicDecimal"] != [NSNull null] ?
+        self.basicDecimal = [dictionary objectForKey:@"basicDecimal"] != [NSNull null] ? 
             [dictionary objectForKey:@"basicDecimal"] : nil;
 
     if ([dictionary objectForKey:@"basicDate"])
-        self.basicDate = [dictionary objectForKey:@"basicDate"] != [NSNull null] ?
+        self.basicDate = [dictionary objectForKey:@"basicDate"] != [NSNull null] ? 
             [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"basicDate"]] : nil;
 
     if ([dictionary objectForKey:@"basicDateTime"])
-        self.basicDateTime = [dictionary objectForKey:@"basicDateTime"] != [NSNull null] ?
+        self.basicDateTime = [dictionary objectForKey:@"basicDateTime"] != [NSNull null] ? 
             [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"basicDateTime"]] : nil;
 
     if ([dictionary objectForKey:@"basicIpAddress"])
-        self.basicIpAddress = [dictionary objectForKey:@"basicIpAddress"] != [NSNull null] ?
+        self.basicIpAddress = [dictionary objectForKey:@"basicIpAddress"] != [NSNull null] ? 
             [dictionary objectForKey:@"basicIpAddress"] : nil;
 
     if ([dictionary objectForKey:@"basicPassword"])
-        self.basicPassword = [dictionary objectForKey:@"basicPassword"] != [NSNull null] ?
+        self.basicPassword = [dictionary objectForKey:@"basicPassword"] != [NSNull null] ? 
             [dictionary objectForKey:@"basicPassword"] : nil;
 
     if ([dictionary objectForKey:@"jsonNumber"])
-        self.jsonNumber = [dictionary objectForKey:@"jsonNumber"] != [NSNull null] ?
+        self.jsonNumber = [dictionary objectForKey:@"jsonNumber"] != [NSNull null] ? 
             [dictionary objectForKey:@"jsonNumber"] : nil;
 
     if ([dictionary objectForKey:@"jsonString"])
-        self.jsonString = [dictionary objectForKey:@"jsonString"] != [NSNull null] ?
+        self.jsonString = [dictionary objectForKey:@"jsonString"] != [NSNull null] ? 
             [dictionary objectForKey:@"jsonString"] : nil;
 
     if ([dictionary objectForKey:@"jsonArray"])
-        self.jsonArray = [dictionary objectForKey:@"jsonArray"] != [NSNull null] ?
+        self.jsonArray = [dictionary objectForKey:@"jsonArray"] != [NSNull null] ? 
             [dictionary objectForKey:@"jsonArray"] : nil;
 
     if ([dictionary objectForKey:@"jsonDictionary"])
-        self.jsonDictionary = [dictionary objectForKey:@"jsonDictionary"] != [NSNull null] ?
+        self.jsonDictionary = [dictionary objectForKey:@"jsonDictionary"] != [NSNull null] ? 
             [dictionary objectForKey:@"jsonDictionary"] : nil;
 
     if ([dictionary objectForKey:@"stringTestJson"])
-        self.stringTestJson = [dictionary objectForKey:@"stringTestJson"] != [NSNull null] ?
+        self.stringTestJson = [dictionary objectForKey:@"stringTestJson"] != [NSNull null] ? 
             [dictionary objectForKey:@"stringTestJson"] : nil;
 
     if ([dictionary objectForKey:@"stringTestEmpty"])
-        self.stringTestEmpty = [dictionary objectForKey:@"stringTestEmpty"] != [NSNull null] ?
+        self.stringTestEmpty = [dictionary objectForKey:@"stringTestEmpty"] != [NSNull null] ? 
             [dictionary objectForKey:@"stringTestEmpty"] : nil;
 
     if ([dictionary objectForKey:@"stringTestNull"])
-        self.stringTestNull = [dictionary objectForKey:@"stringTestNull"] != [NSNull null] ?
+        self.stringTestNull = [dictionary objectForKey:@"stringTestNull"] != [NSNull null] ? 
             [dictionary objectForKey:@"stringTestNull"] : nil;
 
     if ([dictionary objectForKey:@"stringTestInvalid"])
-        self.stringTestInvalid = [dictionary objectForKey:@"stringTestInvalid"] != [NSNull null] ?
+        self.stringTestInvalid = [dictionary objectForKey:@"stringTestInvalid"] != [NSNull null] ? 
             [dictionary objectForKey:@"stringTestInvalid"] : nil;
 
     if ([dictionary objectForKey:@"stringTestNSNull"])
-        self.stringTestNSNull = [dictionary objectForKey:@"stringTestNSNull"] != [NSNull null] ?
+        self.stringTestNSNull = [dictionary objectForKey:@"stringTestNSNull"] != [NSNull null] ? 
             [dictionary objectForKey:@"stringTestNSNull"] : nil;
 
     if ([dictionary objectForKey:@"stringTestAlphanumeric"])
-        self.stringTestAlphanumeric = [dictionary objectForKey:@"stringTestAlphanumeric"] != [NSNull null] ?
+        self.stringTestAlphanumeric = [dictionary objectForKey:@"stringTestAlphanumeric"] != [NSNull null] ? 
             [dictionary objectForKey:@"stringTestAlphanumeric"] : nil;
 
     if ([dictionary objectForKey:@"stringTestUnicodeLetters"])
-        self.stringTestUnicodeLetters = [dictionary objectForKey:@"stringTestUnicodeLetters"] != [NSNull null] ?
+        self.stringTestUnicodeLetters = [dictionary objectForKey:@"stringTestUnicodeLetters"] != [NSNull null] ? 
             [dictionary objectForKey:@"stringTestUnicodeLetters"] : nil;
 
     if ([dictionary objectForKey:@"stringTestUnicodePrintable"])
-        self.stringTestUnicodePrintable = [dictionary objectForKey:@"stringTestUnicodePrintable"] != [NSNull null] ?
+        self.stringTestUnicodePrintable = [dictionary objectForKey:@"stringTestUnicodePrintable"] != [NSNull null] ? 
             [dictionary objectForKey:@"stringTestUnicodePrintable"] : nil;
 
     if ([dictionary objectForKey:@"stringTestEmailAddress"])
-        self.stringTestEmailAddress = [dictionary objectForKey:@"stringTestEmailAddress"] != [NSNull null] ?
+        self.stringTestEmailAddress = [dictionary objectForKey:@"stringTestEmailAddress"] != [NSNull null] ? 
             [dictionary objectForKey:@"stringTestEmailAddress"] : nil;
 
     if ([dictionary objectForKey:@"stringTestLength"])
-        self.stringTestLength = [dictionary objectForKey:@"stringTestLength"] != [NSNull null] ?
+        self.stringTestLength = [dictionary objectForKey:@"stringTestLength"] != [NSNull null] ? 
             [dictionary objectForKey:@"stringTestLength"] : nil;
 
     if ([dictionary objectForKey:@"stringTestCaseSensitive"])
-        self.stringTestCaseSensitive = [dictionary objectForKey:@"stringTestCaseSensitive"] != [NSNull null] ?
+        self.stringTestCaseSensitive = [dictionary objectForKey:@"stringTestCaseSensitive"] != [NSNull null] ? 
             [dictionary objectForKey:@"stringTestCaseSensitive"] : nil;
 
     if ([dictionary objectForKey:@"stringTestFeatures"])
-        self.stringTestFeatures = [dictionary objectForKey:@"stringTestFeatures"] != [NSNull null] ?
+        self.stringTestFeatures = [dictionary objectForKey:@"stringTestFeatures"] != [NSNull null] ? 
             [dictionary objectForKey:@"stringTestFeatures"] : nil;
 
     if ([dictionary objectForKey:@"basicObject"] == [NSNull null])
@@ -2082,119 +2190,119 @@
     self.canBeUpdatedOrReplaced = YES;
 
     self.uuid =
-        [dictionary objectForKey:@"uuid"] != [NSNull null] ?
+        [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
         [dictionary objectForKey:@"uuid"] : nil;
 
     self.created =
-        [dictionary objectForKey:@"created"] != [NSNull null] ?
+        [dictionary objectForKey:@"created"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
 
     self.lastUpdated =
-        [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ?
+        [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
 
     self.email =
-        [dictionary objectForKey:@"email"] != [NSNull null] ?
+        [dictionary objectForKey:@"email"] != [NSNull null] ? 
         [dictionary objectForKey:@"email"] : nil;
 
     self.basicBoolean =
-        [dictionary objectForKey:@"basicBoolean"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicBoolean"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"basicBoolean"] boolValue]] : nil;
 
     self.basicString =
-        [dictionary objectForKey:@"basicString"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicString"] != [NSNull null] ? 
         [dictionary objectForKey:@"basicString"] : nil;
 
     self.basicInteger =
-        [dictionary objectForKey:@"basicInteger"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicInteger"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"basicInteger"] integerValue]] : nil;
 
     self.basicDecimal =
-        [dictionary objectForKey:@"basicDecimal"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicDecimal"] != [NSNull null] ? 
         [dictionary objectForKey:@"basicDecimal"] : nil;
 
     self.basicDate =
-        [dictionary objectForKey:@"basicDate"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicDate"] != [NSNull null] ? 
         [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"basicDate"]] : nil;
 
     self.basicDateTime =
-        [dictionary objectForKey:@"basicDateTime"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicDateTime"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"basicDateTime"]] : nil;
 
     self.basicIpAddress =
-        [dictionary objectForKey:@"basicIpAddress"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicIpAddress"] != [NSNull null] ? 
         [dictionary objectForKey:@"basicIpAddress"] : nil;
 
     self.basicPassword =
-        [dictionary objectForKey:@"basicPassword"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicPassword"] != [NSNull null] ? 
         [dictionary objectForKey:@"basicPassword"] : nil;
 
     self.jsonNumber =
-        [dictionary objectForKey:@"jsonNumber"] != [NSNull null] ?
+        [dictionary objectForKey:@"jsonNumber"] != [NSNull null] ? 
         [dictionary objectForKey:@"jsonNumber"] : nil;
 
     self.jsonString =
-        [dictionary objectForKey:@"jsonString"] != [NSNull null] ?
+        [dictionary objectForKey:@"jsonString"] != [NSNull null] ? 
         [dictionary objectForKey:@"jsonString"] : nil;
 
     self.jsonArray =
-        [dictionary objectForKey:@"jsonArray"] != [NSNull null] ?
+        [dictionary objectForKey:@"jsonArray"] != [NSNull null] ? 
         [dictionary objectForKey:@"jsonArray"] : nil;
 
     self.jsonDictionary =
-        [dictionary objectForKey:@"jsonDictionary"] != [NSNull null] ?
+        [dictionary objectForKey:@"jsonDictionary"] != [NSNull null] ? 
         [dictionary objectForKey:@"jsonDictionary"] : nil;
 
     self.stringTestJson =
-        [dictionary objectForKey:@"stringTestJson"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestJson"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestJson"] : nil;
 
     self.stringTestEmpty =
-        [dictionary objectForKey:@"stringTestEmpty"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestEmpty"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestEmpty"] : nil;
 
     self.stringTestNull =
-        [dictionary objectForKey:@"stringTestNull"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestNull"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestNull"] : nil;
 
     self.stringTestInvalid =
-        [dictionary objectForKey:@"stringTestInvalid"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestInvalid"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestInvalid"] : nil;
 
     self.stringTestNSNull =
-        [dictionary objectForKey:@"stringTestNSNull"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestNSNull"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestNSNull"] : nil;
 
     self.stringTestAlphanumeric =
-        [dictionary objectForKey:@"stringTestAlphanumeric"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestAlphanumeric"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestAlphanumeric"] : nil;
 
     self.stringTestUnicodeLetters =
-        [dictionary objectForKey:@"stringTestUnicodeLetters"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestUnicodeLetters"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestUnicodeLetters"] : nil;
 
     self.stringTestUnicodePrintable =
-        [dictionary objectForKey:@"stringTestUnicodePrintable"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestUnicodePrintable"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestUnicodePrintable"] : nil;
 
     self.stringTestEmailAddress =
-        [dictionary objectForKey:@"stringTestEmailAddress"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestEmailAddress"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestEmailAddress"] : nil;
 
     self.stringTestLength =
-        [dictionary objectForKey:@"stringTestLength"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestLength"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestLength"] : nil;
 
     self.stringTestCaseSensitive =
-        [dictionary objectForKey:@"stringTestCaseSensitive"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestCaseSensitive"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestCaseSensitive"] : nil;
 
     self.stringTestFeatures =
-        [dictionary objectForKey:@"stringTestFeatures"] != [NSNull null] ?
+        [dictionary objectForKey:@"stringTestFeatures"] != [NSNull null] ? 
         [dictionary objectForKey:@"stringTestFeatures"] : nil;
 
     self.basicPlural =
-        [dictionary objectForKey:@"basicPlural"] != [NSNull null] ?
+        [dictionary objectForKey:@"basicPlural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"basicPlural"] arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:self.captureObjectPath fromDecoder:NO] : nil;
 
     if (![dictionary objectForKey:@"basicObject"] || [dictionary objectForKey:@"basicObject"] == [NSNull null])
@@ -2212,7 +2320,7 @@
         [self.objectTestRequired replaceFromDictionary:[dictionary objectForKey:@"objectTestRequired"] withPath:self.captureObjectPath];
 
     self.pluralTestUnique =
-        [dictionary objectForKey:@"pluralTestUnique"] != [NSNull null] ?
+        [dictionary objectForKey:@"pluralTestUnique"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pluralTestUnique"] arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:self.captureObjectPath fromDecoder:NO] : nil;
 
     if (![dictionary objectForKey:@"objectTestRequiredUnique"] || [dictionary objectForKey:@"objectTestRequiredUnique"] == [NSNull null])
@@ -2223,19 +2331,19 @@
         [self.objectTestRequiredUnique replaceFromDictionary:[dictionary objectForKey:@"objectTestRequiredUnique"] withPath:self.captureObjectPath];
 
     self.pluralTestAlphabetic =
-        [dictionary objectForKey:@"pluralTestAlphabetic"] != [NSNull null] ?
+        [dictionary objectForKey:@"pluralTestAlphabetic"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pluralTestAlphabetic"] arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:self.captureObjectPath fromDecoder:NO] : nil;
 
     self.simpleStringPluralOne =
-        [dictionary objectForKey:@"simpleStringPluralOne"] != [NSNull null] ?
+        [dictionary objectForKey:@"simpleStringPluralOne"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"simpleStringPluralOne"] arrayOfStringsFromStringPluralDictionariesWithType:@"simpleTypeOne"] : nil;
 
     self.simpleStringPluralTwo =
-        [dictionary objectForKey:@"simpleStringPluralTwo"] != [NSNull null] ?
+        [dictionary objectForKey:@"simpleStringPluralTwo"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"simpleStringPluralTwo"] arrayOfStringsFromStringPluralDictionariesWithType:@"simpleTypeTwo"] : nil;
 
     self.pinapL1Plural =
-        [dictionary objectForKey:@"pinapL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinapL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pinapL1Plural"] arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:self.captureObjectPath fromDecoder:NO] : nil;
 
     if (![dictionary objectForKey:@"pinoL1Object"] || [dictionary objectForKey:@"pinoL1Object"] == [NSNull null])
@@ -2246,7 +2354,7 @@
         [self.pinoL1Object replaceFromDictionary:[dictionary objectForKey:@"pinoL1Object"] withPath:self.captureObjectPath];
 
     self.onipL1Plural =
-        [dictionary objectForKey:@"onipL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"onipL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"onipL1Plural"] arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:self.captureObjectPath fromDecoder:NO] : nil;
 
     if (![dictionary objectForKey:@"oinoL1Object"] || [dictionary objectForKey:@"oinoL1Object"] == [NSNull null])
@@ -2257,11 +2365,11 @@
         [self.oinoL1Object replaceFromDictionary:[dictionary objectForKey:@"oinoL1Object"] withPath:self.captureObjectPath];
 
     self.pinapinapL1Plural =
-        [dictionary objectForKey:@"pinapinapL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinapinapL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pinapinapL1Plural"] arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:self.captureObjectPath fromDecoder:NO] : nil;
 
     self.pinonipL1Plural =
-        [dictionary objectForKey:@"pinonipL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"pinonipL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pinonipL1Plural"] arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:self.captureObjectPath fromDecoder:NO] : nil;
 
     if (![dictionary objectForKey:@"pinapinoL1Object"] || [dictionary objectForKey:@"pinapinoL1Object"] == [NSNull null])
@@ -2279,11 +2387,11 @@
         [self.pinoinoL1Object replaceFromDictionary:[dictionary objectForKey:@"pinoinoL1Object"] withPath:self.captureObjectPath];
 
     self.onipinapL1Plural =
-        [dictionary objectForKey:@"onipinapL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"onipinapL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"onipinapL1Plural"] arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:self.captureObjectPath fromDecoder:NO] : nil;
 
     self.oinonipL1Plural =
-        [dictionary objectForKey:@"oinonipL1Plural"] != [NSNull null] ?
+        [dictionary objectForKey:@"oinonipL1Plural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"oinonipL1Plural"] arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:self.captureObjectPath fromDecoder:NO] : nil;
 
     if (![dictionary objectForKey:@"onipinoL1Object"] || [dictionary objectForKey:@"onipinoL1Object"] == [NSNull null])
@@ -2920,7 +3028,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dictionary =
+    NSMutableDictionary *dictionary = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dictionary setObject:@"JRUuid" forKey:@"uuid"];

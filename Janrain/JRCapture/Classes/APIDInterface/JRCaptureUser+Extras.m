@@ -25,6 +25,8 @@
 + (NSDictionary *)invalidClassErrorForResult:(NSObject *)result;
 + (NSDictionary *)invalidStatErrorForResult:(NSObject *)result;
 + (NSDictionary *)invalidDataErrorForResult:(NSObject *)result;
++ (NSDictionary *)missingAccessTokenInResult:(NSObject *)result;
++ (NSDictionary *)lastUpdatedSelectorNotAvailable;
 @end
 
 @interface JRCaptureUserApidHandler : NSObject <JRCaptureInterfaceDelegate>
@@ -66,7 +68,12 @@
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    NSDictionary *resultDictionary = [(NSString *)result objectFromJSONString];
+    NSDictionary *resultDictionary;
+    if ([result isKindOfClass:[NSString class]])
+        resultDictionary = [(NSString *)result objectFromJSONString];
+    else /* Uh-oh!! */
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidClassErrorForResult:result]
+                                                context:context];
 
     if (!resultDictionary)
         return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]
@@ -76,18 +83,23 @@
         return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result]
                                                 context:context];
 
-    if (![resultDictionary objectForKey:@"result"])
+    if (![resultDictionary objectForKey:@"result"] || ![[resultDictionary objectForKey:@"result"] isKindOfClass:[NSDictionary class]])
         return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]
                                                 context:context];
 
     [captureUser replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
 
     if (!captureUser)
-        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]
+                                                context:context];
 
     NSString *accessToken = [resultDictionary objectForKey:@"access_token"];
-    NSString *uuid        = nil;
 
+    if (!accessToken)
+        return [self createCaptureUserDidFailWithResult:[JRCaptureError missingAccessTokenInResult:result]
+                                                context:context];
+
+    NSString *uuid = nil;
     if ([captureUser respondsToSelector:NSSelectorFromString(@"uuid")])
         uuid = [captureUser performSelector:NSSelectorFromString(@"uuid")];
 
@@ -137,8 +149,8 @@
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
         return [self getCaptureUserDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result] context:context];
 
-    if (![resultDictionary objectForKey:@"result"])
-        return [self getCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]  context:context];
+    if (![resultDictionary objectForKey:@"result"] || ![[resultDictionary objectForKey:@"result"] isKindOfClass:[NSDictionary class]])
+        return [self getCaptureUserDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
 
     JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:[resultDictionary objectForKey:@"result"]];
 
@@ -183,24 +195,33 @@
         return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result] context:context];
 
     if (![resultDictionary objectForKey:@"result"])
-        return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]  context:context];
+        return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
 
     if ([capturePath isEqualToString:@"/lastUpdated"])
     {
-        JRDateTime *lastUpdated = [JRDateTime dateFromISO8601DateTimeString:[resultDictionary objectForKey:@"result"]];
         const SEL lastUpdatedSelector = NSSelectorFromString(@"lastUpdated");
+
         if (![captureUser respondsToSelector:lastUpdatedSelector])
-            return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]
+            return [self getCaptureObjectDidFailWithResult:[JRCaptureError lastUpdatedSelectorNotAvailable]
                                                    context:context];
-        JRDateTime *oldDate = [captureUser performSelector:lastUpdatedSelector];
-        BOOL isOutdated = [lastUpdated compare:oldDate] != NSOrderedSame;
+
+        JRDateTime *serverLastUpdated = [JRDateTime dateFromISO8601DateTimeString:[resultDictionary objectForKey:@"result"]];
+        JRDateTime *localLastUpdated  = [captureUser performSelector:lastUpdatedSelector];
+
+        if (!serverLastUpdated)
+            return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
+
+//        if (!localLastUpdated) // TODO: Do we error when the local last updated is nil or just assume it's out of date?
+//            return [self getCaptureObjectDidFailWithResult:[JRCaptureError MAKE AN ERROR:result] context:context];
+
+        BOOL isOutdated = ([serverLastUpdated compare:localLastUpdated] != NSOrderedSame);
 
         if ([delegate respondsToSelector:@selector(fetchLastUpdatedDidSucceed:isOutdated:context:)])
-                [delegate fetchLastUpdatedDidSucceed:lastUpdated isOutdated:isOutdated context:callerContext];
+            [delegate fetchLastUpdatedDidSucceed:serverLastUpdated isOutdated:isOutdated context:callerContext];
     }
     else
     {
-        return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]  context:context];
+        return [self getCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
     }
 }
 @end

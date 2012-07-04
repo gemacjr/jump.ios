@@ -168,5 +168,22 @@ NSString * JRCaptureErrorDomain = @"JRCapture.ErrorDomain";
                              [NSNumber numberWithInteger:JRCaptureLocalApidErrorInvalidResultData], @"code", nil];
 }
 
++ (NSDictionary *)missingAccessTokenInResult:(NSObject *)result
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"error", @"stat",
+                             @"missing_access_token", @"error",
+                             @"The result object did not have the access_token where the access token was expected", @"error_description",
+                             [NSNumber numberWithInteger:JRCaptureLocalApidErrorMissingAccessToken], @"code", nil];
+}
 
++ (NSDictionary *)lastUpdatedSelectorNotAvailable
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"error", @"stat",
+                             @"selector_unavailable", @"error",
+                             @"The result object did not have the access_token where the access token was expected", @"error_description",
+                             [NSNumber numberWithInteger:JRCaptureLocalApidErrorSelectorNotAvailable], @"code",
+                             @"lastUpdated", @"selectorName", nil];
+}
 @end

@@ -51,20 +51,7 @@
     self.captureUser = nil;
 }
 
-/* Set a boolean with an NSNumber boolean */
-- (void)test_d101_booleanWithBoolTrue
-{
-    GHAssertNotNil(captureUser, @"captureUser should not be nil");
-
-    captureUser.basicBoolean = [NSNumber numberWithBool:YES];
-    GHAssertTrue([captureUser.basicBoolean boolValue], nil);
-
-    [self prepare];
-    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
-    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
-}
-
-- (void)test_d102_fetchLastUpdated
+- (void)test_d101_fetchLastUpdated
 {
     [self prepare];
     [captureUser fetchLastUpdatedFromServerForDelegate:self context:nil];

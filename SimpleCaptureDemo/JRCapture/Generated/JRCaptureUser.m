@@ -87,7 +87,9 @@
 
 @interface NSArray (GamesToFromDictionary)
 - (NSArray*)arrayOfGamesElementsFromGamesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfGamesElementsFromGamesDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfGamesDictionariesFromGamesElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfGamesDictionariesFromGamesElements;
 - (NSArray*)arrayOfGamesReplaceDictionariesFromGamesElements;
 @end
 
@@ -102,6 +104,11 @@
     return filteredGamesArray;
 }
 
+- (NSArray*)arrayOfGamesElementsFromGamesDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfGamesElementsFromGamesDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfGamesDictionariesFromGamesElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -110,6 +117,11 @@
             [filteredDictionaryArray addObject:[(JRGamesElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfGamesDictionariesFromGamesElements
+{
+    return [self arrayOfGamesDictionariesFromGamesElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfGamesReplaceDictionariesFromGamesElements
@@ -125,7 +137,9 @@
 
 @interface NSArray (OnipLevelOneToFromDictionary)
 - (NSArray*)arrayOfOnipLevelOneElementsFromOnipLevelOneDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfOnipLevelOneElementsFromOnipLevelOneDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOnipLevelOneDictionariesFromOnipLevelOneElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfOnipLevelOneDictionariesFromOnipLevelOneElements;
 - (NSArray*)arrayOfOnipLevelOneReplaceDictionariesFromOnipLevelOneElements;
 @end
 
@@ -140,6 +154,11 @@
     return filteredOnipLevelOneArray;
 }
 
+- (NSArray*)arrayOfOnipLevelOneElementsFromOnipLevelOneDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfOnipLevelOneElementsFromOnipLevelOneDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfOnipLevelOneDictionariesFromOnipLevelOneElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -148,6 +167,11 @@
             [filteredDictionaryArray addObject:[(JROnipLevelOneElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfOnipLevelOneDictionariesFromOnipLevelOneElements
+{
+    return [self arrayOfOnipLevelOneDictionariesFromOnipLevelOneElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfOnipLevelOneReplaceDictionariesFromOnipLevelOneElements
@@ -163,7 +187,9 @@
 
 @interface NSArray (PhotosToFromDictionary)
 - (NSArray*)arrayOfPhotosElementsFromPhotosDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfPhotosElementsFromPhotosDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPhotosDictionariesFromPhotosElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfPhotosDictionariesFromPhotosElements;
 - (NSArray*)arrayOfPhotosReplaceDictionariesFromPhotosElements;
 @end
 
@@ -178,6 +204,11 @@
     return filteredPhotosArray;
 }
 
+- (NSArray*)arrayOfPhotosElementsFromPhotosDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfPhotosElementsFromPhotosDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfPhotosDictionariesFromPhotosElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -186,6 +217,11 @@
             [filteredDictionaryArray addObject:[(JRPhotosElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPhotosDictionariesFromPhotosElements
+{
+    return [self arrayOfPhotosDictionariesFromPhotosElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfPhotosReplaceDictionariesFromPhotosElements
@@ -201,7 +237,9 @@
 
 @interface NSArray (PluralLevelOneToFromDictionary)
 - (NSArray*)arrayOfPluralLevelOneElementsFromPluralLevelOneDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfPluralLevelOneElementsFromPluralLevelOneDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPluralLevelOneDictionariesFromPluralLevelOneElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfPluralLevelOneDictionariesFromPluralLevelOneElements;
 - (NSArray*)arrayOfPluralLevelOneReplaceDictionariesFromPluralLevelOneElements;
 @end
 
@@ -216,6 +254,11 @@
     return filteredPluralLevelOneArray;
 }
 
+- (NSArray*)arrayOfPluralLevelOneElementsFromPluralLevelOneDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfPluralLevelOneElementsFromPluralLevelOneDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfPluralLevelOneDictionariesFromPluralLevelOneElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -224,6 +267,11 @@
             [filteredDictionaryArray addObject:[(JRPluralLevelOneElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPluralLevelOneDictionariesFromPluralLevelOneElements
+{
+    return [self arrayOfPluralLevelOneDictionariesFromPluralLevelOneElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfPluralLevelOneReplaceDictionariesFromPluralLevelOneElements
@@ -239,7 +287,9 @@
 
 @interface NSArray (ProfilesToFromDictionary)
 - (NSArray*)arrayOfProfilesElementsFromProfilesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfProfilesElementsFromProfilesDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfProfilesDictionariesFromProfilesElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfProfilesDictionariesFromProfilesElements;
 - (NSArray*)arrayOfProfilesReplaceDictionariesFromProfilesElements;
 @end
 
@@ -254,6 +304,11 @@
     return filteredProfilesArray;
 }
 
+- (NSArray*)arrayOfProfilesElementsFromProfilesDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfProfilesElementsFromProfilesDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfProfilesDictionariesFromProfilesElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -262,6 +317,11 @@
             [filteredDictionaryArray addObject:[(JRProfilesElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfProfilesDictionariesFromProfilesElements
+{
+    return [self arrayOfProfilesDictionariesFromProfilesElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfProfilesReplaceDictionariesFromProfilesElements
@@ -277,7 +337,9 @@
 
 @interface NSArray (StatusesToFromDictionary)
 - (NSArray*)arrayOfStatusesElementsFromStatusesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfStatusesElementsFromStatusesDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfStatusesDictionariesFromStatusesElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfStatusesDictionariesFromStatusesElements;
 - (NSArray*)arrayOfStatusesReplaceDictionariesFromStatusesElements;
 @end
 
@@ -292,6 +354,11 @@
     return filteredStatusesArray;
 }
 
+- (NSArray*)arrayOfStatusesElementsFromStatusesDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfStatusesElementsFromStatusesDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfStatusesDictionariesFromStatusesElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -300,6 +367,11 @@
             [filteredDictionaryArray addObject:[(JRStatusesElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfStatusesDictionariesFromStatusesElements
+{
+    return [self arrayOfStatusesDictionariesFromStatusesElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfStatusesReplaceDictionariesFromStatusesElements

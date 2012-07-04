@@ -97,7 +97,9 @@
 
 @interface NSArray (AccountsToFromDictionary)
 - (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfAccountsDictionariesFromAccountsElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfAccountsDictionariesFromAccountsElements;
 - (NSArray*)arrayOfAccountsReplaceDictionariesFromAccountsElements;
 @end
 
@@ -112,6 +114,11 @@
     return filteredAccountsArray;
 }
 
+- (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfAccountsElementsFromAccountsDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfAccountsDictionariesFromAccountsElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -120,6 +127,11 @@
             [filteredDictionaryArray addObject:[(JRAccountsElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfAccountsDictionariesFromAccountsElements
+{
+    return [self arrayOfAccountsDictionariesFromAccountsElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfAccountsReplaceDictionariesFromAccountsElements
@@ -135,7 +147,9 @@
 
 @interface NSArray (AddressesToFromDictionary)
 - (NSArray*)arrayOfAddressesElementsFromAddressesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfAddressesElementsFromAddressesDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfAddressesDictionariesFromAddressesElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfAddressesDictionariesFromAddressesElements;
 - (NSArray*)arrayOfAddressesReplaceDictionariesFromAddressesElements;
 @end
 
@@ -150,6 +164,11 @@
     return filteredAddressesArray;
 }
 
+- (NSArray*)arrayOfAddressesElementsFromAddressesDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfAddressesElementsFromAddressesDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfAddressesDictionariesFromAddressesElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -158,6 +177,11 @@
             [filteredDictionaryArray addObject:[(JRAddressesElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfAddressesDictionariesFromAddressesElements
+{
+    return [self arrayOfAddressesDictionariesFromAddressesElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfAddressesReplaceDictionariesFromAddressesElements
@@ -173,7 +197,9 @@
 
 @interface NSArray (EmailsToFromDictionary)
 - (NSArray*)arrayOfEmailsElementsFromEmailsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfEmailsElementsFromEmailsDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfEmailsDictionariesFromEmailsElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfEmailsDictionariesFromEmailsElements;
 - (NSArray*)arrayOfEmailsReplaceDictionariesFromEmailsElements;
 @end
 
@@ -188,6 +214,11 @@
     return filteredEmailsArray;
 }
 
+- (NSArray*)arrayOfEmailsElementsFromEmailsDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfEmailsElementsFromEmailsDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfEmailsDictionariesFromEmailsElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -196,6 +227,11 @@
             [filteredDictionaryArray addObject:[(JREmailsElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfEmailsDictionariesFromEmailsElements
+{
+    return [self arrayOfEmailsDictionariesFromEmailsElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfEmailsReplaceDictionariesFromEmailsElements
@@ -211,7 +247,9 @@
 
 @interface NSArray (ImsToFromDictionary)
 - (NSArray*)arrayOfImsElementsFromImsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfImsElementsFromImsDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfImsDictionariesFromImsElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfImsDictionariesFromImsElements;
 - (NSArray*)arrayOfImsReplaceDictionariesFromImsElements;
 @end
 
@@ -226,6 +264,11 @@
     return filteredImsArray;
 }
 
+- (NSArray*)arrayOfImsElementsFromImsDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfImsElementsFromImsDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfImsDictionariesFromImsElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -234,6 +277,11 @@
             [filteredDictionaryArray addObject:[(JRImsElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfImsDictionariesFromImsElements
+{
+    return [self arrayOfImsDictionariesFromImsElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfImsReplaceDictionariesFromImsElements
@@ -249,7 +297,9 @@
 
 @interface NSArray (OrganizationsToFromDictionary)
 - (NSArray*)arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsElements;
 - (NSArray*)arrayOfOrganizationsReplaceDictionariesFromOrganizationsElements;
 @end
 
@@ -264,6 +314,11 @@
     return filteredOrganizationsArray;
 }
 
+- (NSArray*)arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -272,6 +327,11 @@
             [filteredDictionaryArray addObject:[(JROrganizationsElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsElements
+{
+    return [self arrayOfOrganizationsDictionariesFromOrganizationsElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfOrganizationsReplaceDictionariesFromOrganizationsElements
@@ -287,7 +347,9 @@
 
 @interface NSArray (PhoneNumbersToFromDictionary)
 - (NSArray*)arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersElements;
 - (NSArray*)arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersElements;
 @end
 
@@ -302,6 +364,11 @@
     return filteredPhoneNumbersArray;
 }
 
+- (NSArray*)arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -310,6 +377,11 @@
             [filteredDictionaryArray addObject:[(JRPhoneNumbersElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersElements
+{
+    return [self arrayOfPhoneNumbersDictionariesFromPhoneNumbersElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersElements
@@ -325,7 +397,9 @@
 
 @interface NSArray (ProfilePhotosToFromDictionary)
 - (NSArray*)arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosElements;
 - (NSArray*)arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosElements;
 @end
 
@@ -340,6 +414,11 @@
     return filteredProfilePhotosArray;
 }
 
+- (NSArray*)arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -348,6 +427,11 @@
             [filteredDictionaryArray addObject:[(JRProfilePhotosElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosElements
+{
+    return [self arrayOfProfilePhotosDictionariesFromProfilePhotosElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosElements
@@ -363,7 +447,9 @@
 
 @interface NSArray (UrlsToFromDictionary)
 - (NSArray*)arrayOfUrlsElementsFromUrlsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfUrlsElementsFromUrlsDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfUrlsDictionariesFromUrlsElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfUrlsDictionariesFromUrlsElements;
 - (NSArray*)arrayOfUrlsReplaceDictionariesFromUrlsElements;
 @end
 
@@ -378,6 +464,11 @@
     return filteredUrlsArray;
 }
 
+- (NSArray*)arrayOfUrlsElementsFromUrlsDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfUrlsElementsFromUrlsDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfUrlsDictionariesFromUrlsElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -386,6 +477,11 @@
             [filteredDictionaryArray addObject:[(JRUrlsElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfUrlsDictionariesFromUrlsElements
+{
+    return [self arrayOfUrlsDictionariesFromUrlsElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfUrlsReplaceDictionariesFromUrlsElements

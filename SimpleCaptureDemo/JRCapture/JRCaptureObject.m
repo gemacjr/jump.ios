@@ -135,7 +135,7 @@
         return [self updateCaptureObjectDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result] context:context];
 
     if (![resultDictionary objectForKey:@"result"])
-        return [self updateCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]  context:context];
+        return [self updateCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
 
     /* Calling the old protocol methods for testing purposes */
     if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
@@ -197,8 +197,8 @@
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
         return [self replaceCaptureObjectDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result] context:context];
 
-    if (![resultDictionary objectForKey:@"result"])
-        return [self replaceCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]  context:context];
+    if (![resultDictionary objectForKey:@"result"] || ![[resultDictionary objectForKey:@"result"] isKindOfClass:[NSDictionary class]])
+        return [self replaceCaptureObjectDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
 
     // TODO: There's an issue in the replaceOnCapture code where if a captureObject changes between the call to capture
     // and the return, those changes will be lost.  Since this is no longer a public method, I'll table it for now...
@@ -270,7 +270,12 @@
         return [self replaceCaptureArrayDidFailWithResult:[JRCaptureError invalidStatErrorForResult:result] context:context];
 
     if (![resultDictionary objectForKey:@"result"])
-        return [self replaceCaptureArrayDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result]  context:context];
+        return [self replaceCaptureArrayDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
+
+    NSArray *resultsArray = [resultDictionary objectForKey:@"result"];
+
+    if (![resultsArray isKindOfClass:[NSArray class]])
+        return [self replaceCaptureArrayDidFailWithResult:[JRCaptureError invalidDataErrorForResult:result] context:context];
 
     NSString *capitalizedName =
                         [arrayName stringByReplacingCharactersInRange:NSMakeRange(0,1)
@@ -279,7 +284,6 @@
     SEL setNewArrayInParentSelector =
                 NSSelectorFromString([NSString stringWithFormat:@"set%@:", capitalizedName]);
 
-    NSArray *resultsArray = [resultDictionary objectForKey:@"result"];
     NSArray *newArray;
     if (isStringArray)
     {
@@ -402,6 +406,8 @@
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
+    NSDictionary *updateDictionary = [self toUpdateDictionary];
+
     /* Removing the objects from the set here, because if there's an error, they will all get put back anyway... */
     [dirtyPropertySet removeAllObjects];
 
@@ -419,7 +425,7 @@
         return;
     }
 
-    [JRCaptureApidInterface updateCaptureObject:[self toUpdateDictionary]
+    [JRCaptureApidInterface updateCaptureObject:updateDictionary
                                          atPath:self.captureObjectPath
                                       withToken:[JRCaptureData accessToken]
                                     forDelegate:[JRCaptureObjectApidHandler captureObjectApidHandler]
@@ -525,7 +531,7 @@
 
 + (void)testCaptureObjectApidHandlerReplaceCaptureObjectDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
 {
-    [[JRCaptureObjectApidHandler captureObjectApidHandler] replaceCaptureArrayDidSucceedWithResult:result context:context];
+    [[JRCaptureObjectApidHandler captureObjectApidHandler] replaceCaptureObjectDidSucceedWithResult:result context:context];
 }
 
 + (void)testCaptureObjectApidHandlerReplaceCaptureArrayDidFailWithResult:(NSObject *)result context:(NSObject *)context

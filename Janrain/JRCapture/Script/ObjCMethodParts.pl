@@ -948,10 +948,12 @@ sub createArrayCategoryForSubobject {
   my $arrayCategoryImpl = "\@implementation NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
 
   my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder";
-  my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "ElementsForEncoder:(BOOL)forEncoder";
-  my $methodName3 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Elements";
+  my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:(NSString*)capturePath";
+  my $methodName3 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "ElementsForEncoder:(BOOL)forEncoder";
+  my $methodName4 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Elements";
+  my $methodName5 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Elements";
  
-  $arrayCategoryIntf .= "$methodName1;\n$methodName2;\n$methodName3;\n\@end\n\n";
+  $arrayCategoryIntf .= "$methodName1;\n$methodName2;\n$methodName3;\n$methodName4;\n$methodName5;\n\@end\n\n";
   
   $arrayCategoryImpl .= "$methodName1\n{\n";
   $arrayCategoryImpl .=        
@@ -960,8 +962,13 @@ sub createArrayCategoryForSubobject {
        "        if ([dictionary isKindOfClass:[NSDictionary class]])\n" . 
        "            [filtered" . ucfirst($propertyName) . "Array addObject:[JR" . ucfirst($propertyName) . "Element " . $propertyName . "ElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath fromDecoder:fromDecoder]];\n\n" . 
        "    return filtered" . ucfirst($propertyName) . "Array;\n}\n\n";
-       
+
   $arrayCategoryImpl .= "$methodName2\n{\n";
+  $arrayCategoryImpl .=        
+       "    return [self arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:capturePath fromDecoder:NO];\n}\n\n";
+
+       
+  $arrayCategoryImpl .= "$methodName3\n{\n";
   $arrayCategoryImpl .=        
        "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *object in self)\n" . 
@@ -969,7 +976,11 @@ sub createArrayCategoryForSubobject {
        "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "Element*)object toDictionaryForEncoder:forEncoder]];\n\n" . 
        "    return filteredDictionaryArray;\n}\n\n";
 
-  $arrayCategoryImpl .= "$methodName3\n{\n";
+  $arrayCategoryImpl .= "$methodName4\n{\n";
+  $arrayCategoryImpl .=        
+       "    return [self arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "ElementsForEncoder:NO];\n}\n\n";
+
+  $arrayCategoryImpl .= "$methodName5\n{\n";
   $arrayCategoryImpl .=        
        "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *object in self)\n" . 

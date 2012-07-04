@@ -47,7 +47,9 @@
 
 @interface NSArray (PinoinoL3PluralToFromDictionary)
 - (NSArray*)arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
+- (NSArray*)arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralElementsForEncoder:(BOOL)forEncoder;
+- (NSArray*)arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralElements;
 - (NSArray*)arrayOfPinoinoL3PluralReplaceDictionariesFromPinoinoL3PluralElements;
 @end
 
@@ -62,6 +64,11 @@
     return filteredPinoinoL3PluralArray;
 }
 
+- (NSArray*)arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
 - (NSArray*)arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralElementsForEncoder:(BOOL)forEncoder
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -70,6 +77,11 @@
             [filteredDictionaryArray addObject:[(JRPinoinoL3PluralElement*)object toDictionaryForEncoder:forEncoder]];
 
     return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralElements
+{
+    return [self arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralElementsForEncoder:NO];
 }
 
 - (NSArray*)arrayOfPinoinoL3PluralReplaceDictionariesFromPinoinoL3PluralElements
