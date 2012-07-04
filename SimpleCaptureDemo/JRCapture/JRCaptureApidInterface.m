@@ -69,9 +69,9 @@
 static JRCaptureApidInterface *singleton = nil;
 
 /* Here for testing against Carl's local instance */
-/* TODO: Remove when done */
-static NSString *appIdArg   = nil;
-//static NSString *appIdArg = @"&application_id=qx3ss262yufnmpb3ck93jr3zfs"
+#ifdef TESTING_CARL_LOCAL
+static NSString *appIdArg = @"&application_id=qx3ss262yufnmpb3ck93jr3zfs"
+#endif
 
 - (JRCaptureApidInterface *)init
 {
@@ -146,14 +146,13 @@ typedef enum CaptureInterfaceStatEnum
 
     NSMutableData *body = [NSMutableData data];
 
-    // TODO: Do we need this for generic entities and will we need a different one for the top-level capture user??
     [body appendData:[[NSString stringWithFormat:@"type_name=%@", [JRCaptureData entityTypeName]] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&access_token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
 
-    /* Here for testing against Carl's local instance */
-    /* TODO: Remove when done */
+#ifdef TESTING_CARL_LOCAL
     if (appIdArg)
         [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+#endif
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
@@ -210,10 +209,10 @@ typedef enum CaptureInterfaceStatEnum
     [body appendData:[[NSString stringWithFormat:@"&creation_token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[@"&include_record=true" dataUsingEncoding:NSUTF8StringEncoding]];
 
-    /* Here for testing against Carl's local instance */
-    /* TODO: Remove when done */
+#ifdef TESTING_CARL_LOCAL
     if (appIdArg)
         [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+#endif
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
@@ -258,7 +257,6 @@ typedef enum CaptureInterfaceStatEnum
     }
 }
 
-//- (void)startGetCaptureObjectWithId:(NSInteger)objectId atPath:(NSString *)entityPath withToken:(NSString *)token
 - (void)startGetCaptureObjectAtPath:(NSString *)entityPath withToken:(NSString *)token
                         forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
@@ -271,10 +269,10 @@ typedef enum CaptureInterfaceStatEnum
     else
         [body appendData:[[NSString stringWithFormat:@"&attribute_name=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
 
-    /* Here for testing against Carl's local instance */
-    /* TODO: Remove when done */
+#ifdef TESTING_CARL_LOCAL
     if (appIdArg)
         [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+#endif
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
@@ -319,7 +317,7 @@ typedef enum CaptureInterfaceStatEnum
     }
 }
 
-- (void)startUpdateObject:(NSDictionary *)captureObject /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath
+- (void)startUpdateObject:(NSDictionary *)captureObject atPath:(NSString *)entityPath
                 withToken:(NSString *)token forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
     DLog(@"");
@@ -335,10 +333,10 @@ typedef enum CaptureInterfaceStatEnum
     else
         [body appendData:[[NSString stringWithFormat:@"&attribute_name=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
 
-    /* Here for testing against Carl's local instance */
-    /* TODO: Remove when done */
+#ifdef TESTING_CARL_LOCAL
     if (appIdArg)
         [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+#endif
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
@@ -382,7 +380,7 @@ typedef enum CaptureInterfaceStatEnum
     }
 }
 
-- (void)startReplaceObject:(NSDictionary *)captureObject /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath
+- (void)startReplaceObject:(NSDictionary *)captureObject atPath:(NSString *)entityPath
                  withToken:(NSString *)token forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
     DLog(@"");
@@ -398,10 +396,10 @@ typedef enum CaptureInterfaceStatEnum
     else
         [body appendData:[[NSString stringWithFormat:@"&attribute_name=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
 
-    /* Here for testing against Carl's local instance */
-    /* TODO: Remove when done */
+#ifdef TESTING_CARL_LOCAL
     if (appIdArg)
-         [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+#endif
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
@@ -417,7 +415,7 @@ typedef enum CaptureInterfaceStatEnum
 
     DLog(@"%@ attributes=%@ access_token=%@ attribute_name=%@", [[request URL] absoluteString], attributes, token, entityPath);
 
-    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag]) /* tag vs context for workaround */
+    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
         [self finishReplaceObjectWithStat:StatFail
                                 andResult:[NSDictionary dictionaryWithObjectsAndKeys:
                                                    @"error", @"stat",
@@ -445,7 +443,7 @@ typedef enum CaptureInterfaceStatEnum
     }
 }
 
-- (void)startReplaceArray:(NSArray *)captureArray /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath
+- (void)startReplaceArray:(NSArray *)captureArray atPath:(NSString *)entityPath
                 withToken:(NSString *)token forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
     DLog(@"");
@@ -457,15 +455,14 @@ typedef enum CaptureInterfaceStatEnum
     [body appendData:[[NSString stringWithFormat:@"&access_token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[@"&include_record=true" dataUsingEncoding:NSUTF8StringEncoding]];
 
-    // TODO: Test for this at the beginning and send an error if it fails??
     if (!entityPath || [entityPath isEqualToString:@""]) ;
     else
         [body appendData:[[NSString stringWithFormat:@"&attribute_name=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
 
-    /* Here for testing against Carl's local instance */
-    /* TODO: Remove when done */
+#ifdef TESTING_CARL_LOCAL
     if (appIdArg)
-         [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+#endif
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
@@ -514,26 +511,26 @@ typedef enum CaptureInterfaceStatEnum
             startGetCaptureObjectAtPath:entityPath withToken:token forDelegate:delegate withContext:context];
 }
 
-+ (void)updateCaptureObject:(NSDictionary *)captureObject /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath withToken:(NSString *)token
++ (void)updateCaptureObject:(NSDictionary *)captureObject atPath:(NSString *)entityPath withToken:(NSString *)token
                 forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
     DLog(@"");
     [[JRCaptureApidInterface captureInterfaceInstance]
-            startUpdateObject:captureObject /*withId:objectId*/ atPath:entityPath withToken:token forDelegate:delegate withContext:context];
+            startUpdateObject:captureObject atPath:entityPath withToken:token forDelegate:delegate withContext:context];
 }
 
-+ (void)replaceCaptureObject:(NSDictionary *)captureObject /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath withToken:(NSString *)token
++ (void)replaceCaptureObject:(NSDictionary *)captureObject atPath:(NSString *)entityPath withToken:(NSString *)token
                  forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
     [[JRCaptureApidInterface captureInterfaceInstance]
-            startReplaceObject:captureObject /*withId:objectId*/ atPath:entityPath withToken:token forDelegate:delegate withContext:context];
+            startReplaceObject:captureObject atPath:entityPath withToken:token forDelegate:delegate withContext:context];
 }
 
-+ (void)replaceCaptureArray:(NSArray *)captureArray /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath withToken:(NSString *)token
++ (void)replaceCaptureArray:(NSArray *)captureArray atPath:(NSString *)entityPath withToken:(NSString *)token
                 forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
     [[JRCaptureApidInterface captureInterfaceInstance]
-            startReplaceArray:captureArray /*withId:objectId*/ atPath:entityPath withToken:token forDelegate:delegate withContext:context];
+            startReplaceArray:captureArray atPath:entityPath withToken:token forDelegate:delegate withContext:context];
 }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(id)userdata
@@ -586,7 +583,6 @@ typedef enum CaptureInterfaceStatEnum
     NSObject     *context   = [tag objectForKey:@"context"];
     id<JRCaptureInterfaceDelegate> delegate = [tag objectForKey:@"delegate"];
 
-    // TODO: Better error format
     NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:
                                     @"error", @"stat",
                                     [error localizedDescription], @"error",

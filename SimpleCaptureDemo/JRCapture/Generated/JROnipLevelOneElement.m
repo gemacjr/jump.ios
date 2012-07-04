@@ -186,7 +186,6 @@
     else
     {
         onipLevelOneElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         onipLevelOneElement.canBeUpdatedOrReplaced = YES;
     }
 

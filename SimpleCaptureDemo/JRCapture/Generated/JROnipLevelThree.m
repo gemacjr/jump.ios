@@ -146,7 +146,6 @@
     else
     {
         onipLevelThree.captureObjectPath      = [NSString stringWithFormat:@"%@/%@", capturePath, @"onipLevelThree"];
-        // TODO: Is this safe to assume?
         onipLevelThree.canBeUpdatedOrReplaced = YES;
     }
 

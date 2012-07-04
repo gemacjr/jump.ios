@@ -146,7 +146,6 @@
     else
     {
         onipinoL3Object.captureObjectPath      = [NSString stringWithFormat:@"%@/%@", capturePath, @"onipinoL3Object"];
-        // TODO: Is this safe to assume?
         onipinoL3Object.canBeUpdatedOrReplaced = YES;
     }
 

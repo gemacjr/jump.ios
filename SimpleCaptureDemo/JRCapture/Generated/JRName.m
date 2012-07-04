@@ -214,7 +214,6 @@
     else
     {
         name.captureObjectPath      = [NSString stringWithFormat:@"%@/%@", capturePath, @"name"];
-        // TODO: Is this safe to assume?
         name.canBeUpdatedOrReplaced = YES;
     }
 

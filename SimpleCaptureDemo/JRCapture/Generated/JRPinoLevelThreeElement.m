@@ -163,7 +163,6 @@
     else
     {
         pinoLevelThreeElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         pinoLevelThreeElement.canBeUpdatedOrReplaced = YES;
     }
 

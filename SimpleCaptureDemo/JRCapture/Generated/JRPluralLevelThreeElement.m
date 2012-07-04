@@ -163,7 +163,6 @@
     else
     {
         pluralLevelThreeElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         pluralLevelThreeElement.canBeUpdatedOrReplaced = YES;
     }
 

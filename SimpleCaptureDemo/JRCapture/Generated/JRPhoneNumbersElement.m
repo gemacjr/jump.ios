@@ -191,7 +191,6 @@
     else
     {
         phoneNumbersElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"phoneNumbers", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         phoneNumbersElement.canBeUpdatedOrReplaced = YES;
     }
 

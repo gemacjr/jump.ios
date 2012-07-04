@@ -299,7 +299,6 @@
     else
     {
         currentLocation.captureObjectPath      = [NSString stringWithFormat:@"%@/%@", capturePath, @"currentLocation"];
-        // TODO: Is this safe to assume?
         currentLocation.canBeUpdatedOrReplaced = YES;
     }
 

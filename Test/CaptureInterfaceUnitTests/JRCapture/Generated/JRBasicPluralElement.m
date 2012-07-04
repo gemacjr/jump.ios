@@ -146,7 +146,6 @@
     else
     {
         basicPluralElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"basicPlural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         basicPluralElement.canBeUpdatedOrReplaced = YES;
     }
 

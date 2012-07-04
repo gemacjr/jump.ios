@@ -234,7 +234,6 @@
     else
     {
         pinonipL2Object.captureObjectPath      = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinonipL2Object"];
-        // TODO: Is this safe to assume?
         pinonipL2Object.canBeUpdatedOrReplaced = YES;
     }
 

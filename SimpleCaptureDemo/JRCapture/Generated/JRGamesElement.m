@@ -217,7 +217,6 @@
     else
     {
         gamesElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         gamesElement.canBeUpdatedOrReplaced = YES;
     }
 

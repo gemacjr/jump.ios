@@ -309,7 +309,6 @@
     else
     {
         profilesElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         profilesElement.canBeUpdatedOrReplaced = YES;
     }
 

@@ -299,7 +299,6 @@
     else
     {
         organizationsElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         organizationsElement.canBeUpdatedOrReplaced = YES;
     }
 

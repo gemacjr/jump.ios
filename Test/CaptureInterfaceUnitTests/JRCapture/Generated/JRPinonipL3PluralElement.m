@@ -146,7 +146,6 @@
     else
     {
         pinonipL3PluralElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinonipL3Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         pinonipL3PluralElement.canBeUpdatedOrReplaced = YES;
     }
 

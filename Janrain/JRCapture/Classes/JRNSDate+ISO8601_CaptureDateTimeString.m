@@ -99,7 +99,6 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
         date = [dateFormatter dateFromString:ISO8601String];
     }
-    // TODO: Test for and come up with any more!!!
 
     if (!date) NSLog(@"Could not parse ISO8601 date: \"%@\" Possibly invalid format.", dateTimeString);
     return date;

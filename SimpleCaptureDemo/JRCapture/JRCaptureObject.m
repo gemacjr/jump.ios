@@ -350,7 +350,7 @@
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 
-    return nil; // TODO: What's the better way to raise the exception in a method w a return?
+    return nil;
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -358,7 +358,7 @@
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 
-    return nil; // TODO: What's the better way to raise the exception in a method w a return?
+    return nil;
 }
 
 - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
@@ -366,7 +366,7 @@
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 
-    return nil; // TODO: What's the better way to raise the exception in a method w a return?
+    return nil;
 }
 
 - (NSDictionary*)objectProperties
@@ -374,7 +374,7 @@
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 
-    return nil; // TODO: What's the better way to raise the exception in a method w a return?
+    return nil;
 }
 
 - (BOOL)needsUpdate
@@ -382,7 +382,7 @@
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 
-    return NO; // TODO: What's the better way to raise the exception in a method w a return?
+    return NO;
 }
 
 - (void)updateFromDictionary:(NSDictionary *)dictionary withPath:(NSString *)capturePath
@@ -494,25 +494,6 @@
                                     forDelegate:[JRCaptureObjectApidHandler captureObjectApidHandler]
                                     withContext:newContext];
 }
-
-
-//- (void)replaceOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate context:(NSObject *)context
-//{
-//    [self replaceObjectOnCaptureForDelegate:delegate withContext:context returningResult:NO];
-//}
-
-// TODO: Finish this for encoding stuff
-//- (void)replaceFromDictionary:(NSDictionary *)dictionary withPath:(NSString *)capturePath
-//      includingStateVariables:(BOOL)includingStateVariables
-//{
-//    if (includingStateVariables)
-//    {
-//        self.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
-//
-//        self.dirtyPropertySet
-//    }
-//
-//}
 
 + (void)testCaptureObjectApidHandlerUpdateCaptureObjectDidFailWithResult:(NSObject *)result context:(NSObject *)context
 {

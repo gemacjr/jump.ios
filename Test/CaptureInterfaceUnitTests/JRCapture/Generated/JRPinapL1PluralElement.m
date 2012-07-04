@@ -234,7 +234,6 @@
     else
     {
         pinapL1PluralElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         pinapL1PluralElement.canBeUpdatedOrReplaced = YES;
     }
 

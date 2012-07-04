@@ -1636,7 +1636,6 @@
     else
     {
         profile.captureObjectPath      = [NSString stringWithFormat:@"%@/%@", capturePath, @"profile"];
-        // TODO: Is this safe to assume?
         profile.canBeUpdatedOrReplaced = YES;
     }
 

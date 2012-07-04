@@ -191,7 +191,6 @@
     else
     {
         emailsElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         emailsElement.canBeUpdatedOrReplaced = YES;
     }
 

@@ -163,7 +163,6 @@
     else
     {
         pluralTestAlphabeticElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralTestAlphabetic", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         pluralTestAlphabeticElement.canBeUpdatedOrReplaced = YES;
     }
 

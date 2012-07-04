@@ -163,7 +163,6 @@
     else
     {
         photosElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         photosElement.canBeUpdatedOrReplaced = YES;
     }
 

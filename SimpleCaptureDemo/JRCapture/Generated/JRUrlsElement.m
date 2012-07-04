@@ -191,7 +191,6 @@
     else
     {
         urlsElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         urlsElement.canBeUpdatedOrReplaced = YES;
     }
 

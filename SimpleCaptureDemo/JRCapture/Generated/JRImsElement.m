@@ -191,7 +191,6 @@
     else
     {
         imsElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         imsElement.canBeUpdatedOrReplaced = YES;
     }
 

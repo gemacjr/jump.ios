@@ -169,7 +169,6 @@
     else
     {
         oinonipL2Object.captureObjectPath      = [NSString stringWithFormat:@"%@/%@", capturePath, @"oinonipL2Object"];
-        // TODO: Is this safe to assume?
         oinonipL2Object.canBeUpdatedOrReplaced = YES;
     }
 

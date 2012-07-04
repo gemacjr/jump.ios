@@ -774,7 +774,7 @@ sub recursiveParse {
     #
     #   self.canBeUpdatedOrReplaced = YES;
     $objFromDictSection[9]  = "\n        " . $objectName . ".canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:\@\"canBeUpdatedOrReplaced\"] boolValue];";
-    $objFromDictSection[18] = "\n        // TODO: Is this safe to assume?\n        " . $objectName . ".canBeUpdatedOrReplaced = YES;";
+    $objFromDictSection[18] = "\n        " . $objectName . ".canBeUpdatedOrReplaced = YES;";
 
   } else {
   ################################################################################

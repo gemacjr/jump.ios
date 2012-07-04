@@ -251,7 +251,6 @@
     else
     {
         pluralLevelTwoElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelTwo", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         pluralLevelTwoElement.canBeUpdatedOrReplaced = YES;
     }
 

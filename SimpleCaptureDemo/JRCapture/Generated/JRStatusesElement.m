@@ -163,7 +163,6 @@
     else
     {
         statusesElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         statusesElement.canBeUpdatedOrReplaced = YES;
     }
 

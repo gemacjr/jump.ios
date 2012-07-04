@@ -344,7 +344,6 @@
     else
     {
         addressesElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        // TODO: Is this safe to assume?
         addressesElement.canBeUpdatedOrReplaced = YES;
     }
 
