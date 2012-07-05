@@ -94,6 +94,8 @@
 
     [_pinoLevelTwo autorelease];
     _pinoLevelTwo = [newPinoLevelTwo retain];
+
+    [_pinoLevelTwo setAllPropertiesToDirty];
 }
 
 - (id)init
@@ -105,7 +107,7 @@
 
         _pinoLevelTwo = [[JRPinoLevelTwo alloc] init];
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"level", @"name", @"pinoLevelTwo", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -243,6 +245,42 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"level", @"name", @"pinoLevelTwo", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"pinoLevelOne"];
+
+    if (self.pinoLevelTwo)
+        [snapshotDictionary setObject:[self.pinoLevelTwo snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"pinoLevelTwo"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"pinoLevelOne"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"pinoLevelOne"]];
+
+    if ([snapshotDictionary objectForKey:@"pinoLevelTwo"])
+        [self.pinoLevelTwo restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"pinoLevelTwo"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -256,17 +294,18 @@
 
     if ([self.dirtyPropertySet containsObject:@"pinoLevelTwo"])
         [dictionary setObject:(self.pinoLevelTwo ?
-                              [self.pinoLevelTwo toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRPinoLevelTwo pinoLevelTwo] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.pinoLevelTwo toUpdateDictionary] :
+                              [[JRPinoLevelTwo pinoLevelTwo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"pinoLevelTwo"];
     else if ([self.pinoLevelTwo needsUpdate])
         [dictionary setObject:[self.pinoLevelTwo toUpdateDictionary]
                        forKey:@"pinoLevelTwo"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -275,10 +314,11 @@
     [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     [dictionary setObject:(self.pinoLevelTwo ?
-                          [self.pinoLevelTwo toReplaceDictionaryIncludingArrays:YES] :
+                          [self.pinoLevelTwo toReplaceDictionary] :
                           [[JRPinoLevelTwo pinoLevelTwo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"pinoLevelTwo"];
+                   forKey:@"pinoLevelTwo"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
@@ -287,7 +327,7 @@
     if ([self.dirtyPropertySet count])
          return YES;
 
-    if([self.pinoLevelTwo needsUpdate])
+    if ([self.pinoLevelTwo needsUpdate])
         return YES;
 
     return NO;

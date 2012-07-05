@@ -87,11 +87,12 @@
 
     NSDictionary    *myContext             = (NSDictionary *)context;
     JRCaptureObject *captureObject         = [myContext objectForKey:@"captureObject"];
-    NSSet           *dirtyPropertySnapshot = [myContext objectForKey:@"dirtyPropertySnapshot"];
+    NSDictionary    *dirtyPropertySnapshot = [myContext objectForKey:@"dirtyPropertySnapshot"];
     NSObject        *callerContext         = [myContext objectForKey:@"callerContext"];
     id<JRCaptureObjectDelegate> delegate   = [myContext objectForKey:@"delegate"];
 
-    [captureObject.dirtyPropertySet setByAddingObjectsFromSet:dirtyPropertySnapshot];
+    //[captureObject.dirtyPropertySet setByAddingObjectsFromSet:dirtyPropertySnapshot];
+    [captureObject restoreDirtyPropertiesFromSnapshotDictionary:dirtyPropertySnapshot];
 
     /* Calling the old protocol methods for testing purposes, but have to make sure we pass the result string... */
     if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
@@ -361,7 +362,7 @@
     return nil;
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
@@ -377,12 +378,49 @@
     return nil;
 }
 
+- (NSSet *)setOfAllUpdatableProperties
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+
+    return nil;
+}
+
 - (BOOL)needsUpdate
 {
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 
     return NO;
+}
+
+- (NSSet *)updatablePropertySet
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+
+    return NO;
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+
+    return NO;
+}
+
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshot
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 }
 
 - (void)updateFromDictionary:(NSDictionary *)dictionary withPath:(NSString *)capturePath
@@ -402,14 +440,14 @@
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      self.captureObjectPath, @"capturePath",
-                                                     [NSSet setWithSet:self.dirtyPropertySet], @"dirtyPropertySnapshot",
+                                                     [self snapshotDictionaryFromDirtyPropertySet], @"dirtyPropertySnapshot",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     NSDictionary *updateDictionary = [self toUpdateDictionary];
 
-    /* Removing the objects from the set here, because if there's an error, they will all get put back anyway... */
-    [dirtyPropertySet removeAllObjects];
+//    /* Removing the objects from the set here, because if there's an error, they will all get put back anyway... */
+//    [dirtyPropertySet removeAllObjects];
 
     if (!self.canBeUpdatedOrReplaced)
     {
@@ -454,7 +492,7 @@
         return;
     }
 
-    [JRCaptureApidInterface replaceCaptureObject:[self toReplaceDictionaryIncludingArrays:YES]
+    [JRCaptureApidInterface replaceCaptureObject:[self toReplaceDictionary]
                                           atPath:self.captureObjectPath
                                        withToken:[JRCaptureData accessToken]
                                      forDelegate:[JRCaptureObjectApidHandler captureObjectApidHandler]

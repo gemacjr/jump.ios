@@ -85,7 +85,7 @@ my @minConstructorParts = (
     {\n",
     "","
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:","","nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }\n\n");
@@ -153,7 +153,7 @@ my @constructorParts = (
     {\n",
     "","
     
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:","","nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }\n\n");
@@ -653,6 +653,40 @@ my @replaceFrDictParts = (
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }\n\n");
 
+
+###################################################################
+# DIRTY PROPERTY SNAPSHOT MANAGEMENT
+#
+
+###################################################################
+
+my @dirtyPropertySnapshotParts = (
+"- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:","","nil];
+}\n\n",
+"- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];\n",
+"",
+"\n}\n\n",
+"- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:\@\"","","\"];\n\n",
+"",
+"    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}\n\n",
+"- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:\@\"","","\"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:\@\"","","\"]];\n",
+"",
+"\n}\n\n");
+
+
 ###################################################################
 # UPDATE OBJECT ON CAPTURE
 #
@@ -665,6 +699,8 @@ my @replaceFrDictParts = (
 #         [dictionary setObject:(self.<property> ? self.<property> : [NSNull null]) forKey:@"<property>"];
 #           OR
 #         [dictionary setObject:(self.<property> ? <propertyToUpdateDictionaryMethod> : [NSNull null]) forKey:@"<property>"];
+#
+#     [self.dirtyPropertySet removeAllObjects];
 # 
 #     return [NSDictionary dictionaryWithDictionary:dictionary];
 # }
@@ -699,7 +735,9 @@ my @toUpdateDictionaryParts = (
 "    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];\n",
 "",         
-"\n    return [NSDictionary dictionaryWithDictionary:dictionary];",
+"
+    [self.dirtyPropertySet removeAllObjects];
+    return [NSDictionary dictionaryWithDictionary:dictionary];",
 "\n}\n\n");
 
 #my @updateRemotelyParts = (
@@ -723,7 +761,7 @@ my @toUpdateDictionaryParts = (
 ###################################################################
 # REPLACE OBJECT ON CAPTURE
 #
-# - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+# - (NSDictionary *)toReplaceDictionary
 # {
 #     NSMutableDictionary *dictionary =
 #          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -732,6 +770,8 @@ my @toUpdateDictionaryParts = (
 #       OR
 #     [dictionary setObject:(self.<property> ? <propertyToUpdateDictionaryMethod> : [NSNull null]) forKey:@"<property>"];
 # 
+#     [self.dirtyPropertySet removeAllObjects];
+#
 #     return [NSDictionary dictionaryWithDictionary:dictionary];
 # }
 # 
@@ -745,7 +785,7 @@ my @toUpdateDictionaryParts = (
 #                                                      delegate, @"delegate",
 #                                                      context, @"callerContext", nil];
 # 
-#     [JRCaptureInterface updateCaptureObject:[self toReplaceDictionaryIncludingArrays:YES]
+#     [JRCaptureInterface updateCaptureObject:[self toReplaceDictionary]
 #                                      withId:self.<objectName>Id OR 0
 #                                      atPath:self.captureObjectPath
 #                                   withToken:[JRCaptureData accessToken]
@@ -760,12 +800,14 @@ my @replaceRemotelyDocParts = (
  **/\n");
 
 my @toReplaceDictionaryParts = (
-"- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays",
+"- (NSDictionary *)toReplaceDictionary",
 "\n{\n",
 "    NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
 "",         
-"\n    return [NSDictionary dictionaryWithDictionary:dictionary];",
+"
+    [self.dirtyPropertySet removeAllObjects];
+    return [NSDictionary dictionaryWithDictionary:dictionary];",
 "\n}\n\n");
 
 #my @replaceRemotelyParts = (
@@ -985,7 +1027,7 @@ sub createArrayCategoryForSubobject {
        "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *object in self)\n" . 
        "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . "Element class]])\n" . 
-       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "Element*)object toReplaceDictionaryIncludingArrays:YES]];\n\n" . 
+       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "Element*)object toReplaceDictionary]];\n\n" . 
        "    return filteredDictionaryArray;\n}\n\@end\n\n";          
 
   return "$arrayCategoryIntf$arrayCategoryImpl";
@@ -1079,9 +1121,10 @@ sub createGetterSetterForProperty {
   $setter .= "    [_" . $propertyName . " autorelease];\n";
   
   if ($isObject) {
-    $setter .= "    _" . $propertyName .  " = [new" . ucfirst($propertyName) . " retain];";    
+    $setter .= "    _" . $propertyName . " = [new" . ucfirst($propertyName) . " retain];\n\n";  
+    $setter .= "    [_" . $propertyName . " setAllPropertiesToDirty];"
   } else {
-    $setter .= "    _" . $propertyName .  " = [new" . ucfirst($propertyName) . " copy];";    
+    $setter .= "    _" . $propertyName . " = [new" . ucfirst($propertyName) . " copy];";    
   }
   
   $setter .= "\n}\n\n";
@@ -1184,6 +1227,10 @@ sub getUpdateFromDictParts {
 
 sub getReplaceFromDictParts {
   return @replaceFrDictParts;
+}
+
+sub getDirtyPropertySnapshotParts {
+  return @dirtyPropertySnapshotParts;
 }
 
 sub getToUpdateDictParts {

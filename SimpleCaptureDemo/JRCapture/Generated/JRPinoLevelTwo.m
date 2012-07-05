@@ -89,7 +89,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPinoLevelThreeElement class]])
-            [filteredDictionaryArray addObject:[(JRPinoLevelThreeElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRPinoLevelThreeElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -170,7 +170,7 @@
         self.canBeUpdatedOrReplaced = YES;
 
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"level", @"name", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -298,6 +298,34 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"level", @"name", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"pinoLevelTwo"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"pinoLevelTwo"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"pinoLevelTwo"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -309,10 +337,11 @@
     if ([self.dirtyPropertySet containsObject:@"name"])
         [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -320,12 +349,12 @@
     [dictionary setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
     [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.pinoLevelThree ?
+    [dictionary setObject:(self.pinoLevelThree ?
                           [self.pinoLevelThree arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeElements] :
                           [NSArray array])
-                       forKey:@"pinoLevelThree"];
+                   forKey:@"pinoLevelThree"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 

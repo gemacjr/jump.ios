@@ -94,6 +94,8 @@
 
     [_pinoinoL2Object autorelease];
     _pinoinoL2Object = [newPinoinoL2Object retain];
+
+    [_pinoinoL2Object setAllPropertiesToDirty];
 }
 
 - (id)init
@@ -105,7 +107,7 @@
 
         _pinoinoL2Object = [[JRPinoinoL2Object alloc] init];
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"string1", @"string2", @"pinoinoL2Object", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -243,6 +245,42 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"string1", @"string2", @"pinoinoL2Object", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"pinoinoL1Object"];
+
+    if (self.pinoinoL2Object)
+        [snapshotDictionary setObject:[self.pinoinoL2Object snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"pinoinoL2Object"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"pinoinoL1Object"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"pinoinoL1Object"]];
+
+    if ([snapshotDictionary objectForKey:@"pinoinoL2Object"])
+        [self.pinoinoL2Object restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"pinoinoL2Object"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -256,17 +294,18 @@
 
     if ([self.dirtyPropertySet containsObject:@"pinoinoL2Object"])
         [dictionary setObject:(self.pinoinoL2Object ?
-                              [self.pinoinoL2Object toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRPinoinoL2Object pinoinoL2Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.pinoinoL2Object toUpdateDictionary] :
+                              [[JRPinoinoL2Object pinoinoL2Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"pinoinoL2Object"];
     else if ([self.pinoinoL2Object needsUpdate])
         [dictionary setObject:[self.pinoinoL2Object toUpdateDictionary]
                        forKey:@"pinoinoL2Object"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -275,10 +314,11 @@
     [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     [dictionary setObject:(self.pinoinoL2Object ?
-                          [self.pinoinoL2Object toReplaceDictionaryIncludingArrays:YES] :
+                          [self.pinoinoL2Object toReplaceDictionary] :
                           [[JRPinoinoL2Object pinoinoL2Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"pinoinoL2Object"];
+                   forKey:@"pinoinoL2Object"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
@@ -287,7 +327,7 @@
     if ([self.dirtyPropertySet count])
          return YES;
 
-    if([self.pinoinoL2Object needsUpdate])
+    if ([self.pinoinoL2Object needsUpdate])
         return YES;
 
     return NO;

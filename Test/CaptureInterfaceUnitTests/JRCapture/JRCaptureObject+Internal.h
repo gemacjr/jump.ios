@@ -35,8 +35,15 @@
 @property (readonly) NSMutableSet *dirtyPropertySet;
 - (NSDictionary *)toDictionaryForEncoder:(BOOL)forEncoder;
 - (NSDictionary *)toUpdateDictionary;
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays;
+- (NSDictionary *)toReplaceDictionary;
 - (NSDictionary *)objectProperties;
+//- (NSSet *)setOfAllUpdatableProperties;
+
+- (NSSet *)updatablePropertySet;
+- (void)setAllPropertiesToDirty;
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet;
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshot;
+
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;

@@ -129,7 +129,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRGamesElement class]])
-            [filteredDictionaryArray addObject:[(JRGamesElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRGamesElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -179,7 +179,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JROnipLevelOneElement class]])
-            [filteredDictionaryArray addObject:[(JROnipLevelOneElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JROnipLevelOneElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -229,7 +229,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPhotosElement class]])
-            [filteredDictionaryArray addObject:[(JRPhotosElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRPhotosElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -279,7 +279,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPluralLevelOneElement class]])
-            [filteredDictionaryArray addObject:[(JRPluralLevelOneElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRPluralLevelOneElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -329,7 +329,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRProfilesElement class]])
-            [filteredDictionaryArray addObject:[(JRProfilesElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRProfilesElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -379,7 +379,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRStatusesElement class]])
-            [filteredDictionaryArray addObject:[(JRStatusesElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRStatusesElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -733,6 +733,8 @@
 
     [_objectLevelOne autorelease];
     _objectLevelOne = [newObjectLevelOne retain];
+
+    [_objectLevelOne setAllPropertiesToDirty];
 }
 
 - (NSArray *)onipLevelOne
@@ -781,6 +783,8 @@
 
     [_pinoLevelOne autorelease];
     _pinoLevelOne = [newPinoLevelOne retain];
+
+    [_pinoLevelOne setAllPropertiesToDirty];
 }
 
 - (NSArray *)pluralLevelOne
@@ -805,6 +809,8 @@
 
     [_primaryAddress autorelease];
     _primaryAddress = [newPrimaryAddress retain];
+
+    [_primaryAddress setAllPropertiesToDirty];
 }
 
 - (NSArray *)profiles
@@ -925,7 +931,7 @@
         _pinoLevelOne = [[JRPinoLevelOne alloc] init];
         _primaryAddress = [[JRPrimaryAddress alloc] init];
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"captureUserId", @"uuid", @"created", @"lastUpdated", @"aboutMe", @"birthday", @"currentLocation", @"display", @"displayName", @"email", @"emailVerified", @"familyName", @"gender", @"givenName", @"lastLogin", @"middleName", @"objectLevelOne", @"password", @"pinoLevelOne", @"primaryAddress", @"testerBoolean", @"testerInteger", @"testerIpAddr", @"testerUniqueString", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -948,7 +954,7 @@
         _pinoLevelOne = [[JRPinoLevelOne alloc] init];
         _primaryAddress = [[JRPrimaryAddress alloc] init];
     
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"captureUserId", @"uuid", @"created", @"lastUpdated", @"aboutMe", @"birthday", @"currentLocation", @"display", @"displayName", @"email", @"emailVerified", @"familyName", @"gender", @"givenName", @"lastLogin", @"middleName", @"objectLevelOne", @"password", @"pinoLevelOne", @"primaryAddress", @"testerBoolean", @"testerInteger", @"testerIpAddr", @"testerUniqueString", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -1629,6 +1635,58 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"captureUserId", @"uuid", @"created", @"lastUpdated", @"aboutMe", @"birthday", @"currentLocation", @"display", @"displayName", @"email", @"emailVerified", @"familyName", @"gender", @"givenName", @"lastLogin", @"middleName", @"objectLevelOne", @"password", @"pinoLevelOne", @"primaryAddress", @"testerBoolean", @"testerInteger", @"testerIpAddr", @"testerUniqueString", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"captureUser"];
+
+    if (self.objectLevelOne)
+        [snapshotDictionary setObject:[self.objectLevelOne snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"objectLevelOne"];
+
+    if (self.pinoLevelOne)
+        [snapshotDictionary setObject:[self.pinoLevelOne snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"pinoLevelOne"];
+
+    if (self.primaryAddress)
+        [snapshotDictionary setObject:[self.primaryAddress snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"primaryAddress"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"captureUser"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"captureUser"]];
+
+    if ([snapshotDictionary objectForKey:@"objectLevelOne"])
+        [self.objectLevelOne restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"objectLevelOne"]];
+
+    if ([snapshotDictionary objectForKey:@"pinoLevelOne"])
+        [self.pinoLevelOne restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"pinoLevelOne"]];
+
+    if ([snapshotDictionary objectForKey:@"primaryAddress"])
+        [self.primaryAddress restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"primaryAddress"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -1672,8 +1730,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"objectLevelOne"])
         [dictionary setObject:(self.objectLevelOne ?
-                              [self.objectLevelOne toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRObjectLevelOne objectLevelOne] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.objectLevelOne toUpdateDictionary] :
+                              [[JRObjectLevelOne objectLevelOne] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"objectLevelOne"];
     else if ([self.objectLevelOne needsUpdate])
         [dictionary setObject:[self.objectLevelOne toUpdateDictionary]
@@ -1684,8 +1742,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"pinoLevelOne"])
         [dictionary setObject:(self.pinoLevelOne ?
-                              [self.pinoLevelOne toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRPinoLevelOne pinoLevelOne] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.pinoLevelOne toUpdateDictionary] :
+                              [[JRPinoLevelOne pinoLevelOne] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"pinoLevelOne"];
     else if ([self.pinoLevelOne needsUpdate])
         [dictionary setObject:[self.pinoLevelOne toUpdateDictionary]
@@ -1693,8 +1751,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"primaryAddress"])
         [dictionary setObject:(self.primaryAddress ?
-                              [self.primaryAddress toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRPrimaryAddress primaryAddress] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.primaryAddress toUpdateDictionary] :
+                              [[JRPrimaryAddress primaryAddress] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"primaryAddress"];
     else if ([self.primaryAddress needsUpdate])
         [dictionary setObject:[self.primaryAddress toUpdateDictionary]
@@ -1712,10 +1770,11 @@
     if ([self.dirtyPropertySet containsObject:@"testerUniqueString"])
         [dictionary setObject:(self.testerUniqueString ? self.testerUniqueString : [NSNull null]) forKey:@"testerUniqueString"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -1729,72 +1788,66 @@
     [dictionary setObject:(self.emailVerified ? [self.emailVerified stringFromISO8601DateTime] : [NSNull null]) forKey:@"emailVerified"];
     [dictionary setObject:(self.familyName ? self.familyName : [NSNull null]) forKey:@"familyName"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.games ?
+    [dictionary setObject:(self.games ?
                           [self.games arrayOfGamesReplaceDictionariesFromGamesElements] :
                           [NSArray array])
-                       forKey:@"games"];
+                   forKey:@"games"];
     [dictionary setObject:(self.gender ? self.gender : [NSNull null]) forKey:@"gender"];
     [dictionary setObject:(self.givenName ? self.givenName : [NSNull null]) forKey:@"givenName"];
     [dictionary setObject:(self.lastLogin ? [self.lastLogin stringFromISO8601DateTime] : [NSNull null]) forKey:@"lastLogin"];
     [dictionary setObject:(self.middleName ? self.middleName : [NSNull null]) forKey:@"middleName"];
 
     [dictionary setObject:(self.objectLevelOne ?
-                          [self.objectLevelOne toReplaceDictionaryIncludingArrays:YES] :
+                          [self.objectLevelOne toReplaceDictionary] :
                           [[JRObjectLevelOne objectLevelOne] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"objectLevelOne"];
+                   forKey:@"objectLevelOne"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.onipLevelOne ?
+    [dictionary setObject:(self.onipLevelOne ?
                           [self.onipLevelOne arrayOfOnipLevelOneReplaceDictionariesFromOnipLevelOneElements] :
                           [NSArray array])
-                       forKey:@"onipLevelOne"];
+                   forKey:@"onipLevelOne"];
     [dictionary setObject:(self.password ? self.password : [NSNull null]) forKey:@"password"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.photos ?
+    [dictionary setObject:(self.photos ?
                           [self.photos arrayOfPhotosReplaceDictionariesFromPhotosElements] :
                           [NSArray array])
-                       forKey:@"photos"];
+                   forKey:@"photos"];
 
     [dictionary setObject:(self.pinoLevelOne ?
-                          [self.pinoLevelOne toReplaceDictionaryIncludingArrays:YES] :
+                          [self.pinoLevelOne toReplaceDictionary] :
                           [[JRPinoLevelOne pinoLevelOne] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"pinoLevelOne"];
+                   forKey:@"pinoLevelOne"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.pluralLevelOne ?
+    [dictionary setObject:(self.pluralLevelOne ?
                           [self.pluralLevelOne arrayOfPluralLevelOneReplaceDictionariesFromPluralLevelOneElements] :
                           [NSArray array])
-                       forKey:@"pluralLevelOne"];
+                   forKey:@"pluralLevelOne"];
 
     [dictionary setObject:(self.primaryAddress ?
-                          [self.primaryAddress toReplaceDictionaryIncludingArrays:YES] :
+                          [self.primaryAddress toReplaceDictionary] :
                           [[JRPrimaryAddress primaryAddress] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"primaryAddress"];
+                   forKey:@"primaryAddress"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.profiles ?
+    [dictionary setObject:(self.profiles ?
                           [self.profiles arrayOfProfilesReplaceDictionariesFromProfilesElements] :
                           [NSArray array])
-                       forKey:@"profiles"];
+                   forKey:@"profiles"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.statuses ?
+    [dictionary setObject:(self.statuses ?
                           [self.statuses arrayOfStatusesReplaceDictionariesFromStatusesElements] :
                           [NSArray array])
-                       forKey:@"statuses"];
+                   forKey:@"statuses"];
     [dictionary setObject:(self.testerBoolean ? [NSNumber numberWithBool:[self.testerBoolean boolValue]] : [NSNull null]) forKey:@"testerBoolean"];
     [dictionary setObject:(self.testerInteger ? [NSNumber numberWithInteger:[self.testerInteger integerValue]] : [NSNull null]) forKey:@"testerInteger"];
     [dictionary setObject:(self.testerIpAddr ? self.testerIpAddr : [NSNull null]) forKey:@"testerIpAddr"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.testerStringPlural ?
+    [dictionary setObject:(self.testerStringPlural ?
                           self.testerStringPlural :
                           [NSArray array])
-                       forKey:@"testerStringPlural"];
+                   forKey:@"testerStringPlural"];
     [dictionary setObject:(self.testerUniqueString ? self.testerUniqueString : [NSNull null]) forKey:@"testerUniqueString"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
@@ -1845,13 +1898,13 @@
     if ([self.dirtyPropertySet count])
          return YES;
 
-    if([self.objectLevelOne needsUpdate])
+    if ([self.objectLevelOne needsUpdate])
         return YES;
 
-    if([self.pinoLevelOne needsUpdate])
+    if ([self.pinoLevelOne needsUpdate])
         return YES;
 
-    if([self.primaryAddress needsUpdate])
+    if ([self.primaryAddress needsUpdate])
         return YES;
 
     return NO;

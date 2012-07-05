@@ -476,6 +476,7 @@ sub recursiveParse {
   my @updateFromDictSection      = getUpdateFromDictParts();
   my @replaceFromDictSection     = getReplaceFromDictParts();
   my @toUpdateDictSection        = getToUpdateDictParts();
+  my @dirtyPropertySection       = getDirtyPropertySnapshotParts();
   my @toReplaceDictSection       = getToReplaceDictParts();
   my @needsUpdateSection         = getNeedsUpdateParts();
   my @isEqualObjectSection       = getIsEqualObjectParts();
@@ -676,6 +677,15 @@ sub recursiveParse {
   #  
   #    return exampleElement;
   $objFromDictSection[22] = $objFromDictSection[24] = $objFromDictSection[26] = $objectName;
+  
+  # e.g.:
+  #   [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"exampleObject"];
+  $dirtyPropertySection[7] = $objectName;
+  
+  # e.g.:
+  #   if ([snapshotDictionary objectForKey:@"exampleObject"])
+  #       [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"exampleObject"]];
+  $dirtyPropertySection[12] = $dirtyPropertySection[14] = $objectName;
   
   # e.g.:
   #   - (BOOL)isEqualToExampleElement:(JRExampleElement *)otherExampleElement
@@ -1263,8 +1273,9 @@ sub recursiveParse {
     #}
 
     if (!$isArray) {
-      $minConstructorSection[4] .= "\@\"" . $propertyName . "\", ";
-      $constructorSection[9]    .= "\@\"" . $propertyName . "\", ";
+      # e.g., 
+      #   return [NSSet setWithObjects:@"foo", @"bar", @"baz", ... nil];
+      $dirtyPropertySection[1] .= "\@\"" . $propertyName . "\", ";
     }
     
     if ($isObject) { 
@@ -1359,7 +1370,7 @@ sub recursiveParse {
         # e.g.:      
         #   if ([self.dirtyPropertySet containsObject:@"foo"])
         #       [dictionary setObject:(self.foo ?
-        #                             [self.foo toReplaceDictionaryIncludingArrays:NO] :
+        #                             [self.foo toUpdateDictionary] :
         #                             [[JRFoo foo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
         #                      forKey:@"foo"];        
         #   else if ([self.foo needsUpdate])
@@ -1367,8 +1378,8 @@ sub recursiveParse {
         #                      forKey:@"foo"];        
         $toUpdateDictSection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"])\n";
         $toUpdateDictSection[3]  .= "        [dictionary setObject:(self." . $propertyName . " ?\n" . 
-                                    "                              [self." . $propertyName . " toReplaceDictionaryIncludingArrays:NO] :\n" .
-                                    "                              [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */\n" . 
+                                    "                              [self." . $propertyName . " toUpdateDictionary] :\n" .
+                                    "                              [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toUpdateDictionary]) /* Use the default constructor to create an empty object */\n" . 
                                     "                       forKey:\@\"" . $dictionaryKey . "\"];\n" .
                                     "    else if ([self." . $propertyName . " needsUpdate])\n" . 
                                     "        [dictionary setObject:[self." . $propertyName . " toUpdateDictionary]\n" . 
@@ -1376,18 +1387,27 @@ sub recursiveParse {
 
         # e.g.:      
         #   [dictionary setObject:(self.foo ?
-        #                         [self.foo toReplaceDictionaryIncludingArrays:YES] :
-        #                         [[JRFoo foo] toReplaceDictionaryIncludingArrays:YES]) /* Use the default constructor to create an empty object */
+        #                         [self.foo toReplaceDictionary] :
+        #                         [[JRFoo foo] toReplaceDictionary) /* Use the default constructor to create an empty object */
         #                  forKey:@"foo"];              
         $toReplaceDictSection[3] .= "\n    [dictionary setObject:(self." . $propertyName . " ?\n" . 
-                                    "                          [self." . $propertyName . " toReplaceDictionaryIncludingArrays:YES] :\n" .
+                                    "                          [self." . $propertyName . " toReplaceDictionary] :\n" .
                                     "                          [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toUpdateDictionary]) /* Use the default constructor to create an empty object */\n" . 
-                                    "                     forKey:\@\"" . $dictionaryKey . "\"];\n";
+                                    "                   forKey:\@\"" . $dictionaryKey . "\"];\n";
     
         # e.g.:      
         #   if ([self.foo needsUpdate])
         #       return YES;
-        $needsUpdateSection[3]   .= "    if([self." . $propertyName . " needsUpdate])\n        return YES;\n\n";
+        $needsUpdateSection[3]    .= "    if ([self." . $propertyName . " needsUpdate])\n        return YES;\n\n";
+        
+        $dirtyPropertySection[9]  .= "    if (self." . $propertyName . ")\n" . 
+                                     "        [snapshotDictionary setObject:[self.". $propertyName . " snapshotDictionaryFromDirtyPropertySet]\n" .  
+                                     "                               forKey:\@\"" . $propertyName . "\"];\n\n";
+                                   
+        $dirtyPropertySection[16] .= "\n    if ([snapshotDictionary objectForKey:\@\"" . $propertyName . "\"])\n" . 
+                                     "        [self." . $propertyName . " restoreDirtyPropertiesFromSnapshotDictionary:\n" . 
+                                     "                    [snapshotDictionary objectForKey:\@\"" . $propertyName . "\"]];\n";
+    
 
         ####################################################################################################
         # For objects, they are considered equal in the following cases:
@@ -1418,14 +1438,12 @@ sub recursiveParse {
       # replaced on Capture before their elements or sub-elements can be updated. In any case, leave them out here.
       ####################################################################################################################
 
-        # e.g.:
-        #   if (includingArrays)      
-        #       [dictionary setObject:(self.bar ? [self.bar arrayOfBarReplaceDictionariesFromBarObjects] : [NSArray array]) forKey:@"bar"];
-        $toReplaceDictSection[3] .= "\n    if (includingArrays)\n" . 
-                                    "        [dictionary setObject:(self." . $propertyName . " ?\n" .
+        # e.g.:     
+        #   [dictionary setObject:(self.bar ? [self.bar arrayOfBarReplaceDictionariesFromBarObjects] : [NSArray array]) forKey:@"bar"];
+        $toReplaceDictSection[3] .= "\n    [dictionary setObject:(self." . $propertyName . " ?\n" .
                                     "                          " . $toRplDictionary . " :\n" . 
                                     "                          [NSArray array])\n" . 
-                                    "                       forKey:\@\"" . $dictionaryKey . "\"];\n";
+                                    "                   forKey:\@\"" . $dictionaryKey . "\"];\n";
               
         ####################################################################################################
         # For arrays, they are considered equal in the following cases:
@@ -1708,6 +1726,10 @@ sub recursiveParse {
   
   for (my $i = 0; $i < @replaceFromDictSection; $i++) {
     $mFile .= $replaceFromDictSection[$i];
+  }
+
+  for (my $i = 0; $i < @dirtyPropertySection; $i++) {
+    $mFile .= $dirtyPropertySection[$i];
   }
 
   for (my $i = 0; $i < @toUpdateDictSection; $i++) {
