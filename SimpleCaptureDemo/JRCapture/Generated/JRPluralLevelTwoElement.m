@@ -89,7 +89,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPluralLevelThreeElement class]])
-            [filteredDictionaryArray addObject:[(JRPluralLevelThreeElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRPluralLevelThreeElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -184,7 +184,7 @@
         self.canBeUpdatedOrReplaced = NO;
 
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"pluralLevelTwoElementId", @"level", @"name", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -335,6 +335,34 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"pluralLevelTwoElementId", @"level", @"name", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"pluralLevelTwoElement"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"pluralLevelTwoElement"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"pluralLevelTwoElement"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -346,10 +374,11 @@
     if ([self.dirtyPropertySet containsObject:@"name"])
         [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -357,12 +386,12 @@
     [dictionary setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
     [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.pluralLevelThree ?
+    [dictionary setObject:(self.pluralLevelThree ?
                           [self.pluralLevelThree arrayOfPluralLevelThreeReplaceDictionariesFromPluralLevelThreeElements] :
                           [NSArray array])
-                       forKey:@"pluralLevelThree"];
+                   forKey:@"pluralLevelThree"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 

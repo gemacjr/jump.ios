@@ -99,7 +99,7 @@
         self.canBeUpdatedOrReplaced = YES;
 
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"requiredString", @"uniqueString", @"requiredUniqueString", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -120,7 +120,7 @@
         _requiredString = [newRequiredString copy];
         _requiredUniqueString = [newRequiredUniqueString copy];
     
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"requiredString", @"uniqueString", @"requiredUniqueString", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -257,6 +257,34 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"requiredString", @"uniqueString", @"requiredUniqueString", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"objectTestRequiredUnique"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"objectTestRequiredUnique"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"objectTestRequiredUnique"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -271,10 +299,11 @@
     if ([self.dirtyPropertySet containsObject:@"requiredUniqueString"])
         [dictionary setObject:(self.requiredUniqueString ? self.requiredUniqueString : [NSNull null]) forKey:@"requiredUniqueString"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -283,6 +312,7 @@
     [dictionary setObject:(self.uniqueString ? self.uniqueString : [NSNull null]) forKey:@"uniqueString"];
     [dictionary setObject:(self.requiredUniqueString ? self.requiredUniqueString : [NSNull null]) forKey:@"requiredUniqueString"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 

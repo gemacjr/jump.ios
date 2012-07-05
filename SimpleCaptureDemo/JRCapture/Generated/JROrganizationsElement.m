@@ -127,6 +127,8 @@
 
     [_location autorelease];
     _location = [newLocation retain];
+
+    [_location setAllPropertiesToDirty];
 }
 
 - (NSString *)name
@@ -214,7 +216,7 @@
 
         _location = [[JRLocation alloc] init];
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"organizationsElementId", @"department", @"description", @"endDate", @"location", @"name", @"primary", @"startDate", @"title", @"type", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -465,6 +467,42 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"organizationsElementId", @"department", @"description", @"endDate", @"location", @"name", @"primary", @"startDate", @"title", @"type", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"organizationsElement"];
+
+    if (self.location)
+        [snapshotDictionary setObject:[self.location snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"location"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"organizationsElement"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"organizationsElement"]];
+
+    if ([snapshotDictionary objectForKey:@"location"])
+        [self.location restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"location"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -481,8 +519,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"location"])
         [dictionary setObject:(self.location ?
-                              [self.location toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRLocation location] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.location toUpdateDictionary] :
+                              [[JRLocation location] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"location"];
     else if ([self.location needsUpdate])
         [dictionary setObject:[self.location toUpdateDictionary]
@@ -503,10 +541,11 @@
     if ([self.dirtyPropertySet containsObject:@"type"])
         [dictionary setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -516,15 +555,16 @@
     [dictionary setObject:(self.endDate ? self.endDate : [NSNull null]) forKey:@"endDate"];
 
     [dictionary setObject:(self.location ?
-                          [self.location toReplaceDictionaryIncludingArrays:YES] :
+                          [self.location toReplaceDictionary] :
                           [[JRLocation location] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"location"];
+                   forKey:@"location"];
     [dictionary setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
     [dictionary setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
     [dictionary setObject:(self.startDate ? self.startDate : [NSNull null]) forKey:@"startDate"];
     [dictionary setObject:(self.title ? self.title : [NSNull null]) forKey:@"title"];
     [dictionary setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
@@ -533,7 +573,7 @@
     if ([self.dirtyPropertySet count])
          return YES;
 
-    if([self.location needsUpdate])
+    if ([self.location needsUpdate])
         return YES;
 
     return NO;

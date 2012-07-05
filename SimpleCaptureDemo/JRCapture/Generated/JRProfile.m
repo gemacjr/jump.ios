@@ -139,7 +139,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRAccountsElement class]])
-            [filteredDictionaryArray addObject:[(JRAccountsElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRAccountsElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -189,7 +189,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRAddressesElement class]])
-            [filteredDictionaryArray addObject:[(JRAddressesElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRAddressesElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -239,7 +239,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JREmailsElement class]])
-            [filteredDictionaryArray addObject:[(JREmailsElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JREmailsElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -289,7 +289,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRImsElement class]])
-            [filteredDictionaryArray addObject:[(JRImsElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRImsElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -339,7 +339,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JROrganizationsElement class]])
-            [filteredDictionaryArray addObject:[(JROrganizationsElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JROrganizationsElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -389,7 +389,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPhoneNumbersElement class]])
-            [filteredDictionaryArray addObject:[(JRPhoneNumbersElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRPhoneNumbersElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -439,7 +439,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRProfilePhotosElement class]])
-            [filteredDictionaryArray addObject:[(JRProfilePhotosElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRProfilePhotosElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -489,7 +489,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRUrlsElement class]])
-            [filteredDictionaryArray addObject:[(JRUrlsElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRUrlsElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -738,6 +738,8 @@
 
     [_bodyType autorelease];
     _bodyType = [newBodyType retain];
+
+    [_bodyType setAllPropertiesToDirty];
 }
 
 - (JRStringArray *)books
@@ -784,6 +786,8 @@
 
     [_currentLocation autorelease];
     _currentLocation = [newCurrentLocation retain];
+
+    [_currentLocation setAllPropertiesToDirty];
 }
 
 - (NSString *)displayName
@@ -1035,6 +1039,8 @@
 
     [_name autorelease];
     _name = [newName retain];
+
+    [_name setAllPropertiesToDirty];
 }
 
 - (NSString *)nickname
@@ -1401,7 +1407,7 @@
         _currentLocation = [[JRCurrentLocation alloc] init];
         _name = [[JRName alloc] init];
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"aboutMe", @"anniversary", @"birthday", @"bodyType", @"currentLocation", @"displayName", @"drinker", @"ethnicity", @"fashion", @"gender", @"happiestWhen", @"humor", @"interestedInMeeting", @"livingArrangement", @"name", @"nickname", @"note", @"politicalViews", @"preferredUsername", @"profileSong", @"profileUrl", @"profileVideo", @"published", @"relationshipStatus", @"religion", @"romance", @"scaredOf", @"sexualOrientation", @"smoker", @"status", @"updated", @"utcOffset", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -2302,6 +2308,58 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"aboutMe", @"anniversary", @"birthday", @"bodyType", @"currentLocation", @"displayName", @"drinker", @"ethnicity", @"fashion", @"gender", @"happiestWhen", @"humor", @"interestedInMeeting", @"livingArrangement", @"name", @"nickname", @"note", @"politicalViews", @"preferredUsername", @"profileSong", @"profileUrl", @"profileVideo", @"published", @"relationshipStatus", @"religion", @"romance", @"scaredOf", @"sexualOrientation", @"smoker", @"status", @"updated", @"utcOffset", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"profile"];
+
+    if (self.bodyType)
+        [snapshotDictionary setObject:[self.bodyType snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"bodyType"];
+
+    if (self.currentLocation)
+        [snapshotDictionary setObject:[self.currentLocation snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"currentLocation"];
+
+    if (self.name)
+        [snapshotDictionary setObject:[self.name snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"name"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"profile"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"profile"]];
+
+    if ([snapshotDictionary objectForKey:@"bodyType"])
+        [self.bodyType restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"bodyType"]];
+
+    if ([snapshotDictionary objectForKey:@"currentLocation"])
+        [self.currentLocation restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"currentLocation"]];
+
+    if ([snapshotDictionary objectForKey:@"name"])
+        [self.name restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"name"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -2318,8 +2376,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"bodyType"])
         [dictionary setObject:(self.bodyType ?
-                              [self.bodyType toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRBodyType bodyType] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.bodyType toUpdateDictionary] :
+                              [[JRBodyType bodyType] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"bodyType"];
     else if ([self.bodyType needsUpdate])
         [dictionary setObject:[self.bodyType toUpdateDictionary]
@@ -2327,8 +2385,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"currentLocation"])
         [dictionary setObject:(self.currentLocation ?
-                              [self.currentLocation toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRCurrentLocation currentLocation] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.currentLocation toUpdateDictionary] :
+                              [[JRCurrentLocation currentLocation] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"currentLocation"];
     else if ([self.currentLocation needsUpdate])
         [dictionary setObject:[self.currentLocation toUpdateDictionary]
@@ -2363,8 +2421,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"name"])
         [dictionary setObject:(self.name ?
-                              [self.name toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRName name] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.name toUpdateDictionary] :
+                              [[JRName name] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"name"];
     else if ([self.name needsUpdate])
         [dictionary setObject:[self.name toUpdateDictionary]
@@ -2421,163 +2479,144 @@
     if ([self.dirtyPropertySet containsObject:@"utcOffset"])
         [dictionary setObject:(self.utcOffset ? self.utcOffset : [NSNull null]) forKey:@"utcOffset"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dictionary setObject:(self.aboutMe ? self.aboutMe : [NSNull null]) forKey:@"aboutMe"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.accounts ?
+    [dictionary setObject:(self.accounts ?
                           [self.accounts arrayOfAccountsReplaceDictionariesFromAccountsElements] :
                           [NSArray array])
-                       forKey:@"accounts"];
+                   forKey:@"accounts"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.addresses ?
+    [dictionary setObject:(self.addresses ?
                           [self.addresses arrayOfAddressesReplaceDictionariesFromAddressesElements] :
                           [NSArray array])
-                       forKey:@"addresses"];
+                   forKey:@"addresses"];
     [dictionary setObject:(self.anniversary ? [self.anniversary stringFromISO8601Date] : [NSNull null]) forKey:@"anniversary"];
     [dictionary setObject:(self.birthday ? self.birthday : [NSNull null]) forKey:@"birthday"];
 
     [dictionary setObject:(self.bodyType ?
-                          [self.bodyType toReplaceDictionaryIncludingArrays:YES] :
+                          [self.bodyType toReplaceDictionary] :
                           [[JRBodyType bodyType] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"bodyType"];
+                   forKey:@"bodyType"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.books ?
+    [dictionary setObject:(self.books ?
                           self.books :
                           [NSArray array])
-                       forKey:@"books"];
+                   forKey:@"books"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.cars ?
+    [dictionary setObject:(self.cars ?
                           self.cars :
                           [NSArray array])
-                       forKey:@"cars"];
+                   forKey:@"cars"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.children ?
+    [dictionary setObject:(self.children ?
                           self.children :
                           [NSArray array])
-                       forKey:@"children"];
+                   forKey:@"children"];
 
     [dictionary setObject:(self.currentLocation ?
-                          [self.currentLocation toReplaceDictionaryIncludingArrays:YES] :
+                          [self.currentLocation toReplaceDictionary] :
                           [[JRCurrentLocation currentLocation] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"currentLocation"];
+                   forKey:@"currentLocation"];
     [dictionary setObject:(self.displayName ? self.displayName : [NSNull null]) forKey:@"displayName"];
     [dictionary setObject:(self.drinker ? self.drinker : [NSNull null]) forKey:@"drinker"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.emails ?
+    [dictionary setObject:(self.emails ?
                           [self.emails arrayOfEmailsReplaceDictionariesFromEmailsElements] :
                           [NSArray array])
-                       forKey:@"emails"];
+                   forKey:@"emails"];
     [dictionary setObject:(self.ethnicity ? self.ethnicity : [NSNull null]) forKey:@"ethnicity"];
     [dictionary setObject:(self.fashion ? self.fashion : [NSNull null]) forKey:@"fashion"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.food ?
+    [dictionary setObject:(self.food ?
                           self.food :
                           [NSArray array])
-                       forKey:@"food"];
+                   forKey:@"food"];
     [dictionary setObject:(self.gender ? self.gender : [NSNull null]) forKey:@"gender"];
     [dictionary setObject:(self.happiestWhen ? self.happiestWhen : [NSNull null]) forKey:@"happiestWhen"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.heroes ?
+    [dictionary setObject:(self.heroes ?
                           self.heroes :
                           [NSArray array])
-                       forKey:@"heroes"];
+                   forKey:@"heroes"];
     [dictionary setObject:(self.humor ? self.humor : [NSNull null]) forKey:@"humor"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.ims ?
+    [dictionary setObject:(self.ims ?
                           [self.ims arrayOfImsReplaceDictionariesFromImsElements] :
                           [NSArray array])
-                       forKey:@"ims"];
+                   forKey:@"ims"];
     [dictionary setObject:(self.interestedInMeeting ? self.interestedInMeeting : [NSNull null]) forKey:@"interestedInMeeting"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.interests ?
+    [dictionary setObject:(self.interests ?
                           self.interests :
                           [NSArray array])
-                       forKey:@"interests"];
+                   forKey:@"interests"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.jobInterests ?
+    [dictionary setObject:(self.jobInterests ?
                           self.jobInterests :
                           [NSArray array])
-                       forKey:@"jobInterests"];
+                   forKey:@"jobInterests"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.languages ?
+    [dictionary setObject:(self.languages ?
                           self.languages :
                           [NSArray array])
-                       forKey:@"languages"];
+                   forKey:@"languages"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.languagesSpoken ?
+    [dictionary setObject:(self.languagesSpoken ?
                           self.languagesSpoken :
                           [NSArray array])
-                       forKey:@"languagesSpoken"];
+                   forKey:@"languagesSpoken"];
     [dictionary setObject:(self.livingArrangement ? self.livingArrangement : [NSNull null]) forKey:@"livingArrangement"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.lookingFor ?
+    [dictionary setObject:(self.lookingFor ?
                           self.lookingFor :
                           [NSArray array])
-                       forKey:@"lookingFor"];
+                   forKey:@"lookingFor"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.movies ?
+    [dictionary setObject:(self.movies ?
                           self.movies :
                           [NSArray array])
-                       forKey:@"movies"];
+                   forKey:@"movies"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.music ?
+    [dictionary setObject:(self.music ?
                           self.music :
                           [NSArray array])
-                       forKey:@"music"];
+                   forKey:@"music"];
 
     [dictionary setObject:(self.name ?
-                          [self.name toReplaceDictionaryIncludingArrays:YES] :
+                          [self.name toReplaceDictionary] :
                           [[JRName name] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"name"];
+                   forKey:@"name"];
     [dictionary setObject:(self.nickname ? self.nickname : [NSNull null]) forKey:@"nickname"];
     [dictionary setObject:(self.note ? self.note : [NSNull null]) forKey:@"note"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.organizations ?
+    [dictionary setObject:(self.organizations ?
                           [self.organizations arrayOfOrganizationsReplaceDictionariesFromOrganizationsElements] :
                           [NSArray array])
-                       forKey:@"organizations"];
+                   forKey:@"organizations"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.pets ?
+    [dictionary setObject:(self.pets ?
                           self.pets :
                           [NSArray array])
-                       forKey:@"pets"];
+                   forKey:@"pets"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.phoneNumbers ?
+    [dictionary setObject:(self.phoneNumbers ?
                           [self.phoneNumbers arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersElements] :
                           [NSArray array])
-                       forKey:@"phoneNumbers"];
+                   forKey:@"phoneNumbers"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.profilePhotos ?
+    [dictionary setObject:(self.profilePhotos ?
                           [self.profilePhotos arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosElements] :
                           [NSArray array])
-                       forKey:@"photos"];
+                   forKey:@"photos"];
     [dictionary setObject:(self.politicalViews ? self.politicalViews : [NSNull null]) forKey:@"politicalViews"];
     [dictionary setObject:(self.preferredUsername ? self.preferredUsername : [NSNull null]) forKey:@"preferredUsername"];
     [dictionary setObject:(self.profileSong ? self.profileSong : [NSNull null]) forKey:@"profileSong"];
@@ -2585,63 +2624,56 @@
     [dictionary setObject:(self.profileVideo ? self.profileVideo : [NSNull null]) forKey:@"profileVideo"];
     [dictionary setObject:(self.published ? [self.published stringFromISO8601DateTime] : [NSNull null]) forKey:@"published"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.quotes ?
+    [dictionary setObject:(self.quotes ?
                           self.quotes :
                           [NSArray array])
-                       forKey:@"quotes"];
+                   forKey:@"quotes"];
     [dictionary setObject:(self.relationshipStatus ? self.relationshipStatus : [NSNull null]) forKey:@"relationshipStatus"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.relationships ?
+    [dictionary setObject:(self.relationships ?
                           self.relationships :
                           [NSArray array])
-                       forKey:@"relationships"];
+                   forKey:@"relationships"];
     [dictionary setObject:(self.religion ? self.religion : [NSNull null]) forKey:@"religion"];
     [dictionary setObject:(self.romance ? self.romance : [NSNull null]) forKey:@"romance"];
     [dictionary setObject:(self.scaredOf ? self.scaredOf : [NSNull null]) forKey:@"scaredOf"];
     [dictionary setObject:(self.sexualOrientation ? self.sexualOrientation : [NSNull null]) forKey:@"sexualOrientation"];
     [dictionary setObject:(self.smoker ? self.smoker : [NSNull null]) forKey:@"smoker"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.sports ?
+    [dictionary setObject:(self.sports ?
                           self.sports :
                           [NSArray array])
-                       forKey:@"sports"];
+                   forKey:@"sports"];
     [dictionary setObject:(self.status ? self.status : [NSNull null]) forKey:@"status"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.tags ?
+    [dictionary setObject:(self.tags ?
                           self.tags :
                           [NSArray array])
-                       forKey:@"tags"];
+                   forKey:@"tags"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.turnOffs ?
+    [dictionary setObject:(self.turnOffs ?
                           self.turnOffs :
                           [NSArray array])
-                       forKey:@"turnOffs"];
+                   forKey:@"turnOffs"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.turnOns ?
+    [dictionary setObject:(self.turnOns ?
                           self.turnOns :
                           [NSArray array])
-                       forKey:@"turnOns"];
+                   forKey:@"turnOns"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.tvShows ?
+    [dictionary setObject:(self.tvShows ?
                           self.tvShows :
                           [NSArray array])
-                       forKey:@"tvShows"];
+                   forKey:@"tvShows"];
     [dictionary setObject:(self.updated ? [self.updated stringFromISO8601DateTime] : [NSNull null]) forKey:@"updated"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.urls ?
+    [dictionary setObject:(self.urls ?
                           [self.urls arrayOfUrlsReplaceDictionariesFromUrlsElements] :
                           [NSArray array])
-                       forKey:@"urls"];
+                   forKey:@"urls"];
     [dictionary setObject:(self.utcOffset ? self.utcOffset : [NSNull null]) forKey:@"utcOffset"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
@@ -2818,13 +2850,13 @@
     if ([self.dirtyPropertySet count])
          return YES;
 
-    if([self.bodyType needsUpdate])
+    if ([self.bodyType needsUpdate])
         return YES;
 
-    if([self.currentLocation needsUpdate])
+    if ([self.currentLocation needsUpdate])
         return YES;
 
-    if([self.name needsUpdate])
+    if ([self.name needsUpdate])
         return YES;
 
     return NO;

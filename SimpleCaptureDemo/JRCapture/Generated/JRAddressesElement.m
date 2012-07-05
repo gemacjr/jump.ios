@@ -250,7 +250,7 @@
         self.canBeUpdatedOrReplaced = NO;
 
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"addressesElementId", @"country", @"extendedAddress", @"formatted", @"latitude", @"locality", @"longitude", @"poBox", @"postalCode", @"primary", @"region", @"streetAddress", @"type", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -540,6 +540,34 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"addressesElementId", @"country", @"extendedAddress", @"formatted", @"latitude", @"locality", @"longitude", @"poBox", @"postalCode", @"primary", @"region", @"streetAddress", @"type", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"addressesElement"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"addressesElement"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"addressesElement"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -581,10 +609,11 @@
     if ([self.dirtyPropertySet containsObject:@"type"])
         [dictionary setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -602,6 +631,7 @@
     [dictionary setObject:(self.streetAddress ? self.streetAddress : [NSNull null]) forKey:@"streetAddress"];
     [dictionary setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 

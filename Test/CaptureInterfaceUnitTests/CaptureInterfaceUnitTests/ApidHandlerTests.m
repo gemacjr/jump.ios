@@ -147,7 +147,7 @@
                                                             self.captureUser, kJRCaptureUser,
                                                             self.captureUser, kJRCaptureObject,
                                                             @"", kJRCapturePath,
-                                                            [NSSet set], kJRDirtyPropertySnapshot,
+                                                            [NSDictionary dictionary], kJRDirtyPropertySnapshot,
                                                             self, kJRDelegate, nil];
 
     self.defaultArrayContext = [NSMutableDictionary dictionaryWithObjectsAndKeys:

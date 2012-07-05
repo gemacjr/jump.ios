@@ -94,6 +94,8 @@
 
     [_onipinapL3Object autorelease];
     _onipinapL3Object = [newOnipinapL3Object retain];
+
+    [_onipinapL3Object setAllPropertiesToDirty];
 }
 
 - (id)init
@@ -105,7 +107,7 @@
 
         _onipinapL3Object = [[JROnipinapL3Object alloc] init];
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"string1", @"string2", @"onipinapL3Object", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -251,6 +253,42 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"string1", @"string2", @"onipinapL3Object", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"onipinapL2PluralElement"];
+
+    if (self.onipinapL3Object)
+        [snapshotDictionary setObject:[self.onipinapL3Object snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"onipinapL3Object"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"onipinapL2PluralElement"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"onipinapL2PluralElement"]];
+
+    if ([snapshotDictionary objectForKey:@"onipinapL3Object"])
+        [self.onipinapL3Object restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"onipinapL3Object"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -264,17 +302,18 @@
 
     if ([self.dirtyPropertySet containsObject:@"onipinapL3Object"])
         [dictionary setObject:(self.onipinapL3Object ?
-                              [self.onipinapL3Object toReplaceDictionaryIncludingArrays:NO] :
-                              [[JROnipinapL3Object onipinapL3Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.onipinapL3Object toUpdateDictionary] :
+                              [[JROnipinapL3Object onipinapL3Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"onipinapL3Object"];
     else if ([self.onipinapL3Object needsUpdate])
         [dictionary setObject:[self.onipinapL3Object toUpdateDictionary]
                        forKey:@"onipinapL3Object"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -283,10 +322,11 @@
     [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     [dictionary setObject:(self.onipinapL3Object ?
-                          [self.onipinapL3Object toReplaceDictionaryIncludingArrays:YES] :
+                          [self.onipinapL3Object toReplaceDictionary] :
                           [[JROnipinapL3Object onipinapL3Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"onipinapL3Object"];
+                   forKey:@"onipinapL3Object"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
@@ -295,7 +335,7 @@
     if ([self.dirtyPropertySet count])
          return YES;
 
-    if([self.onipinapL3Object needsUpdate])
+    if ([self.onipinapL3Object needsUpdate])
         return YES;
 
     return NO;

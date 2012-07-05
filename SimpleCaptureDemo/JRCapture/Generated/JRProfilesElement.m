@@ -160,6 +160,8 @@
 
     [_profile autorelease];
     _profile = [newProfile retain];
+
+    [_profile setAllPropertiesToDirty];
 }
 
 - (JRJsonObject *)provider
@@ -197,7 +199,7 @@
 
         _profile = [[JRProfile alloc] init];
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"profilesElementId", @"accessCredentials", @"domain", @"identifier", @"profile", @"provider", @"remote_key", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -219,7 +221,7 @@
         _identifier = [newIdentifier copy];
         _profile = [[JRProfile alloc] init];
     
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"profilesElementId", @"accessCredentials", @"domain", @"identifier", @"profile", @"provider", @"remote_key", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -463,6 +465,42 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"profilesElementId", @"accessCredentials", @"domain", @"identifier", @"profile", @"provider", @"remote_key", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"profilesElement"];
+
+    if (self.profile)
+        [snapshotDictionary setObject:[self.profile snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"profile"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"profilesElement"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"profilesElement"]];
+
+    if ([snapshotDictionary objectForKey:@"profile"])
+        [self.profile restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"profile"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -479,8 +517,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"profile"])
         [dictionary setObject:(self.profile ?
-                              [self.profile toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRProfile profile] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.profile toUpdateDictionary] :
+                              [[JRProfile profile] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"profile"];
     else if ([self.profile needsUpdate])
         [dictionary setObject:[self.profile toUpdateDictionary]
@@ -492,10 +530,11 @@
     if ([self.dirtyPropertySet containsObject:@"remote_key"])
         [dictionary setObject:(self.remote_key ? self.remote_key : [NSNull null]) forKey:@"remote_key"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -503,32 +542,30 @@
     [dictionary setObject:(self.accessCredentials ? self.accessCredentials : [NSNull null]) forKey:@"accessCredentials"];
     [dictionary setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.followers ?
+    [dictionary setObject:(self.followers ?
                           self.followers :
                           [NSArray array])
-                       forKey:@"followers"];
+                   forKey:@"followers"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.following ?
+    [dictionary setObject:(self.following ?
                           self.following :
                           [NSArray array])
-                       forKey:@"following"];
+                   forKey:@"following"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.friends ?
+    [dictionary setObject:(self.friends ?
                           self.friends :
                           [NSArray array])
-                       forKey:@"friends"];
+                   forKey:@"friends"];
     [dictionary setObject:(self.identifier ? self.identifier : [NSNull null]) forKey:@"identifier"];
 
     [dictionary setObject:(self.profile ?
-                          [self.profile toReplaceDictionaryIncludingArrays:YES] :
+                          [self.profile toReplaceDictionary] :
                           [[JRProfile profile] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"profile"];
+                   forKey:@"profile"];
     [dictionary setObject:(self.provider ? self.provider : [NSNull null]) forKey:@"provider"];
     [dictionary setObject:(self.remote_key ? self.remote_key : [NSNull null]) forKey:@"remote_key"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
@@ -555,7 +592,7 @@
     if ([self.dirtyPropertySet count])
          return YES;
 
-    if([self.profile needsUpdate])
+    if ([self.profile needsUpdate])
         return YES;
 
     return NO;

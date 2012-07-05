@@ -94,6 +94,8 @@
 
     [_oinoinoL3Object autorelease];
     _oinoinoL3Object = [newOinoinoL3Object retain];
+
+    [_oinoinoL3Object setAllPropertiesToDirty];
 }
 
 - (id)init
@@ -105,7 +107,7 @@
 
         _oinoinoL3Object = [[JROinoinoL3Object alloc] init];
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"string1", @"string2", @"oinoinoL3Object", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -243,6 +245,42 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"string1", @"string2", @"oinoinoL3Object", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"oinoinoL2Object"];
+
+    if (self.oinoinoL3Object)
+        [snapshotDictionary setObject:[self.oinoinoL3Object snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"oinoinoL3Object"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"oinoinoL2Object"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"oinoinoL2Object"]];
+
+    if ([snapshotDictionary objectForKey:@"oinoinoL3Object"])
+        [self.oinoinoL3Object restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"oinoinoL3Object"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -256,17 +294,18 @@
 
     if ([self.dirtyPropertySet containsObject:@"oinoinoL3Object"])
         [dictionary setObject:(self.oinoinoL3Object ?
-                              [self.oinoinoL3Object toReplaceDictionaryIncludingArrays:NO] :
-                              [[JROinoinoL3Object oinoinoL3Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.oinoinoL3Object toUpdateDictionary] :
+                              [[JROinoinoL3Object oinoinoL3Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"oinoinoL3Object"];
     else if ([self.oinoinoL3Object needsUpdate])
         [dictionary setObject:[self.oinoinoL3Object toUpdateDictionary]
                        forKey:@"oinoinoL3Object"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -275,10 +314,11 @@
     [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     [dictionary setObject:(self.oinoinoL3Object ?
-                          [self.oinoinoL3Object toReplaceDictionaryIncludingArrays:YES] :
+                          [self.oinoinoL3Object toReplaceDictionary] :
                           [[JROinoinoL3Object oinoinoL3Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"oinoinoL3Object"];
+                   forKey:@"oinoinoL3Object"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
@@ -287,7 +327,7 @@
     if ([self.dirtyPropertySet count])
          return YES;
 
-    if([self.oinoinoL3Object needsUpdate])
+    if ([self.oinoinoL3Object needsUpdate])
         return YES;
 
     return NO;

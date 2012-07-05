@@ -174,7 +174,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRBasicPluralElement class]])
-            [filteredDictionaryArray addObject:[(JRBasicPluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRBasicPluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -224,7 +224,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPluralTestUniqueElement class]])
-            [filteredDictionaryArray addObject:[(JRPluralTestUniqueElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRPluralTestUniqueElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -274,7 +274,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPluralTestAlphabeticElement class]])
-            [filteredDictionaryArray addObject:[(JRPluralTestAlphabeticElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRPluralTestAlphabeticElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -324,7 +324,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPinapL1PluralElement class]])
-            [filteredDictionaryArray addObject:[(JRPinapL1PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRPinapL1PluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -374,7 +374,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JROnipL1PluralElement class]])
-            [filteredDictionaryArray addObject:[(JROnipL1PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JROnipL1PluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -424,7 +424,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPinapinapL1PluralElement class]])
-            [filteredDictionaryArray addObject:[(JRPinapinapL1PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRPinapinapL1PluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -474,7 +474,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPinonipL1PluralElement class]])
-            [filteredDictionaryArray addObject:[(JRPinonipL1PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JRPinonipL1PluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -524,7 +524,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JROnipinapL1PluralElement class]])
-            [filteredDictionaryArray addObject:[(JROnipinapL1PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JROnipinapL1PluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -574,7 +574,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JROinonipL1PluralElement class]])
-            [filteredDictionaryArray addObject:[(JROinonipL1PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
+            [filteredDictionaryArray addObject:[(JROinonipL1PluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -1159,6 +1159,8 @@
 
     [_basicObject autorelease];
     _basicObject = [newBasicObject retain];
+
+    [_basicObject setAllPropertiesToDirty];
 }
 
 - (JRObjectTestRequired *)objectTestRequired
@@ -1172,6 +1174,8 @@
 
     [_objectTestRequired autorelease];
     _objectTestRequired = [newObjectTestRequired retain];
+
+    [_objectTestRequired setAllPropertiesToDirty];
 }
 
 - (NSArray *)pluralTestUnique
@@ -1196,6 +1200,8 @@
 
     [_objectTestRequiredUnique autorelease];
     _objectTestRequiredUnique = [newObjectTestRequiredUnique retain];
+
+    [_objectTestRequiredUnique setAllPropertiesToDirty];
 }
 
 - (NSArray *)pluralTestAlphabetic
@@ -1253,6 +1259,8 @@
 
     [_pinoL1Object autorelease];
     _pinoL1Object = [newPinoL1Object retain];
+
+    [_pinoL1Object setAllPropertiesToDirty];
 }
 
 - (NSArray *)onipL1Plural
@@ -1277,6 +1285,8 @@
 
     [_oinoL1Object autorelease];
     _oinoL1Object = [newOinoL1Object retain];
+
+    [_oinoL1Object setAllPropertiesToDirty];
 }
 
 - (NSArray *)pinapinapL1Plural
@@ -1312,6 +1322,8 @@
 
     [_pinapinoL1Object autorelease];
     _pinapinoL1Object = [newPinapinoL1Object retain];
+
+    [_pinapinoL1Object setAllPropertiesToDirty];
 }
 
 - (JRPinoinoL1Object *)pinoinoL1Object
@@ -1325,6 +1337,8 @@
 
     [_pinoinoL1Object autorelease];
     _pinoinoL1Object = [newPinoinoL1Object retain];
+
+    [_pinoinoL1Object setAllPropertiesToDirty];
 }
 
 - (NSArray *)onipinapL1Plural
@@ -1360,6 +1374,8 @@
 
     [_onipinoL1Object autorelease];
     _onipinoL1Object = [newOnipinoL1Object retain];
+
+    [_onipinoL1Object setAllPropertiesToDirty];
 }
 
 - (JROinoinoL1Object *)oinoinoL1Object
@@ -1373,6 +1389,8 @@
 
     [_oinoinoL1Object autorelease];
     _oinoinoL1Object = [newOinoinoL1Object retain];
+
+    [_oinoinoL1Object setAllPropertiesToDirty];
 }
 
 - (id)init
@@ -1392,7 +1410,7 @@
         _onipinoL1Object = [[JROnipinoL1Object alloc] init];
         _oinoinoL1Object = [[JROinoinoL1Object alloc] init];
 
-        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"uuid", @"created", @"lastUpdated", @"email", @"basicBoolean", @"basicString", @"basicInteger", @"basicDecimal", @"basicDate", @"basicDateTime", @"basicIpAddress", @"basicPassword", @"jsonNumber", @"jsonString", @"jsonArray", @"jsonDictionary", @"stringTestJson", @"stringTestEmpty", @"stringTestNull", @"stringTestInvalid", @"stringTestNSNull", @"stringTestAlphanumeric", @"stringTestUnicodeLetters", @"stringTestUnicodePrintable", @"stringTestEmailAddress", @"stringTestLength", @"stringTestCaseSensitive", @"stringTestFeatures", @"basicObject", @"objectTestRequired", @"objectTestRequiredUnique", @"pinoL1Object", @"oinoL1Object", @"pinapinoL1Object", @"pinoinoL1Object", @"onipinoL1Object", @"oinoinoL1Object", nil]];
+        [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
     return self;
 }
@@ -2411,6 +2429,106 @@
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
+- (NSSet *)updatablePropertySet
+{
+    return [NSSet setWithObjects:@"uuid", @"created", @"lastUpdated", @"email", @"basicBoolean", @"basicString", @"basicInteger", @"basicDecimal", @"basicDate", @"basicDateTime", @"basicIpAddress", @"basicPassword", @"jsonNumber", @"jsonString", @"jsonArray", @"jsonDictionary", @"stringTestJson", @"stringTestEmpty", @"stringTestNull", @"stringTestInvalid", @"stringTestNSNull", @"stringTestAlphanumeric", @"stringTestUnicodeLetters", @"stringTestUnicodePrintable", @"stringTestEmailAddress", @"stringTestLength", @"stringTestCaseSensitive", @"stringTestFeatures", @"basicObject", @"objectTestRequired", @"objectTestRequiredUnique", @"pinoL1Object", @"oinoL1Object", @"pinapinoL1Object", @"pinoinoL1Object", @"onipinoL1Object", @"oinoinoL1Object", nil];
+}
+
+- (void)setAllPropertiesToDirty
+{
+    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+
+}
+
+- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
+{
+    NSMutableDictionary *snapshotDictionary =
+             [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [snapshotDictionary setObject:[[self.dirtyPropertySet copy] autorelease] forKey:@"captureUser"];
+
+    if (self.basicObject)
+        [snapshotDictionary setObject:[self.basicObject snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"basicObject"];
+
+    if (self.objectTestRequired)
+        [snapshotDictionary setObject:[self.objectTestRequired snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"objectTestRequired"];
+
+    if (self.objectTestRequiredUnique)
+        [snapshotDictionary setObject:[self.objectTestRequiredUnique snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"objectTestRequiredUnique"];
+
+    if (self.pinoL1Object)
+        [snapshotDictionary setObject:[self.pinoL1Object snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"pinoL1Object"];
+
+    if (self.oinoL1Object)
+        [snapshotDictionary setObject:[self.oinoL1Object snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"oinoL1Object"];
+
+    if (self.pinapinoL1Object)
+        [snapshotDictionary setObject:[self.pinapinoL1Object snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"pinapinoL1Object"];
+
+    if (self.pinoinoL1Object)
+        [snapshotDictionary setObject:[self.pinoinoL1Object snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"pinoinoL1Object"];
+
+    if (self.onipinoL1Object)
+        [snapshotDictionary setObject:[self.onipinoL1Object snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"onipinoL1Object"];
+
+    if (self.oinoinoL1Object)
+        [snapshotDictionary setObject:[self.oinoinoL1Object snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"oinoinoL1Object"];
+
+    return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
+}
+
+- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
+{
+    if ([snapshotDictionary objectForKey:@"captureUser"])
+        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"captureUser"]];
+
+    if ([snapshotDictionary objectForKey:@"basicObject"])
+        [self.basicObject restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"basicObject"]];
+
+    if ([snapshotDictionary objectForKey:@"objectTestRequired"])
+        [self.objectTestRequired restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"objectTestRequired"]];
+
+    if ([snapshotDictionary objectForKey:@"objectTestRequiredUnique"])
+        [self.objectTestRequiredUnique restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"objectTestRequiredUnique"]];
+
+    if ([snapshotDictionary objectForKey:@"pinoL1Object"])
+        [self.pinoL1Object restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"pinoL1Object"]];
+
+    if ([snapshotDictionary objectForKey:@"oinoL1Object"])
+        [self.oinoL1Object restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"oinoL1Object"]];
+
+    if ([snapshotDictionary objectForKey:@"pinapinoL1Object"])
+        [self.pinapinoL1Object restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"pinapinoL1Object"]];
+
+    if ([snapshotDictionary objectForKey:@"pinoinoL1Object"])
+        [self.pinoinoL1Object restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"pinoinoL1Object"]];
+
+    if ([snapshotDictionary objectForKey:@"onipinoL1Object"])
+        [self.onipinoL1Object restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"onipinoL1Object"]];
+
+    if ([snapshotDictionary objectForKey:@"oinoinoL1Object"])
+        [self.oinoinoL1Object restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"oinoinoL1Object"]];
+
+}
+
 - (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dictionary =
@@ -2493,8 +2611,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"basicObject"])
         [dictionary setObject:(self.basicObject ?
-                              [self.basicObject toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRBasicObject basicObject] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.basicObject toUpdateDictionary] :
+                              [[JRBasicObject basicObject] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"basicObject"];
     else if ([self.basicObject needsUpdate])
         [dictionary setObject:[self.basicObject toUpdateDictionary]
@@ -2502,8 +2620,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"objectTestRequired"])
         [dictionary setObject:(self.objectTestRequired ?
-                              [self.objectTestRequired toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRObjectTestRequired objectTestRequired] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.objectTestRequired toUpdateDictionary] :
+                              [[JRObjectTestRequired objectTestRequired] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"objectTestRequired"];
     else if ([self.objectTestRequired needsUpdate])
         [dictionary setObject:[self.objectTestRequired toUpdateDictionary]
@@ -2511,8 +2629,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"objectTestRequiredUnique"])
         [dictionary setObject:(self.objectTestRequiredUnique ?
-                              [self.objectTestRequiredUnique toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRObjectTestRequiredUnique objectTestRequiredUnique] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.objectTestRequiredUnique toUpdateDictionary] :
+                              [[JRObjectTestRequiredUnique objectTestRequiredUnique] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"objectTestRequiredUnique"];
     else if ([self.objectTestRequiredUnique needsUpdate])
         [dictionary setObject:[self.objectTestRequiredUnique toUpdateDictionary]
@@ -2520,8 +2638,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"pinoL1Object"])
         [dictionary setObject:(self.pinoL1Object ?
-                              [self.pinoL1Object toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRPinoL1Object pinoL1Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.pinoL1Object toUpdateDictionary] :
+                              [[JRPinoL1Object pinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"pinoL1Object"];
     else if ([self.pinoL1Object needsUpdate])
         [dictionary setObject:[self.pinoL1Object toUpdateDictionary]
@@ -2529,8 +2647,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"oinoL1Object"])
         [dictionary setObject:(self.oinoL1Object ?
-                              [self.oinoL1Object toReplaceDictionaryIncludingArrays:NO] :
-                              [[JROinoL1Object oinoL1Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.oinoL1Object toUpdateDictionary] :
+                              [[JROinoL1Object oinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"oinoL1Object"];
     else if ([self.oinoL1Object needsUpdate])
         [dictionary setObject:[self.oinoL1Object toUpdateDictionary]
@@ -2538,8 +2656,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"pinapinoL1Object"])
         [dictionary setObject:(self.pinapinoL1Object ?
-                              [self.pinapinoL1Object toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRPinapinoL1Object pinapinoL1Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.pinapinoL1Object toUpdateDictionary] :
+                              [[JRPinapinoL1Object pinapinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"pinapinoL1Object"];
     else if ([self.pinapinoL1Object needsUpdate])
         [dictionary setObject:[self.pinapinoL1Object toUpdateDictionary]
@@ -2547,8 +2665,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"pinoinoL1Object"])
         [dictionary setObject:(self.pinoinoL1Object ?
-                              [self.pinoinoL1Object toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRPinoinoL1Object pinoinoL1Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.pinoinoL1Object toUpdateDictionary] :
+                              [[JRPinoinoL1Object pinoinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"pinoinoL1Object"];
     else if ([self.pinoinoL1Object needsUpdate])
         [dictionary setObject:[self.pinoinoL1Object toUpdateDictionary]
@@ -2556,8 +2674,8 @@
 
     if ([self.dirtyPropertySet containsObject:@"onipinoL1Object"])
         [dictionary setObject:(self.onipinoL1Object ?
-                              [self.onipinoL1Object toReplaceDictionaryIncludingArrays:NO] :
-                              [[JROnipinoL1Object onipinoL1Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.onipinoL1Object toUpdateDictionary] :
+                              [[JROnipinoL1Object onipinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"onipinoL1Object"];
     else if ([self.onipinoL1Object needsUpdate])
         [dictionary setObject:[self.onipinoL1Object toUpdateDictionary]
@@ -2565,17 +2683,18 @@
 
     if ([self.dirtyPropertySet containsObject:@"oinoinoL1Object"])
         [dictionary setObject:(self.oinoinoL1Object ?
-                              [self.oinoinoL1Object toReplaceDictionaryIncludingArrays:NO] :
-                              [[JROinoinoL1Object oinoinoL1Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
+                              [self.oinoinoL1Object toUpdateDictionary] :
+                              [[JROinoinoL1Object oinoinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                        forKey:@"oinoinoL1Object"];
     else if ([self.oinoinoL1Object needsUpdate])
         [dictionary setObject:[self.oinoinoL1Object toUpdateDictionary]
                        forKey:@"oinoinoL1Object"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dictionary =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -2606,117 +2725,107 @@
     [dictionary setObject:(self.stringTestCaseSensitive ? self.stringTestCaseSensitive : [NSNull null]) forKey:@"stringTestCaseSensitive"];
     [dictionary setObject:(self.stringTestFeatures ? self.stringTestFeatures : [NSNull null]) forKey:@"stringTestFeatures"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.basicPlural ?
-                          [self.basicPlural arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements] :
-                          [NSArray array])
-                       forKey:@"basicPlural"];
+    [dictionary setObject:(self.basicPlural ?
+                      [self.basicPlural arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements] :
+                      [NSArray array])
+                   forKey:@"basicPlural"];
 
     [dictionary setObject:(self.basicObject ?
-                          [self.basicObject toReplaceDictionaryIncludingArrays:YES] :
+                          [self.basicObject toReplaceDictionary] :
                           [[JRBasicObject basicObject] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"basicObject"];
+                   forKey:@"basicObject"];
 
     [dictionary setObject:(self.objectTestRequired ?
-                          [self.objectTestRequired toReplaceDictionaryIncludingArrays:YES] :
+                          [self.objectTestRequired toReplaceDictionary] :
                           [[JRObjectTestRequired objectTestRequired] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"objectTestRequired"];
+                   forKey:@"objectTestRequired"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.pluralTestUnique ?
-                          [self.pluralTestUnique arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements] :
-                          [NSArray array])
-                       forKey:@"pluralTestUnique"];
+    [dictionary setObject:(self.pluralTestUnique ?
+                      [self.pluralTestUnique arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements] :
+                      [NSArray array])
+                   forKey:@"pluralTestUnique"];
 
     [dictionary setObject:(self.objectTestRequiredUnique ?
-                          [self.objectTestRequiredUnique toReplaceDictionaryIncludingArrays:YES] :
+                          [self.objectTestRequiredUnique toReplaceDictionary] :
                           [[JRObjectTestRequiredUnique objectTestRequiredUnique] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"objectTestRequiredUnique"];
+                   forKey:@"objectTestRequiredUnique"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.pluralTestAlphabetic ?
-                          [self.pluralTestAlphabetic arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements] :
-                          [NSArray array])
-                       forKey:@"pluralTestAlphabetic"];
+    [dictionary setObject:(self.pluralTestAlphabetic ?
+                      [self.pluralTestAlphabetic arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements] :
+                      [NSArray array])
+                   forKey:@"pluralTestAlphabetic"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.simpleStringPluralOne ?
-                          self.simpleStringPluralOne :
-                          [NSArray array])
-                       forKey:@"simpleStringPluralOne"];
+    [dictionary setObject:(self.simpleStringPluralOne ?
+                      self.simpleStringPluralOne :
+                      [NSArray array])
+                   forKey:@"simpleStringPluralOne"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.simpleStringPluralTwo ?
-                          self.simpleStringPluralTwo :
-                          [NSArray array])
-                       forKey:@"simpleStringPluralTwo"];
+    [dictionary setObject:(self.simpleStringPluralTwo ?
+                      self.simpleStringPluralTwo :
+                      [NSArray array])
+                   forKey:@"simpleStringPluralTwo"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.pinapL1Plural ?
-                          [self.pinapL1Plural arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements] :
-                          [NSArray array])
-                       forKey:@"pinapL1Plural"];
+    [dictionary setObject:(self.pinapL1Plural ?
+                      [self.pinapL1Plural arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements] :
+                      [NSArray array])
+                   forKey:@"pinapL1Plural"];
 
     [dictionary setObject:(self.pinoL1Object ?
-                          [self.pinoL1Object toReplaceDictionaryIncludingArrays:YES] :
+                          [self.pinoL1Object toReplaceDictionary] :
                           [[JRPinoL1Object pinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"pinoL1Object"];
+                   forKey:@"pinoL1Object"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.onipL1Plural ?
-                          [self.onipL1Plural arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements] :
-                          [NSArray array])
-                       forKey:@"onipL1Plural"];
+    [dictionary setObject:(self.onipL1Plural ?
+                      [self.onipL1Plural arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements] :
+                      [NSArray array])
+                   forKey:@"onipL1Plural"];
 
     [dictionary setObject:(self.oinoL1Object ?
-                          [self.oinoL1Object toReplaceDictionaryIncludingArrays:YES] :
+                          [self.oinoL1Object toReplaceDictionary] :
                           [[JROinoL1Object oinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"oinoL1Object"];
+                   forKey:@"oinoL1Object"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.pinapinapL1Plural ?
-                          [self.pinapinapL1Plural arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements] :
-                          [NSArray array])
-                       forKey:@"pinapinapL1Plural"];
+    [dictionary setObject:(self.pinapinapL1Plural ?
+                      [self.pinapinapL1Plural arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements] :
+                      [NSArray array])
+                   forKey:@"pinapinapL1Plural"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.pinonipL1Plural ?
-                          [self.pinonipL1Plural arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements] :
-                          [NSArray array])
-                       forKey:@"pinonipL1Plural"];
+    [dictionary setObject:(self.pinonipL1Plural ?
+                      [self.pinonipL1Plural arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements] :
+                      [NSArray array])
+                   forKey:@"pinonipL1Plural"];
 
     [dictionary setObject:(self.pinapinoL1Object ?
-                          [self.pinapinoL1Object toReplaceDictionaryIncludingArrays:YES] :
+                          [self.pinapinoL1Object toReplaceDictionary] :
                           [[JRPinapinoL1Object pinapinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"pinapinoL1Object"];
+                   forKey:@"pinapinoL1Object"];
 
     [dictionary setObject:(self.pinoinoL1Object ?
-                          [self.pinoinoL1Object toReplaceDictionaryIncludingArrays:YES] :
+                          [self.pinoinoL1Object toReplaceDictionary] :
                           [[JRPinoinoL1Object pinoinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"pinoinoL1Object"];
+                   forKey:@"pinoinoL1Object"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.onipinapL1Plural ?
-                          [self.onipinapL1Plural arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements] :
-                          [NSArray array])
-                       forKey:@"onipinapL1Plural"];
+    [dictionary setObject:(self.onipinapL1Plural ?
+                      [self.onipinapL1Plural arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements] :
+                      [NSArray array])
+                   forKey:@"onipinapL1Plural"];
 
-    if (includingArrays)
-        [dictionary setObject:(self.oinonipL1Plural ?
-                          [self.oinonipL1Plural arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements] :
-                          [NSArray array])
-                       forKey:@"oinonipL1Plural"];
+    [dictionary setObject:(self.oinonipL1Plural ?
+                      [self.oinonipL1Plural arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements] :
+                      [NSArray array])
+                   forKey:@"oinonipL1Plural"];
 
     [dictionary setObject:(self.onipinoL1Object ?
-                          [self.onipinoL1Object toReplaceDictionaryIncludingArrays:YES] :
+                          [self.onipinoL1Object toReplaceDictionary] :
                           [[JROnipinoL1Object onipinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"onipinoL1Object"];
+                   forKey:@"onipinoL1Object"];
 
     [dictionary setObject:(self.oinoinoL1Object ?
-                          [self.oinoinoL1Object toReplaceDictionaryIncludingArrays:YES] :
+                          [self.oinoinoL1Object toReplaceDictionary] :
                           [[JROinoinoL1Object oinoinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
-                     forKey:@"oinoinoL1Object"];
+                   forKey:@"oinoinoL1Object"];
 
+    [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
@@ -2791,31 +2900,31 @@
     if ([self.dirtyPropertySet count])
          return YES;
 
-    if([self.basicObject needsUpdate])
+    if ([self.basicObject needsUpdate])
         return YES;
 
-    if([self.objectTestRequired needsUpdate])
+    if ([self.objectTestRequired needsUpdate])
         return YES;
 
-    if([self.objectTestRequiredUnique needsUpdate])
+    if ([self.objectTestRequiredUnique needsUpdate])
         return YES;
 
-    if([self.pinoL1Object needsUpdate])
+    if ([self.pinoL1Object needsUpdate])
         return YES;
 
-    if([self.oinoL1Object needsUpdate])
+    if ([self.oinoL1Object needsUpdate])
         return YES;
 
-    if([self.pinapinoL1Object needsUpdate])
+    if ([self.pinapinoL1Object needsUpdate])
         return YES;
 
-    if([self.pinoinoL1Object needsUpdate])
+    if ([self.pinoinoL1Object needsUpdate])
         return YES;
 
-    if([self.onipinoL1Object needsUpdate])
+    if ([self.onipinoL1Object needsUpdate])
         return YES;
 
-    if([self.oinoinoL1Object needsUpdate])
+    if ([self.oinoinoL1Object needsUpdate])
         return YES;
 
     return NO;

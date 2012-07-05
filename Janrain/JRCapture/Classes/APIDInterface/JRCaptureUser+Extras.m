@@ -262,7 +262,7 @@
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureApidInterface createCaptureUser:[self toReplaceDictionaryIncludingArrays:YES]
+    [JRCaptureApidInterface createCaptureUser:[self toReplaceDictionary]
                                     withToken:[JRCaptureData creationToken]
                                   forDelegate:[JRCaptureUserApidHandler captureUserApidHandler]
                                   withContext:newContext];
