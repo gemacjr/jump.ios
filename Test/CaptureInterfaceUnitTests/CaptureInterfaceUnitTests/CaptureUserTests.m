@@ -74,6 +74,11 @@
             if (u)
             {
                 self.captureUser = u;
+                NSMutableArray *a = [NSMutableArray arrayWithArray:self.captureUser.basicPlural];
+                JRBasicPluralElement *const newElmt = [JRBasicPluralElement basicPluralElement];
+                newElmt.string1 = @"sadf";
+                [a addObject:newElmt];
+                self.captureUser.basicPlural = a;
                 [self test_d111_codingEmptyUser];
                 DLog("success");
                 [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(test_d112_codingFetchedUser)];
@@ -85,6 +90,13 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
     [t release];
     DLog("finished");
+}
+
+- (void)test_d120_readOnlyProps
+{
+    //captureUser.uuid = @"alskjf";
+    //captureUser.lastUpdated = "sadf";
+    //captureUser.created = "asdf";
 }
 
 - (void)fetchUserDidSucceed:(JRCaptureUser *)fetchedUser context:(NSObject *)context

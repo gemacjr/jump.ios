@@ -376,7 +376,7 @@ sub recursiveParse {
   } else {
     $objectPath = $parentPath . "/" . $pathAppend;
   }
-  
+
 
   ######################################################################################################################
   # Initialize the sections of the .h/.m files from the stubbed out methods in the file ObjCMethodParts.pl. Most of the
