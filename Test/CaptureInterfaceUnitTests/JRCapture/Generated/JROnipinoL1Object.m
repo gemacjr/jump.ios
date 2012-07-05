@@ -350,8 +350,8 @@
     [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     [dictionary setObject:(self.onipinoL2Plural ?
-                      [self.onipinoL2Plural arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralElements] :
-                      [NSArray array])
+                          [self.onipinoL2Plural arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralElements] :
+                          [NSArray array])
                    forKey:@"onipinoL2Plural"];
 
     [self.dirtyPropertySet removeAllObjects];

@@ -358,8 +358,8 @@
     [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     [dictionary setObject:(self.pinonipL3Plural ?
-                      [self.pinonipL3Plural arrayOfPinonipL3PluralReplaceDictionariesFromPinonipL3PluralElements] :
-                      [NSArray array])
+                          [self.pinonipL3Plural arrayOfPinonipL3PluralReplaceDictionariesFromPinonipL3PluralElements] :
+                          [NSArray array])
                    forKey:@"pinonipL3Plural"];
 
     [self.dirtyPropertySet removeAllObjects];

@@ -358,8 +358,8 @@
     [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     [dictionary setObject:(self.pinapinapL2Plural ?
-                      [self.pinapinapL2Plural arrayOfPinapinapL2PluralReplaceDictionariesFromPinapinapL2PluralElements] :
-                      [NSArray array])
+                          [self.pinapinapL2Plural arrayOfPinapinapL2PluralReplaceDictionariesFromPinapinapL2PluralElements] :
+                          [NSArray array])
                    forKey:@"pinapinapL2Plural"];
 
     [self.dirtyPropertySet removeAllObjects];
