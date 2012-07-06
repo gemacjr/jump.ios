@@ -42,6 +42,7 @@
 - (void)setUp
 {
     self.captureUser = [SharedData getBlankCaptureUser];
+    [captureUser toUpdateDictionary];
 }
 
 - (void)tearDown
@@ -61,6 +62,19 @@
     [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
+
+// Needs the update delegate fixed to work
+//- (void)test_a401a_decimalWithNaN_FailCase
+//{
+//    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+//
+//    captureUser.basicDecimal = [NSNumber numberWithDouble:NAN];
+//    //GHAssertEquals([captureUser.basicDecimal doubleValue], NAN, nil);
+//
+//    [self prepare];
+//    [captureUser updateOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
+//    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+//}
 
 /* Set a decimal with an NSNumber integer */
 - (void)test_a402_decimalWithIntPositive

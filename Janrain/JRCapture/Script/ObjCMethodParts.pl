@@ -667,7 +667,7 @@ my @dirtyPropertySnapshotParts = (
 }\n\n",
 "- (void)setAllPropertiesToDirty
 {
-    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];\n",
+    [self.dirtyPropertySet addObjectsFromArray:[[self updatablePropertySet] allObjects]];\n",
 "",
 "\n}\n\n",
 "- (NSDictionary *)snapshotDictionaryFromDirtyPropertySet
@@ -682,7 +682,7 @@ my @dirtyPropertySnapshotParts = (
 "- (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
 {
     if ([snapshotDictionary objectForKey:\@\"","","\"])
-        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:\@\"","","\"]];\n",
+        [self.dirtyPropertySet addObjectsFromArray:[[snapshotDictionary objectForKey:\@\"","","\"] allObjects]];\n",
 "",
 "\n}\n\n");
 

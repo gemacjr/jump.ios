@@ -474,7 +474,7 @@
 
 - (void)setAllPropertiesToDirty
 {
-    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+    [self.dirtyPropertySet addObjectsFromArray:[[self updatablePropertySet] allObjects]];
 
 }
 
@@ -495,7 +495,7 @@
 - (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
 {
     if ([snapshotDictionary objectForKey:@"organizationsElement"])
-        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"organizationsElement"]];
+        [self.dirtyPropertySet addObjectsFromArray:[[snapshotDictionary objectForKey:@"organizationsElement"] allObjects]];
 
     if ([snapshotDictionary objectForKey:@"location"])
         [self.location restoreDirtyPropertiesFromSnapshotDictionary:

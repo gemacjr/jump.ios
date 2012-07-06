@@ -252,7 +252,7 @@
 
 - (void)setAllPropertiesToDirty
 {
-    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+    [self.dirtyPropertySet addObjectsFromArray:[[self updatablePropertySet] allObjects]];
 
 }
 
@@ -273,7 +273,7 @@
 - (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
 {
     if ([snapshotDictionary objectForKey:@"objectLevelTwo"])
-        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"objectLevelTwo"]];
+        [self.dirtyPropertySet addObjectsFromArray:[[snapshotDictionary objectForKey:@"objectLevelTwo"] allObjects]];
 
     if ([snapshotDictionary objectForKey:@"objectLevelThree"])
         [self.objectLevelThree restoreDirtyPropertiesFromSnapshotDictionary:

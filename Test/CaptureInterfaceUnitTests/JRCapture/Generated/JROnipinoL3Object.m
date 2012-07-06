@@ -217,7 +217,7 @@
 
 - (void)setAllPropertiesToDirty
 {
-    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+    [self.dirtyPropertySet addObjectsFromArray:[[self updatablePropertySet] allObjects]];
 
 }
 
@@ -234,7 +234,7 @@
 - (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
 {
     if ([snapshotDictionary objectForKey:@"onipinoL3Object"])
-        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"onipinoL3Object"]];
+        [self.dirtyPropertySet addObjectsFromArray:[[snapshotDictionary objectForKey:@"onipinoL3Object"] allObjects]];
 
 }
 

@@ -263,7 +263,7 @@
 
 - (void)setAllPropertiesToDirty
 {
-    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+    [self.dirtyPropertySet addObjectsFromArray:[[self updatablePropertySet] allObjects]];
 
 }
 
@@ -280,7 +280,7 @@
 - (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
 {
     if ([snapshotDictionary objectForKey:@"objectTestRequired"])
-        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"objectTestRequired"]];
+        [self.dirtyPropertySet addObjectsFromArray:[[snapshotDictionary objectForKey:@"objectTestRequired"] allObjects]];
 
 }
 

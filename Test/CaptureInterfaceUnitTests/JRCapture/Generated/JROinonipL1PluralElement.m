@@ -260,7 +260,7 @@
 
 - (void)setAllPropertiesToDirty
 {
-    [self.dirtyPropertySet setByAddingObjectsFromSet:[self updatablePropertySet]];
+    [self.dirtyPropertySet addObjectsFromArray:[[self updatablePropertySet] allObjects]];
 
 }
 
@@ -281,7 +281,7 @@
 - (void)restoreDirtyPropertiesFromSnapshotDictionary:(NSDictionary *)snapshotDictionary
 {
     if ([snapshotDictionary objectForKey:@"oinonipL1PluralElement"])
-        [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"oinonipL1PluralElement"]];
+        [self.dirtyPropertySet addObjectsFromArray:[[snapshotDictionary objectForKey:@"oinonipL1PluralElement"] allObjects]];
 
     if ([snapshotDictionary objectForKey:@"oinonipL2Object"])
         [self.oinonipL2Object restoreDirtyPropertiesFromSnapshotDictionary:

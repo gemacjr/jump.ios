@@ -7,6 +7,7 @@
 
 #import "SharedData.h"
 #import "JRCapture.h"
+#import "JRCaptureObject+Internal.h"
 
 @interface SharedData ()
 @property (retain) JRCaptureUser *captureUser;
@@ -100,6 +101,7 @@ static NSString *accessToken        = @"ve5agstyyb9gqzjm";
     captureUser.objectTestRequiredUnique.requiredString = @"required";
     captureUser.objectTestRequiredUnique.requiredUniqueString = @"requiredUnique";
 
+    [captureUser toReplaceDictionary];
     return captureUser;
 }
 

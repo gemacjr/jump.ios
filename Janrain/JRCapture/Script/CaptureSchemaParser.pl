@@ -684,7 +684,7 @@ sub recursiveParse {
   
   # e.g.:
   #   if ([snapshotDictionary objectForKey:@"exampleObject"])
-  #       [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"exampleObject"]];
+  #       [self.dirtyPropertySet addObjectsFromArray:[[snapshotDictionary objectForKey:@"captureUser"] allObjects]];
   $dirtyPropertySection[12] = $dirtyPropertySection[14] = $objectName;
   
   # e.g.:
