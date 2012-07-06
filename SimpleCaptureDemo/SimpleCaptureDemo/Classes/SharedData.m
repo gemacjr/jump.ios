@@ -151,8 +151,9 @@ static NSString *entityTypeName     = @"user_dev";
     [SharedData signoutCurrentUser];
     [[SharedData singletonInstance] setSignInDelegate:delegate];
 
-    [JRCapture startAuthenticationDialogWithNativeSignin:JRNativeSigninNone
-                             andCustomInterfaceOverrides:customInterface forDelegate:[SharedData singletonInstance]];
+    [JRCapture startAuthenticationDialogWithNativeSignin:JRNativeSigninEmailPassword
+                             andCustomInterfaceOverrides:customInterface
+                                             forDelegate:[SharedData singletonInstance]];
 }
 
 + (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile

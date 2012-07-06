@@ -309,6 +309,34 @@
 /*@}*/
 
 /**
+ * @name Capture Native Sign-in
+ * Keys to customize the Capture Native Sign-in view
+ **/
+/*@{*/
+/**
+ * Key for the \e NSString title to be set as the title of the Native Sign-in view.
+ *
+ * @note
+ * If a \e UIView* is set for the define #kJRCaptureNativeSigninTitleView key, this string will not appear as the title
+ * above the table section with the Capture Native Sign-in view, but the customized title view will be used instead.
+ * If you want to customize the title that will appear over the table section displaying the social providers, you can
+ * use the keys define #kJRProviderTableSectionHeaderTitleString or define #kJRProviderTableSectionHeaderView
+ **/
+#define kJRCaptureNativeSigninTitleString   @"ProviderTable.Title.String"
+
+/**
+ * Key for the \e UIView object to be set as the title view of the Native Sign-in view.
+ *
+ * @note
+ * If this value is set, it will override any string value set for define #kJRCaptureNativeSigninTitleString key.
+ * If you want to customize the title view that will appear over the table section displaying the social providers,
+ * you can use the keys define #kJRProviderTableSectionHeaderTitleString or define #kJRProviderTableSectionHeaderView
+ **/
+#define kJRCaptureNativeSigninTitleView     @"ProviderTable.Title.View"
+/*@}*/
+
+
+/**
  * @name Deprecated
  * These keys have been deprecated in the current version of the JREngage library
  **/

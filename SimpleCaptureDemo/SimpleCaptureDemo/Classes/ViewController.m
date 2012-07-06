@@ -80,7 +80,7 @@
 - (IBAction)signInButtonPressed:(id)sender
 {
     [self setButtonsEnabled:NO];
-    currentUserLabel.text         = @"No current user   ";
+    currentUserLabel.text         = @"No current user";
     currentUserProviderIcon.image = nil;
 
     NSDictionary *customInterface = [NSDictionary dictionaryWithObject:self.navigationController

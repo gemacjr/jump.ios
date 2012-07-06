@@ -10,7 +10,7 @@ typedef enum
     JRNativeSigninNone = 0,
     JRNativeSigninUsernamePassword,
     JRNativeSigninEmailPassword,
-} JRNativeSigninState;
+} JRNativeSigninType;
 
 typedef enum
 {
@@ -78,14 +78,14 @@ typedef enum
 
 + (void)startAuthenticationForDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
 
-+ (void)startAuthenticationWithNativeSignin:(JRNativeSigninState)nativeSigninState
++ (void)startAuthenticationWithNativeSignin:(JRNativeSigninType)nativeSigninState
                                 forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
 
 + (void)startAuthenticationDialogOnProvider:(NSString*)provider
                                 forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
 
 
-+ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninState)nativeSigninState
++ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninType)nativeSigninState
                       andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
                                       forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
 

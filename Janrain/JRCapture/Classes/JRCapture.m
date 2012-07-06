@@ -91,7 +91,7 @@
                                    andCustomInterfaceOverrides:nil forDelegate:delegate];
 }
 
-+ (void)startAuthenticationWithNativeSignin:(JRNativeSigninState)nativeSigninState
++ (void)startAuthenticationWithNativeSignin:(JRNativeSigninType)nativeSigninState
                                 forDelegate:(id <JRCaptureAuthenticationDelegate>)delegate
 {
     [JREngageWrapper startAuthenticationDialogWithNativeSignin:nativeSigninState
@@ -105,7 +105,7 @@
                             withCustomInterfaceOverrides:nil forDelegate:delegate];
 }
 
-+ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninState)nativeSigninState
++ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninType)nativeSigninState
                       andCustomInterfaceOverrides:(NSDictionary *)customInterfaceOverrides
                                       forDelegate:(id <JRCaptureAuthenticationDelegate>)delegate
 {

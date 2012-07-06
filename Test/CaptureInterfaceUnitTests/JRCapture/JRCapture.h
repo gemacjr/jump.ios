@@ -51,7 +51,7 @@ typedef enum
     JRNativeSigninNone = 0,
     JRNativeSigninUsernamePassword,
     JRNativeSigninEmailPassword,
-} JRNativeSigninState;
+} JRNativeSigninType;
 
 typedef enum
 {
@@ -249,7 +249,7 @@ typedef enum
  **/
 + (void)startAuthenticationForDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
 
-+ (void)startAuthenticationWithNativeSignin:(JRNativeSigninState)nativeSigninState
++ (void)startAuthenticationWithNativeSignin:(JRNativeSigninType)nativeSigninState
                                 forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
 
 /**
@@ -278,7 +278,7 @@ typedef enum
  * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
  * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
-+ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninState)nativeSigninState
++ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninType)nativeSigninState
                       andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
                                       forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
 
