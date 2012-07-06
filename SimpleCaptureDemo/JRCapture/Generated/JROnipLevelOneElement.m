@@ -46,7 +46,7 @@
 @end
 
 @interface JROnipLevelOneElement ()
-@property BOOL canBeUpdatedOrReplaced;
+@property BOOL canBeUpdatedOnCapture;
 @end
 
 @implementation JROnipLevelOneElement
@@ -56,7 +56,7 @@
     NSString *_name;
     JROnipLevelTwo *_onipLevelTwo;
 }
-@synthesize canBeUpdatedOrReplaced;
+@synthesize canBeUpdatedOnCapture;
 
 - (JRObjectId *)onipLevelOneElementId
 {
@@ -117,7 +117,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath      = @"";
-        self.canBeUpdatedOrReplaced = NO;
+        self.canBeUpdatedOnCapture  = NO;
 
         _onipLevelTwo = [[JROnipLevelTwo alloc] init];
 
@@ -163,8 +163,8 @@
                        forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
-                       forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOnCapture] 
+                       forKey:@"canBeUpdatedOnCapture"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -183,12 +183,12 @@
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
         onipLevelOneElement.captureObjectPath = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
                                                               nil : [dictionary objectForKey:@"captureObjectPath"]);
-        onipLevelOneElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+        onipLevelOneElement.canBeUpdatedOnCapture = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOnCapture"] boolValue];
     }
     else
     {
         onipLevelOneElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        onipLevelOneElement.canBeUpdatedOrReplaced = YES;
+        onipLevelOneElement.canBeUpdatedOnCapture = YES;
     }
 
     onipLevelOneElement.onipLevelOneElementId =
@@ -226,7 +226,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
@@ -257,7 +257,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.onipLevelOneElementId =

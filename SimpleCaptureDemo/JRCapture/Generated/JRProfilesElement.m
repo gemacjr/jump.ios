@@ -46,7 +46,7 @@
 @end
 
 @interface JRProfilesElement ()
-@property BOOL canBeUpdatedOrReplaced;
+@property BOOL canBeUpdatedOnCapture;
 @end
 
 @implementation JRProfilesElement
@@ -62,7 +62,7 @@
     JRJsonObject *_provider;
     NSString *_remote_key;
 }
-@synthesize canBeUpdatedOrReplaced;
+@synthesize canBeUpdatedOnCapture;
 
 - (JRObjectId *)profilesElementId
 {
@@ -195,7 +195,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath      = @"";
-        self.canBeUpdatedOrReplaced = NO;
+        self.canBeUpdatedOnCapture  = NO;
 
         _profile = [[JRProfile alloc] init];
 
@@ -215,7 +215,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath      = @"";
-        self.canBeUpdatedOrReplaced = NO;
+        self.canBeUpdatedOnCapture  = NO;
 
         _domain = [newDomain copy];
         _identifier = [newIdentifier copy];
@@ -286,8 +286,8 @@
                        forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
-                       forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOnCapture] 
+                       forKey:@"canBeUpdatedOnCapture"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -306,12 +306,12 @@
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
         profilesElement.captureObjectPath = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
                                                               nil : [dictionary objectForKey:@"captureObjectPath"]);
-        profilesElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+        profilesElement.canBeUpdatedOnCapture = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOnCapture"] boolValue];
     }
     else
     {
         profilesElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        profilesElement.canBeUpdatedOrReplaced = YES;
+        profilesElement.canBeUpdatedOnCapture = YES;
     }
 
     profilesElement.profilesElementId =
@@ -373,7 +373,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
@@ -416,7 +416,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.profilesElementId =

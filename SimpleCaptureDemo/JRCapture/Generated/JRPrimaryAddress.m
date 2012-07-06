@@ -41,7 +41,7 @@
 #import "JRPrimaryAddress.h"
 
 @interface JRPrimaryAddress ()
-@property BOOL canBeUpdatedOrReplaced;
+@property BOOL canBeUpdatedOnCapture;
 @end
 
 @implementation JRPrimaryAddress
@@ -57,7 +57,7 @@
     NSString *_zip;
     NSString *_zipPlus4;
 }
-@synthesize canBeUpdatedOrReplaced;
+@synthesize canBeUpdatedOnCapture;
 
 - (NSString *)address1
 {
@@ -194,7 +194,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath = @"/primaryAddress";
-        self.canBeUpdatedOrReplaced = YES;
+        self.canBeUpdatedOnCapture = YES;
 
 
         [self.dirtyPropertySet setSet:[self updatablePropertySet]];
@@ -257,8 +257,8 @@
                        forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
-                       forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOnCapture] 
+                       forKey:@"canBeUpdatedOnCapture"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -338,7 +338,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     if ([dictionary objectForKey:@"address1"])
         self.address1 = [dictionary objectForKey:@"address1"] != [NSNull null] ? 
@@ -389,7 +389,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     self.address1 =
         [dictionary objectForKey:@"address1"] != [NSNull null] ? 

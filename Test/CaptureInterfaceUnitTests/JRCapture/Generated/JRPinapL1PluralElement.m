@@ -114,7 +114,7 @@
 @end
 
 @interface JRPinapL1PluralElement ()
-@property BOOL canBeUpdatedOrReplaced;
+@property BOOL canBeUpdatedOnCapture;
 @end
 
 @implementation JRPinapL1PluralElement
@@ -123,7 +123,7 @@
     NSString *_string2;
     NSArray *_pinapL2Plural;
 }
-@synthesize canBeUpdatedOrReplaced;
+@synthesize canBeUpdatedOnCapture;
 
 - (NSString *)string1
 {
@@ -167,7 +167,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath      = @"";
-        self.canBeUpdatedOrReplaced = NO;
+        self.canBeUpdatedOnCapture  = NO;
 
 
         [self.dirtyPropertySet setSet:[self updatablePropertySet]];
@@ -209,8 +209,8 @@
                        forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
-                       forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOnCapture] 
+                       forKey:@"canBeUpdatedOnCapture"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -229,12 +229,12 @@
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
         pinapL1PluralElement.captureObjectPath = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
                                                               nil : [dictionary objectForKey:@"captureObjectPath"]);
-        pinapL1PluralElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+        pinapL1PluralElement.canBeUpdatedOnCapture = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOnCapture"] boolValue];
     }
     else
     {
         pinapL1PluralElement.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-        pinapL1PluralElement.canBeUpdatedOrReplaced = YES;
+        pinapL1PluralElement.canBeUpdatedOnCapture = YES;
     }
 
     pinapL1PluralElement.string1 =
@@ -268,7 +268,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"string1"])
@@ -288,7 +288,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.string1 =
@@ -358,8 +358,8 @@
     [dictionary setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     [dictionary setObject:(self.pinapL2Plural ?
-                      [self.pinapL2Plural arrayOfPinapL2PluralReplaceDictionariesFromPinapL2PluralElements] :
-                      [NSArray array])
+                          [self.pinapL2Plural arrayOfPinapL2PluralReplaceDictionariesFromPinapL2PluralElements] :
+                          [NSArray array])
                    forKey:@"pinapL2Plural"];
 
     [self.dirtyPropertySet removeAllObjects];

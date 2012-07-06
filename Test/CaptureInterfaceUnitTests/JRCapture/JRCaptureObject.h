@@ -43,7 +43,7 @@
 @end
 
 @interface JRCaptureObject : NSObject <NSCopying>
-@property (readonly) BOOL canBeUpdatedOrReplaced;
+@property (readonly) BOOL canBeUpdatedOnCapture;
 - (BOOL)needsUpdate;
 - (void)updateOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
 @end

@@ -41,7 +41,7 @@
 #import "JRLocation.h"
 
 @interface JRLocation ()
-@property BOOL canBeUpdatedOrReplaced;
+@property BOOL canBeUpdatedOnCapture;
 @end
 
 @implementation JRLocation
@@ -58,7 +58,7 @@
     NSString *_streetAddress;
     NSString *_type;
 }
-@synthesize canBeUpdatedOrReplaced;
+@synthesize canBeUpdatedOnCapture;
 
 - (NSString *)country
 {
@@ -208,7 +208,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath      = @"";
-        self.canBeUpdatedOrReplaced = NO;
+        self.canBeUpdatedOnCapture  = NO;
 
 
         [self.dirtyPropertySet setSet:[self updatablePropertySet]];
@@ -274,8 +274,8 @@
                        forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
-                       forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOnCapture] 
+                       forKey:@"canBeUpdatedOnCapture"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -294,12 +294,12 @@
         dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
         location.captureObjectPath = ([dictionary objectForKey:@"captureObjectPath"] == [NSNull null] ?
                                                               nil : [dictionary objectForKey:@"captureObjectPath"]);
-        location.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+        location.canBeUpdatedOnCapture = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOnCapture"] boolValue];
     }
     else
     {
         location.captureObjectPath      = [NSString stringWithFormat:@"%@/%@", capturePath, @"location"];
-        location.canBeUpdatedOrReplaced = YES;
+        location.canBeUpdatedOnCapture = YES;
     }
 
     location.country =
@@ -365,7 +365,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"location"];
 
     if ([dictionary objectForKey:@"country"])
@@ -421,7 +421,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"location"];
 
     self.country =

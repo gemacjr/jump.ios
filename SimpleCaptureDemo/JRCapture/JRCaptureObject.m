@@ -315,13 +315,13 @@
 @end
 
 @interface JRCaptureObject (Private)
-@property BOOL canBeUpdatedOrReplaced;
+@property BOOL canBeUpdatedOnCapture;
 @end
 
 @implementation JRCaptureObject
 @synthesize captureObjectPath;
 @synthesize dirtyPropertySet;
-@synthesize canBeUpdatedOrReplaced;
+@synthesize canBeUpdatedOnCapture;
 
 - (id)init
 {
@@ -341,7 +341,7 @@
         [objectCopy.dirtyPropertySet addObject:dirtyProperty];
 
     objectCopy.captureObjectPath      = self.captureObjectPath;
-    objectCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    objectCopy.canBeUpdatedOnCapture  = self.canBeUpdatedOnCapture;
 
     return objectCopy;
 }
@@ -449,7 +449,7 @@
 //    /* Removing the objects from the set here, because if there's an error, they will all get put back anyway... */
 //    [dirtyPropertySet removeAllObjects];
 
-    if (!self.canBeUpdatedOrReplaced)
+    if (!self.canBeUpdatedOnCapture)
     {
         [[JRCaptureObjectApidHandler captureObjectApidHandler] updateCaptureObjectDidFailWithResult:
                       [NSDictionary dictionaryWithObjectsAndKeys:
@@ -478,7 +478,7 @@
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    if (!self.canBeUpdatedOrReplaced)
+    if (!self.canBeUpdatedOnCapture)
     {
         [[JRCaptureObjectApidHandler captureObjectApidHandler] updateCaptureObjectDidFailWithResult:
                       [NSDictionary dictionaryWithObjectsAndKeys:
@@ -568,7 +568,7 @@
     //DLog(@"%@: %@", [[self class] description], self.captureObjectPath);
     if (![self.captureObjectPath isEqual:otherObj.captureObjectPath]) return NO;
     if (![self.dirtyPropertySet isEqual:otherObj.dirtyPropertySet]) return NO;
-    if (self.canBeUpdatedOrReplaced != otherObj.canBeUpdatedOrReplaced) return NO;
+    if (self.canBeUpdatedOnCapture != otherObj.canBeUpdatedOnCapture) return NO;
 
     NSDictionary *const props = [self objectProperties];
     for (NSString *key in props)

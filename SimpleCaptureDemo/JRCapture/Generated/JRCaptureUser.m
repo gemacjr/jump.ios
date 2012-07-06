@@ -464,7 +464,7 @@
 @end
 
 @interface JRCaptureUser ()
-@property BOOL canBeUpdatedOrReplaced;
+@property BOOL canBeUpdatedOnCapture;
 @end
 
 @implementation JRCaptureUser
@@ -501,7 +501,7 @@
     JRStringArray *_testerStringPlural;
     NSString *_testerUniqueString;
 }
-@synthesize canBeUpdatedOrReplaced;
+@synthesize canBeUpdatedOnCapture;
 
 - (JRObjectId *)captureUserId
 {
@@ -925,7 +925,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath = @"";
-        self.canBeUpdatedOrReplaced = YES;
+        self.canBeUpdatedOnCapture = YES;
 
         _objectLevelOne = [[JRObjectLevelOne alloc] init];
         _pinoLevelOne = [[JRPinoLevelOne alloc] init];
@@ -947,7 +947,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath = @"";
-        self.canBeUpdatedOrReplaced = YES;
+        self.canBeUpdatedOnCapture = YES;
 
         _email = [newEmail copy];
         _objectLevelOne = [[JRObjectLevelOne alloc] init];
@@ -1082,8 +1082,8 @@
                        forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
-                       forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOnCapture] 
+                       forKey:@"canBeUpdatedOnCapture"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -1246,7 +1246,7 @@
     NSSet *dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
 
     self.captureObjectPath = @"";
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     self.captureUserId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -1381,7 +1381,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     if ([dictionary objectForKey:@"id"])
         self.captureUserId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -1497,7 +1497,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     self.captureUserId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

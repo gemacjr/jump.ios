@@ -695,7 +695,7 @@
 @end
 
 @interface JRCaptureUser ()
-@property BOOL canBeUpdatedOrReplaced;
+@property BOOL canBeUpdatedOnCapture;
 @end
 
 @implementation JRCaptureUser
@@ -749,7 +749,7 @@
     JROnipinoL1Object *_onipinoL1Object;
     JROinoinoL1Object *_oinoinoL1Object;
 }
-@synthesize canBeUpdatedOrReplaced;
+@synthesize canBeUpdatedOnCapture;
 
 - (JRUuid *)uuid
 {
@@ -1398,7 +1398,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath = @"";
-        self.canBeUpdatedOrReplaced = YES;
+        self.canBeUpdatedOnCapture = YES;
 
         _basicObject = [[JRBasicObject alloc] init];
         _objectTestRequired = [[JRObjectTestRequired alloc] init];
@@ -1584,8 +1584,8 @@
                        forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
-                       forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOnCapture] 
+                       forKey:@"canBeUpdatedOnCapture"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -1816,7 +1816,7 @@
     NSSet *dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
 
     self.captureObjectPath = @"";
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     self.uuid =
         [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
@@ -2019,7 +2019,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     if ([dictionary objectForKey:@"uuid"])
         self.uuid = [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
@@ -2205,7 +2205,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     self.uuid =
         [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
@@ -2726,8 +2726,8 @@
     [dictionary setObject:(self.stringTestFeatures ? self.stringTestFeatures : [NSNull null]) forKey:@"stringTestFeatures"];
 
     [dictionary setObject:(self.basicPlural ?
-                      [self.basicPlural arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements] :
-                      [NSArray array])
+                          [self.basicPlural arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements] :
+                          [NSArray array])
                    forKey:@"basicPlural"];
 
     [dictionary setObject:(self.basicObject ?
@@ -2741,8 +2741,8 @@
                    forKey:@"objectTestRequired"];
 
     [dictionary setObject:(self.pluralTestUnique ?
-                      [self.pluralTestUnique arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements] :
-                      [NSArray array])
+                          [self.pluralTestUnique arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements] :
+                          [NSArray array])
                    forKey:@"pluralTestUnique"];
 
     [dictionary setObject:(self.objectTestRequiredUnique ?
@@ -2751,23 +2751,23 @@
                    forKey:@"objectTestRequiredUnique"];
 
     [dictionary setObject:(self.pluralTestAlphabetic ?
-                      [self.pluralTestAlphabetic arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements] :
-                      [NSArray array])
+                          [self.pluralTestAlphabetic arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements] :
+                          [NSArray array])
                    forKey:@"pluralTestAlphabetic"];
 
     [dictionary setObject:(self.simpleStringPluralOne ?
-                      self.simpleStringPluralOne :
-                      [NSArray array])
+                          self.simpleStringPluralOne :
+                          [NSArray array])
                    forKey:@"simpleStringPluralOne"];
 
     [dictionary setObject:(self.simpleStringPluralTwo ?
-                      self.simpleStringPluralTwo :
-                      [NSArray array])
+                          self.simpleStringPluralTwo :
+                          [NSArray array])
                    forKey:@"simpleStringPluralTwo"];
 
     [dictionary setObject:(self.pinapL1Plural ?
-                      [self.pinapL1Plural arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements] :
-                      [NSArray array])
+                          [self.pinapL1Plural arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements] :
+                          [NSArray array])
                    forKey:@"pinapL1Plural"];
 
     [dictionary setObject:(self.pinoL1Object ?
@@ -2776,8 +2776,8 @@
                    forKey:@"pinoL1Object"];
 
     [dictionary setObject:(self.onipL1Plural ?
-                      [self.onipL1Plural arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements] :
-                      [NSArray array])
+                          [self.onipL1Plural arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements] :
+                          [NSArray array])
                    forKey:@"onipL1Plural"];
 
     [dictionary setObject:(self.oinoL1Object ?
@@ -2786,13 +2786,13 @@
                    forKey:@"oinoL1Object"];
 
     [dictionary setObject:(self.pinapinapL1Plural ?
-                      [self.pinapinapL1Plural arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements] :
-                      [NSArray array])
+                          [self.pinapinapL1Plural arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements] :
+                          [NSArray array])
                    forKey:@"pinapinapL1Plural"];
 
     [dictionary setObject:(self.pinonipL1Plural ?
-                      [self.pinonipL1Plural arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements] :
-                      [NSArray array])
+                          [self.pinonipL1Plural arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements] :
+                          [NSArray array])
                    forKey:@"pinonipL1Plural"];
 
     [dictionary setObject:(self.pinapinoL1Object ?
@@ -2806,13 +2806,13 @@
                    forKey:@"pinoinoL1Object"];
 
     [dictionary setObject:(self.onipinapL1Plural ?
-                      [self.onipinapL1Plural arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements] :
-                      [NSArray array])
+                          [self.onipinapL1Plural arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements] :
+                          [NSArray array])
                    forKey:@"onipinapL1Plural"];
 
     [dictionary setObject:(self.oinonipL1Plural ?
-                      [self.oinonipL1Plural arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements] :
-                      [NSArray array])
+                          [self.oinonipL1Plural arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements] :
+                          [NSArray array])
                    forKey:@"oinonipL1Plural"];
 
     [dictionary setObject:(self.onipinoL1Object ?

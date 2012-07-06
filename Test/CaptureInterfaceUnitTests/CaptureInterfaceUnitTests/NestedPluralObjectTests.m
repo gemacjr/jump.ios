@@ -156,8 +156,8 @@
     JRPinapL2PluralElement *l2PluralElement = [l1PluralElement.pinapL2Plural objectAtIndex:0];
 
     /* See, they can't yet be updated or replaced! */
-    GHAssertFalse(l1PluralElement.canBeUpdatedOrReplaced, nil);
-    GHAssertFalse(l2PluralElement.canBeUpdatedOrReplaced, nil);
+    GHAssertFalse(l1PluralElement.canBeUpdatedOnCapture, nil);
+    GHAssertFalse(l2PluralElement.canBeUpdatedOnCapture, nil);
 
     [self prepare];
     [l2PluralElement updateOnCaptureForDelegate:self context:_esel];
@@ -218,8 +218,8 @@
     JRPinapL2PluralElement *l2PluralElement = [l1PluralElement.pinapL2Plural objectAtIndex:0];
 
     /* And, yep, they should now be updatable/replaceable! */
-    GHAssertTrue(l1PluralElement.canBeUpdatedOrReplaced, nil);
-    GHAssertTrue(l2PluralElement.canBeUpdatedOrReplaced, nil);
+    GHAssertTrue(l1PluralElement.canBeUpdatedOnCapture, nil);
+    GHAssertTrue(l2PluralElement.canBeUpdatedOnCapture, nil);
 
     /* Let's change the values for our second level object (remember, currentL2Object will still have the old values). */
     [self updateObjectProperties:l2PluralElement toFillerFodderIndex:1];
@@ -267,7 +267,7 @@
 {
     [self pinoCreate];
 
-    GHAssertFalse(((JRPinoL2PluralElement *)currentL2Object).canBeUpdatedOrReplaced, nil);
+    GHAssertFalse(((JRPinoL2PluralElement *)currentL2Object).canBeUpdatedOnCapture, nil);
 
     [self prepare];
     [((JRPinoL1Object *)self.currentL1Object) updateOnCaptureForDelegate:self context:_fsel];
@@ -1182,8 +1182,8 @@ void (^contBlock)() = nil;
                                       fillerFodderOffset:2];
         [a addObject:o];
         DLog(@"b372a New object: %@", [[o toDictionaryForEncoder:NO] description]);
-        GHAssertTrue([o canBeUpdatedOrReplaced] == NO, nil);
-        GHAssertTrue([((JRCaptureObject *) [a objectAtIndex:0]) canBeUpdatedOrReplaced], nil);
+        GHAssertTrue([o canBeUpdatedOnCapture] == NO, nil);
+        GHAssertTrue([((JRCaptureObject *) [a objectAtIndex:0]) canBeUpdatedOnCapture], nil);
         ((JROinonipL2Object *) currentL2Object).string1 = @"sldkafjlk";
         self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
         [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
@@ -1210,7 +1210,7 @@ void (^contBlock)() = nil;
         [a removeLastObject];
         JROinonipL1PluralElement *o = (JROinonipL1PluralElement *) [a lastObject];
         o.string1 = @"asdfklhj";
-        GHAssertTrue([o canBeUpdatedOrReplaced], nil);
+        GHAssertTrue([o canBeUpdatedOnCapture], nil);
         ((JROinonipL2Object *) currentL2Object).string1 = @"sldkafjlk";
         self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
         [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
@@ -1235,13 +1235,13 @@ void (^contBlock)() = nil;
         [a removeLastObject];
         JROinonipL1PluralElement *o = (JROinonipL1PluralElement *) [a lastObject];
         o.string1 = @"asdfklhj";
-        GHAssertTrue([o canBeUpdatedOrReplaced], nil);
+        GHAssertTrue([o canBeUpdatedOnCapture], nil);
         ((JROinonipL2Object *) currentL2Object).string1 = @"sldkafjlk";
         JROinonipL1PluralElement *o_ = [self objectOfType:[JROinonipL1PluralElement class]
                                           withConstructor:@selector(oinonipL1PluralElement)
                                        fillerFodderOffset:2];
         [a addObject:o_];
-        GHAssertFalse([o_ canBeUpdatedOrReplaced], nil);
+        GHAssertFalse([o_ canBeUpdatedOnCapture], nil);
         self.captureUser.oinonipL1Plural = self.currentL1Plural = a;
         [self genericTestApidMethod:replace forObject:captureUser expectResult:success forTest:_sel
                           forPlural:@"oinonipL1Plural" withArray:currentL1Plural continueBlock:nil];

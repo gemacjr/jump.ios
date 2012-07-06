@@ -58,7 +58,7 @@
 #     if ((self = [super init]))                                 
 #     {     
 #         self.captureObjectPath = @"<entity_path>";
-#         self.canBeUpdatedOrReplaced = <YES_or_NO>;\n
+#         self.canBeUpdatedOnCapture = <YES_or_NO>;\n
 #
 #         <subobjectProperty> = [JR<subobjectClass> alloc] init];
 #
@@ -243,7 +243,7 @@ my @classConstructorParts = (
 #     <object>Copy.<property> = self.<property>;
 #       ...
 #
-#     <object>Copy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+#     <object>Copy.canBeUpdatedOnCapture = self.canBeUpdatedOnCapture;
 #
 #     return <object>Copy;
 # }
@@ -297,18 +297,18 @@ my @copyConstructorParts = (
 #     if (fromDecoder)                                                                                                        |
 #     {                                                                                                                       |
 #         dirtyPropertySetCopy            = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];             |
-#         <object>.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue]; <----+
+#         <object>.canBeUpdatedOnCapture  = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOnCapture"] boolValue];  <----+
 #         <object>.captureObjectPath      = [dictionary objectForKey:@"captureObjectPath"]; <---------------------------------+
 #     }
 #     else
 #     {                                                                                         Only if an element of a plural
 #         dirtyPropertySetCopy            = [[self.dirtyPropertySet copy] autorelease];                +----------|
-#         <object>.canBeUpdatedOrReplaced = YES;  <----------------------------------------------------+          V
+#         <object>.canBeUpdatedOnCapture  = YES;  <----------------------------------------------------+          V
 #         <object>.captureObjectPath      = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"<object>", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 #     }
 #
 #     <object>.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"<object>", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-#     self.canBeUpdatedOrReplaced = YES; 
+#     self.canBeUpdatedOnCapture = YES; 
 #
 #     <object>.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
 #                                   [dictionary objectForKey:@"<property>"] : nil;
@@ -413,7 +413,7 @@ my @decodeUserFromDictParts = (
 "    NSSet *dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:\@\"dirtyPropertiesSet\"]];
 
     self.captureObjectPath = \@\"\";
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 ","",
 "\n    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }\n\n");
@@ -443,7 +443,7 @@ my @decodeUserFromDictParts = (
 #     {
 #         [dictionary setObject:[self.dirtyPropertySet allObjects] forKey:@"dirtyPropertySet"];
 #         [dictionary setObject:self.captureObjectPath forKey:@"captureObjectPath"];
-#         [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] forKey:@"canBeUpdatedOrReplaced"];
+#         [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOnCapture] forKey:@"canBeUpdatedOnCapture"];
 #     }
 #
 #     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -472,8 +472,8 @@ my @toDictionaryParts = (
                        forKey:\@\"dirtyPropertiesSet\"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:\@\"captureObjectPath\"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
-                       forKey:\@\"canBeUpdatedOrReplaced\"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOnCapture] 
+                       forKey:\@\"canBeUpdatedOnCapture\"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];",
@@ -511,11 +511,11 @@ my @toDictionaryParts = (
 #  **/
 # - (void)updateFromDictionary:(NSDictionary *)dictionary withPath:(NSString *)capturePath
 # {
-#     self.canBeUpdatedOrReplaced = YES;
+#     self.canBeUpdatedOnCapture = YES;
 #
 #     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 #
-#     self.canBeUpdatedOrReplaced = YES;
+#     self.canBeUpdatedOnCapture = YES;
 #     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"<object>", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 #
 #     if ([dictionary objectForKey:@"<property>"])
@@ -563,7 +563,7 @@ my @updateFrDictParts = (
 "\n{\n    DLog(@\"\%\@ \%\@\", capturePath, [dictionary description]);\n","
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;\n",
+    self.canBeUpdatedOnCapture = YES;\n",
 "    self.captureObjectPath = [NSString stringWithFormat:\@\"\%\@/\%\@","","\", capturePath, ","","","];\n",
 "","
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -647,7 +647,7 @@ my @replaceFrDictParts = (
     DLog(@\"\%\@ \%\@\", capturePath, [dictionary description]);\n","
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;\n",
+    self.canBeUpdatedOnCapture = YES;\n",
 "    self.captureObjectPath = [NSString stringWithFormat:\@\"\%\@/\%\@","","\", capturePath, ","","","];\n",
 "","
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];

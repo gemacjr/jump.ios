@@ -41,7 +41,7 @@
 #import "JRObjectLevelThree.h"
 
 @interface JRObjectLevelThree ()
-@property BOOL canBeUpdatedOrReplaced;
+@property BOOL canBeUpdatedOnCapture;
 @end
 
 @implementation JRObjectLevelThree
@@ -49,7 +49,7 @@
     NSString *_level;
     NSString *_name;
 }
-@synthesize canBeUpdatedOrReplaced;
+@synthesize canBeUpdatedOnCapture;
 
 - (NSString *)level
 {
@@ -82,7 +82,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath = @"/objectLevelOne/objectLevelTwo/objectLevelThree";
-        self.canBeUpdatedOrReplaced = YES;
+        self.canBeUpdatedOnCapture = YES;
 
 
         [self.dirtyPropertySet setSet:[self updatablePropertySet]];
@@ -121,8 +121,8 @@
                        forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
-                       forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOnCapture] 
+                       forKey:@"canBeUpdatedOnCapture"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -170,7 +170,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     if ([dictionary objectForKey:@"level"])
         self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -189,7 +189,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     self.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
