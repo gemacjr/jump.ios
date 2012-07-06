@@ -355,7 +355,9 @@ sub recursiveParse {
   ################################################
   # Add the object name to the repeatNamesHash
   ################################################
+
   $repeatNamesHash{$objectName} = 1; 
+
 
   ######################################################################################################################
   # Initialize the sections of the .h/.m files from the stubbed out methods in the file ObjCMethodParts.pl. Most of the
@@ -663,7 +665,7 @@ sub recursiveParse {
   
   # e.g.:
   #   if ([snapshotDictionary objectForKey:@"exampleObject"])
-  #       [self.dirtyPropertySet setByAddingObjectsFromSet:[snapshotDictionary objectForKey:@"exampleObject"]];
+  #       [self.dirtyPropertySet addObjectsFromArray:[[snapshotDictionary objectForKey:@"captureUser"] allObjects]];
   $dirtyPropertySection[12] = $dirtyPropertySection[14] = $objectName;
   
   # e.g.:
@@ -771,7 +773,7 @@ sub recursiveParse {
   ################################################################################
 
     ######################################################################################################################
-    # Create the object's path. Object path depends on if the object is a descendant of a plural element and if it falls
+    # Create the object's path. Object path depends on if the object is a descendent of a plural element and if it falls
     # under the special case of the top-level object and its direct descendants
     # e.g.:
     #   /firstChild

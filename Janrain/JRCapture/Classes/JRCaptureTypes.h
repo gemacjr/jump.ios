@@ -1,17 +1,48 @@
 
-typedef NSNumber JRString;  /**< TODO */
-typedef NSNumber JRBoolean; /**< TODO */
-typedef NSNumber JRInteger; /**< TODO */
-typedef NSNumber JRNumber; /**< TODO */
-typedef NSDate   JRDate; /**< TODO */
-typedef NSDate   JRDateTime; /**< TODO */
-typedef NSString JRIpAddress; /**< TODO */
-typedef NSObject JRPassword; /**< TODO */
-typedef NSObject JRJsonObject; /**< TODO */
-typedef NSArray  JRArray; /**< TODO */
-typedef NSArray  JRStringArray; /**< TODO */
-typedef NSString JRUuid; /**< TODO */
-typedef NSNumber JRObjectId; /**< TODO */
+/**< TODO */
+typedef NSNumber JRString;
+
+/**< TODO */
+typedef NSNumber JRBoolean;
+
+/**< TODO */
+typedef NSNumber JRInteger;
+
+/**< TODO */
+typedef NSNumber JRNumber;
+
+/**< TODO */
+typedef NSDate   JRDate;
+
+/**< TODO */
+typedef NSDate   JRDateTime;
+
+/**< TODO */
+typedef NSString JRIpAddress;
+
+/**< TODO */
+typedef NSObject JRPassword;
+
+/**
+ * Any object hierarchy that JSONKit can serialize. This includes and is limited to NSArray, NSDictionary, NSString,
+ * NSNumber, and NSNull.
+ *
+ * For more information on JSONKit and what it can serialize check the README in the project:
+ * https://github.com/johnezang/JSONKit
+ */
+typedef NSObject JRJsonObject;
+
+/**< TODO */
+typedef NSArray  JRArray;
+
+/**< TODO */
+typedef NSArray  JRStringArray;
+
+/**< TODO */
+typedef NSString JRUuid;
+
+/**< TODO */
+typedef NSNumber JRObjectId;
 
 
 

@@ -74,6 +74,11 @@
             if (u)
             {
                 self.captureUser = u;
+                NSMutableArray *a = [NSMutableArray arrayWithArray:self.captureUser.basicPlural];
+                JRBasicPluralElement *const newElmt = [JRBasicPluralElement basicPluralElement];
+                newElmt.string1 = @"sadf";
+                [a addObject:newElmt];
+                self.captureUser.basicPlural = a;
                 [self test_d111_codingEmptyUser];
                 DLog("success");
                 [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(test_d112_codingFetchedUser)];
@@ -85,6 +90,53 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
     [t release];
     DLog("finished");
+}
+
+- (void)test_d120_readOnlyProps
+{
+    //captureUser.uuid = @"alskjf";
+    //captureUser.lastUpdated = "sadf";
+    //captureUser.created = "asdf";
+}
+
+JRCaptureUser *copyUserDirtyHack(JRCaptureUser *user)
+{
+    return [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:user]];
+}
+
+JRCaptureUser *originalUser;
+- (void)test_d130_dirtyFlagRestorationOnFailure
+{
+    [self prepare];
+
+    void (^updateCallback)(JRCaptureObject *, NSError *) = ^(JRCaptureObject *o, NSError *e_) {
+        if (e_)
+        {
+            GHAssertFalse([originalUser isEqualByPrivateProperties:self.captureUser], nil);
+            [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(test_d130_dirtyFlagRestorationOnFailure)];
+        }
+        else GHFail(nil);
+    };
+    updateCallback = [updateCallback copy];
+
+    void (^fetchCallback)(JRCaptureUser *, NSError *) = ^(JRCaptureUser *u, NSError *e) {
+        if (u)
+        {
+            self.captureUser = u;
+            originalUser = [copyUserDirtyHack(u) retain];
+            captureUser.basicDecimal = [NSNumber numberWithDouble:NAN];
+            GHAssertFalse([originalUser isEqualByPrivateProperties:self.captureUser], nil);
+            [captureUser updateOnCaptureForDelegate:self context:updateCallback];
+        }
+        else GHFail(nil);
+    };
+    fetchCallback = [fetchCallback copy];
+
+    [JRCaptureUser fetchCaptureUserFromServerForDelegate:self context:fetchCallback];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+    [originalUser release];
+    [updateCallback release];
+    [fetchCallback release];
 }
 
 - (void)fetchUserDidSucceed:(JRCaptureUser *)fetchedUser context:(NSObject *)context
@@ -111,6 +163,29 @@
     GHFail(nil);
 }
 
+- (void)updateDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context
+{
+    void (^block)(JRCaptureObject *, NSError *) = (void (^)(JRCaptureObject *, NSError *)) context;
+    if ([context isKindOfClass:NSClassFromString(@"NSBlock")])
+    {
+        block(object, nil);
+        return;
+    }
+
+    GHFail(nil);
+}
+
+- (void)updateDidFailForObject:(JRCaptureObject *)object withError:(NSError *)error context:(NSObject *)context
+{
+    void (^block)(JRCaptureObject *, NSError *) = (void (^)(JRCaptureObject *, NSError *)) context;
+    if ([context isKindOfClass:NSClassFromString(@"NSBlock")])
+    {
+        block(nil, error);
+        return;
+    }
+
+    GHFail(nil);
+}
 
 - (void)fetchLastUpdatedDidFailWithError:(NSError *)error context:(NSObject *)context
 {

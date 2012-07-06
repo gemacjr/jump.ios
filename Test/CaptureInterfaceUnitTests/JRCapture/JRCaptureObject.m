@@ -334,8 +334,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRCaptureObject *objectCopy =
-                [[[self class] allocWithZone:zone] init];
+    JRCaptureObject *objectCopy = [[[self class] allocWithZone:zone] init];
 
     for (NSString *dirtyProperty in [self.dirtyPropertySet allObjects])
         [objectCopy.dirtyPropertySet addObject:dirtyProperty];
