@@ -31,20 +31,82 @@
 #import <Foundation/Foundation.h>
 
 @class JRCaptureObject;
+
+/**
+ * @brief
+ * Protocol adopted by an object ...
+ **/
 @protocol JRCaptureObjectDelegate <NSObject>
 @optional
+
+/**
+ * Sent if ...
+ *
+ * @param object
+ *   object
+ *
+ * @param context
+ *   context
+ **/
 - (void)updateDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context;
+
+/**
+ * Sent if ...
+ *
+ * @param object
+ *   object
+ *
+ * @param context
+ *   context
+ **/
 - (void)updateDidFailForObject:(JRCaptureObject *)object withError:(NSError *)error context:(NSObject *)context;
 
-- (void)replaceArrayDidSucceedForObject:(JRCaptureObject *)object newArray:(NSArray *)replacedArray /* replaced array? */
+/**
+ * Sent if ...
+ *
+ * @param object
+ *   object
+ *
+ * @param context
+ *   context
+ **/
+- (void)replaceArrayDidSucceedForObject:(JRCaptureObject *)object newArray:(NSArray *)replacedArray
                                   named:(NSString *)arrayName context:(NSObject *)context;
+
+/**
+ * Sent if ...
+ *
+ * @param object
+ *   object
+ *
+ * @param context
+ *   context
+ **/
 - (void)replaceArrayDidFailForObject:(JRCaptureObject *)object arrayNamed:(NSString *)arrayName
                            withError:(NSError *)error context:(NSObject *)context;
 @end
 
+/**
+ * @brief
+ * Protocol adopted by an object ...
+ **/
 @interface JRCaptureObject : NSObject <NSCopying>
-@property (readonly) BOOL canBeUpdatedOrReplaced;
+@property (readonly) BOOL canBeUpdatedOnCapture; /**< foo */
+
+/**
+ * bar
+ **/
 - (BOOL)needsUpdate;
+
+/**
+ * Sent if ...
+ *
+ * @param delegate
+ *   delegate
+ *
+ * @param context
+ *   context
+ **/
 - (void)updateOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
 @end
 

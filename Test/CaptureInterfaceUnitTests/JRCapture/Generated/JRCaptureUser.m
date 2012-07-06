@@ -695,7 +695,7 @@
 @end
 
 @interface JRCaptureUser ()
-@property BOOL canBeUpdatedOrReplaced;
+@property BOOL canBeUpdatedOnCapture;
 @end
 
 @implementation JRCaptureUser
@@ -749,7 +749,7 @@
     JROnipinoL1Object *_onipinoL1Object;
     JROinoinoL1Object *_oinoinoL1Object;
 }
-@synthesize canBeUpdatedOrReplaced;
+@synthesize canBeUpdatedOnCapture;
 
 - (JRUuid *)uuid
 {
@@ -1398,7 +1398,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath = @"";
-        self.canBeUpdatedOrReplaced = YES;
+        self.canBeUpdatedOnCapture = YES;
 
         _basicObject = [[JRBasicObject alloc] init];
         _objectTestRequired = [[JRObjectTestRequired alloc] init];
@@ -1584,8 +1584,8 @@
                        forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
-                       forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOnCapture] 
+                       forKey:@"canBeUpdatedOnCapture"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -1816,7 +1816,7 @@
     NSSet *dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
 
     self.captureObjectPath = @"";
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     self.uuid =
         [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
@@ -2019,7 +2019,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     if ([dictionary objectForKey:@"uuid"])
         self.uuid = [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
@@ -2205,7 +2205,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     self.uuid =
         [dictionary objectForKey:@"uuid"] != [NSNull null] ? 

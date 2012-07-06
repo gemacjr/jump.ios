@@ -83,8 +83,6 @@ my $NOT_PLURAL_ELEMENT = 0;
 my $HAS_PLURAL_PARENT  = 1;
 my $NO_PLURAL_PARENT   = 0;
 
-# my $READ_ONLY_PROPERTY = 1; # 'id', 'uuid', 'created', and 'lastUpdated' can't be changed from the client
-
 
 ############################################
 # HASHES OF .M AND .H FILES
@@ -255,9 +253,6 @@ sub stripPointer {
   return $objectiveType;
 }
 
-##########################################################
-# Duh.
-##########################################################
 sub trim {
 	my $string = $_[0];
 	$string =~ s/^\s+//;
@@ -360,22 +355,8 @@ sub recursiveParse {
   ################################################
   # Add the object name to the repeatNamesHash
   ################################################
-  $repeatNamesHash{$objectName} = 1;
 
-  ######################################################################################################################
-  # Create the object's path. Object path depends on if the object is a descendant of a plural element and if it falls
-  # under the special case of the top-level object and its direct descendants
-  # e.g.:
-  #   /firstChild
-  #     OR
-  #   /firstChild/secondChild
-  ######################################################################################################################
-  # TODO: Don't create if child of plural??
-  if ($parentPath eq "/") { 
-    $objectPath = $parentPath . $pathAppend;
-  } else {
-    $objectPath = $parentPath . "/" . $pathAppend;
-  }
+  $repeatNamesHash{$objectName} = 1; 
 
 
   ######################################################################################################################
@@ -658,13 +639,13 @@ sub recursiveParse {
   #   if (fromDecoder)
   #   {
   #       dirtyPropertySetCopy = [NSSet setWithArray:[dictionary objectForKey:@"dirtyPropertiesSet"]];
-  #       exampleElement.canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOrReplaced"] boolValue];
+  #       exampleElement.canBeUpdatedOnCapture = [(NSNumber *)[dictionary objectForKey:@"canBeUpdatedOnCapture"] boolValue];
   #       exampleElement.captureObjectPath      = [dictionary objectForKey:@"captureObjectPat\"];
   #   }
   #   else
   #   {
   #       dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-  #       exampleElement.canBeUpdatedOrReplaced = YES;
+  #       exampleElement.canBeUpdatedOnCapture = YES;
   #       exampleElement.captureObjectPath      =  [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"exampleElement", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
   #   }
   $objFromDictSection[7] = $objFromDictSection[11] = $objectName;
@@ -770,26 +751,40 @@ sub recursiveParse {
   
     # e.g.:
     #   self.captureObjectPath      = @"";
-    #   self.canBeUpdatedOrReplaced = NO;
+    #   self.canBeUpdatedOnCapture  = NO;
     $minConstructorSection[3]  = "        self.captureObjectPath      = \@\"\";\n";
-    $minConstructorSection[3] .= "        self.canBeUpdatedOrReplaced = NO;\n";
+    $minConstructorSection[3] .= "        self.canBeUpdatedOnCapture  = NO;\n";
     
     # e.g.:
     #   self.captureObjectPath      = @"";
-    #   self.canBeUpdatedOrReplaced = NO;
+    #   self.canBeUpdatedOnCapture  = NO;
     $constructorSection[8]     = "        self.captureObjectPath      = \@\"\";\n";
-    $constructorSection[8]    .= "        self.canBeUpdatedOrReplaced = NO;\n";
+    $constructorSection[8]    .= "        self.canBeUpdatedOnCapture  = NO;\n";
     
     # e.g.:
     #
-    #   self.canBeUpdatedOrReplaced = YES;
-    $objFromDictSection[9]  = "\n        " . $objectName . ".canBeUpdatedOrReplaced = [(NSNumber *)[dictionary objectForKey:\@\"canBeUpdatedOrReplaced\"] boolValue];";
-    $objFromDictSection[18] = "\n        " . $objectName . ".canBeUpdatedOrReplaced = YES;";
+    #   self.canBeUpdatedOnCapture = YES;
+    $objFromDictSection[9]  = "\n        " . $objectName . ".canBeUpdatedOnCapture = [(NSNumber *)[dictionary objectForKey:\@\"canBeUpdatedOnCapture\"] boolValue];";
+    $objFromDictSection[18] = "\n        " . $objectName . ".canBeUpdatedOnCapture = YES;";
 
   } else {
   ################################################################################
   # Otherwise, the capture path is known and we can set this in the constructors.
   ################################################################################
+
+    ######################################################################################################################
+    # Create the object's path. Object path depends on if the object is a descendent of a plural element and if it falls
+    # under the special case of the top-level object and its direct descendants
+    # e.g.:
+    #   /firstChild
+    #     OR
+    #   /firstChild/secondChild
+    ######################################################################################################################
+    if ($parentPath eq "/") { 
+      $objectPath = $parentPath . $pathAppend;
+    } else {
+      $objectPath = $parentPath . "/" . $pathAppend;
+    }
 
     #### Special case ####
     if ($objectName eq "captureUser") {      
@@ -811,8 +806,8 @@ sub recursiveParse {
     #########################################################
     # These objects can always be updated and replaced
     #########################################################
-    $minConstructorSection[3] .= "        self.canBeUpdatedOrReplaced = YES;\n";
-    $constructorSection[8]    .= "        self.canBeUpdatedOrReplaced = YES;\n";
+    $minConstructorSection[3] .= "        self.canBeUpdatedOnCapture = YES;\n";
+    $constructorSection[8]    .= "        self.canBeUpdatedOnCapture = YES;\n";
 
   }
   
@@ -837,9 +832,6 @@ sub recursiveParse {
     my $propertyDesc = $propertyHash{"description"};
 
     my %propertyConstraints = getConstraints(\%propertyHash);
-
-#   my $isRequired = getIsRequired (\%propertyHash); 
-
     
     ### Find out if it's a required property, and increase the requiredProperties counter if it is  
     my $isRequired = exists($propertyConstraints{"required"});
@@ -878,14 +870,11 @@ sub recursiveParse {
     ######################################################
     # Finish initializing property defaults
     ######################################################
-    my $toDictionary           =                                   # Default operation is to insert the NSObject 
-          "self.$propertyName";                                    # into an NSMutableDictionary with no other modifications
-    my $toUpDictionary         = "self.$propertyName";             # Default operation for toUpdateDictionary                                        
-    my $toRplDictionary        = "self.$propertyName";             # Default operation for toReplaceDictionary 
-#    my $toRplDictionaryYesArrs = "";
-#    my $toRplDictionaryNoArrs  = "";
-    my $frDictionary           =                                   # Default operation is to just pull the NSObject from 
-          "[dictionary objectForKey:\@\"$dictionaryKey\"]";        # the dictionary and stick it into the property
+    my $toDictionary           = "self.$propertyName";        # Default operation is to insert the NSObject into an NSMutableDictionary with no other modifications
+    my $toUpDictionary         = "self.$propertyName";        # Default operation for toUpdateDictionary                                        
+    my $toRplDictionary        = "self.$propertyName";        # Default operation for toReplaceDictionary 
+    my $frDictionary           =                              # Default operation is to just pull the NSObject from 
+          "[dictionary objectForKey:\@\"$dictionaryKey\"]";   # the dictionary and stick it into the property
     my $frUpDictionary         = 
           "[dictionary objectForKey:\@\"$dictionaryKey\"]";
     my $frRplDictionary        = 
@@ -893,7 +882,7 @@ sub recursiveParse {
     my $frDcdDictionary        = "";
     my $isEqualMethod          = "";
 
-    if ($propertyDesc) {                                    # Use the property description for the Doxygen comment
+    if ($propertyDesc) {                                         # Use the property description for the Doxygen comment
       $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));  # or create a default one if there is no description
     } else {
       $propertyNotes .= "/**< The object's \\e " . $propertyName . " property";
@@ -1048,31 +1037,13 @@ sub recursiveParse {
         
         $objectiveType = "JRStringArray *";      
         
-        #$extraImportsSection .= "#import \"JRStringPluralElement.h\"\n";
-        
-        $stringArrayType = getSimplePluralType($propertyAttrDefsRef);
-        
-        #$toDictionary    = "[self." . $propertyName . " arrayOfStringPluralDictionariesFromStringPluralElements]";
-        #$toRplDictionary = "[self." . $propertyName . " arrayOfStringsFromStringPluralElements]";
-        #$frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]
-        #        arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $stringArrayType . "\" 
-        #                                                        andExtendedPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", " . $objectName . ".captureObjectPath]]";
-        #$frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]
-        #        arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $stringArrayType . "\" 
-        #                                                        andExtendedPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", self.captureObjectPath]]";
-
-        #$isEqualMethod  = "isEqualToOtherStringPluralArray:";        
+        $stringArrayType = getSimplePluralType($propertyAttrDefsRef);    
         
         $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringsFromStringPluralDictionariesWithType:\@\"" . $stringArrayType . "\"]";
         $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringsFromStringPluralDictionariesWithType:\@\"" . $stringArrayType . "\"]";
 
         $isEqualMethod  = "isEqualToArray:";
-
-        #$replaceArrayIntfSection .= createArrayReplaceMethodDeclaration($propertyName);
-        #$replaceArrayImplSection .= createArrayReplaceMethodImplementation($propertyName, $stringArrayType);
-        
-        #$propertyNotes .= " \@note This is an array of \\c JRStringPluralElements with type \\c " . $stringArrayType . " TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings";      
-        
+       
         $propertyNotes .= " \@note This is an array of \\c NSStrings representing a list of \\c " . $stringArrayType . " objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings";      
         
       } else {
@@ -1221,10 +1192,6 @@ sub recursiveParse {
     # If the property is *not* required...
     ######################################################  
       
-#      # e.g.:
-#      #   exampleElementCopy.baz = self.baz;
-#      $copyConstructorSection[9] .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
-
     }
     ##########################################################################
     # For *all* properties (mostly)...
@@ -1266,11 +1233,7 @@ sub recursiveParse {
       $propertiesSection    .= "\@property (nonatomic, copy)     $objectiveType$propertyName; $propertyNotes \n";
     }
   
-    #if ($isStringArray) { 
-    #  $getterSettersSection .= createGetterSetterForSimpleArray ($propertyName, $stringArrayType);
-    #} else {
-      $getterSettersSection .= createGetterSetterForProperty ($propertyName, $objectiveType, $isAlsoPrimitive, $isArray, $isObject); 
-    #}
+    $getterSettersSection .= createGetterSetterForProperty ($propertyName, $objectiveType, $isAlsoPrimitive, $isArray, $isObject); 
 
     if (!$isArray) {
       # e.g., 
@@ -1568,27 +1531,7 @@ sub recursiveParse {
     $hFile .= "$classConstructorSection[0]$classConstructorSection[1]$classConstructorSection[2];\n\n";
   }
   
-  #for (my $i = 0; $i < @objFromDictDocSection; $i++) { $hFile .= $objFromDictDocSection[$i]; }
-  #$hFile .= "$objFromDictSection[0]$objFromDictSection[1]$objFromDictSection[2];\n";
   $hFile .= "/*\@}*/\n\n";
-
-
-  #$hFile .= "/**\n * \@name Dictionary Serialization/Deserialization\n **/\n/*\@{*/\n";
-  #for (my $i = 0; $i < @dictFromObjectDocSection; $i++) { $hFile .= $dictFromObjectDocSection[$i]; }
-  #$hFile .= "$dictFromObjSection[0];\n\n";
-  #for (my $i = 0; $i < @updateFrDictDocSection; $i++) { $hFile .= $updateFrDictDocSection[$i]; }
-  #$hFile .= "$updateFromDictSection[0];\n\n";
-  #for (my $i = 0; $i < @replaceFrDictDocSection; $i++) { $hFile .= $replaceFrDictDocSection[$i]; }
-  #$hFile .= "$replaceFromDictSection[0];\n";
-  #$hFile .= "/*\@}*/\n\n";
-
-  #$hFile .= "/**\n * \@name Object Introspection\n **/\n/*\@{*/\n";
-  #for (my $i = 0; $i < @isEqualObjectDocSection; $i++) { $hFile .= $isEqualObjectDocSection[$i]; }
-  #$hFile .= "$isEqualObjectSection[0]$isEqualObjectSection[1];\n";
-  #for (my $i = 0; $i < @objectPropertiesDocSection; $i++) { $hFile .= $objectPropertiesDocSection[$i]; }
-  #$hFile .= "$objectPropertiesSection[0];\n";
-  #$hFile .= "/*\@}*/\n\n";
-
 
   $hFile .= "/**\n * \@name Manage Remotely \n **/\n/*\@{*/";
   $hFile .= "$replaceArrayIntfSection\n";
@@ -1626,6 +1569,7 @@ sub recursiveParse {
     @integerProperties = ();
   }
   
+  #$hFile .= "/**\n* foo\n**/\n- (void)updateOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;";
   $hFile .= "\@end\n";
 
 
@@ -1658,12 +1602,12 @@ sub recursiveParse {
   # Declare the implementation, ivars, and the dynamic properties
   ##########################################################################
   $mFile .= "\@interface $className ()\n";
-  $mFile .= "\@property BOOL canBeUpdatedOrReplaced;\n";
+  $mFile .= "\@property BOOL canBeUpdatedOnCapture;\n";
   $mFile .= "\@end\n\n";
   $mFile .= "\@implementation $className\n";
   $mFile .= "{\n" . $privateIvarsSection . "}\n";
   #$mFile .= $synthesizeSection;
-  $mFile .= "\@synthesize canBeUpdatedOrReplaced;\n\n";
+  $mFile .= "\@synthesize canBeUpdatedOnCapture;\n\n";
   $mFile .= $getterSettersSection;
   
   ##########################################################################

@@ -46,7 +46,7 @@
 @end
 
 @interface JROinoinoL1Object ()
-@property BOOL canBeUpdatedOrReplaced;
+@property BOOL canBeUpdatedOnCapture;
 @end
 
 @implementation JROinoinoL1Object
@@ -55,7 +55,7 @@
     NSString *_string2;
     JROinoinoL2Object *_oinoinoL2Object;
 }
-@synthesize canBeUpdatedOrReplaced;
+@synthesize canBeUpdatedOnCapture;
 
 - (NSString *)string1
 {
@@ -103,7 +103,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath = @"/oinoinoL1Object";
-        self.canBeUpdatedOrReplaced = YES;
+        self.canBeUpdatedOnCapture = YES;
 
         _oinoinoL2Object = [[JROinoinoL2Object alloc] init];
 
@@ -146,8 +146,8 @@
                        forKey:@"dirtyPropertiesSet"];
         [dictionary setObject:(self.captureObjectPath ? self.captureObjectPath : [NSNull null])
                        forKey:@"captureObjectPath"];
-        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOrReplaced] 
-                       forKey:@"canBeUpdatedOrReplaced"];
+        [dictionary setObject:[NSNumber numberWithBool:self.canBeUpdatedOnCapture] 
+                       forKey:@"canBeUpdatedOnCapture"];
     }
     
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -199,7 +199,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     if ([dictionary objectForKey:@"string1"])
         self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
@@ -225,7 +225,7 @@
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 
-    self.canBeUpdatedOrReplaced = YES;
+    self.canBeUpdatedOnCapture = YES;
 
     self.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
