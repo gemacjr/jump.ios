@@ -112,7 +112,7 @@ JRCaptureUser *originalUser;
     void (^updateCallback)(JRCaptureObject *, NSError *) = ^(JRCaptureObject *o, NSError *e_) {
         if (e_)
         {
-            GHAssertTrue([originalUser isEqualByPrivateProperties:self.captureUser], nil);
+            GHAssertFalse([originalUser isEqualByPrivateProperties:self.captureUser], nil);
             [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(test_d130_dirtyFlagRestorationOnFailure)];
         }
         else GHFail(nil);
@@ -134,6 +134,7 @@ JRCaptureUser *originalUser;
 
     [JRCaptureUser fetchCaptureUserFromServerForDelegate:self context:fetchCallback];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+    [originalUser release];
     [updateCallback release];
     [fetchCallback release];
 }
