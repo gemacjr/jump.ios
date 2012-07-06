@@ -1,0 +1,26 @@
+  Schema Type     Json Type     Obj-C Type    JRCapture Type      Recursive   Typedeffed    Can Change    Notes
+  string          String        NSString      NSString                        No
+  boolean         Boolean       NSNumber      JRBoolean                       Yes
+  integer         Number        NSNumber      JRInteger                       Yes
+  decimal         Number        NSNumber      NSNumber                        No
+  date            String        NSDate        JRDate                          Yes
+  dateTime        String        NSDate        JRDateTime                      Yes
+  ipAddress       String        NSString      JRIpAddress                     Yes
+  password        String or     NSObject      JRPassword                      Yes
+                  Object
+  json            (any type)    NSObject      JRJsonObject                    Yes                         The JSON type is unstructured data; it only has to be valid parseable JSON.
+  plural          Array         NSArray       NSArray or          Yes         No/Yes                      Primitive child attributes of plurals may have the constraint locally-unique.
+                                              JRSimpleArray
+  object          Object        NSObject      JR<PropertyName>    Yes         No
+  uuid            String        NSString      JRUuid                          Yes                         Not an externally usable type.
+  id              Number        NSNumber      JRObjectId                      Yes                         Not an externally usable type.
+
+
+
+All primitive (non-recursive) types may have the constraints: unique and required
+
+Capture reserves the following attribute names: "id", "parent_id", "uuid", "created", "lastUpdated"
+
+The string type contains a rich set of constraints. The constraints that are allowed on the format of the passed in string are alphabetic, alphanumeric, unicode-letters, unicode-printable and email-address. Additionally there may be a length attribute defined on the definition of the string.
+
+By default string length must be specified for strings to be indexed.

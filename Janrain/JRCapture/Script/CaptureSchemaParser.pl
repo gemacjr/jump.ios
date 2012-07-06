@@ -1567,6 +1567,7 @@ sub recursiveParse {
     @integerProperties = ();
   }
   
+  #$hFile .= "/**\n* foo\n**/\n- (void)updateOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;";
   $hFile .= "\@end\n";
 
 
