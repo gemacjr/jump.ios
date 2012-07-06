@@ -19,3 +19,7 @@
 + (void)initializeCapture;
 + (JRCaptureUser *)getBlankCaptureUser;
 @end
+
+typedef void (^UpdateCallback)(JRCaptureObject *, NSError *);
+typedef void (^FetchCallback)(JRCaptureUser *, NSError *);
+typedef void (^ReplaceArrayCallback)(NSArray *, NSError *);

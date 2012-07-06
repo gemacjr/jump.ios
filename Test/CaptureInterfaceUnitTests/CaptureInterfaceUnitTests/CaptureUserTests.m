@@ -109,7 +109,8 @@ JRCaptureUser *originalUser;
 {
     [self prepare];
 
-    void (^updateCallback)(JRCaptureObject *, NSError *) = ^(JRCaptureObject *o, NSError *e_) {
+    UpdateCallback updateCallback = ^(JRCaptureObject *o, NSError *e_)
+    {
         if (e_)
         {
             GHAssertFalse([originalUser isEqualByPrivateProperties:self.captureUser], nil);
@@ -119,7 +120,8 @@ JRCaptureUser *originalUser;
     };
     updateCallback = [updateCallback copy];
 
-    void (^fetchCallback)(JRCaptureUser *, NSError *) = ^(JRCaptureUser *u, NSError *e) {
+    FetchCallback fetchCallback = ^(JRCaptureUser *u, NSError *e)
+    {
         if (u)
         {
             self.captureUser = u;
