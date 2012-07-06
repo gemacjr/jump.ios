@@ -31,12 +31,14 @@
 #import <Foundation/Foundation.h>
 
 @class JRCaptureObject;
+
 /**
  * @brief
  * Protocol adopted by an object ...
  **/
 @protocol JRCaptureObjectDelegate <NSObject>
 @optional
+
 /**
  * Sent if ...
  *
@@ -47,6 +49,7 @@
  *   context
  **/
 - (void)updateDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context;
+
 /**
  * Sent if ...
  *
@@ -69,6 +72,7 @@
  **/
 - (void)replaceArrayDidSucceedForObject:(JRCaptureObject *)object newArray:(NSArray *)replacedArray
                                   named:(NSString *)arrayName context:(NSObject *)context;
+
 /**
  * Sent if ...
  *
@@ -88,6 +92,7 @@
  **/
 @interface JRCaptureObject : NSObject <NSCopying>
 @property (readonly) BOOL canBeUpdatedOnCapture; /**< foo */
+
 /**
  * bar
  **/
