@@ -1,5 +1,3 @@
-echo "copying JRCaptureScratch.*"
-cp SimpleCaptureDemo/JRCapture/JRCaptureScratch.*                 Janrain/JRCapture/Classes/
 echo "copying JRCapture.*"
 cp SimpleCaptureDemo/JRCapture/JRCapture.*                        Janrain/JRCapture/Classes/
 echo "copying JRCaptureData.*"
