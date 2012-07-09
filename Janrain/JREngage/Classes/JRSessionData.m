@@ -135,22 +135,6 @@ static NSString* applicationBundleDisplayName()
     return [infoPlist objectForKey:@"CFBundleDisplayName"];
 }
 
-#pragma mark NSString URL Escaping
-@implementation NSString (NSString_URL_ESCAPING)
-- (NSString*)URLEscaped
-{
-
-    NSString *encodedString = (NSString *)CFURLCreateStringByAddingPercentEscapes(
-                                NULL,
-                                (CFStringRef)self,
-                                NULL,
-                                (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                kCFStringEncodingUTF8);
-
-    return [encodedString autorelease];
-}
-@end
-
 #pragma mark JRError
 NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
@@ -758,16 +742,19 @@ static JRSessionData* singleton = nil;
 {   // TODO: Redo this
     NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
     NSString     *name      = [[[infoPlist objectForKey:@"CFBundleDisplayName"]
-                                stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
+                                stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                stringByAddingUrlPercentEscapes];
     NSString     *ident     = [[[infoPlist objectForKey:@"CFBundleIdentifier"]
-                                stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
+                                stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                stringByAddingUrlPercentEscapes];
 
     infoPlist = [NSDictionary dictionaryWithContentsOfFile:
                  [[[NSBundle mainBundle] resourcePath]
                   stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
 
     NSString *version       = [[[infoPlist objectForKey:@"CFBundleShortVersionString"]
-                                stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
+                                stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                stringByAddingUrlPercentEscapes];
 
     return [NSString stringWithFormat:@"appName=%@.%@3&version=%@_%@", name, ident, device, version];
 }
@@ -1192,7 +1179,7 @@ static JRSessionData* singleton = nil;
                                forKey:@"description"];
     }
 
-    NSString *activityContent = [[activityDictionary JSONString] URLEscaped];
+    NSString *activityContent = [[activityDictionary JSONString] stringByAddingUrlPercentEscapes];
     NSString *deviceToken     = user.deviceToken;
 
     DLog(@"activity json string \n %@" , activityContent);
@@ -1229,7 +1216,7 @@ static JRSessionData* singleton = nil;
 {
     DLog (@"activity status: %@", [activity userGeneratedContent]);
 
-    NSString *status = [[activity userGeneratedContent] URLEscaped];
+    NSString *status = [[activity userGeneratedContent] stringByAddingUrlPercentEscapes];
     NSString *deviceToken = user.deviceToken;
 
     NSMutableData* body = [NSMutableData data];

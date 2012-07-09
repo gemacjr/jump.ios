@@ -36,6 +36,10 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@interface NSString (jr_NSString_UrlEscaping)
+- (NSString*)stringByAddingUrlPercentEscapes;
+@end
+
 @protocol JRConnectionManagerDelegate <NSObject>
 @optional
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(id)userdata;

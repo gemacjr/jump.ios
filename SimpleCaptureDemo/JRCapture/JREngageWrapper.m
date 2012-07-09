@@ -38,7 +38,7 @@ typedef enum
 
 @interface JREngageWrapper ()
 @property (retain) JRNativeSigninViewController *nativeSigninViewController;
-@property (retain) id<JRCaptureAuthenticationDelegate> delegate;
+@property (retain) id<JRCaptureSigninDelegate> delegate;
 @property          JREngageDialogState dialogState;
 @end
 
@@ -97,9 +97,9 @@ static JREngageWrapper *singleton = nil;
     [JREngage setEngageAppId:appId tokenUrl:nil andDelegate:[JREngageWrapper singletonInstance]];
 }
 
-+ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninType)nativeSigninType
++ (void)startAuthenticationDialogWithNativeSignin:(JRConventionalSigninType)nativeSigninType
                       andCustomInterfaceOverrides:(NSDictionary *)customInterfaceOverrides
-                                      forDelegate:(id <JRCaptureAuthenticationDelegate>)delegate
+                                      forDelegate:(id <JRCaptureSigninDelegate>)delegate
 {
     [JREngage updateTokenUrl:[JRCaptureData captureMobileEndpointUrl]];
 
@@ -109,7 +109,7 @@ static JREngageWrapper *singleton = nil;
     NSMutableDictionary *expandedCustomInterfaceOverrides =
                                 [NSMutableDictionary dictionaryWithDictionary:customInterfaceOverrides];
 
-    if (nativeSigninType != JRNativeSigninNone)
+    if (nativeSigninType != JRConventionalSigninNone)
     {
         //kJRCaptureNativeSigninTitleString
         //kJRCaptureNativeSigninTitleView
@@ -117,7 +117,7 @@ static JREngageWrapper *singleton = nil;
         NSString *nativeSigninTitleString =
                          ([expandedCustomInterfaceOverrides objectForKey:kJRCaptureNativeSigninTitleString] ?
                                  [expandedCustomInterfaceOverrides objectForKey:kJRCaptureNativeSigninTitleString] :
-                                 (nativeSigninType == JRNativeSigninEmailPassword ?
+                                 (nativeSigninType == JRConventionalSigninEmailPassword ?
                                         @"Sign In With Your Email and Password" :
                                         @"Sign In With Your Username and Password"));
 
@@ -143,7 +143,7 @@ static JREngageWrapper *singleton = nil;
 
 + (void)startAuthenticationDialogOnProvider:(NSString *)provider
                withCustomInterfaceOverrides:(NSDictionary *)customInterfaceOverrides
-                                forDelegate:(id <JRCaptureAuthenticationDelegate>)delegate
+                                forDelegate:(id <JRCaptureSigninDelegate>)delegate
 {
     [[JREngageWrapper singletonInstance] setDelegate:delegate];
     [[JREngageWrapper singletonInstance] setDialogState:JREngageDialogStateAuthentication];
@@ -158,7 +158,7 @@ static JREngageWrapper *singleton = nil;
     [[JREngageWrapper singletonInstance] setDelegate:delegate];
     [[JREngageWrapper singletonInstance] setDialogState:JREngageDialogStateSharing];
 
-    [JREngage showSocialPublishingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
+    [JREngage showSocialSharingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
 }
 
 - (void)engageLibraryTearDown
@@ -167,7 +167,7 @@ static JREngageWrapper *singleton = nil;
     [self setNativeSigninViewController:nil];
 }
 
-- (void)jrAuthenticationCallToTokenUrl:(NSString *)tokenUrl didFailWithError:(NSError *)error forProvider:(NSString *)provider
+- (void)authenticationCallToTokenUrl:(NSString *)tokenUrl didFailWithError:(NSError *)error forProvider:(NSString *)provider
 {
     if ([delegate respondsToSelector:@selector(captureAuthenticationDidFailWithError:)])
         [delegate captureAuthenticationDidFailWithError:error];
@@ -175,7 +175,7 @@ static JREngageWrapper *singleton = nil;
     [self engageLibraryTearDown];
 }
 
-- (void)jrAuthenticationDidFailWithError:(NSError *)error forProvider:(NSString *)provider
+- (void)authenticationDidFailWithError:(NSError *)error forProvider:(NSString *)provider
 {
     if ([delegate respondsToSelector:@selector(engageAuthenticationDidFailWithError:forProvider:)])
         [delegate engageAuthenticationDidFailWithError:error forProvider:provider];
@@ -183,15 +183,15 @@ static JREngageWrapper *singleton = nil;
     [self engageLibraryTearDown];
 }
 
-- (void)jrAuthenticationDidNotComplete
+- (void)authenticationDidNotComplete
 {
-    if ([delegate respondsToSelector:@selector(engageAuthenticationDidNotComplete)])
-        [delegate engageAuthenticationDidNotComplete];
+    if ([delegate respondsToSelector:@selector(engageSigninDidNotComplete)])
+        [delegate engageSigninDidNotComplete];
 
     [self engageLibraryTearDown];
 }
 
-- (void)jrAuthenticationDidReachTokenUrl:(NSString *)tokenUrl withResponse:(NSURLResponse *)response andPayload:(NSData *)tokenUrlPayload forProvider:(NSString *)provider
+- (void)authenticationDidReachTokenUrl:(NSString *)tokenUrl withResponse:(NSURLResponse *)response andPayload:(NSData *)tokenUrlPayload forProvider:(NSString *)provider
 {
     NSString     *payload     = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSUTF8StringEncoding] autorelease];
     NSDictionary *payloadDict = [payload objectFromJSONString];
@@ -199,12 +199,12 @@ static JREngageWrapper *singleton = nil;
     DLog(@"%@", payload);
 
     if (!payloadDict)
-        return [self jrAuthenticationCallToTokenUrl:tokenUrl
+        return [self authenticationCallToTokenUrl:tokenUrl
                                    didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
                                         forProvider:provider];
 
     if (![(NSString *)[payloadDict objectForKey:@"stat"] isEqualToString:@"ok"])
-        return [self jrAuthenticationCallToTokenUrl:tokenUrl
+        return [self authenticationCallToTokenUrl:tokenUrl
                                    didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
                                         forProvider:provider];
 
@@ -216,14 +216,14 @@ static JREngageWrapper *singleton = nil;
     NSDictionary *captureProfile = [payloadDict objectForKey:@"capture_user"];
 
     if (!captureProfile || !(accessToken || creationToken))
-        return [self jrAuthenticationCallToTokenUrl:tokenUrl
+        return [self authenticationCallToTokenUrl:tokenUrl
                                    didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
                                         forProvider:provider];
 
     JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
 
     if (!captureUser)
-        return [self jrAuthenticationCallToTokenUrl:tokenUrl
+        return [self authenticationCallToTokenUrl:tokenUrl
                                    didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
                                         forProvider:provider];
 
@@ -245,28 +245,26 @@ static JREngageWrapper *singleton = nil;
     else
         recordStatus = JRCaptureRecordExists;
 
-    if ([delegate respondsToSelector:@selector(captureAuthenticationDidSucceedForUser:withToken:andStatus:)])
-        [delegate captureAuthenticationDidSucceedForUser:captureUser
-                                                             withToken:(recordStatus == JRCaptureRecordMissingRequiredFields ? creationToken : accessToken)
-                                                             andStatus:recordStatus];
+    if ([delegate respondsToSelector:@selector(captureAuthenticationDidSucceedForUser:status:)])
+        [delegate captureAuthenticationDidSucceedForUser:captureUser status:recordStatus];
 
     [self engageLibraryTearDown];
 }
 
-- (void)jrAuthenticationDidSucceedForUser:(NSDictionary *)authInfo forProvider:(NSString *)provider
+- (void)authenticationDidSucceedForUser:(NSDictionary *)auth_info forProvider:(NSString *)provider
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
-    if ([delegate respondsToSelector:@selector(engageAuthenticationDidSucceedForUser:forProvider:)])
-            [delegate engageAuthenticationDidSucceedForUser:authInfo forProvider:provider];
+    if ([delegate respondsToSelector:@selector(engageSigninDidSucceedForUser:forProvider:)])
+            [delegate engageSigninDidSucceedForUser:auth_info forProvider:provider];
 }
 
-- (void)jrEngageDialogDidFailToShowWithError:(NSError *)error
+- (void)engageDialogDidFailToShowWithError:(NSError *)error
 {
     if (dialogState == JREngageDialogStateAuthentication)
     {
-        if ([delegate respondsToSelector:@selector(engageAuthenticationDialogDidFailToShowWithError:)])
-            [delegate engageAuthenticationDialogDidFailToShowWithError:error];
+        if ([delegate respondsToSelector:@selector(engageSigninDialogDidFailToShowWithError:)])
+            [delegate engageSigninDialogDidFailToShowWithError:error];
     }
     else
     {
@@ -277,7 +275,7 @@ static JREngageWrapper *singleton = nil;
     [self engageLibraryTearDown];
 }
 
-- (void)jrSocialDidCompletePublishing
+- (void)socialSharingDidComplete
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidComplete)])
         [(id<JRCaptureSocialSharingDelegate>)delegate engageSocialSharingDidComplete];
@@ -285,7 +283,7 @@ static JREngageWrapper *singleton = nil;
     [self engageLibraryTearDown];
 }
 
-- (void)jrSocialDidNotCompletePublishing
+- (void)socialSharingDidNotCompletePublishing
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidNotComplete)])
         [(id<JRCaptureSocialSharingDelegate>)delegate engageSocialSharingDidNotComplete];
@@ -293,13 +291,13 @@ static JREngageWrapper *singleton = nil;
     [self engageLibraryTearDown];
 }
 
-- (void)jrSocialDidPublishActivity:(JRActivityObject *)activity forProvider:(NSString *)provider
+- (void)socialSharingDidSucceedForActivity:(JRActivityObject *)activity forProvider:(NSString *)provider
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidSucceedForActivity:onProvider:)])
         [(id<JRCaptureSocialSharingDelegate>)delegate engageSocialSharingDidSucceedForActivity:activity onProvider:provider];
 }
 
-- (void)jrSocialPublishingActivity:(JRActivityObject *)activity didFailWithError:(NSError *)error forProvider:(NSString *)provider
+- (void)jrSocialSharingDidFailForActivity:(JRActivityObject *)activity withError:(NSError *)error forProvider:(NSString *)provider
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidFailForActivity:withError:onProvider:)])
         [(id<JRCaptureSocialSharingDelegate>)delegate engageSocialSharingDidFailForActivity:activity withError:error onProvider:provider];

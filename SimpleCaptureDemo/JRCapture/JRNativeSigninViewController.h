@@ -45,8 +45,8 @@
 {
     UITableView *myTableView;
 }
-- (id)initWithNativeSigninType:(JRNativeSigninType)theSigninType titleString:(NSString *)titleString
+- (id)initWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)titleString
                      titleView:(UIView *)titleView delegate:(id<JRNativeSigninViewControllerDelegate>)theDelegate;
-+ (id)nativeSigninViewControllerWithNativeSigninType:(JRNativeSigninType)theSigninType titleString:(NSString *)titleString
++ (id)nativeSigninViewControllerWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)titleString
                                            titleView:(UIView *)titleView delegate:(id<JRNativeSigninViewControllerDelegate>)theDelegate;
 @end

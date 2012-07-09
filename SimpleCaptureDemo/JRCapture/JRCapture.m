@@ -49,8 +49,7 @@
 
 @implementation JRCapture
 
-+ (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
-                   clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
++ (void)setEngageAppId:(NSString *)appId captureApidDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
 {
     [JRCaptureData setCaptureApiDomain:newCaptureApidDomain captureUIDomain:newCaptureUIDomain
                               clientId:newClientId andEntityTypeName:newEntityTypeName];
@@ -65,8 +64,8 @@
        captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId
      andEntityTypeName:(NSString *)newEntityTypeName
 {
-    [JRCapture setCaptureApiDomain:newCaptureApidDomain captureUIDomain:newCaptureUIDomain
-                          clientId:newClientId andEntityTypeName:newEntityTypeName];
+    [JRCapture
+            setEngageAppId:nil captureApidDomain:newCaptureApidDomain captureUIDomain:newCaptureUIDomain clientId:newClientId andEntityTypeName:newEntityTypeName];
     [JREngageWrapper configureEngageWithCaptureMobileEndpointUrlAndAppId:appId];
 }
 
@@ -85,50 +84,50 @@
     [JRCaptureData setCreationToken:newCreationToken];
 }
 
-+ (void)startAuthenticationForDelegate:(id <JRCaptureAuthenticationDelegate>)delegate
++ (void)startEngageSigninForDelegate:(id <JRCaptureSigninDelegate>)delegate
 {
-    [JREngageWrapper startAuthenticationDialogWithNativeSignin:JRNativeSigninNone
+    [JREngageWrapper startAuthenticationDialogWithNativeSignin:JRConventionalSigninNone
                                    andCustomInterfaceOverrides:nil forDelegate:delegate];
 }
 
-+ (void)startAuthenticationWithNativeSignin:(JRNativeSigninType)nativeSigninState
-                                forDelegate:(id <JRCaptureAuthenticationDelegate>)delegate
++ (void)startEngageSigninDialogWithConventionalSignin:(JRConventionalSigninType)conventionalSigninState
+                                forDelegate:(id <JRCaptureSigninDelegate>)delegate
 {
-    [JREngageWrapper startAuthenticationDialogWithNativeSignin:nativeSigninState
+    [JREngageWrapper startAuthenticationDialogWithNativeSignin:conventionalSigninState
                                    andCustomInterfaceOverrides:nil forDelegate:delegate];
 }
 
-+ (void)startAuthenticationDialogOnProvider:(NSString *)provider
-                                forDelegate:(id <JRCaptureAuthenticationDelegate>)delegate
++ (void)startEngageSigninDialogOnProvider:(NSString *)provider
+                                forDelegate:(id <JRCaptureSigninDelegate>)delegate
 {
     [JREngageWrapper startAuthenticationDialogOnProvider:provider
                             withCustomInterfaceOverrides:nil forDelegate:delegate];
 }
 
-+ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninType)nativeSigninState
++ (void)startEngageSigninDialogWithConventionalSignin:(JRConventionalSigninType)conventionalSigninState
                       andCustomInterfaceOverrides:(NSDictionary *)customInterfaceOverrides
-                                      forDelegate:(id <JRCaptureAuthenticationDelegate>)delegate
+                                      forDelegate:(id <JRCaptureSigninDelegate>)delegate
 {
-    [JREngageWrapper startAuthenticationDialogWithNativeSignin:nativeSigninState
+    [JREngageWrapper startAuthenticationDialogWithNativeSignin:conventionalSigninState
                                    andCustomInterfaceOverrides:customInterfaceOverrides forDelegate:delegate];
 }
 
-+ (void)startAuthenticationDialogOnProvider:(NSString *)provider
++ (void)startEngageSigninDialogOnProvider:(NSString *)provider
                withCustomInterfaceOverrides:(NSDictionary *)customInterfaceOverrides
-                                forDelegate:(id <JRCaptureAuthenticationDelegate>)delegate
+                                forDelegate:(id <JRCaptureSigninDelegate>)delegate
 {
     [JREngageWrapper startAuthenticationDialogOnProvider:provider
                             withCustomInterfaceOverrides:customInterfaceOverrides forDelegate:delegate];
 }
 
-+ (void)startSocialPublishingDialogWithActivity:(JRActivityObject *)activity
++ (void)startEngageSharingDialogWithActivity:(JRActivityObject *)activity
                                     forDelegate:(id <JRCaptureSocialSharingDelegate>)delegate
 {
     [JREngageWrapper startSocialPublishingDialogWithActivity:activity
                                 withCustomInterfaceOverrides:nil forDelegate:delegate];
 }
 
-+ (void)startSocialPublishingDialogWithActivity:(JRActivityObject *)activity
++ (void)startEngageSharingDialogWithActivity:(JRActivityObject *)activity
                    withCustomInterfaceOverrides:(NSDictionary *)customInterfaceOverrides
                                     forDelegate:(id <JRCaptureSocialSharingDelegate>)delegate
 {
