@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ * @internal
+ * Intended for internal use. Please see JRCapture.h
+ */
 @interface JRCaptureData : NSObject
 + (void)setAccessToken:(NSString *)newAccessToken forUser:(NSString *)userId;
 + (void)setCreationToken:(NSString *)newCreationToken;
