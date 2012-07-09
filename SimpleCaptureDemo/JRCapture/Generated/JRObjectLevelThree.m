@@ -95,16 +95,6 @@
     return [[[JRObjectLevelThree alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRObjectLevelThree *objectLevelThreeCopy = (JRObjectLevelThree *)[super copyWithZone:zone];
-
-    objectLevelThreeCopy.level = self.level;
-    objectLevelThreeCopy.name = self.name;
-
-    return objectLevelThreeCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -162,25 +152,6 @@
 + (id)objectLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRObjectLevelThree objectLevelThreeObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-
-    if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
-            [dictionary objectForKey:@"level"] : nil;
-
-    if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
-            [dictionary objectForKey:@"name"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

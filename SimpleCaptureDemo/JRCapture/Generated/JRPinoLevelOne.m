@@ -117,17 +117,6 @@
     return [[[JRPinoLevelOne alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRPinoLevelOne *pinoLevelOneCopy = (JRPinoLevelOne *)[super copyWithZone:zone];
-
-    pinoLevelOneCopy.level = self.level;
-    pinoLevelOneCopy.name = self.name;
-    pinoLevelOneCopy.pinoLevelTwo = self.pinoLevelTwo;
-
-    return pinoLevelOneCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -191,32 +180,6 @@
 + (id)pinoLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRPinoLevelOne pinoLevelOneObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-
-    if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
-            [dictionary objectForKey:@"level"] : nil;
-
-    if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
-            [dictionary objectForKey:@"name"] : nil;
-
-    if ([dictionary objectForKey:@"pinoLevelTwo"] == [NSNull null])
-        self.pinoLevelTwo = nil;
-    else if ([dictionary objectForKey:@"pinoLevelTwo"] && !self.pinoLevelTwo)
-        self.pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"pinoLevelTwo"])
-        [self.pinoLevelTwo updateFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:self.captureObjectPath];
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

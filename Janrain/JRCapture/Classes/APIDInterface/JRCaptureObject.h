@@ -90,7 +90,7 @@
  * @brief
  * Protocol adopted by an object ...
  **/
-@interface JRCaptureObject : NSObject <NSCopying>
+@interface JRCaptureObject : NSObject //<NSCopying>
 @property (readonly) BOOL canBeUpdatedOnCapture; /**< foo */
 
 /**

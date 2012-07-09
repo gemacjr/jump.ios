@@ -95,16 +95,6 @@
     return [[[JROnipinoL3Object alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JROnipinoL3Object *onipinoL3ObjectCopy = (JROnipinoL3Object *)[super copyWithZone:zone];
-
-    onipinoL3ObjectCopy.string1 = self.string1;
-    onipinoL3ObjectCopy.string2 = self.string2;
-
-    return onipinoL3ObjectCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -168,26 +158,6 @@
 + (id)onipinoL3ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JROnipinoL3Object onipinoL3ObjectObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"onipinoL3Object"];
-
-    if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string1"] : nil;
-
-    if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string2"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

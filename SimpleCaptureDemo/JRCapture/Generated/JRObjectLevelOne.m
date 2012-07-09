@@ -117,17 +117,6 @@
     return [[[JRObjectLevelOne alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRObjectLevelOne *objectLevelOneCopy = (JRObjectLevelOne *)[super copyWithZone:zone];
-
-    objectLevelOneCopy.level = self.level;
-    objectLevelOneCopy.name = self.name;
-    objectLevelOneCopy.objectLevelTwo = self.objectLevelTwo;
-
-    return objectLevelOneCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -191,32 +180,6 @@
 + (id)objectLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRObjectLevelOne objectLevelOneObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-
-    if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
-            [dictionary objectForKey:@"level"] : nil;
-
-    if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
-            [dictionary objectForKey:@"name"] : nil;
-
-    if ([dictionary objectForKey:@"objectLevelTwo"] == [NSNull null])
-        self.objectLevelTwo = nil;
-    else if ([dictionary objectForKey:@"objectLevelTwo"] && !self.objectLevelTwo)
-        self.objectLevelTwo = [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:[dictionary objectForKey:@"objectLevelTwo"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"objectLevelTwo"])
-        [self.objectLevelTwo updateFromDictionary:[dictionary objectForKey:@"objectLevelTwo"] withPath:self.captureObjectPath];
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

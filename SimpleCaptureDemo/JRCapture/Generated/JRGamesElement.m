@@ -157,19 +157,6 @@
     return [[[JRGamesElement alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRGamesElement *gamesElementCopy = (JRGamesElement *)[super copyWithZone:zone];
-
-    gamesElementCopy.gamesElementId = self.gamesElementId;
-    gamesElementCopy.isFavorite = self.isFavorite;
-    gamesElementCopy.name = self.name;
-    gamesElementCopy.opponents = self.opponents;
-    gamesElementCopy.rating = self.rating;
-
-    return gamesElementCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -251,34 +238,6 @@
 + (id)gamesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRGamesElement gamesElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"id"])
-        self.gamesElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
-
-    if ([dictionary objectForKey:@"isFavorite"])
-        self.isFavorite = [dictionary objectForKey:@"isFavorite"] != [NSNull null] ? 
-            [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue]] : nil;
-
-    if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
-            [dictionary objectForKey:@"name"] : nil;
-
-    if ([dictionary objectForKey:@"rating"])
-        self.rating = [dictionary objectForKey:@"rating"] != [NSNull null] ? 
-            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"rating"] integerValue]] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

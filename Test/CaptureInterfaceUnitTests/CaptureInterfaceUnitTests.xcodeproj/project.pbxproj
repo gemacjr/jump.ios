@@ -253,8 +253,6 @@
 		DDE0B9A67F00A1DC4B6DFC08 /* JRApidWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC07 /* JRApidWrapper.m */; };
 		DDE0B9A67F00A1DC4B6DFC0A /* JRCaptureData.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC09 /* JRCaptureData.m */; };
 		DDE0B9A67F00A1DC4B6DFC0C /* JRCaptureError.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC0B /* JRCaptureError.m */; };
-		DDE0B9A67F00A1DC4B6DFC0E /* JRCaptureObject+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC0D /* JRCaptureObject+Internal.m */; };
-		DDE0B9A67F00A1DC4B6DFC10 /* JRCaptureScratch.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC0F /* JRCaptureScratch.m */; };
 		DDE0B9A67F00A1DC4B6DFC12 /* JREngageWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC11 /* JREngageWrapper.m */; };
 		DDE0B9A67F00A1DC4B6DFC14 /* JRNativeSigninViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC13 /* JRNativeSigninViewController.m */; };
 		DDE0B9A67F00A1DC4B6DFC16 /* JRWebviewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC15 /* JRWebviewWrapper.m */; };
@@ -569,8 +567,6 @@
 		DDE0B9A67F00A1DC4B6DFC07 /* JRApidWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRApidWrapper.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC09 /* JRCaptureData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureData.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC0B /* JRCaptureError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureError.m; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFC0D /* JRCaptureObject+Internal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRCaptureObject+Internal.m"; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFC0F /* JRCaptureScratch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureScratch.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC11 /* JREngageWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JREngageWrapper.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC13 /* JRNativeSigninViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRNativeSigninViewController.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC15 /* JRWebviewWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRWebviewWrapper.m; sourceTree = "<group>"; };
@@ -578,7 +574,6 @@
 		DDE0B9A67F00A1DC4B6DFC18 /* JRCaptureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureData.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC19 /* JRCaptureError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureError.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC1A /* JRCaptureObject+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRCaptureObject+Internal.h"; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFC1B /* JRCaptureScratch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureScratch.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC1C /* JRCaptureTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureTypes.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC1D /* JREngageWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JREngageWrapper.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC1E /* JRNativeSigninViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRNativeSigninViewController.h; sourceTree = "<group>"; };
@@ -965,7 +960,6 @@
 				DDE0B9A67F00A1DC4B6DFC1E /* JRNativeSigninViewController.h */,
 				DDE0B9A67F00A1DC4B6DFC1D /* JREngageWrapper.h */,
 				DDE0B9A67F00A1DC4B6DFC1C /* JRCaptureTypes.h */,
-				DDE0B9A67F00A1DC4B6DFC1B /* JRCaptureScratch.h */,
 				DDE0B9A67F00A1DC4B6DFC1A /* JRCaptureObject+Internal.h */,
 				DDE0B9A67F00A1DC4B6DFC19 /* JRCaptureError.h */,
 				DDE0B9A67F00A1DC4B6DFC18 /* JRCaptureData.h */,
@@ -973,8 +967,6 @@
 				DDE0B9A67F00A1DC4B6DFC15 /* JRWebviewWrapper.m */,
 				DDE0B9A67F00A1DC4B6DFC13 /* JRNativeSigninViewController.m */,
 				DDE0B9A67F00A1DC4B6DFC11 /* JREngageWrapper.m */,
-				DDE0B9A67F00A1DC4B6DFC0F /* JRCaptureScratch.m */,
-				DDE0B9A67F00A1DC4B6DFC0D /* JRCaptureObject+Internal.m */,
 				DDE0B9A67F00A1DC4B6DFC0B /* JRCaptureError.m */,
 				DDE0B9A67F00A1DC4B6DFC09 /* JRCaptureData.m */,
 				DDE0B9A67F00A1DC4B6DFC07 /* JRApidWrapper.m */,
@@ -1444,8 +1436,6 @@
 				DDE0B9A67F00A1DC4B6DFC08 /* JRApidWrapper.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC0A /* JRCaptureData.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC0C /* JRCaptureError.m in Sources */,
-				DDE0B9A67F00A1DC4B6DFC0E /* JRCaptureObject+Internal.m in Sources */,
-				DDE0B9A67F00A1DC4B6DFC10 /* JRCaptureScratch.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC12 /* JREngageWrapper.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC14 /* JRNativeSigninViewController.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC16 /* JRWebviewWrapper.m in Sources */,

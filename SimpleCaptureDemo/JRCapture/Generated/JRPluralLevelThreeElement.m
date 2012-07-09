@@ -109,17 +109,6 @@
     return [[[JRPluralLevelThreeElement alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRPluralLevelThreeElement *pluralLevelThreeElementCopy = (JRPluralLevelThreeElement *)[super copyWithZone:zone];
-
-    pluralLevelThreeElementCopy.pluralLevelThreeElementId = self.pluralLevelThreeElementId;
-    pluralLevelThreeElementCopy.level = self.level;
-    pluralLevelThreeElementCopy.name = self.name;
-
-    return pluralLevelThreeElementCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -189,30 +178,6 @@
 + (id)pluralLevelThreeElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRPluralLevelThreeElement pluralLevelThreeElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"id"])
-        self.pluralLevelThreeElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
-
-    if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
-            [dictionary objectForKey:@"level"] : nil;
-
-    if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
-            [dictionary objectForKey:@"name"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

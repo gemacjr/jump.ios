@@ -151,20 +151,6 @@
     return [[[JRName alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRName *nameCopy = (JRName *)[super copyWithZone:zone];
-
-    nameCopy.familyName = self.familyName;
-    nameCopy.formatted = self.formatted;
-    nameCopy.givenName = self.givenName;
-    nameCopy.honorificPrefix = self.honorificPrefix;
-    nameCopy.honorificSuffix = self.honorificSuffix;
-    nameCopy.middleName = self.middleName;
-
-    return nameCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -252,42 +238,6 @@
 + (id)nameObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRName nameObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"name"];
-
-    if ([dictionary objectForKey:@"familyName"])
-        self.familyName = [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
-            [dictionary objectForKey:@"familyName"] : nil;
-
-    if ([dictionary objectForKey:@"formatted"])
-        self.formatted = [dictionary objectForKey:@"formatted"] != [NSNull null] ? 
-            [dictionary objectForKey:@"formatted"] : nil;
-
-    if ([dictionary objectForKey:@"givenName"])
-        self.givenName = [dictionary objectForKey:@"givenName"] != [NSNull null] ? 
-            [dictionary objectForKey:@"givenName"] : nil;
-
-    if ([dictionary objectForKey:@"honorificPrefix"])
-        self.honorificPrefix = [dictionary objectForKey:@"honorificPrefix"] != [NSNull null] ? 
-            [dictionary objectForKey:@"honorificPrefix"] : nil;
-
-    if ([dictionary objectForKey:@"honorificSuffix"])
-        self.honorificSuffix = [dictionary objectForKey:@"honorificSuffix"] != [NSNull null] ? 
-            [dictionary objectForKey:@"honorificSuffix"] : nil;
-
-    if ([dictionary objectForKey:@"middleName"])
-        self.middleName = [dictionary objectForKey:@"middleName"] != [NSNull null] ? 
-            [dictionary objectForKey:@"middleName"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

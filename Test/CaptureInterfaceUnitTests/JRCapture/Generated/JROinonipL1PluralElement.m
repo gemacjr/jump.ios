@@ -117,17 +117,6 @@
     return [[[JROinonipL1PluralElement alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JROinonipL1PluralElement *oinonipL1PluralElementCopy = (JROinonipL1PluralElement *)[super copyWithZone:zone];
-
-    oinonipL1PluralElementCopy.string1 = self.string1;
-    oinonipL1PluralElementCopy.string2 = self.string2;
-    oinonipL1PluralElementCopy.oinonipL2Object = self.oinonipL2Object;
-
-    return oinonipL1PluralElementCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -197,33 +186,6 @@
 + (id)oinonipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JROinonipL1PluralElement oinonipL1PluralElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"oinonipL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string1"] : nil;
-
-    if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string2"] : nil;
-
-    if ([dictionary objectForKey:@"oinonipL2Object"] == [NSNull null])
-        self.oinonipL2Object = nil;
-    else if ([dictionary objectForKey:@"oinonipL2Object"] && !self.oinonipL2Object)
-        self.oinonipL2Object = [JROinonipL2Object oinonipL2ObjectObjectFromDictionary:[dictionary objectForKey:@"oinonipL2Object"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"oinonipL2Object"])
-        [self.oinonipL2Object updateFromDictionary:[dictionary objectForKey:@"oinonipL2Object"] withPath:self.captureObjectPath];
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

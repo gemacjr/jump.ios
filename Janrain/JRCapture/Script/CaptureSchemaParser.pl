@@ -1640,12 +1640,12 @@ sub recursiveParse {
     }
   }
   
-  ##########################################################################
-  # Loop through our copy constructor pieces...
-  ##########################################################################
-  for (my $i = 0; $i < @copyConstructorSection; $i++) {
-      $mFile .= $copyConstructorSection[$i];
-  }
+#   ##########################################################################                                           
+#   # Loop through our copy constructor pieces...                                           
+#   ##########################################################################                                           
+#   for (my $i = 0; $i < @copyConstructorSection; $i++) {                                           
+#       $mFile .= $copyConstructorSection[$i];                                           
+#   }                                           
 
   ##########################################################################
   # Loop through the rest of our methods, and add '@end'
@@ -1664,9 +1664,9 @@ sub recursiveParse {
     }
   }
   
-  for (my $i = 0; $i < @updateFromDictSection; $i++) {
-    $mFile .= $updateFromDictSection[$i];
-  }
+#   for (my $i = 0; $i < @updateFromDictSection; $i++) {                                           
+#     $mFile .= $updateFromDictSection[$i];                                           
+#   }                                           
   
   for (my $i = 0; $i < @replaceFromDictSection; $i++) {
     $mFile .= $replaceFromDictSection[$i];

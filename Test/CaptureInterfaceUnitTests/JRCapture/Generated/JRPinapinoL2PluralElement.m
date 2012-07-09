@@ -172,17 +172,6 @@
     return [[[JRPinapinoL2PluralElement alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRPinapinoL2PluralElement *pinapinoL2PluralElementCopy = (JRPinapinoL2PluralElement *)[super copyWithZone:zone];
-
-    pinapinoL2PluralElementCopy.string1 = self.string1;
-    pinapinoL2PluralElementCopy.string2 = self.string2;
-    pinapinoL2PluralElementCopy.pinapinoL3Plural = self.pinapinoL3Plural;
-
-    return pinapinoL2PluralElementCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -252,26 +241,6 @@
 + (id)pinapinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRPinapinoL2PluralElement pinapinoL2PluralElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapinoL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string1"] : nil;
-
-    if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string2"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

@@ -117,17 +117,6 @@
     return [[[JROinonipL2Object alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JROinonipL2Object *oinonipL2ObjectCopy = (JROinonipL2Object *)[super copyWithZone:zone];
-
-    oinonipL2ObjectCopy.string1 = self.string1;
-    oinonipL2ObjectCopy.string2 = self.string2;
-    oinonipL2ObjectCopy.oinonipL3Object = self.oinonipL3Object;
-
-    return oinonipL2ObjectCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -197,33 +186,6 @@
 + (id)oinonipL2ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JROinonipL2Object oinonipL2ObjectObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"oinonipL2Object"];
-
-    if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string1"] : nil;
-
-    if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string2"] : nil;
-
-    if ([dictionary objectForKey:@"oinonipL3Object"] == [NSNull null])
-        self.oinonipL3Object = nil;
-    else if ([dictionary objectForKey:@"oinonipL3Object"] && !self.oinonipL3Object)
-        self.oinonipL3Object = [JROinonipL3Object oinonipL3ObjectObjectFromDictionary:[dictionary objectForKey:@"oinonipL3Object"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"oinonipL3Object"])
-        [self.oinonipL3Object updateFromDictionary:[dictionary objectForKey:@"oinonipL3Object"] withPath:self.captureObjectPath];
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

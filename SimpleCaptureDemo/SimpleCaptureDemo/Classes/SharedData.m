@@ -244,7 +244,7 @@ static NSString *entityTypeName     = @"user_dev";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
-- (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser *)captureUser status:(JRCaptureRecordStatus)captureRecordStatus
+- (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser *)newCaptureUser status:(JRCaptureRecordStatus)captureRecordStatus
 {
     DLog(@"");
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -259,7 +259,7 @@ static NSString *entityTypeName     = @"user_dev";
     else
         self.notYetCreated = NO;
 
-    self.captureUser = captureUser;
+    self.captureUser = newCaptureUser;
 
     [prefs setObject:[NSKeyedArchiver archivedDataWithRootObject:captureUser]
               forKey:cJRCaptureUser];

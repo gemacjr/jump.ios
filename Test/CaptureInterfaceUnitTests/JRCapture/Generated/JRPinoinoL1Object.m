@@ -117,17 +117,6 @@
     return [[[JRPinoinoL1Object alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRPinoinoL1Object *pinoinoL1ObjectCopy = (JRPinoinoL1Object *)[super copyWithZone:zone];
-
-    pinoinoL1ObjectCopy.string1 = self.string1;
-    pinoinoL1ObjectCopy.string2 = self.string2;
-    pinoinoL1ObjectCopy.pinoinoL2Object = self.pinoinoL2Object;
-
-    return pinoinoL1ObjectCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -191,32 +180,6 @@
 + (id)pinoinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRPinoinoL1Object pinoinoL1ObjectObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-
-    if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string1"] : nil;
-
-    if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string2"] : nil;
-
-    if ([dictionary objectForKey:@"pinoinoL2Object"] == [NSNull null])
-        self.pinoinoL2Object = nil;
-    else if ([dictionary objectForKey:@"pinoinoL2Object"] && !self.pinoinoL2Object)
-        self.pinoinoL2Object = [JRPinoinoL2Object pinoinoL2ObjectObjectFromDictionary:[dictionary objectForKey:@"pinoinoL2Object"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"pinoinoL2Object"])
-        [self.pinoinoL2Object updateFromDictionary:[dictionary objectForKey:@"pinoinoL2Object"] withPath:self.captureObjectPath];
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

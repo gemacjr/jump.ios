@@ -163,7 +163,7 @@
     DLog(@"");
     NSDictionary    *myContext     = (NSDictionary *)context;
     //JRCaptureUser   *captureUser   = [myContext objectForKey:@"captureUser"];
-    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
+    //NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];

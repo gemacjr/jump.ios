@@ -131,18 +131,6 @@
     return [[[JROnipLevelOneElement alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JROnipLevelOneElement *onipLevelOneElementCopy = (JROnipLevelOneElement *)[super copyWithZone:zone];
-
-    onipLevelOneElementCopy.onipLevelOneElementId = self.onipLevelOneElementId;
-    onipLevelOneElementCopy.level = self.level;
-    onipLevelOneElementCopy.name = self.name;
-    onipLevelOneElementCopy.onipLevelTwo = self.onipLevelTwo;
-
-    return onipLevelOneElementCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -218,37 +206,6 @@
 + (id)onipLevelOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JROnipLevelOneElement onipLevelOneElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"id"])
-        self.onipLevelOneElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
-
-    if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
-            [dictionary objectForKey:@"level"] : nil;
-
-    if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
-            [dictionary objectForKey:@"name"] : nil;
-
-    if ([dictionary objectForKey:@"onipLevelTwo"] == [NSNull null])
-        self.onipLevelTwo = nil;
-    else if ([dictionary objectForKey:@"onipLevelTwo"] && !self.onipLevelTwo)
-        self.onipLevelTwo = [JROnipLevelTwo onipLevelTwoObjectFromDictionary:[dictionary objectForKey:@"onipLevelTwo"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"onipLevelTwo"])
-        [self.onipLevelTwo updateFromDictionary:[dictionary objectForKey:@"onipLevelTwo"] withPath:self.captureObjectPath];
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

@@ -135,17 +135,6 @@
     return [[[JRObjectTestRequiredUnique alloc] initWithRequiredString:requiredString andRequiredUniqueString:requiredUniqueString] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRObjectTestRequiredUnique *objectTestRequiredUniqueCopy = (JRObjectTestRequiredUnique *)[super copyWithZone:zone];
-
-    objectTestRequiredUniqueCopy.requiredString = self.requiredString;
-    objectTestRequiredUniqueCopy.uniqueString = self.uniqueString;
-    objectTestRequiredUniqueCopy.requiredUniqueString = self.requiredUniqueString;
-
-    return objectTestRequiredUniqueCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -209,29 +198,6 @@
 + (id)objectTestRequiredUniqueObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRObjectTestRequiredUnique objectTestRequiredUniqueObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-
-    if ([dictionary objectForKey:@"requiredString"])
-        self.requiredString = [dictionary objectForKey:@"requiredString"] != [NSNull null] ? 
-            [dictionary objectForKey:@"requiredString"] : nil;
-
-    if ([dictionary objectForKey:@"uniqueString"])
-        self.uniqueString = [dictionary objectForKey:@"uniqueString"] != [NSNull null] ? 
-            [dictionary objectForKey:@"uniqueString"] : nil;
-
-    if ([dictionary objectForKey:@"requiredUniqueString"])
-        self.requiredUniqueString = [dictionary objectForKey:@"requiredUniqueString"] != [NSNull null] ? 
-            [dictionary objectForKey:@"requiredUniqueString"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
