@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRPinonipL1PluralElement.h"
 
-@interface JRPinonipL2Object (PinonipL2ObjectInternalMethods)
+@interface JRPinonipL2Object (JRPinonipL2Object_InternalMethods)
 + (id)pinonipL2ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinonipL2Object:(JRPinonipL2Object *)otherPinonipL2Object;
 @end

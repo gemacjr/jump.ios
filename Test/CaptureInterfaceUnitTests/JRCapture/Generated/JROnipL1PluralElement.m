@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JROnipL1PluralElement.h"
 
-@interface JROnipL2Object (OnipL2ObjectInternalMethods)
+@interface JROnipL2Object (JROnipL2Object_InternalMethods)
 + (id)onipL2ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipL2Object:(JROnipL2Object *)otherOnipL2Object;
 @end

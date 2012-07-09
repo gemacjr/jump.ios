@@ -92,7 +92,7 @@
 @property (retain) id<JRNativeSigninViewControllerDelegate> delegate;
 @property (retain) NSString *titleString;
 @property (retain) UIView   *titleView;
-@property JRNativeSigninType signinType;
+@property JRConventionalSigninType signinType;
 @property (retain) UIView   *loadingView;
 @end
 
@@ -103,7 +103,7 @@
 @synthesize loadingView;
 @synthesize delegate;
 
-- (id)initWithNativeSigninType:(JRNativeSigninType)theSigninType titleString:(NSString *)theTitleString
+- (id)initWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)theTitleString
                      titleView:(UIView *)theTitleView delegate:(id<JRNativeSigninViewControllerDelegate>)theDelegate
 {
     if ((self = [super init]))
@@ -117,7 +117,7 @@
     return self;
 }
 
-+ (id)nativeSigninViewControllerWithNativeSigninType:(JRNativeSigninType)theSigninType titleString:(NSString *)theTitleString
++ (id)nativeSigninViewControllerWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)theTitleString
                                            titleView:(UIView *)theTitleView delegate:(id<JRNativeSigninViewControllerDelegate>)theDelegate
 {
     return [[[JRNativeSigninViewController alloc]
@@ -269,7 +269,7 @@
         if (indexPath.row == 0)
         {
             textField.placeholder =
-                    (self.signinType == JRNativeSigninEmailPassword ?
+                    (self.signinType == JRConventionalSigninEmailPassword ?
                             @"enter your email":
                             @"enter your username");
         }

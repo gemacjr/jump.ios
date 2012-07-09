@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JROnipinoL2PluralElement.h"
 
-@interface JROnipinoL3Object (OnipinoL3ObjectInternalMethods)
+@interface JROnipinoL3Object (JROnipinoL3Object_InternalMethods)
 + (id)onipinoL3ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipinoL3Object:(JROnipinoL3Object *)otherOnipinoL3Object;
 @end

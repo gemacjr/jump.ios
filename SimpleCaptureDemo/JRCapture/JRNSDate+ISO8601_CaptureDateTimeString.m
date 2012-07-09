@@ -14,7 +14,7 @@
 
 #import "JRNSDate+ISO8601_CaptureDateTimeString.h"
 
-@implementation NSDate (ISO8601_CaptureDateTimeString)
+@implementation NSDate (JRDate_ISO8601_CaptureDateTimeString)
 + (NSDate *)dateFromISO8601DateString:(NSString *)dateString
 {
     if (!dateString) return nil;

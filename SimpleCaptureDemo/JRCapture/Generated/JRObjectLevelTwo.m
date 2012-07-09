@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRObjectLevelTwo.h"
 
-@interface JRObjectLevelThree (ObjectLevelThreeInternalMethods)
+@interface JRObjectLevelThree (JRObjectLevelThree_InternalMethods)
 + (id)objectLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToObjectLevelThree:(JRObjectLevelThree *)otherObjectLevelThree;
 @end

@@ -40,20 +40,12 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRPinapinapL1PluralElement.h"
 
-@interface JRPinapinapL2PluralElement (PinapinapL2PluralElementInternalMethods)
+@interface JRPinapinapL2PluralElement (JRPinapinapL2PluralElement_InternalMethods)
 + (id)pinapinapL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinapinapL2PluralElement:(JRPinapinapL2PluralElement *)otherPinapinapL2PluralElement;
 @end
 
-@interface NSArray (PinapinapL2PluralToFromDictionary)
-- (NSArray*)arrayOfPinapinapL2PluralElementsFromPinapinapL2PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPinapinapL2PluralElementsFromPinapinapL2PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinapinapL2PluralDictionariesFromPinapinapL2PluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPinapinapL2PluralDictionariesFromPinapinapL2PluralElements;
-- (NSArray*)arrayOfPinapinapL2PluralReplaceDictionariesFromPinapinapL2PluralElements;
-@end
-
-@implementation NSArray (PinapinapL2PluralToFromDictionary)
+@implementation NSArray (JRArray_PinapinapL2Plural_ToFromDictionary)
 - (NSArray*)arrayOfPinapinapL2PluralElementsFromPinapinapL2PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPinapinapL2PluralArray = [NSMutableArray arrayWithCapacity:[self count]];

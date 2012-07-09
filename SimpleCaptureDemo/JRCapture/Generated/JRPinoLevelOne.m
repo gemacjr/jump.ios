@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRPinoLevelOne.h"
 
-@interface JRPinoLevelTwo (PinoLevelTwoInternalMethods)
+@interface JRPinoLevelTwo (JRPinoLevelTwo_InternalMethods)
 + (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinoLevelTwo:(JRPinoLevelTwo *)otherPinoLevelTwo;
 @end

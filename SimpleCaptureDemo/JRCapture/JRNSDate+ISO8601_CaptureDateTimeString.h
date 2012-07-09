@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSDate (ISO8601_CaptureDateTimeString)
+@interface NSDate (JRDate_ISO8601_CaptureDateTimeString)
 + (NSDate *)dateFromISO8601DateString:(NSString *)dateString;
 + (NSDate *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
 - (NSString *)stringFromISO8601Date;

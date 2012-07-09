@@ -40,105 +40,97 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRCaptureUser.h"
 
-@interface JRBasicPluralElement (BasicPluralElementInternalMethods)
+@interface JRBasicPluralElement (JRBasicPluralElement_InternalMethods)
 + (id)basicPluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToBasicPluralElement:(JRBasicPluralElement *)otherBasicPluralElement;
 @end
 
-@interface JRBasicObject (BasicObjectInternalMethods)
+@interface JRBasicObject (JRBasicObject_InternalMethods)
 + (id)basicObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToBasicObject:(JRBasicObject *)otherBasicObject;
 @end
 
-@interface JRObjectTestRequired (ObjectTestRequiredInternalMethods)
+@interface JRObjectTestRequired (JRObjectTestRequired_InternalMethods)
 + (id)objectTestRequiredObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToObjectTestRequired:(JRObjectTestRequired *)otherObjectTestRequired;
 @end
 
-@interface JRPluralTestUniqueElement (PluralTestUniqueElementInternalMethods)
+@interface JRPluralTestUniqueElement (JRPluralTestUniqueElement_InternalMethods)
 + (id)pluralTestUniqueElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPluralTestUniqueElement:(JRPluralTestUniqueElement *)otherPluralTestUniqueElement;
 @end
 
-@interface JRObjectTestRequiredUnique (ObjectTestRequiredUniqueInternalMethods)
+@interface JRObjectTestRequiredUnique (JRObjectTestRequiredUnique_InternalMethods)
 + (id)objectTestRequiredUniqueObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToObjectTestRequiredUnique:(JRObjectTestRequiredUnique *)otherObjectTestRequiredUnique;
 @end
 
-@interface JRPluralTestAlphabeticElement (PluralTestAlphabeticElementInternalMethods)
+@interface JRPluralTestAlphabeticElement (JRPluralTestAlphabeticElement_InternalMethods)
 + (id)pluralTestAlphabeticElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPluralTestAlphabeticElement:(JRPluralTestAlphabeticElement *)otherPluralTestAlphabeticElement;
 @end
 
-@interface JRPinapL1PluralElement (PinapL1PluralElementInternalMethods)
+@interface JRPinapL1PluralElement (JRPinapL1PluralElement_InternalMethods)
 + (id)pinapL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinapL1PluralElement:(JRPinapL1PluralElement *)otherPinapL1PluralElement;
 @end
 
-@interface JRPinoL1Object (PinoL1ObjectInternalMethods)
+@interface JRPinoL1Object (JRPinoL1Object_InternalMethods)
 + (id)pinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinoL1Object:(JRPinoL1Object *)otherPinoL1Object;
 @end
 
-@interface JROnipL1PluralElement (OnipL1PluralElementInternalMethods)
+@interface JROnipL1PluralElement (JROnipL1PluralElement_InternalMethods)
 + (id)onipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipL1PluralElement:(JROnipL1PluralElement *)otherOnipL1PluralElement;
 @end
 
-@interface JROinoL1Object (OinoL1ObjectInternalMethods)
+@interface JROinoL1Object (JROinoL1Object_InternalMethods)
 + (id)oinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOinoL1Object:(JROinoL1Object *)otherOinoL1Object;
 @end
 
-@interface JRPinapinapL1PluralElement (PinapinapL1PluralElementInternalMethods)
+@interface JRPinapinapL1PluralElement (JRPinapinapL1PluralElement_InternalMethods)
 + (id)pinapinapL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinapinapL1PluralElement:(JRPinapinapL1PluralElement *)otherPinapinapL1PluralElement;
 @end
 
-@interface JRPinonipL1PluralElement (PinonipL1PluralElementInternalMethods)
+@interface JRPinonipL1PluralElement (JRPinonipL1PluralElement_InternalMethods)
 + (id)pinonipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinonipL1PluralElement:(JRPinonipL1PluralElement *)otherPinonipL1PluralElement;
 @end
 
-@interface JRPinapinoL1Object (PinapinoL1ObjectInternalMethods)
+@interface JRPinapinoL1Object (JRPinapinoL1Object_InternalMethods)
 + (id)pinapinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinapinoL1Object:(JRPinapinoL1Object *)otherPinapinoL1Object;
 @end
 
-@interface JRPinoinoL1Object (PinoinoL1ObjectInternalMethods)
+@interface JRPinoinoL1Object (JRPinoinoL1Object_InternalMethods)
 + (id)pinoinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinoinoL1Object:(JRPinoinoL1Object *)otherPinoinoL1Object;
 @end
 
-@interface JROnipinapL1PluralElement (OnipinapL1PluralElementInternalMethods)
+@interface JROnipinapL1PluralElement (JROnipinapL1PluralElement_InternalMethods)
 + (id)onipinapL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipinapL1PluralElement:(JROnipinapL1PluralElement *)otherOnipinapL1PluralElement;
 @end
 
-@interface JROinonipL1PluralElement (OinonipL1PluralElementInternalMethods)
+@interface JROinonipL1PluralElement (JROinonipL1PluralElement_InternalMethods)
 + (id)oinonipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOinonipL1PluralElement:(JROinonipL1PluralElement *)otherOinonipL1PluralElement;
 @end
 
-@interface JROnipinoL1Object (OnipinoL1ObjectInternalMethods)
+@interface JROnipinoL1Object (JROnipinoL1Object_InternalMethods)
 + (id)onipinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipinoL1Object:(JROnipinoL1Object *)otherOnipinoL1Object;
 @end
 
-@interface JROinoinoL1Object (OinoinoL1ObjectInternalMethods)
+@interface JROinoinoL1Object (JROinoinoL1Object_InternalMethods)
 + (id)oinoinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOinoinoL1Object:(JROinoinoL1Object *)otherOinoinoL1Object;
 @end
 
-@interface NSArray (BasicPluralToFromDictionary)
-- (NSArray*)arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfBasicPluralDictionariesFromBasicPluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfBasicPluralDictionariesFromBasicPluralElements;
-- (NSArray*)arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements;
-@end
-
-@implementation NSArray (BasicPluralToFromDictionary)
+@implementation NSArray (JRArray_BasicPlural_ToFromDictionary)
 - (NSArray*)arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredBasicPluralArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -180,15 +172,7 @@
 }
 @end
 
-@interface NSArray (PluralTestUniqueToFromDictionary)
-- (NSArray*)arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueElements;
-- (NSArray*)arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements;
-@end
-
-@implementation NSArray (PluralTestUniqueToFromDictionary)
+@implementation NSArray (JRArray_PluralTestUnique_ToFromDictionary)
 - (NSArray*)arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPluralTestUniqueArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -230,15 +214,7 @@
 }
 @end
 
-@interface NSArray (PluralTestAlphabeticToFromDictionary)
-- (NSArray*)arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticElements;
-- (NSArray*)arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements;
-@end
-
-@implementation NSArray (PluralTestAlphabeticToFromDictionary)
+@implementation NSArray (JRArray_PluralTestAlphabetic_ToFromDictionary)
 - (NSArray*)arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPluralTestAlphabeticArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -280,15 +256,7 @@
 }
 @end
 
-@interface NSArray (PinapL1PluralToFromDictionary)
-- (NSArray*)arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinapL1PluralDictionariesFromPinapL1PluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPinapL1PluralDictionariesFromPinapL1PluralElements;
-- (NSArray*)arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements;
-@end
-
-@implementation NSArray (PinapL1PluralToFromDictionary)
+@implementation NSArray (JRArray_PinapL1Plural_ToFromDictionary)
 - (NSArray*)arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPinapL1PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -330,15 +298,7 @@
 }
 @end
 
-@interface NSArray (OnipL1PluralToFromDictionary)
-- (NSArray*)arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOnipL1PluralDictionariesFromOnipL1PluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfOnipL1PluralDictionariesFromOnipL1PluralElements;
-- (NSArray*)arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements;
-@end
-
-@implementation NSArray (OnipL1PluralToFromDictionary)
+@implementation NSArray (JRArray_OnipL1Plural_ToFromDictionary)
 - (NSArray*)arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredOnipL1PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -380,15 +340,7 @@
 }
 @end
 
-@interface NSArray (PinapinapL1PluralToFromDictionary)
-- (NSArray*)arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralElements;
-- (NSArray*)arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements;
-@end
-
-@implementation NSArray (PinapinapL1PluralToFromDictionary)
+@implementation NSArray (JRArray_PinapinapL1Plural_ToFromDictionary)
 - (NSArray*)arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPinapinapL1PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -430,15 +382,7 @@
 }
 @end
 
-@interface NSArray (PinonipL1PluralToFromDictionary)
-- (NSArray*)arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralElements;
-- (NSArray*)arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements;
-@end
-
-@implementation NSArray (PinonipL1PluralToFromDictionary)
+@implementation NSArray (JRArray_PinonipL1Plural_ToFromDictionary)
 - (NSArray*)arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPinonipL1PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -480,15 +424,7 @@
 }
 @end
 
-@interface NSArray (OnipinapL1PluralToFromDictionary)
-- (NSArray*)arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralElements;
-- (NSArray*)arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements;
-@end
-
-@implementation NSArray (OnipinapL1PluralToFromDictionary)
+@implementation NSArray (JRArray_OnipinapL1Plural_ToFromDictionary)
 - (NSArray*)arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredOnipinapL1PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -530,15 +466,7 @@
 }
 @end
 
-@interface NSArray (OinonipL1PluralToFromDictionary)
-- (NSArray*)arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralElements;
-- (NSArray*)arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements;
-@end
-
-@implementation NSArray (OinonipL1PluralToFromDictionary)
+@implementation NSArray (JRArray_OinonipL1Plural_ToFromDictionary)
 - (NSArray*)arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredOinonipL1PluralArray = [NSMutableArray arrayWithCapacity:[self count]];

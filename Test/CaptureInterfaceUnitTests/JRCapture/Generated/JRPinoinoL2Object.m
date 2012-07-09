@@ -40,20 +40,12 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRPinoinoL2Object.h"
 
-@interface JRPinoinoL3PluralElement (PinoinoL3PluralElementInternalMethods)
+@interface JRPinoinoL3PluralElement (JRPinoinoL3PluralElement_InternalMethods)
 + (id)pinoinoL3PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinoinoL3PluralElement:(JRPinoinoL3PluralElement *)otherPinoinoL3PluralElement;
 @end
 
-@interface NSArray (PinoinoL3PluralToFromDictionary)
-- (NSArray*)arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralElements;
-- (NSArray*)arrayOfPinoinoL3PluralReplaceDictionariesFromPinoinoL3PluralElements;
-@end
-
-@implementation NSArray (PinoinoL3PluralToFromDictionary)
+@implementation NSArray (JRArray_PinoinoL3Plural_ToFromDictionary)
 - (NSArray*)arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPinoinoL3PluralArray = [NSMutableArray arrayWithCapacity:[self count]];

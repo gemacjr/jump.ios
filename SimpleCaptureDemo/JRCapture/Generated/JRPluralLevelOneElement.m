@@ -40,20 +40,12 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRPluralLevelOneElement.h"
 
-@interface JRPluralLevelTwoElement (PluralLevelTwoElementInternalMethods)
+@interface JRPluralLevelTwoElement (JRPluralLevelTwoElement_InternalMethods)
 + (id)pluralLevelTwoElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPluralLevelTwoElement:(JRPluralLevelTwoElement *)otherPluralLevelTwoElement;
 @end
 
-@interface NSArray (PluralLevelTwoToFromDictionary)
-- (NSArray*)arrayOfPluralLevelTwoElementsFromPluralLevelTwoDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPluralLevelTwoElementsFromPluralLevelTwoDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPluralLevelTwoDictionariesFromPluralLevelTwoElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPluralLevelTwoDictionariesFromPluralLevelTwoElements;
-- (NSArray*)arrayOfPluralLevelTwoReplaceDictionariesFromPluralLevelTwoElements;
-@end
-
-@implementation NSArray (PluralLevelTwoToFromDictionary)
+@implementation NSArray (JRArray_PluralLevelTwo_ToFromDictionary)
 - (NSArray*)arrayOfPluralLevelTwoElementsFromPluralLevelTwoDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPluralLevelTwoArray = [NSMutableArray arrayWithCapacity:[self count]];

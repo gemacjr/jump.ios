@@ -48,24 +48,21 @@
 
 typedef enum
 {
-    JRNativeSigninNone = 0,
-    JRNativeSigninUsernamePassword,
-    JRNativeSigninEmailPassword,
-} JRNativeSigninType;
+    JRConventionalSigninNone = 0,
+    JRConventionalSigninUsernamePassword,
+    JRConventionalSigninEmailPassword,
+} JRConventionalSigninType;
 
 typedef enum
 {
-    JRCaptureRecordNewlyCreated, // now it exists, and it is new
-    JRCaptureRecordExists,//IsExisting, // present?? // already created, not new
+    JRCaptureRecordNewlyCreated,          // now it exists, and it is new
+    JRCaptureRecordExists,                // already created, not new
     JRCaptureRecordMissingRequiredFields, // not created, does not exist
-} JRCaptureRecordStatus; // RecordStatus perhaps?
+} JRCaptureRecordStatus;
 
 @class JRActivityObject;
 
-//@protocol JRCaptureAuthenticationDelegate;
-//@protocol JRCaptureSocialSharingDelegate;
-
-@protocol JRCaptureAuthenticationDelegate <NSObject>
+@protocol JRCaptureSigninDelegate <NSObject>
 @optional
 /**
  * Sent if the application tries to show a JREngage dialog, and JREngage failed to show.  May
@@ -80,7 +77,7 @@ typedef enum
  * is based on the possibility that your application may preemptively configure JREngage, but never actually
  * use it.  If that is the case, then you won't get any error.
  **/
-- (void)engageAuthenticationDialogDidFailToShowWithError:(NSError*)error;
+- (void)engageSigninDialogDidFailToShowWithError:(NSError*)error;
 /*@}*/
 
 /**
@@ -95,48 +92,12 @@ typedef enum
  * cancelAuthentication message, or if configuration of the library is taking more than about
  * 16 seconds (rare) to download.
  **/
-- (void)engageAuthenticationDidNotComplete;
+- (void)engageSigninDidNotComplete;
 
 
-- (void)engageAuthenticationDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider;
+- (void)engageSigninDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider;
 
-/**
-// * Tells the delegate that the user has successfully authenticated with the given provider, passing to
-// * the delegate an \e NSDictionary object with the user's profile data.
-// *
-// * @param auth_info
-// *   An \e NSDictionary of fields containing all the information Janrain Engage knows about the user
-// *   logging into your application.  Includes the field \c "profile" which contains the user's profile information
-// *
-// * @param provider
-// *   The name of the provider on which the user authenticated.  For a list of possible strings,
-// *   please see the \ref basicProviders "List of Providers"
-// *
-// * @par Example:
-// *   The structure of the auth_info dictionary (represented here in json) should look something like
-// *   the following:
-// * @code
-// "auth_info":
-// {
-// "profile":
-// {
-// "displayName": "brian",
-// "preferredUsername": "brian",
-// "url": "http:\/\/brian.myopenid.com\/",
-// "providerName": "Other",
-// "identifier": "http:\/\/brian.myopenid.com\/"
-// }
-// }
-// * @endcode
-// *
-// *
-// * @sa
-// * For a full description of the dictionary and its fields, please see the
-// * <a href="http://documentation.janrain.com/engage/api/auth_info">auth_info response</a>
-// * section of the Janrain Engage API documentation.
- **/
-- (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser*)captureUser withToken:(NSString *)captureToken
-                                     andStatus:(JRCaptureRecordStatus)captureRecordStatus;
+- (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser *)captureUser status:(JRCaptureRecordStatus)captureRecordStatus;
 
 /**
  * Sent when authentication failed and could not be recovered by the library.
@@ -170,7 +131,9 @@ typedef enum
 - (void)captureAuthenticationDidFailWithError:(NSError*)error;
 @end
 
-@protocol JRCaptureSocialSharingDelegate <JRCaptureAuthenticationDelegate>
+#define SHARING_FROM_CAPTURE
+#ifdef SHARING_FROM_CAPTURE
+@protocol JRCaptureSocialSharingDelegate <JRCaptureSigninDelegate>
 @optional
 /**
  * @name SocialPublishing
@@ -220,21 +183,21 @@ typedef enum
 - (void)engageSocialSharingDidFailForActivity:(JRActivityObject*)activity withError:(NSError*)error onProvider:(NSString*)provider;
 /*@}*/
 @end
+#endif
 
 @interface JRCapture : NSObject
 
-+ (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
-                   clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName;
-
-+ (void)setEngageAppId:(NSString *)appId;
-
-+ (void)setEngageAppId:(NSString *)appId captureApiDomain:(NSString *)newCaptureApidDomain
++ (void)setEngageAppId:(NSString *)appId captureApidDomain:(NSString *)newCaptureApidDomain
        captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId
      andEntityTypeName:(NSString *)newEntityTypeName;
 
-//+ (NSString *)captureMobileEndpointUrl;
+//+ (void)setEngageAppId:(NSString *)appId;
+//
+//+ (void)setEngageAppId:(NSString *)appId captureApiDomain:(NSString *)newCaptureApidDomain
+//       captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId
+//     andEntityTypeName:(NSString *)newEntityTypeName;
+
 + (void)setAccessToken:(NSString *)newAccessToken;
-//+ (void)setCreationToken:(NSString *)newCreationToken;
 
 
 /**
@@ -247,10 +210,10 @@ typedef enum
  * Use this function to begin authentication.  The JREngage library will
  * pop up a modal dialog and take the user through the sign-in process.
  **/
-+ (void)startAuthenticationForDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
++ (void)startEngageSigninForDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
-+ (void)startAuthenticationWithNativeSignin:(JRNativeSigninType)nativeSigninState
-                                forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
++ (void)startEngageSigninDialogWithConventionalSignin:(JRConventionalSigninType)conventionalSigninState
+                                          forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
 /**
  * Use this function to begin authentication for one specific provider.  The JREngage library will
@@ -261,8 +224,8 @@ typedef enum
  *   The name of the provider on which the user will authenticate.  For a list of possible strings,
  *   please see the \ref basicProviders "List of Providers"
  **/
-+ (void)startAuthenticationDialogOnProvider:(NSString*)provider
-                                forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
++ (void)startEngageSigninDialogOnProvider:(NSString*)provider
+                              forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
 /**
  * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,
@@ -278,9 +241,9 @@ typedef enum
  * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
  * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
-+ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninType)nativeSigninState
-                      andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-                                      forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
++ (void)startEngageSigninDialogWithConventionalSignin:(JRConventionalSigninType)conventionalSigninState
+                          andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+                                          forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
 /**
 * Use this function to begin authentication.  The JREngage library will pop up a modal dialog, configured
@@ -301,10 +264,11 @@ typedef enum
 * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
 * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
 **/
-+ (void)startAuthenticationDialogOnProvider:(NSString*)provider
-               withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-                                forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
++ (void)startEngageSigninDialogOnProvider:(NSString*)provider
+             withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+                              forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
+#ifdef SHARING_FROM_CAPTURE
 /**
  * Use this function to begin social publishing. The JREngage library will pop up a modal dialog and
  * take the user through the sign-in process, if necessary, and share the given JRActivityObject.
@@ -312,8 +276,8 @@ typedef enum
  * @param activity
  *   The activity you wish to share
  **/
-+ (void)startSocialPublishingDialogWithActivity:(JRActivityObject*)activity
-                                    forDelegate:(id<JRCaptureSocialSharingDelegate>)delegate;
++ (void)startEngageSharingDialogWithActivity:(JRActivityObject*)activity
+                                 forDelegate:(id<JRCaptureSocialSharingDelegate>)delegate;
 
 /**
  * Use this function to begin social publishing.  The JREngage library will pop up a modal dialog,
@@ -333,8 +297,8 @@ typedef enum
  * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
  * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
-+ (void)startSocialPublishingDialogWithActivity:(JRActivityObject*)activity
-                   withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-                                    forDelegate:(id<JRCaptureSocialSharingDelegate>)delegate;
-
++ (void)startEngageSharingDialogWithActivity:(JRActivityObject*)activity
+                withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+                                 forDelegate:(id<JRCaptureSocialSharingDelegate>)delegate;
+#endif
 @end

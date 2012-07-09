@@ -40,20 +40,12 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRPluralLevelTwoElement.h"
 
-@interface JRPluralLevelThreeElement (PluralLevelThreeElementInternalMethods)
+@interface JRPluralLevelThreeElement (JRPluralLevelThreeElement_InternalMethods)
 + (id)pluralLevelThreeElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPluralLevelThreeElement:(JRPluralLevelThreeElement *)otherPluralLevelThreeElement;
 @end
 
-@interface NSArray (PluralLevelThreeToFromDictionary)
-- (NSArray*)arrayOfPluralLevelThreeElementsFromPluralLevelThreeDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPluralLevelThreeElementsFromPluralLevelThreeDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPluralLevelThreeDictionariesFromPluralLevelThreeElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPluralLevelThreeDictionariesFromPluralLevelThreeElements;
-- (NSArray*)arrayOfPluralLevelThreeReplaceDictionariesFromPluralLevelThreeElements;
-@end
-
-@implementation NSArray (PluralLevelThreeToFromDictionary)
+@implementation NSArray (JRArray_PluralLevelThree_ToFromDictionary)
 - (NSArray*)arrayOfPluralLevelThreeElementsFromPluralLevelThreeDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPluralLevelThreeArray = [NSMutableArray arrayWithCapacity:[self count]];

@@ -7,10 +7,10 @@
 
 typedef enum
 {
-    JRNativeSigninNone = 0,
-    JRNativeSigninUsernamePassword,
-    JRNativeSigninEmailPassword,
-} JRNativeSigninType;
+    JRConventionalSigninNone = 0,
+    JRConventionalSigninUsernamePassword,
+    JRConventionalSigninEmailPassword,
+} JRConventionalSigninType;
 
 typedef enum
 {
@@ -24,18 +24,17 @@ typedef enum
 //- (void)updateDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context;
 //- (void)updateDidFailForObject:(JRCaptureObject *)object withError:(NSError *)error context:(NSObject *)context;
 
-@protocol JRCaptureAuthenticationDelegate <NSObject>
+@protocol JRCaptureSigninDelegate <NSObject>
 @optional
 
-- (void)engageAuthenticationDialogDidFailToShowWithError:(NSError*)error;
+- (void)engageSigninDialogDidFailToShowWithError:(NSError*)error;
 
-- (void)engageAuthenticationDidNotComplete;
+- (void)engageSigninDidNotComplete;
 
 
-- (void)engageAuthenticationDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider;
+- (void)engageSigninDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider;
 
-- (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser*)captureUser withToken:(NSString *)captureToken
-                                     andStatus:(JRCaptureRecordStatus)status;
+- (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser *)captureUser status:(JRCaptureRecordStatus)captureRecordStatus;
 
 - (void)engageAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
@@ -43,7 +42,7 @@ typedef enum
 
 @end
 
-@protocol JRCaptureSocialSharingDelegate <JRCaptureAuthenticationDelegate>
+@protocol JRCaptureSocialSharingDelegate <JRCaptureSigninDelegate>
 @optional
 - (void)engageSharingDialogDidFailToShowWithError:(NSError*)error;
 
@@ -62,8 +61,7 @@ typedef enum
 
 @interface JRCapture : NSObject
 
-+ (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
-                   clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName;
++ (void)setEngageAppId:(NSString *)appId captureApidDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName;
 
 + (void)setEngageAppId:(NSString *)appId;
 
@@ -76,27 +74,27 @@ typedef enum
 + (void)setCreationToken:(NSString *)newCreationToken;
 
 
-+ (void)startAuthenticationForDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
++ (void)startEngageSigninForDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
-+ (void)startAuthenticationWithNativeSignin:(JRNativeSigninType)nativeSigninState
-                                forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
++ (void)startEngageSigninDialogWithConventionalSignin:(JRConventionalSigninType)conventionalSigninState
+                                forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
-+ (void)startAuthenticationDialogOnProvider:(NSString*)provider
-                                forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
++ (void)startEngageSigninDialogOnProvider:(NSString*)provider
+                                forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
 
-+ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninType)nativeSigninState
++ (void)startEngageSigninDialogWithConventionalSignin:(JRConventionalSigninType)conventionalSigninState
                       andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-                                      forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
+                                      forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
-+ (void)startAuthenticationDialogOnProvider:(NSString*)provider
++ (void)startEngageSigninDialogOnProvider:(NSString*)provider
                withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-                                forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
+                                forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
-+ (void)startSocialPublishingDialogWithActivity:(JRActivityObject*)activity
++ (void)startEngageSharingDialogWithActivity:(JRActivityObject*)activity
                                     forDelegate:(id<JRCaptureSocialSharingDelegate>)delegate;
 
-+ (void)startSocialPublishingDialogWithActivity:(JRActivityObject*)activity
++ (void)startEngageSharingDialogWithActivity:(JRActivityObject*)activity
                    withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
                                     forDelegate:(id<JRCaptureSocialSharingDelegate>)delegate;
 

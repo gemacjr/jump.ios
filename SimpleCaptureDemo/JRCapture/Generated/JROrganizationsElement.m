@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JROrganizationsElement.h"
 
-@interface JRLocation (LocationInternalMethods)
+@interface JRLocation (JRLocation_InternalMethods)
 + (id)locationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToLocation:(JRLocation *)otherLocation;
 @end

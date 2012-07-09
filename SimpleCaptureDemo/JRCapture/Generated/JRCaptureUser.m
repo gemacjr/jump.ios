@@ -40,60 +40,52 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRCaptureUser.h"
 
-@interface JRGamesElement (GamesElementInternalMethods)
+@interface JRGamesElement (JRGamesElement_InternalMethods)
 + (id)gamesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToGamesElement:(JRGamesElement *)otherGamesElement;
 @end
 
-@interface JRObjectLevelOne (ObjectLevelOneInternalMethods)
+@interface JRObjectLevelOne (JRObjectLevelOne_InternalMethods)
 + (id)objectLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToObjectLevelOne:(JRObjectLevelOne *)otherObjectLevelOne;
 @end
 
-@interface JROnipLevelOneElement (OnipLevelOneElementInternalMethods)
+@interface JROnipLevelOneElement (JROnipLevelOneElement_InternalMethods)
 + (id)onipLevelOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipLevelOneElement:(JROnipLevelOneElement *)otherOnipLevelOneElement;
 @end
 
-@interface JRPhotosElement (PhotosElementInternalMethods)
+@interface JRPhotosElement (JRPhotosElement_InternalMethods)
 + (id)photosElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPhotosElement:(JRPhotosElement *)otherPhotosElement;
 @end
 
-@interface JRPinoLevelOne (PinoLevelOneInternalMethods)
+@interface JRPinoLevelOne (JRPinoLevelOne_InternalMethods)
 + (id)pinoLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinoLevelOne:(JRPinoLevelOne *)otherPinoLevelOne;
 @end
 
-@interface JRPluralLevelOneElement (PluralLevelOneElementInternalMethods)
+@interface JRPluralLevelOneElement (JRPluralLevelOneElement_InternalMethods)
 + (id)pluralLevelOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPluralLevelOneElement:(JRPluralLevelOneElement *)otherPluralLevelOneElement;
 @end
 
-@interface JRPrimaryAddress (PrimaryAddressInternalMethods)
+@interface JRPrimaryAddress (JRPrimaryAddress_InternalMethods)
 + (id)primaryAddressObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPrimaryAddress:(JRPrimaryAddress *)otherPrimaryAddress;
 @end
 
-@interface JRProfilesElement (ProfilesElementInternalMethods)
+@interface JRProfilesElement (JRProfilesElement_InternalMethods)
 + (id)profilesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToProfilesElement:(JRProfilesElement *)otherProfilesElement;
 @end
 
-@interface JRStatusesElement (StatusesElementInternalMethods)
+@interface JRStatusesElement (JRStatusesElement_InternalMethods)
 + (id)statusesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToStatusesElement:(JRStatusesElement *)otherStatusesElement;
 @end
 
-@interface NSArray (GamesToFromDictionary)
-- (NSArray*)arrayOfGamesElementsFromGamesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfGamesElementsFromGamesDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfGamesDictionariesFromGamesElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfGamesDictionariesFromGamesElements;
-- (NSArray*)arrayOfGamesReplaceDictionariesFromGamesElements;
-@end
-
-@implementation NSArray (GamesToFromDictionary)
+@implementation NSArray (JRArray_Games_ToFromDictionary)
 - (NSArray*)arrayOfGamesElementsFromGamesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredGamesArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -135,15 +127,7 @@
 }
 @end
 
-@interface NSArray (OnipLevelOneToFromDictionary)
-- (NSArray*)arrayOfOnipLevelOneElementsFromOnipLevelOneDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfOnipLevelOneElementsFromOnipLevelOneDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOnipLevelOneDictionariesFromOnipLevelOneElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfOnipLevelOneDictionariesFromOnipLevelOneElements;
-- (NSArray*)arrayOfOnipLevelOneReplaceDictionariesFromOnipLevelOneElements;
-@end
-
-@implementation NSArray (OnipLevelOneToFromDictionary)
+@implementation NSArray (JRArray_OnipLevelOne_ToFromDictionary)
 - (NSArray*)arrayOfOnipLevelOneElementsFromOnipLevelOneDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredOnipLevelOneArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -185,15 +169,7 @@
 }
 @end
 
-@interface NSArray (PhotosToFromDictionary)
-- (NSArray*)arrayOfPhotosElementsFromPhotosDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPhotosElementsFromPhotosDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPhotosDictionariesFromPhotosElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPhotosDictionariesFromPhotosElements;
-- (NSArray*)arrayOfPhotosReplaceDictionariesFromPhotosElements;
-@end
-
-@implementation NSArray (PhotosToFromDictionary)
+@implementation NSArray (JRArray_Photos_ToFromDictionary)
 - (NSArray*)arrayOfPhotosElementsFromPhotosDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPhotosArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -235,15 +211,7 @@
 }
 @end
 
-@interface NSArray (PluralLevelOneToFromDictionary)
-- (NSArray*)arrayOfPluralLevelOneElementsFromPluralLevelOneDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPluralLevelOneElementsFromPluralLevelOneDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPluralLevelOneDictionariesFromPluralLevelOneElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPluralLevelOneDictionariesFromPluralLevelOneElements;
-- (NSArray*)arrayOfPluralLevelOneReplaceDictionariesFromPluralLevelOneElements;
-@end
-
-@implementation NSArray (PluralLevelOneToFromDictionary)
+@implementation NSArray (JRArray_PluralLevelOne_ToFromDictionary)
 - (NSArray*)arrayOfPluralLevelOneElementsFromPluralLevelOneDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPluralLevelOneArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -285,15 +253,7 @@
 }
 @end
 
-@interface NSArray (ProfilesToFromDictionary)
-- (NSArray*)arrayOfProfilesElementsFromProfilesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfProfilesElementsFromProfilesDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfProfilesDictionariesFromProfilesElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfProfilesDictionariesFromProfilesElements;
-- (NSArray*)arrayOfProfilesReplaceDictionariesFromProfilesElements;
-@end
-
-@implementation NSArray (ProfilesToFromDictionary)
+@implementation NSArray (JRArray_Profiles_ToFromDictionary)
 - (NSArray*)arrayOfProfilesElementsFromProfilesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredProfilesArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -335,15 +295,7 @@
 }
 @end
 
-@interface NSArray (StatusesToFromDictionary)
-- (NSArray*)arrayOfStatusesElementsFromStatusesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfStatusesElementsFromStatusesDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfStatusesDictionariesFromStatusesElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfStatusesDictionariesFromStatusesElements;
-- (NSArray*)arrayOfStatusesReplaceDictionariesFromStatusesElements;
-@end
-
-@implementation NSArray (StatusesToFromDictionary)
+@implementation NSArray (JRArray_Statuses_ToFromDictionary)
 - (NSArray*)arrayOfStatusesElementsFromStatusesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredStatusesArray = [NSMutableArray arrayWithCapacity:[self count]];

@@ -40,20 +40,12 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRPinoL1Object.h"
 
-@interface JRPinoL2PluralElement (PinoL2PluralElementInternalMethods)
+@interface JRPinoL2PluralElement (JRPinoL2PluralElement_InternalMethods)
 + (id)pinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinoL2PluralElement:(JRPinoL2PluralElement *)otherPinoL2PluralElement;
 @end
 
-@interface NSArray (PinoL2PluralToFromDictionary)
-- (NSArray*)arrayOfPinoL2PluralElementsFromPinoL2PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPinoL2PluralElementsFromPinoL2PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinoL2PluralDictionariesFromPinoL2PluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPinoL2PluralDictionariesFromPinoL2PluralElements;
-- (NSArray*)arrayOfPinoL2PluralReplaceDictionariesFromPinoL2PluralElements;
-@end
-
-@implementation NSArray (PinoL2PluralToFromDictionary)
+@implementation NSArray (JRArray_PinoL2Plural_ToFromDictionary)
 - (NSArray*)arrayOfPinoL2PluralElementsFromPinoL2PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPinoL2PluralArray = [NSMutableArray arrayWithCapacity:[self count]];

@@ -36,7 +36,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface NSString (jr_NSString_UrlEscaping)
+@interface NSString (JRString_UrlEscaping)
 - (NSString*)stringByAddingUrlPercentEscapes;
 @end
 

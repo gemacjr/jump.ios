@@ -40,20 +40,12 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRPinoLevelTwo.h"
 
-@interface JRPinoLevelThreeElement (PinoLevelThreeElementInternalMethods)
+@interface JRPinoLevelThreeElement (JRPinoLevelThreeElement_InternalMethods)
 + (id)pinoLevelThreeElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinoLevelThreeElement:(JRPinoLevelThreeElement *)otherPinoLevelThreeElement;
 @end
 
-@interface NSArray (PinoLevelThreeToFromDictionary)
-- (NSArray*)arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeElements;
-- (NSArray*)arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeElements;
-@end
-
-@implementation NSArray (PinoLevelThreeToFromDictionary)
+@implementation NSArray (JRArray_PinoLevelThree_ToFromDictionary)
 - (NSArray*)arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPinoLevelThreeArray = [NSMutableArray arrayWithCapacity:[self count]];

@@ -40,70 +40,62 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRProfile.h"
 
-@interface JRAccountsElement (AccountsElementInternalMethods)
+@interface JRAccountsElement (JRAccountsElement_InternalMethods)
 + (id)accountsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToAccountsElement:(JRAccountsElement *)otherAccountsElement;
 @end
 
-@interface JRAddressesElement (AddressesElementInternalMethods)
+@interface JRAddressesElement (JRAddressesElement_InternalMethods)
 + (id)addressesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToAddressesElement:(JRAddressesElement *)otherAddressesElement;
 @end
 
-@interface JRBodyType (BodyTypeInternalMethods)
+@interface JRBodyType (JRBodyType_InternalMethods)
 + (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToBodyType:(JRBodyType *)otherBodyType;
 @end
 
-@interface JRCurrentLocation (CurrentLocationInternalMethods)
+@interface JRCurrentLocation (JRCurrentLocation_InternalMethods)
 + (id)currentLocationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToCurrentLocation:(JRCurrentLocation *)otherCurrentLocation;
 @end
 
-@interface JREmailsElement (EmailsElementInternalMethods)
+@interface JREmailsElement (JREmailsElement_InternalMethods)
 + (id)emailsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToEmailsElement:(JREmailsElement *)otherEmailsElement;
 @end
 
-@interface JRImsElement (ImsElementInternalMethods)
+@interface JRImsElement (JRImsElement_InternalMethods)
 + (id)imsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToImsElement:(JRImsElement *)otherImsElement;
 @end
 
-@interface JRName (NameInternalMethods)
+@interface JRName (JRName_InternalMethods)
 + (id)nameObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToName:(JRName *)otherName;
 @end
 
-@interface JROrganizationsElement (OrganizationsElementInternalMethods)
+@interface JROrganizationsElement (JROrganizationsElement_InternalMethods)
 + (id)organizationsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOrganizationsElement:(JROrganizationsElement *)otherOrganizationsElement;
 @end
 
-@interface JRPhoneNumbersElement (PhoneNumbersElementInternalMethods)
+@interface JRPhoneNumbersElement (JRPhoneNumbersElement_InternalMethods)
 + (id)phoneNumbersElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPhoneNumbersElement:(JRPhoneNumbersElement *)otherPhoneNumbersElement;
 @end
 
-@interface JRProfilePhotosElement (ProfilePhotosElementInternalMethods)
+@interface JRProfilePhotosElement (JRProfilePhotosElement_InternalMethods)
 + (id)profilePhotosElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToProfilePhotosElement:(JRProfilePhotosElement *)otherProfilePhotosElement;
 @end
 
-@interface JRUrlsElement (UrlsElementInternalMethods)
+@interface JRUrlsElement (JRUrlsElement_InternalMethods)
 + (id)urlsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToUrlsElement:(JRUrlsElement *)otherUrlsElement;
 @end
 
-@interface NSArray (AccountsToFromDictionary)
-- (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfAccountsDictionariesFromAccountsElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfAccountsDictionariesFromAccountsElements;
-- (NSArray*)arrayOfAccountsReplaceDictionariesFromAccountsElements;
-@end
-
-@implementation NSArray (AccountsToFromDictionary)
+@implementation NSArray (JRArray_Accounts_ToFromDictionary)
 - (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredAccountsArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -145,15 +137,7 @@
 }
 @end
 
-@interface NSArray (AddressesToFromDictionary)
-- (NSArray*)arrayOfAddressesElementsFromAddressesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfAddressesElementsFromAddressesDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfAddressesDictionariesFromAddressesElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfAddressesDictionariesFromAddressesElements;
-- (NSArray*)arrayOfAddressesReplaceDictionariesFromAddressesElements;
-@end
-
-@implementation NSArray (AddressesToFromDictionary)
+@implementation NSArray (JRArray_Addresses_ToFromDictionary)
 - (NSArray*)arrayOfAddressesElementsFromAddressesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredAddressesArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -195,15 +179,7 @@
 }
 @end
 
-@interface NSArray (EmailsToFromDictionary)
-- (NSArray*)arrayOfEmailsElementsFromEmailsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfEmailsElementsFromEmailsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfEmailsDictionariesFromEmailsElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfEmailsDictionariesFromEmailsElements;
-- (NSArray*)arrayOfEmailsReplaceDictionariesFromEmailsElements;
-@end
-
-@implementation NSArray (EmailsToFromDictionary)
+@implementation NSArray (JRArray_Emails_ToFromDictionary)
 - (NSArray*)arrayOfEmailsElementsFromEmailsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredEmailsArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -245,15 +221,7 @@
 }
 @end
 
-@interface NSArray (ImsToFromDictionary)
-- (NSArray*)arrayOfImsElementsFromImsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfImsElementsFromImsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfImsDictionariesFromImsElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfImsDictionariesFromImsElements;
-- (NSArray*)arrayOfImsReplaceDictionariesFromImsElements;
-@end
-
-@implementation NSArray (ImsToFromDictionary)
+@implementation NSArray (JRArray_Ims_ToFromDictionary)
 - (NSArray*)arrayOfImsElementsFromImsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredImsArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -295,15 +263,7 @@
 }
 @end
 
-@interface NSArray (OrganizationsToFromDictionary)
-- (NSArray*)arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsElements;
-- (NSArray*)arrayOfOrganizationsReplaceDictionariesFromOrganizationsElements;
-@end
-
-@implementation NSArray (OrganizationsToFromDictionary)
+@implementation NSArray (JRArray_Organizations_ToFromDictionary)
 - (NSArray*)arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredOrganizationsArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -345,15 +305,7 @@
 }
 @end
 
-@interface NSArray (PhoneNumbersToFromDictionary)
-- (NSArray*)arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersElements;
-- (NSArray*)arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersElements;
-@end
-
-@implementation NSArray (PhoneNumbersToFromDictionary)
+@implementation NSArray (JRArray_PhoneNumbers_ToFromDictionary)
 - (NSArray*)arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPhoneNumbersArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -395,15 +347,7 @@
 }
 @end
 
-@interface NSArray (ProfilePhotosToFromDictionary)
-- (NSArray*)arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosElements;
-- (NSArray*)arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosElements;
-@end
-
-@implementation NSArray (ProfilePhotosToFromDictionary)
+@implementation NSArray (JRArray_ProfilePhotos_ToFromDictionary)
 - (NSArray*)arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredProfilePhotosArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -445,15 +389,7 @@
 }
 @end
 
-@interface NSArray (UrlsToFromDictionary)
-- (NSArray*)arrayOfUrlsElementsFromUrlsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfUrlsElementsFromUrlsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfUrlsDictionariesFromUrlsElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfUrlsDictionariesFromUrlsElements;
-- (NSArray*)arrayOfUrlsReplaceDictionariesFromUrlsElements;
-@end
-
-@implementation NSArray (UrlsToFromDictionary)
+@implementation NSArray (JRArray_Urls_ToFromDictionary)
 - (NSArray*)arrayOfUrlsElementsFromUrlsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredUrlsArray = [NSMutableArray arrayWithCapacity:[self count]];

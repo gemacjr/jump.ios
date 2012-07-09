@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRProfilesElement.h"
 
-@interface JRProfile (ProfileInternalMethods)
+@interface JRProfile (JRProfile_InternalMethods)
 + (id)profileObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToProfile:(JRProfile *)otherProfile;
 @end

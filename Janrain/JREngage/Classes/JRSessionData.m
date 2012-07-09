@@ -152,7 +152,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @end
 
 #pragma mark JRActivityObject ()
-@implementation JRActivityObject (shortenedUrl)
+@implementation JRActivityObject (JRActivityObject_shortenedUrl)
 - (NSString*)shortenedUrl { return _shortenedUrl; }
 - (void)setShortenedUrl:(NSString*)newUrl { [newUrl retain]; [_shortenedUrl release]; _shortenedUrl = newUrl; }
 @end

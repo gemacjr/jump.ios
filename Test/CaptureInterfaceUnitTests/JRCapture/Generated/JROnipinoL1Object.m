@@ -40,20 +40,12 @@
 #import "JRCaptureObject+Internal.h"
 #import "JROnipinoL1Object.h"
 
-@interface JROnipinoL2PluralElement (OnipinoL2PluralElementInternalMethods)
+@interface JROnipinoL2PluralElement (JROnipinoL2PluralElement_InternalMethods)
 + (id)onipinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipinoL2PluralElement:(JROnipinoL2PluralElement *)otherOnipinoL2PluralElement;
 @end
 
-@interface NSArray (OnipinoL2PluralToFromDictionary)
-- (NSArray*)arrayOfOnipinoL2PluralElementsFromOnipinoL2PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfOnipinoL2PluralElementsFromOnipinoL2PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOnipinoL2PluralDictionariesFromOnipinoL2PluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfOnipinoL2PluralDictionariesFromOnipinoL2PluralElements;
-- (NSArray*)arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralElements;
-@end
-
-@implementation NSArray (OnipinoL2PluralToFromDictionary)
+@implementation NSArray (JRArray_OnipinoL2Plural_ToFromDictionary)
 - (NSArray*)arrayOfOnipinoL2PluralElementsFromOnipinoL2PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredOnipinoL2PluralArray = [NSMutableArray arrayWithCapacity:[self count]];

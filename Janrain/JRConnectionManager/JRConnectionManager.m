@@ -45,7 +45,7 @@
 
 
 
-@implementation NSString (jr_NSString_UrlEscaping)
+@implementation NSString (JRString_UrlEscaping)
 - (NSString*)stringByAddingUrlPercentEscapes
 {
 

@@ -45,7 +45,7 @@
 #import "JREngage+CustomInterface.h"
 #import "JRActivityObject.h"
 
-@interface JRProvider (SOCIAL_SHARING_PROPERTIES)
+@interface JRProvider (JRProvider_SocialSharingProperties)
 - (BOOL)willThunkPublishToStatusForActivity:(JRActivityObject*)activity;
 - (BOOL)isActivityUrlPartOfUserContent;
 - (BOOL)canShareRichDataForActivity:(JRActivityObject*)activity;
@@ -54,7 +54,7 @@
 - (NSInteger)maxCharactersForPublishActivity;
 @end
 
-@implementation JRProvider (SOCIAL_SHARING_PROPERTIES)
+@implementation JRProvider (JRProvider_SocialSharingProperties)
 /* Right now, LinkedIn and Yahoo! */
 - (BOOL)willThunkPublishToStatusForActivity:(JRActivityObject*)activity
 {
