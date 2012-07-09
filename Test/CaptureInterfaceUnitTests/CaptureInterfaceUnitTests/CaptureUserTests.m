@@ -4,17 +4,8 @@
 // To change the template use AppCode | Preferences | File Templates.
 //
 
-
-
-#ifdef DEBUG
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-#else
-#define DLog(...)
-#endif
-
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-
 #import <GHUnitIOS/GHUnit.h>
+#import "debug_log.h"
 #import "SharedData.h"
 #import "JRCaptureObject+Internal.h"
 #import "ClassCategories.h"
@@ -104,7 +95,7 @@ JRCaptureUser *copyUserDirtyHack(JRCaptureUser *user)
     return [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:user]];
 }
 
-JRCaptureUser *originalUser;
+JRCaptureUser *originalUser, *modifiedUser;
 - (void)test_d130_dirtyFlagRestorationOnFailure
 {
     [self prepare];
@@ -136,9 +127,61 @@ JRCaptureUser *originalUser;
 
     [JRCaptureUser fetchCaptureUserFromServerForDelegate:self context:fetchCallback];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
-    [originalUser release];
+    [originalUser release]; originalUser = nil;
     [updateCallback release];
     [fetchCallback release];
+}
+
+- (void)test_d131_dirtyFlagsInPlurals
+{
+    [self prepare];
+
+    UpdateCallback updateCallback = ^(JRCaptureObject *o, NSError *e_)
+    {
+        if (e_)
+        {
+            GHAssertFalse([originalUser isEqualByPrivateProperties:self.captureUser], nil);
+            GHAssertTrue([modifiedUser isEqualByPrivateProperties:self.captureUser], nil);
+            [self notify:kGHUnitWaitStatusSuccess forSelector:_cmd];
+        }
+        else GHFail(nil);
+    };
+    updateCallback = [updateCallback copy];
+
+    FetchCallback fetchCallback = ^(JRCaptureUser *u, NSError *e)
+    {
+        if (u)
+        {
+            self.captureUser = u;
+            originalUser = [copyUserDirtyHack(u) retain];
+            captureUser.oinoinoL1Object.string1 = @"sadasdf99f";
+            captureUser.oinoinoL1Object.oinoinoL2Object.string2 = @"asdlfkjaslfkdj";
+            captureUser.oinoinoL1Object.oinoinoL2Object.oinoinoL3Object.string1 = @"asdlkfjaslkjf2";
+            captureUser.basicDecimal = [NSNumber numberWithDouble:NAN];
+            modifiedUser = [copyUserDirtyHack(captureUser) retain];
+
+            GHAssertFalse([originalUser isEqualByPrivateProperties:self.captureUser], nil);
+            [captureUser updateOnCaptureForDelegate:self context:updateCallback];
+        }
+        else GHFail(nil);
+    };
+    fetchCallback = [fetchCallback copy];
+
+    [JRCaptureUser fetchCaptureUserFromServerForDelegate:self context:fetchCallback];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+    [originalUser release]; originalUser = nil;
+    [modifiedUser release]; modifiedUser = nil;
+    [updateCallback release];
+    [fetchCallback release];
+}
+
+- (void)test_d140_stringEquality
+{
+    JRCaptureUser *secondUserInstance = copyUserDirtyHack(self.captureUser);
+    self.captureUser.basicString = @"asdf";
+    secondUserInstance.basicString = [NSMutableString stringWithString:captureUser.basicString];
+    GHAssertTrue(secondUserInstance.basicString != captureUser.basicString, nil);
+    GHAssertTrue([captureUser isEqualToCaptureUser:secondUserInstance], nil);
 }
 
 - (void)fetchUserDidSucceed:(JRCaptureUser *)fetchedUser context:(NSObject *)context
