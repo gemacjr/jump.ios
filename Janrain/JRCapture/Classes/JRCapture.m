@@ -49,23 +49,17 @@
 
 @implementation JRCapture
 
-+ (void)setEngageAppId:(NSString *)appId captureApidDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
-{
-    [JRCaptureData setCaptureApiDomain:newCaptureApidDomain captureUIDomain:newCaptureUIDomain
-                              clientId:newClientId andEntityTypeName:newEntityTypeName];
-}
-
 + (void)setEngageAppId:(NSString *)appId
 {
     [JREngageWrapper configureEngageWithCaptureMobileEndpointUrlAndAppId:appId];
 }
 
-+ (void)setEngageAppId:(NSString *)appId captureApiDomain:(NSString *)newCaptureApidDomain
++ (void)setEngageAppId:(NSString *)appId captureApidDomain:(NSString *)newCaptureApidDomain
        captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId
      andEntityTypeName:(NSString *)newEntityTypeName
 {
-    [JRCapture
-            setEngageAppId:nil captureApidDomain:newCaptureApidDomain captureUIDomain:newCaptureUIDomain clientId:newClientId andEntityTypeName:newEntityTypeName];
+    [JRCaptureData setCaptureApidDomain:newCaptureApidDomain captureUIDomain:newCaptureUIDomain
+                               clientId:newClientId andEntityTypeName:newEntityTypeName];
     [JREngageWrapper configureEngageWithCaptureMobileEndpointUrlAndAppId:appId];
 }
 

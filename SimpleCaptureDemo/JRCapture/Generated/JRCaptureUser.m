@@ -808,7 +808,9 @@
 - (void)setTesterBooleanWithBool:(BOOL)boolVal
 {
     [self.dirtyPropertySet addObject:@"testerBoolean"];
-    _testerBoolean = [NSNumber numberWithBool:boolVal];
+
+    [_testerBoolean autorelease];
+    _testerBoolean = [[NSNumber numberWithBool:boolVal] retain];
 }
 
 - (JRInteger *)testerInteger
@@ -832,7 +834,9 @@
 - (void)setTesterIntegerWithInteger:(NSInteger)integerVal
 {
     [self.dirtyPropertySet addObject:@"testerInteger"];
-    _testerInteger = [NSNumber numberWithInteger:integerVal];
+
+    [_testerInteger autorelease];
+    _testerInteger = [[NSNumber numberWithInteger:integerVal] retain];
 }
 
 - (JRIpAddress *)testerIpAddr

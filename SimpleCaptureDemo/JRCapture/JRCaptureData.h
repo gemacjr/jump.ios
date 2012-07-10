@@ -18,9 +18,9 @@
 + (NSString *)captureUIDomain;
 + (NSString *)clientId;
 + (NSString *)entityTypeName;
-+ (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain
-            captureUIDomain:(NSString *)newCaptureUIDomain
-                   clientId:(NSString *)newClientId
-          andEntityTypeName:(NSString *)newEntityTypeName;
++ (void)setCaptureApidDomain:(NSString *)newCaptureApidDomain
+             captureUIDomain:(NSString *)newCaptureUIDomain
+                    clientId:(NSString *)newClientId
+           andEntityTypeName:(NSString *)newEntityTypeName;
 + (NSString *)captureMobileEndpointUrl;
 @end

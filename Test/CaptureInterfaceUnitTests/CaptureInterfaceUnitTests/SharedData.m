@@ -30,8 +30,8 @@ static NSString *accessToken        = @"ve5agstyyb9gqzjm";
 {
     if ((self = [super init]))
     {
-        [JRCapture setCaptureApiDomain:captureApidDomain captureUIDomain:captureUIDomain
-                              clientId:clientId andEntityTypeName:entityTypeName];
+        [JRCapture setEngageAppId:nil captureApidDomain:captureApidDomain captureUIDomain:captureUIDomain
+                         clientId:clientId andEntityTypeName:entityTypeName];
         [JRCapture setAccessToken:accessToken];
     }
 
@@ -50,7 +50,7 @@ static NSString *accessToken        = @"ve5agstyyb9gqzjm";
 
 + (id)allocWithZone:(NSZone *)zone
 {
-    return [self sharedData];
+    return [[self sharedData] retain];
 }
 
 - (id)copyWithZone:(NSZone *)zone

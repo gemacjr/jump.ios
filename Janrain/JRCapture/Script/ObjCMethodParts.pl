@@ -1138,9 +1138,10 @@ sub createGetterSetterForProperty {
     
     $primitiveSetter .= "- (void)set" . ucfirst($propertyName) . "WithBool:(BOOL)boolVal";
     $primitiveSetter .= "\n{\n";
-    $primitiveSetter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n";
+    $primitiveSetter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n\n";
   
-    $primitiveSetter .= "    _" . $propertyName .  " = [NSNumber numberWithBool:boolVal];";    
+    $primitiveSetter .= "    [_" . $propertyName .  " autorelease];\n";    
+    $primitiveSetter .= "    _" . $propertyName .  " = [[NSNumber numberWithBool:boolVal] retain];";    
     $primitiveSetter .= "\n}\n\n";
 
   } elsif ($isBoolOrInt eq "i") {
@@ -1152,9 +1153,10 @@ sub createGetterSetterForProperty {
     
     $primitiveSetter .= "- (void)set" . ucfirst($propertyName) . "WithInteger:(NSInteger)integerVal";
     $primitiveSetter .= "\n{\n";
-    $primitiveSetter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n";
-  
-    $primitiveSetter .= "    _" . $propertyName .  " = [NSNumber numberWithInteger:integerVal];";    
+    $primitiveSetter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n\n";
+
+    $primitiveSetter .= "    [_" . $propertyName .  " autorelease];\n";  
+    $primitiveSetter .= "    _" . $propertyName .  " = [[NSNumber numberWithInteger:integerVal] retain];";    
     $primitiveSetter .= "\n}\n\n";
     
   }

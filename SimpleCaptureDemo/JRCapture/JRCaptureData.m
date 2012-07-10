@@ -117,8 +117,8 @@ static JRCaptureData *singleton = nil;
                      captureDataInstance.captureUIDomain, captureDataInstance.clientId];
 }
 
-+ (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
-                   clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
++ (void)setCaptureApidDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
+                    clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
 {
     JRCaptureData *captureDataInstance    = [JRCaptureData captureDataInstance];
     captureDataInstance.captureApidDomain = newCaptureApidDomain;

@@ -752,7 +752,9 @@
 - (void)setBasicBooleanWithBool:(BOOL)boolVal
 {
     [self.dirtyPropertySet addObject:@"basicBoolean"];
-    _basicBoolean = [NSNumber numberWithBool:boolVal];
+
+    [_basicBoolean autorelease];
+    _basicBoolean = [[NSNumber numberWithBool:boolVal] retain];
 }
 
 - (NSString *)basicString
@@ -789,7 +791,9 @@
 - (void)setBasicIntegerWithInteger:(NSInteger)integerVal
 {
     [self.dirtyPropertySet addObject:@"basicInteger"];
-    _basicInteger = [NSNumber numberWithInteger:integerVal];
+
+    [_basicInteger autorelease];
+    _basicInteger = [[NSNumber numberWithInteger:integerVal] retain];
 }
 
 - (NSNumber *)basicDecimal

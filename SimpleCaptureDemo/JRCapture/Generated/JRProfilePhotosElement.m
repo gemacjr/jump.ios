@@ -87,7 +87,9 @@
 - (void)setPrimaryWithBool:(BOOL)boolVal
 {
     [self.dirtyPropertySet addObject:@"primary"];
-    _primary = [NSNumber numberWithBool:boolVal];
+
+    [_primary autorelease];
+    _primary = [[NSNumber numberWithBool:boolVal] retain];
 }
 
 - (NSString *)type

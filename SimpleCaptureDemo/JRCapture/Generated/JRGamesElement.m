@@ -88,7 +88,9 @@
 - (void)setIsFavoriteWithBool:(BOOL)boolVal
 {
     [self.dirtyPropertySet addObject:@"isFavorite"];
-    _isFavorite = [NSNumber numberWithBool:boolVal];
+
+    [_isFavorite autorelease];
+    _isFavorite = [[NSNumber numberWithBool:boolVal] retain];
 }
 
 - (NSString *)name
@@ -136,7 +138,9 @@
 - (void)setRatingWithInteger:(NSInteger)integerVal
 {
     [self.dirtyPropertySet addObject:@"rating"];
-    _rating = [NSNumber numberWithInteger:integerVal];
+
+    [_rating autorelease];
+    _rating = [[NSNumber numberWithInteger:integerVal] retain];
 }
 
 - (id)init

@@ -954,6 +954,7 @@
 		9F578C101593E3EE00478D15 /* JRCapture */ = {
 			isa = PBXGroup;
 			children = (
+				9F578C111593E3EE00478D15 /* Generated */,
 				DDE0B9A67F00A1DC4B6DFC23 /* JRNSDate+ISO8601_CaptureDateTimeString.h */,
 				DDE0B9A67F00A1DC4B6DFC21 /* JRNSDate+ISO8601_CaptureDateTimeString.m */,
 				DDE0B9A67F00A1DC4B6DFC1F /* JRWebviewWrapper.h */,
@@ -970,7 +971,6 @@
 				DDE0B9A67F00A1DC4B6DFC0B /* JRCaptureError.m */,
 				DDE0B9A67F00A1DC4B6DFC09 /* JRCaptureData.m */,
 				DDE0B9A67F00A1DC4B6DFC07 /* JRApidWrapper.m */,
-				9F578C111593E3EE00478D15 /* Generated */,
 				9F578C601593E3EE00478D15 /* JRCapture.h */,
 				9F578C611593E3EE00478D15 /* JRCapture.m */,
 				9F578C621593E3EE00478D15 /* JRCaptureApidInterface.h */,
