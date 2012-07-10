@@ -76,9 +76,9 @@ typedef enum
 + (void)setCreationToken:(NSString *)newCreationToken;
 
 
-+ (void)startAuthenticationForDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
++ (void)startAuthenticationDialogForDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
 
-+ (void)startAuthenticationWithNativeSignin:(JRNativeSigninState)nativeSigninState
++ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninState)nativeSigninState
                                 forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
 
 + (void)startAuthenticationDialogOnProvider:(NSString*)provider

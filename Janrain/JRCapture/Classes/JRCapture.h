@@ -101,40 +101,8 @@ typedef enum
 - (void)engageAuthenticationDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider;
 
 /**
-// * Tells the delegate that the user has successfully authenticated with the given provider, passing to
-// * the delegate an \e NSDictionary object with the user's profile data.
-// *
-// * @param auth_info
-// *   An \e NSDictionary of fields containing all the information Janrain Engage knows about the user
-// *   logging into your application.  Includes the field \c "profile" which contains the user's profile information
-// *
-// * @param provider
-// *   The name of the provider on which the user authenticated.  For a list of possible strings,
-// *   please see the \ref basicProviders "List of Providers"
-// *
-// * @par Example:
-// *   The structure of the auth_info dictionary (represented here in json) should look something like
-// *   the following:
-// * @code
-// "auth_info":
-// {
-// "profile":
-// {
-// "displayName": "brian",
-// "preferredUsername": "brian",
-// "url": "http:\/\/brian.myopenid.com\/",
-// "providerName": "Other",
-// "identifier": "http:\/\/brian.myopenid.com\/"
-// }
-// }
-// * @endcode
-// *
-// *
-// * @sa
-// * For a full description of the dictionary and its fields, please see the
-// * <a href="http://documentation.janrain.com/engage/api/auth_info">auth_info response</a>
-// * section of the Janrain Engage API documentation.
- **/
+  * TODO
+  */
 - (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser*)captureUser withToken:(NSString *)captureToken
                                      andStatus:(JRCaptureRecordStatus)captureRecordStatus;
 
@@ -156,16 +124,8 @@ typedef enum
 
 /**
  * Sent when the call to the token URL has failed.
- *
- * @param tokenUrl
- *   The URL on the server where the token was posted and server-side authentication was completed
- *
  * @param error
- *   The error that occurred during server-side authentication
- *
- * @param provider
- *   The name of the provider on which the user authenticated.  For a list of possible strings,
- *   please see the \ref basicProviders "List of Providers"
+ *   The error that occurred during Capture authentication
  **/
 - (void)captureAuthenticationDidFailWithError:(NSError*)error;
 @end
@@ -247,9 +207,9 @@ typedef enum
  * Use this function to begin authentication.  The JREngage library will
  * pop up a modal dialog and take the user through the sign-in process.
  **/
-+ (void)startAuthenticationForDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
++ (void)startAuthenticationDialogForDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
 
-+ (void)startAuthenticationWithNativeSignin:(JRNativeSigninState)nativeSigninState
++ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninState)nativeSigninState
                                 forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
 
 /**
