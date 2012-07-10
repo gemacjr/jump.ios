@@ -46,24 +46,6 @@
 #import "JSONKit.h"
 #import "JRCaptureError.h"
 
-@interface NSString (NSString_JSON_ESCAPE)
-- (NSString*)URLEscaped;
-@end
-
-@implementation NSString (NSString_JSON_ESCAPE)
-- (NSString*)URLEscaped
-{
-
-    NSString *encodedString = (NSString *)CFURLCreateStringByAddingPercentEscapes(
-                                NULL,
-                                (CFStringRef)self,
-                                NULL,
-                                (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                kCFStringEncodingUTF8);
-
-    return [encodedString autorelease];
-}
-@end
 
 @implementation JRCaptureApidInterface
 static JRCaptureApidInterface *singleton = nil;
@@ -201,7 +183,7 @@ typedef enum CaptureInterfaceStatEnum
 {
     DLog(@"");
 
-    NSString      *attributes = [[captureUser JSONString] URLEscaped];
+    NSString      *attributes = [[captureUser JSONString] stringByAddingUrlPercentEscapes];
     NSMutableData *body       = [NSMutableData data];
 
     [body appendData:[[NSString stringWithFormat:@"type_name=%@", [JRCaptureData entityTypeName]] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -322,7 +304,7 @@ typedef enum CaptureInterfaceStatEnum
 {
     DLog(@"");
 
-    NSString      *attributes = [[captureObject JSONString] URLEscaped];
+    NSString      *attributes = [[captureObject JSONString] stringByAddingUrlPercentEscapes];
     NSMutableData *body       = [NSMutableData data];
 
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -385,7 +367,7 @@ typedef enum CaptureInterfaceStatEnum
 {
     DLog(@"");
 
-    NSString      *attributes = [[captureObject JSONString] URLEscaped];
+    NSString      *attributes = [[captureObject JSONString] stringByAddingUrlPercentEscapes];
     NSMutableData *body       = [NSMutableData data];
 
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -448,7 +430,7 @@ typedef enum CaptureInterfaceStatEnum
 {
     DLog(@"");
 
-    NSString      *attributes = [[captureArray JSONString] URLEscaped];
+    NSString      *attributes = [[captureArray JSONString] stringByAddingUrlPercentEscapes];
     NSMutableData *body       = [NSMutableData data];
 
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];

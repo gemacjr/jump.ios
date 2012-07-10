@@ -87,7 +87,9 @@
 - (void)setPrimaryWithBool:(BOOL)boolVal
 {
     [self.dirtyPropertySet addObject:@"primary"];
-    _primary = [NSNumber numberWithBool:boolVal];
+
+    [_primary autorelease];
+    _primary = [[NSNumber numberWithBool:boolVal] retain];
 }
 
 - (NSString *)type
@@ -132,18 +134,6 @@
 + (id)profilePhotosElement
 {
     return [[[JRProfilePhotosElement alloc] init] autorelease];
-}
-
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRProfilePhotosElement *profilePhotosElementCopy = (JRProfilePhotosElement *)[super copyWithZone:zone];
-
-    profilePhotosElementCopy.profilePhotosElementId = self.profilePhotosElementId;
-    profilePhotosElementCopy.primary = self.primary;
-    profilePhotosElementCopy.type = self.type;
-    profilePhotosElementCopy.value = self.value;
-
-    return profilePhotosElementCopy;
 }
 
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
@@ -221,34 +211,6 @@
 + (id)profilePhotosElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRProfilePhotosElement profilePhotosElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"id"])
-        self.profilePhotosElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
-
-    if ([dictionary objectForKey:@"primary"])
-        self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
-            [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
-
-    if ([dictionary objectForKey:@"type"])
-        self.type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
-            [dictionary objectForKey:@"type"] : nil;
-
-    if ([dictionary objectForKey:@"value"])
-        self.value = [dictionary objectForKey:@"value"] != [NSNull null] ? 
-            [dictionary objectForKey:@"value"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

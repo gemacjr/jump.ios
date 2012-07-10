@@ -63,10 +63,11 @@ static NSString *entityTypeName     = @"user_dev";
 {
     if ((self = [super init]))
     {
-        [JRCapture setCaptureApiDomain:captureApidDomain captureUIDomain:captureUIDomain
-                              clientId:clientId andEntityTypeName:entityTypeName];
+        [JRCapture setEngageAppId:nil captureApidDomain:captureApidDomain
+                  captureUIDomain:captureUIDomain clientId:clientId
+                andEntityTypeName:entityTypeName];
 
-        [JRCapture setEngageAppId:appId];
+       // [JRCapture setEngageAppId:appId];
 
         prefs = [NSUserDefaults standardUserDefaults];
         currentDisplayName = [prefs objectForKey:cJRCurrentDisplayName];
@@ -151,8 +152,9 @@ static NSString *entityTypeName     = @"user_dev";
     [SharedData signoutCurrentUser];
     [[SharedData singletonInstance] setSignInDelegate:delegate];
 
-    [JRCapture startAuthenticationDialogWithNativeSignin:JRNativeSigninNone
-                             andCustomInterfaceOverrides:customInterface forDelegate:[SharedData singletonInstance]];
+    [JRCapture startEngageSigninDialogWithConventionalSignin:JRConventionalSigninEmailPassword
+                             andCustomInterfaceOverrides:customInterface
+                                             forDelegate:[SharedData singletonInstance]];
 }
 
 + (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile
@@ -208,12 +210,12 @@ static NSString *entityTypeName     = @"user_dev";
         [signInDelegate captureSignInDidFailWithError:error];
 }
 
-- (void)engageAuthenticationDidNotComplete
+- (void)engageSigninDidNotComplete
 {
     [self postEngageErrorToDelegate:nil];
 }
 
-- (void)engageAuthenticationDialogDidFailToShowWithError:(NSError *)error
+- (void)engageSigninDialogDidFailToShowWithError:(NSError *)error
 {
     [self postEngageErrorToDelegate:error];
 }
@@ -228,7 +230,7 @@ static NSString *entityTypeName     = @"user_dev";
     [self postCaptureErrorToDelegate:error];
 }
 
-- (void)engageAuthenticationDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider
+- (void)engageSigninDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider
 {
     self.currentDisplayName = [SharedData getDisplayNameFromProfile:[engageAuthInfo objectForKey:@"profile"]];
     self.currentProvider    = [provider copy];
@@ -242,7 +244,7 @@ static NSString *entityTypeName     = @"user_dev";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
-- (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser *)theCaptureUser withToken:(NSString *)captureToken andStatus:(JRCaptureRecordStatus)captureRecordStatus
+- (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser *)newCaptureUser status:(JRCaptureRecordStatus)captureRecordStatus
 {
     DLog(@"");
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -257,7 +259,7 @@ static NSString *entityTypeName     = @"user_dev";
     else
         self.notYetCreated = NO;
 
-    self.captureUser = theCaptureUser;
+    self.captureUser = newCaptureUser;
 
     [prefs setObject:[NSKeyedArchiver archivedDataWithRootObject:captureUser]
               forKey:cJRCaptureUser];

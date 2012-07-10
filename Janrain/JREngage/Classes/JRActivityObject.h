@@ -45,11 +45,6 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface NSString (NSString_URL_HANDLING)
-- (BOOL)isWellFormedAbsoluteUrl;
-@end
-
 /**
  * @internal
  * Base class for JRImageMediaObject, JRFlashMediaObject, and JRMp3MediaObject.

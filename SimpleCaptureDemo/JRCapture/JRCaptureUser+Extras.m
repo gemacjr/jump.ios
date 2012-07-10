@@ -163,7 +163,7 @@
     DLog(@"");
     NSDictionary    *myContext     = (NSDictionary *)context;
     //JRCaptureUser   *captureUser   = [myContext objectForKey:@"captureUser"];
-    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
+    //NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
@@ -226,12 +226,12 @@
 }
 @end
 
-@interface JRCaptureUser (Internal)
+@interface JRCaptureUser (JRCaptureUser_Internal)
 + (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (void)decodeFromDictionary:(NSDictionary *)dictionary;
 @end
 
-@implementation JRCaptureUser (Extras)
+@implementation JRCaptureUser (JRCaptureUser_Extras)
 
 #define cJREncodedCaptureUser @"jrcapture.encodedCaptureUser"
 

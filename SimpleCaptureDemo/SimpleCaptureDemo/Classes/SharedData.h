@@ -17,7 +17,7 @@
 - (void)captureSignInDidFailWithError:(NSError *)error;
 @end
 
-@interface SharedData : NSObject <JRCaptureAuthenticationDelegate>
+@interface SharedData : NSObject <JRCaptureSigninDelegate>
 + (JRCaptureUser *)captureUser;
 + (BOOL)isNew;
 + (BOOL)notYetCreated;

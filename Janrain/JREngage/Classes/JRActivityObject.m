@@ -42,8 +42,11 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
+@interface NSString (JRString_UrlHandling)
+- (BOOL)isWellFormedAbsoluteUrl;
+@end
 
-@implementation NSString (NSString_URL_HANDLING)
+@implementation NSString (JRString_UrlHandling)
 - (BOOL)isWellFormedAbsoluteUrl
 {
     NSURL *url = [NSURL URLWithString:self];

@@ -40,70 +40,62 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRProfile.h"
 
-@interface JRAccountsElement (AccountsElementInternalMethods)
+@interface JRAccountsElement (JRAccountsElement_InternalMethods)
 + (id)accountsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToAccountsElement:(JRAccountsElement *)otherAccountsElement;
 @end
 
-@interface JRAddressesElement (AddressesElementInternalMethods)
+@interface JRAddressesElement (JRAddressesElement_InternalMethods)
 + (id)addressesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToAddressesElement:(JRAddressesElement *)otherAddressesElement;
 @end
 
-@interface JRBodyType (BodyTypeInternalMethods)
+@interface JRBodyType (JRBodyType_InternalMethods)
 + (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToBodyType:(JRBodyType *)otherBodyType;
 @end
 
-@interface JRCurrentLocation (CurrentLocationInternalMethods)
+@interface JRCurrentLocation (JRCurrentLocation_InternalMethods)
 + (id)currentLocationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToCurrentLocation:(JRCurrentLocation *)otherCurrentLocation;
 @end
 
-@interface JREmailsElement (EmailsElementInternalMethods)
+@interface JREmailsElement (JREmailsElement_InternalMethods)
 + (id)emailsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToEmailsElement:(JREmailsElement *)otherEmailsElement;
 @end
 
-@interface JRImsElement (ImsElementInternalMethods)
+@interface JRImsElement (JRImsElement_InternalMethods)
 + (id)imsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToImsElement:(JRImsElement *)otherImsElement;
 @end
 
-@interface JRName (NameInternalMethods)
+@interface JRName (JRName_InternalMethods)
 + (id)nameObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToName:(JRName *)otherName;
 @end
 
-@interface JROrganizationsElement (OrganizationsElementInternalMethods)
+@interface JROrganizationsElement (JROrganizationsElement_InternalMethods)
 + (id)organizationsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOrganizationsElement:(JROrganizationsElement *)otherOrganizationsElement;
 @end
 
-@interface JRPhoneNumbersElement (PhoneNumbersElementInternalMethods)
+@interface JRPhoneNumbersElement (JRPhoneNumbersElement_InternalMethods)
 + (id)phoneNumbersElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPhoneNumbersElement:(JRPhoneNumbersElement *)otherPhoneNumbersElement;
 @end
 
-@interface JRProfilePhotosElement (ProfilePhotosElementInternalMethods)
+@interface JRProfilePhotosElement (JRProfilePhotosElement_InternalMethods)
 + (id)profilePhotosElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToProfilePhotosElement:(JRProfilePhotosElement *)otherProfilePhotosElement;
 @end
 
-@interface JRUrlsElement (UrlsElementInternalMethods)
+@interface JRUrlsElement (JRUrlsElement_InternalMethods)
 + (id)urlsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToUrlsElement:(JRUrlsElement *)otherUrlsElement;
 @end
 
-@interface NSArray (AccountsToFromDictionary)
-- (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfAccountsDictionariesFromAccountsElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfAccountsDictionariesFromAccountsElements;
-- (NSArray*)arrayOfAccountsReplaceDictionariesFromAccountsElements;
-@end
-
-@implementation NSArray (AccountsToFromDictionary)
+@implementation NSArray (JRArray_Accounts_ToFromDictionary)
 - (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredAccountsArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -145,15 +137,7 @@
 }
 @end
 
-@interface NSArray (AddressesToFromDictionary)
-- (NSArray*)arrayOfAddressesElementsFromAddressesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfAddressesElementsFromAddressesDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfAddressesDictionariesFromAddressesElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfAddressesDictionariesFromAddressesElements;
-- (NSArray*)arrayOfAddressesReplaceDictionariesFromAddressesElements;
-@end
-
-@implementation NSArray (AddressesToFromDictionary)
+@implementation NSArray (JRArray_Addresses_ToFromDictionary)
 - (NSArray*)arrayOfAddressesElementsFromAddressesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredAddressesArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -195,15 +179,7 @@
 }
 @end
 
-@interface NSArray (EmailsToFromDictionary)
-- (NSArray*)arrayOfEmailsElementsFromEmailsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfEmailsElementsFromEmailsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfEmailsDictionariesFromEmailsElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfEmailsDictionariesFromEmailsElements;
-- (NSArray*)arrayOfEmailsReplaceDictionariesFromEmailsElements;
-@end
-
-@implementation NSArray (EmailsToFromDictionary)
+@implementation NSArray (JRArray_Emails_ToFromDictionary)
 - (NSArray*)arrayOfEmailsElementsFromEmailsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredEmailsArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -245,15 +221,7 @@
 }
 @end
 
-@interface NSArray (ImsToFromDictionary)
-- (NSArray*)arrayOfImsElementsFromImsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfImsElementsFromImsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfImsDictionariesFromImsElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfImsDictionariesFromImsElements;
-- (NSArray*)arrayOfImsReplaceDictionariesFromImsElements;
-@end
-
-@implementation NSArray (ImsToFromDictionary)
+@implementation NSArray (JRArray_Ims_ToFromDictionary)
 - (NSArray*)arrayOfImsElementsFromImsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredImsArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -295,15 +263,7 @@
 }
 @end
 
-@interface NSArray (OrganizationsToFromDictionary)
-- (NSArray*)arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsElements;
-- (NSArray*)arrayOfOrganizationsReplaceDictionariesFromOrganizationsElements;
-@end
-
-@implementation NSArray (OrganizationsToFromDictionary)
+@implementation NSArray (JRArray_Organizations_ToFromDictionary)
 - (NSArray*)arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredOrganizationsArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -345,15 +305,7 @@
 }
 @end
 
-@interface NSArray (PhoneNumbersToFromDictionary)
-- (NSArray*)arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersElements;
-- (NSArray*)arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersElements;
-@end
-
-@implementation NSArray (PhoneNumbersToFromDictionary)
+@implementation NSArray (JRArray_PhoneNumbers_ToFromDictionary)
 - (NSArray*)arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPhoneNumbersArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -395,15 +347,7 @@
 }
 @end
 
-@interface NSArray (ProfilePhotosToFromDictionary)
-- (NSArray*)arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosElements;
-- (NSArray*)arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosElements;
-@end
-
-@implementation NSArray (ProfilePhotosToFromDictionary)
+@implementation NSArray (JRArray_ProfilePhotos_ToFromDictionary)
 - (NSArray*)arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredProfilePhotosArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -445,15 +389,7 @@
 }
 @end
 
-@interface NSArray (UrlsToFromDictionary)
-- (NSArray*)arrayOfUrlsElementsFromUrlsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfUrlsElementsFromUrlsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfUrlsDictionariesFromUrlsElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfUrlsDictionariesFromUrlsElements;
-- (NSArray*)arrayOfUrlsReplaceDictionariesFromUrlsElements;
-@end
-
-@implementation NSArray (UrlsToFromDictionary)
+@implementation NSArray (JRArray_Urls_ToFromDictionary)
 - (NSArray*)arrayOfUrlsElementsFromUrlsDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredUrlsArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -1417,74 +1353,6 @@
     return [[[JRProfile alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRProfile *profileCopy = (JRProfile *)[super copyWithZone:zone];
-
-    profileCopy.aboutMe = self.aboutMe;
-    profileCopy.accounts = self.accounts;
-    profileCopy.addresses = self.addresses;
-    profileCopy.anniversary = self.anniversary;
-    profileCopy.birthday = self.birthday;
-    profileCopy.bodyType = self.bodyType;
-    profileCopy.books = self.books;
-    profileCopy.cars = self.cars;
-    profileCopy.children = self.children;
-    profileCopy.currentLocation = self.currentLocation;
-    profileCopy.displayName = self.displayName;
-    profileCopy.drinker = self.drinker;
-    profileCopy.emails = self.emails;
-    profileCopy.ethnicity = self.ethnicity;
-    profileCopy.fashion = self.fashion;
-    profileCopy.food = self.food;
-    profileCopy.gender = self.gender;
-    profileCopy.happiestWhen = self.happiestWhen;
-    profileCopy.heroes = self.heroes;
-    profileCopy.humor = self.humor;
-    profileCopy.ims = self.ims;
-    profileCopy.interestedInMeeting = self.interestedInMeeting;
-    profileCopy.interests = self.interests;
-    profileCopy.jobInterests = self.jobInterests;
-    profileCopy.languages = self.languages;
-    profileCopy.languagesSpoken = self.languagesSpoken;
-    profileCopy.livingArrangement = self.livingArrangement;
-    profileCopy.lookingFor = self.lookingFor;
-    profileCopy.movies = self.movies;
-    profileCopy.music = self.music;
-    profileCopy.name = self.name;
-    profileCopy.nickname = self.nickname;
-    profileCopy.note = self.note;
-    profileCopy.organizations = self.organizations;
-    profileCopy.pets = self.pets;
-    profileCopy.phoneNumbers = self.phoneNumbers;
-    profileCopy.profilePhotos = self.profilePhotos;
-    profileCopy.politicalViews = self.politicalViews;
-    profileCopy.preferredUsername = self.preferredUsername;
-    profileCopy.profileSong = self.profileSong;
-    profileCopy.profileUrl = self.profileUrl;
-    profileCopy.profileVideo = self.profileVideo;
-    profileCopy.published = self.published;
-    profileCopy.quotes = self.quotes;
-    profileCopy.relationshipStatus = self.relationshipStatus;
-    profileCopy.relationships = self.relationships;
-    profileCopy.religion = self.religion;
-    profileCopy.romance = self.romance;
-    profileCopy.scaredOf = self.scaredOf;
-    profileCopy.sexualOrientation = self.sexualOrientation;
-    profileCopy.smoker = self.smoker;
-    profileCopy.sports = self.sports;
-    profileCopy.status = self.status;
-    profileCopy.tags = self.tags;
-    profileCopy.turnOffs = self.turnOffs;
-    profileCopy.turnOns = self.turnOns;
-    profileCopy.tvShows = self.tvShows;
-    profileCopy.updated = self.updated;
-    profileCopy.urls = self.urls;
-    profileCopy.utcOffset = self.utcOffset;
-
-    return profileCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -1896,155 +1764,6 @@
 + (id)profileObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRProfile profileObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"profile"];
-
-    if ([dictionary objectForKey:@"aboutMe"])
-        self.aboutMe = [dictionary objectForKey:@"aboutMe"] != [NSNull null] ? 
-            [dictionary objectForKey:@"aboutMe"] : nil;
-
-    if ([dictionary objectForKey:@"anniversary"])
-        self.anniversary = [dictionary objectForKey:@"anniversary"] != [NSNull null] ? 
-            [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]] : nil;
-
-    if ([dictionary objectForKey:@"birthday"])
-        self.birthday = [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
-            [dictionary objectForKey:@"birthday"] : nil;
-
-    if ([dictionary objectForKey:@"bodyType"] == [NSNull null])
-        self.bodyType = nil;
-    else if ([dictionary objectForKey:@"bodyType"] && !self.bodyType)
-        self.bodyType = [JRBodyType bodyTypeObjectFromDictionary:[dictionary objectForKey:@"bodyType"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"bodyType"])
-        [self.bodyType updateFromDictionary:[dictionary objectForKey:@"bodyType"] withPath:self.captureObjectPath];
-
-    if ([dictionary objectForKey:@"currentLocation"] == [NSNull null])
-        self.currentLocation = nil;
-    else if ([dictionary objectForKey:@"currentLocation"] && !self.currentLocation)
-        self.currentLocation = [JRCurrentLocation currentLocationObjectFromDictionary:[dictionary objectForKey:@"currentLocation"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"currentLocation"])
-        [self.currentLocation updateFromDictionary:[dictionary objectForKey:@"currentLocation"] withPath:self.captureObjectPath];
-
-    if ([dictionary objectForKey:@"displayName"])
-        self.displayName = [dictionary objectForKey:@"displayName"] != [NSNull null] ? 
-            [dictionary objectForKey:@"displayName"] : nil;
-
-    if ([dictionary objectForKey:@"drinker"])
-        self.drinker = [dictionary objectForKey:@"drinker"] != [NSNull null] ? 
-            [dictionary objectForKey:@"drinker"] : nil;
-
-    if ([dictionary objectForKey:@"ethnicity"])
-        self.ethnicity = [dictionary objectForKey:@"ethnicity"] != [NSNull null] ? 
-            [dictionary objectForKey:@"ethnicity"] : nil;
-
-    if ([dictionary objectForKey:@"fashion"])
-        self.fashion = [dictionary objectForKey:@"fashion"] != [NSNull null] ? 
-            [dictionary objectForKey:@"fashion"] : nil;
-
-    if ([dictionary objectForKey:@"gender"])
-        self.gender = [dictionary objectForKey:@"gender"] != [NSNull null] ? 
-            [dictionary objectForKey:@"gender"] : nil;
-
-    if ([dictionary objectForKey:@"happiestWhen"])
-        self.happiestWhen = [dictionary objectForKey:@"happiestWhen"] != [NSNull null] ? 
-            [dictionary objectForKey:@"happiestWhen"] : nil;
-
-    if ([dictionary objectForKey:@"humor"])
-        self.humor = [dictionary objectForKey:@"humor"] != [NSNull null] ? 
-            [dictionary objectForKey:@"humor"] : nil;
-
-    if ([dictionary objectForKey:@"interestedInMeeting"])
-        self.interestedInMeeting = [dictionary objectForKey:@"interestedInMeeting"] != [NSNull null] ? 
-            [dictionary objectForKey:@"interestedInMeeting"] : nil;
-
-    if ([dictionary objectForKey:@"livingArrangement"])
-        self.livingArrangement = [dictionary objectForKey:@"livingArrangement"] != [NSNull null] ? 
-            [dictionary objectForKey:@"livingArrangement"] : nil;
-
-    if ([dictionary objectForKey:@"name"] == [NSNull null])
-        self.name = nil;
-    else if ([dictionary objectForKey:@"name"] && !self.name)
-        self.name = [JRName nameObjectFromDictionary:[dictionary objectForKey:@"name"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"name"])
-        [self.name updateFromDictionary:[dictionary objectForKey:@"name"] withPath:self.captureObjectPath];
-
-    if ([dictionary objectForKey:@"nickname"])
-        self.nickname = [dictionary objectForKey:@"nickname"] != [NSNull null] ? 
-            [dictionary objectForKey:@"nickname"] : nil;
-
-    if ([dictionary objectForKey:@"note"])
-        self.note = [dictionary objectForKey:@"note"] != [NSNull null] ? 
-            [dictionary objectForKey:@"note"] : nil;
-
-    if ([dictionary objectForKey:@"politicalViews"])
-        self.politicalViews = [dictionary objectForKey:@"politicalViews"] != [NSNull null] ? 
-            [dictionary objectForKey:@"politicalViews"] : nil;
-
-    if ([dictionary objectForKey:@"preferredUsername"])
-        self.preferredUsername = [dictionary objectForKey:@"preferredUsername"] != [NSNull null] ? 
-            [dictionary objectForKey:@"preferredUsername"] : nil;
-
-    if ([dictionary objectForKey:@"profileSong"])
-        self.profileSong = [dictionary objectForKey:@"profileSong"] != [NSNull null] ? 
-            [dictionary objectForKey:@"profileSong"] : nil;
-
-    if ([dictionary objectForKey:@"profileUrl"])
-        self.profileUrl = [dictionary objectForKey:@"profileUrl"] != [NSNull null] ? 
-            [dictionary objectForKey:@"profileUrl"] : nil;
-
-    if ([dictionary objectForKey:@"profileVideo"])
-        self.profileVideo = [dictionary objectForKey:@"profileVideo"] != [NSNull null] ? 
-            [dictionary objectForKey:@"profileVideo"] : nil;
-
-    if ([dictionary objectForKey:@"published"])
-        self.published = [dictionary objectForKey:@"published"] != [NSNull null] ? 
-            [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]] : nil;
-
-    if ([dictionary objectForKey:@"relationshipStatus"])
-        self.relationshipStatus = [dictionary objectForKey:@"relationshipStatus"] != [NSNull null] ? 
-            [dictionary objectForKey:@"relationshipStatus"] : nil;
-
-    if ([dictionary objectForKey:@"religion"])
-        self.religion = [dictionary objectForKey:@"religion"] != [NSNull null] ? 
-            [dictionary objectForKey:@"religion"] : nil;
-
-    if ([dictionary objectForKey:@"romance"])
-        self.romance = [dictionary objectForKey:@"romance"] != [NSNull null] ? 
-            [dictionary objectForKey:@"romance"] : nil;
-
-    if ([dictionary objectForKey:@"scaredOf"])
-        self.scaredOf = [dictionary objectForKey:@"scaredOf"] != [NSNull null] ? 
-            [dictionary objectForKey:@"scaredOf"] : nil;
-
-    if ([dictionary objectForKey:@"sexualOrientation"])
-        self.sexualOrientation = [dictionary objectForKey:@"sexualOrientation"] != [NSNull null] ? 
-            [dictionary objectForKey:@"sexualOrientation"] : nil;
-
-    if ([dictionary objectForKey:@"smoker"])
-        self.smoker = [dictionary objectForKey:@"smoker"] != [NSNull null] ? 
-            [dictionary objectForKey:@"smoker"] : nil;
-
-    if ([dictionary objectForKey:@"status"])
-        self.status = [dictionary objectForKey:@"status"] != [NSNull null] ? 
-            [dictionary objectForKey:@"status"] : nil;
-
-    if ([dictionary objectForKey:@"updated"])
-        self.updated = [dictionary objectForKey:@"updated"] != [NSNull null] ? 
-            [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]] : nil;
-
-    if ([dictionary objectForKey:@"utcOffset"])
-        self.utcOffset = [dictionary objectForKey:@"utcOffset"] != [NSNull null] ? 
-            [dictionary objectForKey:@"utcOffset"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

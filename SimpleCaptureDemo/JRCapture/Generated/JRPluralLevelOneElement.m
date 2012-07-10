@@ -40,20 +40,12 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRPluralLevelOneElement.h"
 
-@interface JRPluralLevelTwoElement (PluralLevelTwoElementInternalMethods)
+@interface JRPluralLevelTwoElement (JRPluralLevelTwoElement_InternalMethods)
 + (id)pluralLevelTwoElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPluralLevelTwoElement:(JRPluralLevelTwoElement *)otherPluralLevelTwoElement;
 @end
 
-@interface NSArray (PluralLevelTwoToFromDictionary)
-- (NSArray*)arrayOfPluralLevelTwoElementsFromPluralLevelTwoDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPluralLevelTwoElementsFromPluralLevelTwoDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPluralLevelTwoDictionariesFromPluralLevelTwoElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPluralLevelTwoDictionariesFromPluralLevelTwoElements;
-- (NSArray*)arrayOfPluralLevelTwoReplaceDictionariesFromPluralLevelTwoElements;
-@end
-
-@implementation NSArray (PluralLevelTwoToFromDictionary)
+@implementation NSArray (JRArray_PluralLevelTwo_ToFromDictionary)
 - (NSArray*)arrayOfPluralLevelTwoElementsFromPluralLevelTwoDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPluralLevelTwoArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -194,18 +186,6 @@
     return [[[JRPluralLevelOneElement alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRPluralLevelOneElement *pluralLevelOneElementCopy = (JRPluralLevelOneElement *)[super copyWithZone:zone];
-
-    pluralLevelOneElementCopy.pluralLevelOneElementId = self.pluralLevelOneElementId;
-    pluralLevelOneElementCopy.level = self.level;
-    pluralLevelOneElementCopy.name = self.name;
-    pluralLevelOneElementCopy.pluralLevelTwo = self.pluralLevelTwo;
-
-    return pluralLevelOneElementCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -281,30 +261,6 @@
 + (id)pluralLevelOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRPluralLevelOneElement pluralLevelOneElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"id"])
-        self.pluralLevelOneElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
-
-    if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
-            [dictionary objectForKey:@"level"] : nil;
-
-    if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
-            [dictionary objectForKey:@"name"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

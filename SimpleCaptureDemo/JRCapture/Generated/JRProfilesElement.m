@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRProfilesElement.h"
 
-@interface JRProfile (ProfileInternalMethods)
+@interface JRProfile (JRProfile_InternalMethods)
 + (id)profileObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToProfile:(JRProfile *)otherProfile;
 @end
@@ -236,24 +236,6 @@
     return [[[JRProfilesElement alloc] initWithDomain:domain andIdentifier:identifier] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRProfilesElement *profilesElementCopy = (JRProfilesElement *)[super copyWithZone:zone];
-
-    profilesElementCopy.profilesElementId = self.profilesElementId;
-    profilesElementCopy.accessCredentials = self.accessCredentials;
-    profilesElementCopy.domain = self.domain;
-    profilesElementCopy.followers = self.followers;
-    profilesElementCopy.following = self.following;
-    profilesElementCopy.friends = self.friends;
-    profilesElementCopy.identifier = self.identifier;
-    profilesElementCopy.profile = self.profile;
-    profilesElementCopy.provider = self.provider;
-    profilesElementCopy.remote_key = self.remote_key;
-
-    return profilesElementCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -365,49 +347,6 @@
 + (id)profilesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRProfilesElement profilesElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"id"])
-        self.profilesElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
-
-    if ([dictionary objectForKey:@"accessCredentials"])
-        self.accessCredentials = [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
-            [dictionary objectForKey:@"accessCredentials"] : nil;
-
-    if ([dictionary objectForKey:@"domain"])
-        self.domain = [dictionary objectForKey:@"domain"] != [NSNull null] ? 
-            [dictionary objectForKey:@"domain"] : nil;
-
-    if ([dictionary objectForKey:@"identifier"])
-        self.identifier = [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
-            [dictionary objectForKey:@"identifier"] : nil;
-
-    if ([dictionary objectForKey:@"profile"] == [NSNull null])
-        self.profile = nil;
-    else if ([dictionary objectForKey:@"profile"] && !self.profile)
-        self.profile = [JRProfile profileObjectFromDictionary:[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"profile"])
-        [self.profile updateFromDictionary:[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath];
-
-    if ([dictionary objectForKey:@"provider"])
-        self.provider = [dictionary objectForKey:@"provider"] != [NSNull null] ? 
-            [dictionary objectForKey:@"provider"] : nil;
-
-    if ([dictionary objectForKey:@"remote_key"])
-        self.remote_key = [dictionary objectForKey:@"remote_key"] != [NSNull null] ? 
-            [dictionary objectForKey:@"remote_key"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

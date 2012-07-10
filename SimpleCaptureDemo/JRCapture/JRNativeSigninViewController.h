@@ -32,9 +32,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
+#import "JRCapture.h"
+
+@protocol JRNativeSigninViewControllerDelegate <NSObject>
+@optional
+- (void)authenticationDidComplete;
+- (void)authenticationDidCancel;
+- (void)authenticationDidFail;
+@end
 
 @interface JRNativeSigninViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 {
     UITableView *myTableView;
 }
+- (id)initWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)titleString
+                     titleView:(UIView *)titleView delegate:(id<JRNativeSigninViewControllerDelegate>)theDelegate;
++ (id)nativeSigninViewControllerWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)titleString
+                                           titleView:(UIView *)titleView delegate:(id<JRNativeSigninViewControllerDelegate>)theDelegate;
 @end

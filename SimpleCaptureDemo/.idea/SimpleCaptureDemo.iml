@@ -4,11 +4,8 @@
     <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-136ee71b/Build/Products/Debug-iphonesimulator/SimpleCaptureDemo.app">
       <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-136ee71b/Build/Products/Debug-iphonesimulator/SimpleCaptureDemo.app" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphonesimulator/SimpleCaptureDemo.app">
-      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphonesimulator/SimpleCaptureDemo.app" isTestSource="false" />
-    </content>
-    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphonesimulator/SimpleCaptureDemoTests.octest">
-      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphonesimulator/SimpleCaptureDemoTests.octest" isTestSource="false" />
+    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphoneos/SimpleCaptureDemo.app">
+      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphoneos/SimpleCaptureDemo.app" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../JREngage/Classes/JRActivityObject.h">
       <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRActivityObject.h" isTestSource="false" />

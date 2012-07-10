@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JROnipinapL2PluralElement.h"
 
-@interface JROnipinapL3Object (OnipinapL3ObjectInternalMethods)
+@interface JROnipinapL3Object (JROnipinapL3Object_InternalMethods)
 + (id)onipinapL3ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipinapL3Object:(JROnipinapL3Object *)otherOnipinapL3Object;
 @end
@@ -117,17 +117,6 @@
     return [[[JROnipinapL2PluralElement alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JROnipinapL2PluralElement *onipinapL2PluralElementCopy = (JROnipinapL2PluralElement *)[super copyWithZone:zone];
-
-    onipinapL2PluralElementCopy.string1 = self.string1;
-    onipinapL2PluralElementCopy.string2 = self.string2;
-    onipinapL2PluralElementCopy.onipinapL3Object = self.onipinapL3Object;
-
-    return onipinapL2PluralElementCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -197,33 +186,6 @@
 + (id)onipinapL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JROnipinapL2PluralElement onipinapL2PluralElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinapL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string1"] : nil;
-
-    if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string2"] : nil;
-
-    if ([dictionary objectForKey:@"onipinapL3Object"] == [NSNull null])
-        self.onipinapL3Object = nil;
-    else if ([dictionary objectForKey:@"onipinapL3Object"] && !self.onipinapL3Object)
-        self.onipinapL3Object = [JROnipinapL3Object onipinapL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"onipinapL3Object"])
-        [self.onipinapL3Object updateFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:self.captureObjectPath];
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

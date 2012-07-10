@@ -244,9 +244,7 @@
 		9FD2B6C114F8387B00053EA8 /* JRApidWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EA7 /* JRApidWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053EAA /* JRCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EA9 /* JRCapture.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053EAC /* JRCaptureApidInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EAB /* JRCaptureApidInterface.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6C114F8387B00053EAE /* JRCaptureObject+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EAD /* JRCaptureObject+Internal.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053EB0 /* JRCaptureObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EAF /* JRCaptureObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6C114F8387B00053EB2 /* JRCaptureScratch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EB1 /* JRCaptureScratch.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053EB4 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EB3 /* JRCaptureUser+Extras.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053EB6 /* JREngageWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EB5 /* JREngageWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053EC1 /* JRNativeSigninViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EC0 /* JRNativeSigninViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -563,9 +561,7 @@
 		9FD2B6C114F8387B00053EA7 /* JRApidWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRApidWrapper.m; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EA9 /* JRCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCapture.m; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EAB /* JRCaptureApidInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureApidInterface.m; sourceTree = "<group>"; };
-		9FD2B6C114F8387B00053EAD /* JRCaptureObject+Internal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRCaptureObject+Internal.m"; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EAF /* JRCaptureObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureObject.m; sourceTree = "<group>"; };
-		9FD2B6C114F8387B00053EB1 /* JRCaptureScratch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureScratch.m; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EB3 /* JRCaptureUser+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRCaptureUser+Extras.m"; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EB5 /* JREngageWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JREngageWrapper.m; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EB8 /* JRApidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRApidWrapper.h; sourceTree = "<group>"; };
@@ -573,7 +569,6 @@
 		9FD2B6C114F8387B00053EBA /* JRCaptureApidInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureApidInterface.h; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EBB /* JRCaptureObject+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRCaptureObject+Internal.h"; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EBC /* JRCaptureObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureObject.h; sourceTree = "<group>"; };
-		9FD2B6C114F8387B00053EBD /* JRCaptureScratch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureScratch.h; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EBE /* JRCaptureUser+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRCaptureUser+Extras.h"; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EBF /* JREngageWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JREngageWrapper.h; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EC0 /* JRNativeSigninViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRNativeSigninViewController.m; sourceTree = "<group>"; };
@@ -1046,7 +1041,6 @@
 				9F5792C21598DD7C00478D15 /* Generated */,
 				9FD2B6C114F8387B00053EBF /* JREngageWrapper.h */,
 				9FD2B6C114F8387B00053EBE /* JRCaptureUser+Extras.h */,
-				9FD2B6C114F8387B00053EBD /* JRCaptureScratch.h */,
 				9FD2B6C114F8387B00053EBC /* JRCaptureObject.h */,
 				9FD2B6C114F8387B00053EBB /* JRCaptureObject+Internal.h */,
 				9FD2B6C114F8387B00053EBA /* JRCaptureApidInterface.h */,
@@ -1054,9 +1048,7 @@
 				9FD2B6C114F8387B00053EB8 /* JRApidWrapper.h */,
 				9FD2B6C114F8387B00053EB5 /* JREngageWrapper.m */,
 				9FD2B6C114F8387B00053EB3 /* JRCaptureUser+Extras.m */,
-				9FD2B6C114F8387B00053EB1 /* JRCaptureScratch.m */,
 				9FD2B6C114F8387B00053EAF /* JRCaptureObject.m */,
-				9FD2B6C114F8387B00053EAD /* JRCaptureObject+Internal.m */,
 				9FD2B6C114F8387B00053EAB /* JRCaptureApidInterface.m */,
 				9FD2B6C114F8387B00053EA9 /* JRCapture.m */,
 				9FD2B6C114F8387B00053EA7 /* JRApidWrapper.m */,
@@ -1502,9 +1494,7 @@
 				9FD2B6C114F8387B00053EA8 /* JRApidWrapper.m in Sources */,
 				9FD2B6C114F8387B00053EAA /* JRCapture.m in Sources */,
 				9FD2B6C114F8387B00053EAC /* JRCaptureApidInterface.m in Sources */,
-				9FD2B6C114F8387B00053EAE /* JRCaptureObject+Internal.m in Sources */,
 				9FD2B6C114F8387B00053EB0 /* JRCaptureObject.m in Sources */,
-				9FD2B6C114F8387B00053EB2 /* JRCaptureScratch.m in Sources */,
 				9FD2B6C114F8387B00053EB4 /* JRCaptureUser+Extras.m in Sources */,
 				9FD2B6C114F8387B00053EB6 /* JREngageWrapper.m in Sources */,
 				9F5793011598DD7C00478D15 /* JRAccountsElement.m in Sources */,
@@ -1696,10 +1686,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SimpleCaptureDemo/SimpleCaptureDemo.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: JanRain, Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JanRain, Inc.";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleCaptureDemo/SimpleCaptureDemo-Prefix.pch";
 				INFOPLIST_FILE = "SimpleCaptureDemo/SimpleCaptureDemo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1707,12 +1701,14 @@
 		90C36B6B7717AA0C893E08E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = SimpleCaptureDemo/SimpleCaptureDemo.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleCaptureDemo/SimpleCaptureDemo-Prefix.pch";
 				INFOPLIST_FILE = "SimpleCaptureDemo/SimpleCaptureDemo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1776,12 +1772,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SimpleCaptureDemo/SimpleCaptureDemo.entitlements;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleCaptureDemo/SimpleCaptureDemo-Prefix.pch";
 				INFOPLIST_FILE = "SimpleCaptureDemo/SimpleCaptureDemo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};

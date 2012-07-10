@@ -207,24 +207,6 @@
     return [[[JRPrimaryAddress alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRPrimaryAddress *primaryAddressCopy = (JRPrimaryAddress *)[super copyWithZone:zone];
-
-    primaryAddressCopy.address1 = self.address1;
-    primaryAddressCopy.address2 = self.address2;
-    primaryAddressCopy.city = self.city;
-    primaryAddressCopy.company = self.company;
-    primaryAddressCopy.country = self.country;
-    primaryAddressCopy.mobile = self.mobile;
-    primaryAddressCopy.phone = self.phone;
-    primaryAddressCopy.stateAbbreviation = self.stateAbbreviation;
-    primaryAddressCopy.zip = self.zip;
-    primaryAddressCopy.zipPlus4 = self.zipPlus4;
-
-    return primaryAddressCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -330,57 +312,6 @@
 + (id)primaryAddressObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRPrimaryAddress primaryAddressObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-
-    if ([dictionary objectForKey:@"address1"])
-        self.address1 = [dictionary objectForKey:@"address1"] != [NSNull null] ? 
-            [dictionary objectForKey:@"address1"] : nil;
-
-    if ([dictionary objectForKey:@"address2"])
-        self.address2 = [dictionary objectForKey:@"address2"] != [NSNull null] ? 
-            [dictionary objectForKey:@"address2"] : nil;
-
-    if ([dictionary objectForKey:@"city"])
-        self.city = [dictionary objectForKey:@"city"] != [NSNull null] ? 
-            [dictionary objectForKey:@"city"] : nil;
-
-    if ([dictionary objectForKey:@"company"])
-        self.company = [dictionary objectForKey:@"company"] != [NSNull null] ? 
-            [dictionary objectForKey:@"company"] : nil;
-
-    if ([dictionary objectForKey:@"country"])
-        self.country = [dictionary objectForKey:@"country"] != [NSNull null] ? 
-            [dictionary objectForKey:@"country"] : nil;
-
-    if ([dictionary objectForKey:@"mobile"])
-        self.mobile = [dictionary objectForKey:@"mobile"] != [NSNull null] ? 
-            [dictionary objectForKey:@"mobile"] : nil;
-
-    if ([dictionary objectForKey:@"phone"])
-        self.phone = [dictionary objectForKey:@"phone"] != [NSNull null] ? 
-            [dictionary objectForKey:@"phone"] : nil;
-
-    if ([dictionary objectForKey:@"stateAbbreviation"])
-        self.stateAbbreviation = [dictionary objectForKey:@"stateAbbreviation"] != [NSNull null] ? 
-            [dictionary objectForKey:@"stateAbbreviation"] : nil;
-
-    if ([dictionary objectForKey:@"zip"])
-        self.zip = [dictionary objectForKey:@"zip"] != [NSNull null] ? 
-            [dictionary objectForKey:@"zip"] : nil;
-
-    if ([dictionary objectForKey:@"zipPlus4"])
-        self.zipPlus4 = [dictionary objectForKey:@"zipPlus4"] != [NSNull null] ? 
-            [dictionary objectForKey:@"zipPlus4"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

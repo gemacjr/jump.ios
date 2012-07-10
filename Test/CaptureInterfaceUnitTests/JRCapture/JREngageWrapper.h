@@ -1,18 +1,17 @@
 #import "JRCapture.h"
 #import "JREngage.h"
+#import "JRNativeSigninViewController.h"
 
-//@class JRActivityObject;
-//@protocol JREngageDelegate;
-@interface JREngageWrapper : NSObject <JREngageDelegate>
+@interface JREngageWrapper : NSObject <JREngageDelegate, JRNativeSigninViewControllerDelegate>
 + (void)configureEngageWithCaptureMobileEndpointUrlAndAppId:(NSString *)appId;
 
-+ (void)startAuthenticationDialogWithNativeSignin:(JRNativeSigninState)nativeSigninState
++ (void)startAuthenticationDialogWithNativeSignin:(JRConventionalSigninType)nativeSigninType
                       andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-                                      forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
+                                      forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
 + (void)startAuthenticationDialogOnProvider:(NSString*)provider
                withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-                                forDelegate:(id<JRCaptureAuthenticationDelegate>)delegate;
+                                forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
 + (void)startSocialPublishingDialogWithActivity:(JRActivityObject*)activity
                    withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides

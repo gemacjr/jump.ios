@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRPinonipL1PluralElement.h"
 
-@interface JRPinonipL2Object (PinonipL2ObjectInternalMethods)
+@interface JRPinonipL2Object (JRPinonipL2Object_InternalMethods)
 + (id)pinonipL2ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinonipL2Object:(JRPinonipL2Object *)otherPinonipL2Object;
 @end
@@ -117,17 +117,6 @@
     return [[[JRPinonipL1PluralElement alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRPinonipL1PluralElement *pinonipL1PluralElementCopy = (JRPinonipL1PluralElement *)[super copyWithZone:zone];
-
-    pinonipL1PluralElementCopy.string1 = self.string1;
-    pinonipL1PluralElementCopy.string2 = self.string2;
-    pinonipL1PluralElementCopy.pinonipL2Object = self.pinonipL2Object;
-
-    return pinonipL1PluralElementCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -197,33 +186,6 @@
 + (id)pinonipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRPinonipL1PluralElement pinonipL1PluralElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinonipL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string1"] : nil;
-
-    if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string2"] : nil;
-
-    if ([dictionary objectForKey:@"pinonipL2Object"] == [NSNull null])
-        self.pinonipL2Object = nil;
-    else if ([dictionary objectForKey:@"pinonipL2Object"] && !self.pinonipL2Object)
-        self.pinonipL2Object = [JRPinonipL2Object pinonipL2ObjectObjectFromDictionary:[dictionary objectForKey:@"pinonipL2Object"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"pinonipL2Object"])
-        [self.pinonipL2Object updateFromDictionary:[dictionary objectForKey:@"pinonipL2Object"] withPath:self.captureObjectPath];
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

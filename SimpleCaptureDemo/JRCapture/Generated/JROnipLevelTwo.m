@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JROnipLevelTwo.h"
 
-@interface JROnipLevelThree (OnipLevelThreeInternalMethods)
+@interface JROnipLevelThree (JROnipLevelThree_InternalMethods)
 + (id)onipLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipLevelThree:(JROnipLevelThree *)otherOnipLevelThree;
 @end
@@ -117,17 +117,6 @@
     return [[[JROnipLevelTwo alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JROnipLevelTwo *onipLevelTwoCopy = (JROnipLevelTwo *)[super copyWithZone:zone];
-
-    onipLevelTwoCopy.level = self.level;
-    onipLevelTwoCopy.name = self.name;
-    onipLevelTwoCopy.onipLevelThree = self.onipLevelThree;
-
-    return onipLevelTwoCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -197,33 +186,6 @@
 + (id)onipLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JROnipLevelTwo onipLevelTwoObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"onipLevelTwo"];
-
-    if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
-            [dictionary objectForKey:@"level"] : nil;
-
-    if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
-            [dictionary objectForKey:@"name"] : nil;
-
-    if ([dictionary objectForKey:@"onipLevelThree"] == [NSNull null])
-        self.onipLevelThree = nil;
-    else if ([dictionary objectForKey:@"onipLevelThree"] && !self.onipLevelThree)
-        self.onipLevelThree = [JROnipLevelThree onipLevelThreeObjectFromDictionary:[dictionary objectForKey:@"onipLevelThree"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"onipLevelThree"])
-        [self.onipLevelThree updateFromDictionary:[dictionary objectForKey:@"onipLevelThree"] withPath:self.captureObjectPath];
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

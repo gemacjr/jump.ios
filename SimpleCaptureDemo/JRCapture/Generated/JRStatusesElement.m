@@ -109,17 +109,6 @@
     return [[[JRStatusesElement alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRStatusesElement *statusesElementCopy = (JRStatusesElement *)[super copyWithZone:zone];
-
-    statusesElementCopy.statusesElementId = self.statusesElementId;
-    statusesElementCopy.status = self.status;
-    statusesElementCopy.statusCreated = self.statusCreated;
-
-    return statusesElementCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -189,30 +178,6 @@
 + (id)statusesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRStatusesElement statusesElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"id"])
-        self.statusesElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
-
-    if ([dictionary objectForKey:@"status"])
-        self.status = [dictionary objectForKey:@"status"] != [NSNull null] ? 
-            [dictionary objectForKey:@"status"] : nil;
-
-    if ([dictionary objectForKey:@"statusCreated"])
-        self.statusCreated = [dictionary objectForKey:@"statusCreated"] != [NSNull null] ? 
-            [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

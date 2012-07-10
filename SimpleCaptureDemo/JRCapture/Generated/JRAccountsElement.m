@@ -101,7 +101,9 @@
 - (void)setPrimaryWithBool:(BOOL)boolVal
 {
     [self.dirtyPropertySet addObject:@"primary"];
-    _primary = [NSNumber numberWithBool:boolVal];
+
+    [_primary autorelease];
+    _primary = [[NSNumber numberWithBool:boolVal] retain];
 }
 
 - (NSString *)userid
@@ -146,19 +148,6 @@
 + (id)accountsElement
 {
     return [[[JRAccountsElement alloc] init] autorelease];
-}
-
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRAccountsElement *accountsElementCopy = (JRAccountsElement *)[super copyWithZone:zone];
-
-    accountsElementCopy.accountsElementId = self.accountsElementId;
-    accountsElementCopy.domain = self.domain;
-    accountsElementCopy.primary = self.primary;
-    accountsElementCopy.userid = self.userid;
-    accountsElementCopy.username = self.username;
-
-    return accountsElementCopy;
 }
 
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
@@ -242,38 +231,6 @@
 + (id)accountsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRAccountsElement accountsElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"id"])
-        self.accountsElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
-
-    if ([dictionary objectForKey:@"domain"])
-        self.domain = [dictionary objectForKey:@"domain"] != [NSNull null] ? 
-            [dictionary objectForKey:@"domain"] : nil;
-
-    if ([dictionary objectForKey:@"primary"])
-        self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
-            [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
-
-    if ([dictionary objectForKey:@"userid"])
-        self.userid = [dictionary objectForKey:@"userid"] != [NSNull null] ? 
-            [dictionary objectForKey:@"userid"] : nil;
-
-    if ([dictionary objectForKey:@"username"])
-        self.username = [dictionary objectForKey:@"username"] != [NSNull null] ? 
-            [dictionary objectForKey:@"username"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

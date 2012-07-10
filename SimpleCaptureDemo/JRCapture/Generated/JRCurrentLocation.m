@@ -221,25 +221,6 @@
     return [[[JRCurrentLocation alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRCurrentLocation *currentLocationCopy = (JRCurrentLocation *)[super copyWithZone:zone];
-
-    currentLocationCopy.country = self.country;
-    currentLocationCopy.extendedAddress = self.extendedAddress;
-    currentLocationCopy.formatted = self.formatted;
-    currentLocationCopy.latitude = self.latitude;
-    currentLocationCopy.locality = self.locality;
-    currentLocationCopy.longitude = self.longitude;
-    currentLocationCopy.poBox = self.poBox;
-    currentLocationCopy.postalCode = self.postalCode;
-    currentLocationCopy.region = self.region;
-    currentLocationCopy.streetAddress = self.streetAddress;
-    currentLocationCopy.type = self.type;
-
-    return currentLocationCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -357,62 +338,6 @@
 + (id)currentLocationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRCurrentLocation currentLocationObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"currentLocation"];
-
-    if ([dictionary objectForKey:@"country"])
-        self.country = [dictionary objectForKey:@"country"] != [NSNull null] ? 
-            [dictionary objectForKey:@"country"] : nil;
-
-    if ([dictionary objectForKey:@"extendedAddress"])
-        self.extendedAddress = [dictionary objectForKey:@"extendedAddress"] != [NSNull null] ? 
-            [dictionary objectForKey:@"extendedAddress"] : nil;
-
-    if ([dictionary objectForKey:@"formatted"])
-        self.formatted = [dictionary objectForKey:@"formatted"] != [NSNull null] ? 
-            [dictionary objectForKey:@"formatted"] : nil;
-
-    if ([dictionary objectForKey:@"latitude"])
-        self.latitude = [dictionary objectForKey:@"latitude"] != [NSNull null] ? 
-            [dictionary objectForKey:@"latitude"] : nil;
-
-    if ([dictionary objectForKey:@"locality"])
-        self.locality = [dictionary objectForKey:@"locality"] != [NSNull null] ? 
-            [dictionary objectForKey:@"locality"] : nil;
-
-    if ([dictionary objectForKey:@"longitude"])
-        self.longitude = [dictionary objectForKey:@"longitude"] != [NSNull null] ? 
-            [dictionary objectForKey:@"longitude"] : nil;
-
-    if ([dictionary objectForKey:@"poBox"])
-        self.poBox = [dictionary objectForKey:@"poBox"] != [NSNull null] ? 
-            [dictionary objectForKey:@"poBox"] : nil;
-
-    if ([dictionary objectForKey:@"postalCode"])
-        self.postalCode = [dictionary objectForKey:@"postalCode"] != [NSNull null] ? 
-            [dictionary objectForKey:@"postalCode"] : nil;
-
-    if ([dictionary objectForKey:@"region"])
-        self.region = [dictionary objectForKey:@"region"] != [NSNull null] ? 
-            [dictionary objectForKey:@"region"] : nil;
-
-    if ([dictionary objectForKey:@"streetAddress"])
-        self.streetAddress = [dictionary objectForKey:@"streetAddress"] != [NSNull null] ? 
-            [dictionary objectForKey:@"streetAddress"] : nil;
-
-    if ([dictionary objectForKey:@"type"])
-        self.type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
-            [dictionary objectForKey:@"type"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

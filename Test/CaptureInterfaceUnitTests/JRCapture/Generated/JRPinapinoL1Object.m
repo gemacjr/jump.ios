@@ -40,20 +40,12 @@
 #import "JRCaptureObject+Internal.h"
 #import "JRPinapinoL1Object.h"
 
-@interface JRPinapinoL2PluralElement (PinapinoL2PluralElementInternalMethods)
+@interface JRPinapinoL2PluralElement (JRPinapinoL2PluralElement_InternalMethods)
 + (id)pinapinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToPinapinoL2PluralElement:(JRPinapinoL2PluralElement *)otherPinapinoL2PluralElement;
 @end
 
-@interface NSArray (PinapinoL2PluralToFromDictionary)
-- (NSArray*)arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinapinoL2PluralDictionariesFromPinapinoL2PluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfPinapinoL2PluralDictionariesFromPinapinoL2PluralElements;
-- (NSArray*)arrayOfPinapinoL2PluralReplaceDictionariesFromPinapinoL2PluralElements;
-@end
-
-@implementation NSArray (PinapinoL2PluralToFromDictionary)
+@implementation NSArray (JRArray_PinapinoL2Plural_ToFromDictionary)
 - (NSArray*)arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredPinapinoL2PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -180,17 +172,6 @@
     return [[[JRPinapinoL1Object alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRPinapinoL1Object *pinapinoL1ObjectCopy = (JRPinapinoL1Object *)[super copyWithZone:zone];
-
-    pinapinoL1ObjectCopy.string1 = self.string1;
-    pinapinoL1ObjectCopy.string2 = self.string2;
-    pinapinoL1ObjectCopy.pinapinoL2Plural = self.pinapinoL2Plural;
-
-    return pinapinoL1ObjectCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -254,25 +235,6 @@
 + (id)pinapinoL1ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRPinapinoL1Object pinapinoL1ObjectObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-
-    if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string1"] : nil;
-
-    if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string2"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

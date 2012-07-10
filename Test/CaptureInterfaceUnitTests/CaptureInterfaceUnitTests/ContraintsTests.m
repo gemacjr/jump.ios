@@ -156,7 +156,7 @@
 {
     JRPluralTestAlphabeticElement *const element = [JRPluralTestAlphabeticElement pluralTestAlphabeticElement];
     element.uniqueString = @"abc";
-    currentPlural = captureUser.pluralTestAlphabetic = [NSArray arrayWithObject:element];
+    self.currentPlural = captureUser.pluralTestAlphabetic = [NSArray arrayWithObject:element];
 
     [self prepare];
     [captureUser replacePluralTestAlphabeticArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
@@ -167,7 +167,7 @@
 {
     JRPluralTestAlphabeticElement *const element = [JRPluralTestAlphabeticElement pluralTestAlphabeticElement];
     element.uniqueString = @"abc123";
-    currentPlural = captureUser.pluralTestAlphabetic = [NSArray arrayWithObject:element];
+    self.currentPlural = captureUser.pluralTestAlphabetic = [NSArray arrayWithObject:element];
 
     [self prepare];
     [captureUser replacePluralTestAlphabeticArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];

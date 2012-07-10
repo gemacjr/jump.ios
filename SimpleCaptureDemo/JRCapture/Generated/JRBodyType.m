@@ -137,19 +137,6 @@
     return [[[JRBodyType alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRBodyType *bodyTypeCopy = (JRBodyType *)[super copyWithZone:zone];
-
-    bodyTypeCopy.build = self.build;
-    bodyTypeCopy.color = self.color;
-    bodyTypeCopy.eyeColor = self.eyeColor;
-    bodyTypeCopy.hairColor = self.hairColor;
-    bodyTypeCopy.height = self.height;
-
-    return bodyTypeCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -231,38 +218,6 @@
 + (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRBodyType bodyTypeObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
-
-    if ([dictionary objectForKey:@"build"])
-        self.build = [dictionary objectForKey:@"build"] != [NSNull null] ? 
-            [dictionary objectForKey:@"build"] : nil;
-
-    if ([dictionary objectForKey:@"color"])
-        self.color = [dictionary objectForKey:@"color"] != [NSNull null] ? 
-            [dictionary objectForKey:@"color"] : nil;
-
-    if ([dictionary objectForKey:@"eyeColor"])
-        self.eyeColor = [dictionary objectForKey:@"eyeColor"] != [NSNull null] ? 
-            [dictionary objectForKey:@"eyeColor"] : nil;
-
-    if ([dictionary objectForKey:@"hairColor"])
-        self.hairColor = [dictionary objectForKey:@"hairColor"] != [NSNull null] ? 
-            [dictionary objectForKey:@"hairColor"] : nil;
-
-    if ([dictionary objectForKey:@"height"])
-        self.height = [dictionary objectForKey:@"height"] != [NSNull null] ? 
-            [dictionary objectForKey:@"height"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

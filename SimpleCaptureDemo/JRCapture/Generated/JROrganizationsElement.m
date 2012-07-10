@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JROrganizationsElement.h"
 
-@interface JRLocation (LocationInternalMethods)
+@interface JRLocation (JRLocation_InternalMethods)
 + (id)locationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToLocation:(JRLocation *)otherLocation;
 @end
@@ -165,7 +165,9 @@
 - (void)setPrimaryWithBool:(BOOL)boolVal
 {
     [self.dirtyPropertySet addObject:@"primary"];
-    _primary = [NSNumber numberWithBool:boolVal];
+
+    [_primary autorelease];
+    _primary = [[NSNumber numberWithBool:boolVal] retain];
 }
 
 - (NSString *)startDate
@@ -224,24 +226,6 @@
 + (id)organizationsElement
 {
     return [[[JROrganizationsElement alloc] init] autorelease];
-}
-
-- (id)copyWithZone:(NSZone*)zone
-{
-    JROrganizationsElement *organizationsElementCopy = (JROrganizationsElement *)[super copyWithZone:zone];
-
-    organizationsElementCopy.organizationsElementId = self.organizationsElementId;
-    organizationsElementCopy.department = self.department;
-    organizationsElementCopy.description = self.description;
-    organizationsElementCopy.endDate = self.endDate;
-    organizationsElementCopy.location = self.location;
-    organizationsElementCopy.name = self.name;
-    organizationsElementCopy.primary = self.primary;
-    organizationsElementCopy.startDate = self.startDate;
-    organizationsElementCopy.title = self.title;
-    organizationsElementCopy.type = self.type;
-
-    return organizationsElementCopy;
 }
 
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
@@ -355,61 +339,6 @@
 + (id)organizationsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JROrganizationsElement organizationsElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"id"])
-        self.organizationsElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
-
-    if ([dictionary objectForKey:@"department"])
-        self.department = [dictionary objectForKey:@"department"] != [NSNull null] ? 
-            [dictionary objectForKey:@"department"] : nil;
-
-    if ([dictionary objectForKey:@"description"])
-        self.description = [dictionary objectForKey:@"description"] != [NSNull null] ? 
-            [dictionary objectForKey:@"description"] : nil;
-
-    if ([dictionary objectForKey:@"endDate"])
-        self.endDate = [dictionary objectForKey:@"endDate"] != [NSNull null] ? 
-            [dictionary objectForKey:@"endDate"] : nil;
-
-    if ([dictionary objectForKey:@"location"] == [NSNull null])
-        self.location = nil;
-    else if ([dictionary objectForKey:@"location"] && !self.location)
-        self.location = [JRLocation locationObjectFromDictionary:[dictionary objectForKey:@"location"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"location"])
-        [self.location updateFromDictionary:[dictionary objectForKey:@"location"] withPath:self.captureObjectPath];
-
-    if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
-            [dictionary objectForKey:@"name"] : nil;
-
-    if ([dictionary objectForKey:@"primary"])
-        self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
-            [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
-
-    if ([dictionary objectForKey:@"startDate"])
-        self.startDate = [dictionary objectForKey:@"startDate"] != [NSNull null] ? 
-            [dictionary objectForKey:@"startDate"] : nil;
-
-    if ([dictionary objectForKey:@"title"])
-        self.title = [dictionary objectForKey:@"title"] != [NSNull null] ? 
-            [dictionary objectForKey:@"title"] : nil;
-
-    if ([dictionary objectForKey:@"type"])
-        self.type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
-            [dictionary objectForKey:@"type"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

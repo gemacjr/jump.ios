@@ -124,7 +124,7 @@
  * is based on the possibility that your application may preemptively configure JREngage, but never actually
  * use it.  If that is the case, then you won't get any error.
  **/
-- (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
+- (void)engageDialogDidFailToShowWithError:(NSError*)error;
 /*@}*/
 
 /**
@@ -139,7 +139,7 @@
  * cancelAuthentication message, or if configuration of the library is taking more than about
  * 16 seconds (rare) to download.
  **/
-- (void)jrAuthenticationDidNotComplete;
+- (void)authenticationDidNotComplete;
 
 /**
  * Tells the delegate that the user has successfully authenticated with the given provider, passing to
@@ -176,7 +176,7 @@
  * <a href="http://documentation.janrain.com/engage/api/auth_info">auth_info response</a>
  * section of the Janrain Engage API documentation.
  **/
-- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider;
+- (void)authenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider;
 
 /**
  * Sent when authentication failed and could not be recovered by the library.
@@ -192,7 +192,7 @@
  * This message is not sent if authentication was canceled.  To be notified of a canceled authentication,
  * see jrAuthenticationDidNotComplete().
  **/
-- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+- (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
 //#ifndef DOXYGEN_SHOULD_SKIP_THIS
 /////**
@@ -220,7 +220,7 @@
  *   The name of the provider on which the user authenticated.  For a list of possible strings,
  *   please see the \ref basicProviders "List of Providers"
  **/
-- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+- (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 
 /**
  * Sent when the call to the token URL has failed.
@@ -235,7 +235,7 @@
  *   The name of the provider on which the user authenticated.  For a list of possible strings,
  *   please see the \ref basicProviders "List of Providers"
  **/
-- (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+- (void)authenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 /*@}*/
 
 /**
@@ -249,14 +249,14 @@
  * the user hits the "Cancel" button, any class (e.g., the %JREngage delegate) calls the cancelPublishing
  * message, or if configuration of the library is taking more than about 16 seconds (rare) to download.
  **/
-- (void)jrSocialDidNotCompletePublishing;
+- (void)socialSharingDidNotCompletePublishing;
 
 /**
  * Sent after the social publishing dialog is closed (e.g., the user hits the "Close" button) and publishing
  * is complete. You can receive multiple jrSocialDidPublishActivity:forProvider:()
  * messages before the dialog is closed and publishing is complete.
  **/
-- (void)jrSocialDidCompletePublishing;
+- (void)socialSharingDidComplete;
 
 /**
  * Sent after the user successfully shares an activity on the given provider.
@@ -268,7 +268,7 @@
  *   The name of the provider on which the user published the activity.  For a list of possible strings,
  *   please see the \ref socialProviders "List of Social Providers"
  **/
-- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
+- (void)socialSharingDidSucceedForActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
 
 /**
  * Sent when publishing an activity failed and could not be recovered by the library.
@@ -283,7 +283,7 @@
  *   The name of the provider on which the user attempted to publish the activity.  For a list of possible strings,
  *   please see the \ref socialProviders "List of Social Providers"
  **/
-- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+- (void)jrSocialSharingDidFailForActivity:(JRActivityObject*)activity withError:(NSError*)error forProvider:(NSString*)provider;
 /*@}*/
 @end
 
@@ -433,7 +433,7 @@
  * @param activity
  *   The activity you wish to share
  **/
-+ (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity;
++ (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity;
 
 /**
  * Use this function to begin social publishing.  The JREngage library will pop up a modal dialog,
@@ -453,7 +453,7 @@
  * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
  * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
-+ (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
++ (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
 
 /*@}*/
 
@@ -470,13 +470,13 @@
  *   The name of the provider on which the user authenticated.  For a list of possible strings,
  *   please see the \ref basicProviders "List of Providers"
  **/
-+ (void)signoutUserForProvider:(NSString*)provider;
++ (void)clearSocialSharingCredentialsForProvider:(NSString*)provider;
 
 /**
  * Tell JREngage to forget that a user is signed in with all the
  * \ref socialProviders "Social Providers"
  **/
-+ (void)signoutUserForAllProviders;
++ (void)clearSocialSharingCredentialsForAllProviders;
 
 /**
  * Use this function to toggle whether or not the library should force the user to
@@ -503,7 +503,7 @@
 /**
  * Use this functions if you need to cancel publishing for any reason.
  **/
-+ (void)cancelPublishing;
++ (void)cancelSharing;
 /*@}*/
 
 /**
@@ -608,7 +608,7 @@ __attribute__ ((deprecated));// __attribute__ ((unavailable));
 /**
  * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
  **/
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
+- (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity
 __attribute__ ((deprecated));// __attribute__ ((unavailable));
 
 /**
@@ -620,13 +620,13 @@ __attribute__ ((deprecated));// __attribute__ ((unavailable));
 /**
  * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
  **/
-- (void)signoutUserForProvider:(NSString*)provider
+- (void)clearSocialSharingCredentialsForProvider:(NSString*)provider
 __attribute__ ((deprecated));// __attribute__ ((unavailable));
 
 /**
  * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
  **/
-- (void)signoutUserForAllProviders
+- (void)clearSocialSharingCredentialsForAllProviders
 __attribute__ ((deprecated));// __attribute__ ((unavailable));
 
 /**
@@ -644,7 +644,7 @@ __attribute__ ((deprecated));// __attribute__ ((unavailable));
 /**
  * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
  **/
-- (void)cancelPublishing
+- (void)cancelSharing
 __attribute__ ((deprecated));// __attribute__ ((unavailable));
 
 /**

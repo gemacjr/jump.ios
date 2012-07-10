@@ -3,7 +3,7 @@
 #import "JRCaptureObject.h"
 #import "JRCaptureUser+Extras.h"
 
-@interface NSArray (StringArray)
+@interface NSArray (JRArray_StringArray)
 - (NSArray *)arrayOfStringsFromStringPluralDictionariesWithType:(NSString *)type;
 @end
 

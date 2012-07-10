@@ -44,6 +44,22 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
+
+@implementation NSString (JRString_UrlEscaping)
+- (NSString*)stringByAddingUrlPercentEscapes
+{
+
+    NSString *encodedString = (NSString *)CFURLCreateStringByAddingPercentEscapes(
+                                NULL,
+                                (CFStringRef)self,
+                                NULL,
+                                (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                kCFStringEncodingUTF8);
+
+    return [encodedString autorelease];
+}
+@end
+
 @interface ConnectionData : NSObject
 {
     NSURLRequest  *_request;

@@ -40,7 +40,7 @@
 #import "JRCaptureObject+Internal.h"
 #import "JROinoinoL2Object.h"
 
-@interface JROinoinoL3Object (OinoinoL3ObjectInternalMethods)
+@interface JROinoinoL3Object (JROinoinoL3Object_InternalMethods)
 + (id)oinoinoL3ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOinoinoL3Object:(JROinoinoL3Object *)otherOinoinoL3Object;
 @end
@@ -117,17 +117,6 @@
     return [[[JROinoinoL2Object alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JROinoinoL2Object *oinoinoL2ObjectCopy = (JROinoinoL2Object *)[super copyWithZone:zone];
-
-    oinoinoL2ObjectCopy.string1 = self.string1;
-    oinoinoL2ObjectCopy.string2 = self.string2;
-    oinoinoL2ObjectCopy.oinoinoL3Object = self.oinoinoL3Object;
-
-    return oinoinoL2ObjectCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -191,32 +180,6 @@
 + (id)oinoinoL2ObjectObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JROinoinoL2Object oinoinoL2ObjectObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-
-    if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string1"] : nil;
-
-    if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string2"] : nil;
-
-    if ([dictionary objectForKey:@"oinoinoL3Object"] == [NSNull null])
-        self.oinoinoL3Object = nil;
-    else if ([dictionary objectForKey:@"oinoinoL3Object"] && !self.oinoinoL3Object)
-        self.oinoinoL3Object = [JROinoinoL3Object oinoinoL3ObjectObjectFromDictionary:[dictionary objectForKey:@"oinoinoL3Object"] withPath:self.captureObjectPath fromDecoder:NO];
-    else if ([dictionary objectForKey:@"oinoinoL3Object"])
-        [self.oinoinoL3Object updateFromDictionary:[dictionary objectForKey:@"oinoinoL3Object"] withPath:self.captureObjectPath];
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

@@ -196,8 +196,8 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(jrEngageDialogDidFailToShowWithError:)])
-            [delegate jrEngageDialogDidFailToShowWithError:error];
+        if ([delegate respondsToSelector:@selector(engageDialogDidFailToShowWithError:)])
+            [delegate engageDialogDidFailToShowWithError:error];
     }
 }
 
@@ -363,7 +363,7 @@ static JREngage* singleton = nil;
 //                                                    orAuthenticatingOnJustThisProvider:nil];
 //}
 
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+- (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
     ALog (@"");
 
@@ -415,22 +415,22 @@ static JREngage* singleton = nil;
 
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
-    [self showSocialPublishingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
+    [self showSocialSharingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
 }
 
-+ (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
++ (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
-    [[JREngage singletonInstance] showSocialPublishingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
+    [[JREngage singletonInstance] showSocialSharingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
 }
 
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
+- (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity
 {
-    [self showSocialPublishingDialogWithActivity:activity withCustomInterfaceOverrides:nil];
+    [self showSocialSharingDialogWithActivity:activity withCustomInterfaceOverrides:nil];
 }
 
-+ (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
++ (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity
 {
-    [[JREngage singletonInstance] showSocialPublishingDialogWithActivity:activity withCustomInterfaceOverrides:nil];
+    [[JREngage singletonInstance] showSocialSharingDialogWithActivity:activity withCustomInterfaceOverrides:nil];
 }
 
 - (void)authenticationDidRestart
@@ -446,8 +446,8 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(jrAuthenticationDidNotComplete)])
-            [delegate jrAuthenticationDidNotComplete];
+        if ([delegate respondsToSelector:@selector(authenticationDidNotComplete)])
+            [delegate authenticationDidNotComplete];
     }
 
     [interfaceMaestro authenticationCanceled];
@@ -460,8 +460,8 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(jrAuthenticationDidSucceedForUser:forProvider:)])
-            [delegate jrAuthenticationDidSucceedForUser:profile forProvider:provider];
+        if ([delegate respondsToSelector:@selector(authenticationDidSucceedForUser:forProvider:)])
+            [delegate authenticationDidSucceedForUser:profile forProvider:provider];
     }
 
     [interfaceMaestro authenticationCompleted];
@@ -474,8 +474,8 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(jrAuthenticationDidFailWithError:forProvider:)])
-            [delegate jrAuthenticationDidFailWithError:error forProvider:provider];
+        if ([delegate respondsToSelector:@selector(authenticationDidFailWithError:forProvider:)])
+            [delegate authenticationDidFailWithError:error forProvider:provider];
     }
 
     [interfaceMaestro authenticationFailed];
@@ -491,8 +491,8 @@ static JREngage* singleton = nil;
 //        if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withPayload:forProvider:)])
 //          [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
 
-        if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:)])
-            [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withResponse:response andPayload:tokenUrlPayload forProvider:provider];
+        if ([delegate respondsToSelector:@selector(authenticationDidReachTokenUrl:withResponse:andPayload:forProvider:)])
+            [delegate authenticationDidReachTokenUrl:tokenUrl withResponse:response andPayload:tokenUrlPayload forProvider:provider];
     }
 }
 
@@ -503,8 +503,8 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:)])
-            [delegate jrAuthenticationCallToTokenUrl:tokenUrl didFailWithError:error forProvider:provider];
+        if ([delegate respondsToSelector:@selector(authenticationCallToTokenUrl:didFailWithError:forProvider:)])
+            [delegate authenticationCallToTokenUrl:tokenUrl didFailWithError:error forProvider:provider];
     }
 }
 
@@ -521,8 +521,8 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(jrSocialDidNotCompletePublishing)])
-            [delegate jrSocialDidNotCompletePublishing];
+        if ([delegate respondsToSelector:@selector(socialSharingDidNotCompletePublishing)])
+            [delegate socialSharingDidNotCompletePublishing];
     }
 
     [interfaceMaestro publishingCanceled];
@@ -535,8 +535,8 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(jrSocialDidCompletePublishing)])
-            [delegate jrSocialDidCompletePublishing];
+        if ([delegate respondsToSelector:@selector(socialSharingDidComplete)])
+            [delegate socialSharingDidComplete];
     }
 
     [interfaceMaestro publishingCompleted];
@@ -549,8 +549,8 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(jrSocialDidPublishActivity:forProvider:)])
-            [delegate jrSocialDidPublishActivity:activity forProvider:provider];
+        if ([delegate respondsToSelector:@selector(socialSharingDidSucceedForActivity:forProvider:)])
+            [delegate socialSharingDidSucceedForActivity:activity forProvider:provider];
     }
 }
 
@@ -561,31 +561,31 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(jrSocialPublishingActivity:didFailWithError:forProvider:)])
-            [delegate jrSocialPublishingActivity:activity didFailWithError:error forProvider:provider];
+        if ([delegate respondsToSelector:@selector(jrSocialSharingDidFailForActivity:withError:forProvider:)])
+            [delegate jrSocialSharingDidFailForActivity:activity withError:error forProvider:provider];
     }
 }
 
-- (void)signoutUserForProvider:(NSString*)provider
+- (void)clearSocialSharingCredentialsForProvider:(NSString*)provider
 {
     DLog(@"");
     [sessionData forgetAuthenticatedUserForProvider:provider];
 }
 
-+ (void)signoutUserForProvider:(NSString*)provider
++ (void)clearSocialSharingCredentialsForProvider:(NSString*)provider
 {
-    [[JREngage singletonInstance] performSelector:@selector(signoutUserForProvider:) withObject:provider];
+    [[JREngage singletonInstance] performSelector:@selector(clearSocialSharingCredentialsForProvider:) withObject:provider];
 }
 
-- (void)signoutUserForAllProviders
+- (void)clearSocialSharingCredentialsForAllProviders
 {
     DLog(@"");
     [sessionData forgetAllAuthenticatedUsers];
 }
 
-+ (void)signoutUserForAllProviders
++ (void)clearSocialSharingCredentialsForAllProviders
 {
-    [[JREngage singletonInstance] performSelector:@selector(signoutUserForAllProviders)];
+    [[JREngage singletonInstance] performSelector:@selector(clearSocialSharingCredentialsForAllProviders)];
 }
 
 - (void)signoutUserForSocialProvider:(NSString*)provider
@@ -627,15 +627,15 @@ static JREngage* singleton = nil;
     [[JREngage singletonInstance] performSelector:@selector(cancelAuthentication)];
 }
 
-- (void)cancelPublishing
+- (void)cancelSharing
 {
     DLog(@"");
     [sessionData triggerPublishingDidCancel];
 }
 
-+ (void)cancelPublishing
++ (void)cancelSharing
 {
-    [[JREngage singletonInstance] performSelector:@selector(cancelPublishing)];
+    [[JREngage singletonInstance] performSelector:@selector(cancelSharing)];
 }
 
 - (void)updateTokenUrl:(NSString*)newTokenUrl

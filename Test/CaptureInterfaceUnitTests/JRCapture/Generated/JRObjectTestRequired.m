@@ -134,17 +134,6 @@
     return [[[JRObjectTestRequired alloc] initWithRequiredString:requiredString] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRObjectTestRequired *objectTestRequiredCopy = (JRObjectTestRequired *)[super copyWithZone:zone];
-
-    objectTestRequiredCopy.requiredString = self.requiredString;
-    objectTestRequiredCopy.string1 = self.string1;
-    objectTestRequiredCopy.string2 = self.string2;
-
-    return objectTestRequiredCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -208,29 +197,6 @@
 + (id)objectTestRequiredObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JRObjectTestRequired objectTestRequiredObjectFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-
-    if ([dictionary objectForKey:@"requiredString"])
-        self.requiredString = [dictionary objectForKey:@"requiredString"] != [NSNull null] ? 
-            [dictionary objectForKey:@"requiredString"] : nil;
-
-    if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string1"] : nil;
-
-    if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string2"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

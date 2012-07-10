@@ -40,20 +40,12 @@
 #import "JRCaptureObject+Internal.h"
 #import "JROnipinapL1PluralElement.h"
 
-@interface JROnipinapL2PluralElement (OnipinapL2PluralElementInternalMethods)
+@interface JROnipinapL2PluralElement (JROnipinapL2PluralElement_InternalMethods)
 + (id)onipinapL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
 - (BOOL)isEqualToOnipinapL2PluralElement:(JROnipinapL2PluralElement *)otherOnipinapL2PluralElement;
 @end
 
-@interface NSArray (OnipinapL2PluralToFromDictionary)
-- (NSArray*)arrayOfOnipinapL2PluralElementsFromOnipinapL2PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder;
-- (NSArray*)arrayOfOnipinapL2PluralElementsFromOnipinapL2PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOnipinapL2PluralDictionariesFromOnipinapL2PluralElementsForEncoder:(BOOL)forEncoder;
-- (NSArray*)arrayOfOnipinapL2PluralDictionariesFromOnipinapL2PluralElements;
-- (NSArray*)arrayOfOnipinapL2PluralReplaceDictionariesFromOnipinapL2PluralElements;
-@end
-
-@implementation NSArray (OnipinapL2PluralToFromDictionary)
+@implementation NSArray (JRArray_OnipinapL2Plural_ToFromDictionary)
 - (NSArray*)arrayOfOnipinapL2PluralElementsFromOnipinapL2PluralDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
     NSMutableArray *filteredOnipinapL2PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -180,17 +172,6 @@
     return [[[JROnipinapL1PluralElement alloc] init] autorelease];
 }
 
-- (id)copyWithZone:(NSZone*)zone
-{
-    JROnipinapL1PluralElement *onipinapL1PluralElementCopy = (JROnipinapL1PluralElement *)[super copyWithZone:zone];
-
-    onipinapL1PluralElementCopy.string1 = self.string1;
-    onipinapL1PluralElementCopy.string2 = self.string2;
-    onipinapL1PluralElementCopy.onipinapL2Plural = self.onipinapL2Plural;
-
-    return onipinapL1PluralElementCopy;
-}
-
 - (NSDictionary*)toDictionaryForEncoder:(BOOL)forEncoder
 {
     NSMutableDictionary *dictionary = 
@@ -260,26 +241,6 @@
 + (id)onipinapL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     return [JROnipinapL1PluralElement onipinapL1PluralElementFromDictionary:dictionary withPath:capturePath fromDecoder:NO];
-}
-
-- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
-{
-    DLog(@"%@ %@", capturePath, [dictionary description]);
-
-    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-
-    self.canBeUpdatedOnCapture = YES;
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
-
-    if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string1"] : nil;
-
-    if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
-            [dictionary objectForKey:@"string2"] : nil;
-
-    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

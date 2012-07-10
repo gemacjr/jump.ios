@@ -45,13 +45,13 @@
 #import "JSONKit.h"
 #import "JRCaptureError.h"
 
-@interface JRCaptureError (ApidResultErrorHelpers)
+@interface JRCaptureError (JRCaptureError_ApidResultErrorHelpers)
 + (NSDictionary *)invalidClassErrorForResult:(NSObject *)result;
 + (NSDictionary *)invalidStatErrorForResult:(NSObject *)result;
 + (NSDictionary *)invalidDataErrorForResult:(NSObject *)result;
 @end
 
-@implementation NSArray (StringArray)
+@implementation NSArray (JRArray_StringArray)
 // TODO: Test this!
 /* If it's just an array of strings, it will return an array of string. If it's not an array of strings or
    dictionaries, it will return null.  If type is null, and it is not an array of strings, it will return null. */
@@ -314,7 +314,7 @@
 }
 @end
 
-@interface JRCaptureObject (Private)
+@interface JRCaptureObject (JRCaptureObject_Private)
 @property BOOL canBeUpdatedOnCapture;
 @end
 

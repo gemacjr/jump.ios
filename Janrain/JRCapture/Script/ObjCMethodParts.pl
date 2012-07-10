@@ -986,8 +986,8 @@ my @doxygenClassDescParts = (
 sub createArrayCategoryForSubobject { 
   my $propertyName = $_[0];
   
-  my $arrayCategoryIntf = "\@interface NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
-  my $arrayCategoryImpl = "\@implementation NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
+  my $arrayCategoryIntf = "\@interface NSArray (JRArray_" . ucfirst($propertyName) . "_ToFromDictionary)\n";
+  my $arrayCategoryImpl = "\@implementation NSArray (JRArray_" . ucfirst($propertyName) . "_ToFromDictionary)\n";
 
   my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder";
   my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:(NSString*)capturePath";
@@ -1030,14 +1030,14 @@ sub createArrayCategoryForSubobject {
        "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "Element*)object toReplaceDictionary]];\n\n" . 
        "    return filteredDictionaryArray;\n}\n\@end\n\n";          
 
-  return "$arrayCategoryIntf$arrayCategoryImpl";
+  return $arrayCategoryImpl;#"$arrayCategoryIntf$arrayCategoryImpl";
 }
 
 sub createObjectCategoryForSubobject { 
   my $propertyName   = $_[0];
   my $isArrayElement = $_[1];
   
-  my $objectCategoryIntf = "\@interface JR" . ucfirst($propertyName) . " (" . ucfirst($propertyName) . "InternalMethods)\n" . 
+  my $objectCategoryIntf = "\@interface JR" . ucfirst($propertyName) . " (JR" . ucfirst($propertyName) . "_InternalMethods)\n" . 
                            "+ (id)" . $propertyName . ($isArrayElement ? "" : "Object") . "FromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;\n" . 
                            "- (BOOL)isEqualTo" . ucfirst($propertyName) . ":(JR" . ucfirst($propertyName) . " *)other" . ucfirst($propertyName) . ";\n" . 
                            "\@end\n\n";
@@ -1138,9 +1138,10 @@ sub createGetterSetterForProperty {
     
     $primitiveSetter .= "- (void)set" . ucfirst($propertyName) . "WithBool:(BOOL)boolVal";
     $primitiveSetter .= "\n{\n";
-    $primitiveSetter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n";
+    $primitiveSetter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n\n";
   
-    $primitiveSetter .= "    _" . $propertyName .  " = [NSNumber numberWithBool:boolVal];";    
+    $primitiveSetter .= "    [_" . $propertyName .  " autorelease];\n";    
+    $primitiveSetter .= "    _" . $propertyName .  " = [[NSNumber numberWithBool:boolVal] retain];";    
     $primitiveSetter .= "\n}\n\n";
 
   } elsif ($isBoolOrInt eq "i") {
@@ -1152,9 +1153,10 @@ sub createGetterSetterForProperty {
     
     $primitiveSetter .= "- (void)set" . ucfirst($propertyName) . "WithInteger:(NSInteger)integerVal";
     $primitiveSetter .= "\n{\n";
-    $primitiveSetter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n";
-  
-    $primitiveSetter .= "    _" . $propertyName .  " = [NSNumber numberWithInteger:integerVal];";    
+    $primitiveSetter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n\n";
+
+    $primitiveSetter .= "    [_" . $propertyName .  " autorelease];\n";  
+    $primitiveSetter .= "    _" . $propertyName .  " = [[NSNumber numberWithInteger:integerVal] retain];";    
     $primitiveSetter .= "\n}\n\n";
     
   }
