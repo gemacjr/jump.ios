@@ -1652,43 +1652,43 @@
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (void)replaceGamesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceGamesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.games named:@"games" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceOnipLevelOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceOnipLevelOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.onipLevelOne named:@"onipLevelOne" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replacePhotosArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replacePhotosArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.photos named:@"photos" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replacePluralLevelOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replacePluralLevelOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.pluralLevelOne named:@"pluralLevelOne" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceProfilesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceProfilesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.profiles named:@"profiles" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceStatusesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceStatusesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.statuses named:@"statuses" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceTesterStringPluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceTesterStringPluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.testerStringPlural named:@"testerStringPlural" isArrayOfStrings:YES
                        withType:@"stringPluralItem" forDelegate:delegate withContext:context];

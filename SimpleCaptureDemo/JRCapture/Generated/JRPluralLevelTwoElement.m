@@ -351,7 +351,7 @@
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (void)replacePluralLevelThreeArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replacePluralLevelThreeArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.pluralLevelThree named:@"pluralLevelThree" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];

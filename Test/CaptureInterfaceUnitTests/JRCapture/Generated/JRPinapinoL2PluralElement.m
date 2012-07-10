@@ -327,7 +327,7 @@
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (void)replacePinapinoL3PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replacePinapinoL3PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.pinapinoL3Plural named:@"pinapinoL3Plural" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];

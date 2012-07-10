@@ -170,7 +170,7 @@
     [self pinapCreate];
 
     [self prepare];
-    [captureUser replacePinapL1PluralArrayOnCaptureForDelegate:self withContext:_fsel];
+    [captureUser replacePinapL1PluralArrayOnCaptureForDelegate:self context:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
 }
 
@@ -204,7 +204,7 @@
 
     /* First, do the replace... */
     [self prepare];
-    [captureUser replacePinapL1PluralArrayOnCaptureForDelegate:self withContext:_csel];
+    [captureUser replacePinapL1PluralArrayOnCaptureForDelegate:self context:_csel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:20.0];
 }
 
@@ -374,7 +374,7 @@
     [self onipCreate];
 
     [self prepare];
-    [captureUser replaceOnipL1PluralArrayOnCaptureForDelegate:self withContext:_csel];
+    [captureUser replaceOnipL1PluralArrayOnCaptureForDelegate:self context:_csel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
 }
 
@@ -630,7 +630,7 @@
     [self pinapinapCreate];
 
     [self prepare];
-    [captureUser replacePinapinapL1PluralArrayOnCaptureForDelegate:self withContext:_fsel];
+    [captureUser replacePinapinapL1PluralArrayOnCaptureForDelegate:self context:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -660,7 +660,7 @@
 
     [self prepare];
     [((JRPinapinapL1PluralElement *)currentL1Object) replacePinapinapL2PluralArrayOnCaptureForDelegate:self
-                                                                                           withContext:_esel];
+                                                                                               context:_esel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -671,7 +671,7 @@
     [self pinapinapCreate];
 
     [self prepare];
-    [captureUser replacePinapinapL1PluralArrayOnCaptureForDelegate:self withContext:_csel];
+    [captureUser replacePinapinapL1PluralArrayOnCaptureForDelegate:self context:_csel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -699,7 +699,7 @@
     [self pinapinapCreate];
 
     [self prepare];
-    [captureUser replacePinapinapL1PluralArrayOnCaptureForDelegate:self withContext:_csel];
+    [captureUser replacePinapinapL1PluralArrayOnCaptureForDelegate:self context:_csel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -732,7 +732,7 @@
     GHAssertTrue([b isEqualToPinapinapL1PluralArray:a], nil);
 
     [self prepare];
-    [captureUser replacePinapinapL1PluralArrayOnCaptureForDelegate:self withContext:_fsel];
+    [captureUser replacePinapinapL1PluralArrayOnCaptureForDelegate:self context:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -991,7 +991,7 @@ void (^contBlock)() = nil;
 {
     [self onipinapCreate];
     [self prepare];
-    [captureUser replaceOnipinapL1PluralArrayOnCaptureForDelegate:self withContext:_csel];
+    [captureUser replaceOnipinapL1PluralArrayOnCaptureForDelegate:self context:_csel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -1262,7 +1262,7 @@ void (^contBlock)() = nil;
     [self oinonipCreate];
 
     [self prepare];
-    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self withContext:_csel];
+    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self context:_csel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:100.0];
 }
 
@@ -1274,7 +1274,7 @@ void (^contBlock)() = nil;
             [[((JROinonipL1PluralElement *)[captureUser.oinonipL1Plural objectAtIndex:0]).oinonipL2Object.oinonipL3Object copy] autorelease];
 
     /* and replace the array again. */
-    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self withContext:_cnel(@"1", testSelectorString)];
+    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self context:_cnel(@"1", testSelectorString)];
 }
 
 - (void)continue1_b375a_oinonipUpdate_Level3_CopiedL3_PostReplace_FailCase_withArguments:(NSDictionary *)arguments
@@ -1301,7 +1301,7 @@ void (^contBlock)() = nil;
     [self oinonipCreate];
 
     [self prepare];
-    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self withContext:_csel];
+    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self context:_csel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:100.0];
 }
 
@@ -1313,7 +1313,7 @@ void (^contBlock)() = nil;
             [[((JROinonipL1PluralElement *)[captureUser.oinonipL1Plural objectAtIndex:0]).oinonipL2Object copy] autorelease];
 
     /* and replace the array again. */
-    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self withContext:_cnel(@"1", testSelectorString)];
+    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self context:_cnel(@"1", testSelectorString)];
 }
 
 - (void)continue1_b375b_oinonipUpdate_Level3_CopiedL2_PostReplace_FailCase_withArguments:(NSDictionary *)arguments
@@ -1338,7 +1338,7 @@ void (^contBlock)() = nil;
     [self oinonipCreate];
 
     [self prepare];
-    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self withContext:_csel];
+    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self context:_csel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:100.0];
 }
 
@@ -1350,7 +1350,7 @@ void (^contBlock)() = nil;
             [[((JROinonipL1PluralElement *)[captureUser.oinonipL1Plural objectAtIndex:0]).oinonipL2Object copy] autorelease];
 
     /* and replace the array again. */
-    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self withContext:_cnel(@"1", testSelectorString)];
+    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self context:_cnel(@"1", testSelectorString)];
 
 }
 

@@ -320,7 +320,7 @@
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (void)replaceOnipinoL2PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceOnipinoL2PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.onipinoL2Plural named:@"onipinoL2Plural" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];

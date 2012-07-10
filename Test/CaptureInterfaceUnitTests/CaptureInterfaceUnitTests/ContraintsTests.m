@@ -74,7 +74,7 @@
     self.currentPlural = captureUser.pluralTestUnique = [NSArray arrayWithObjects:jrptue1, jrptue2, nil];
 
     [self prepare];
-    [captureUser replacePluralTestUniqueArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser replacePluralTestUniqueArrayOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -94,7 +94,7 @@
     self.currentPlural = captureUser.pluralTestUnique = [NSArray arrayWithObjects:jrptue1, jrptue2, nil];
 
     [self prepare];
-    [captureUser replacePluralTestUniqueArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser replacePluralTestUniqueArrayOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -159,7 +159,7 @@
     currentPlural = captureUser.pluralTestAlphabetic = [NSArray arrayWithObject:element];
 
     [self prepare];
-    [captureUser replacePluralTestAlphabeticArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser replacePluralTestAlphabeticArrayOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -170,7 +170,7 @@
     currentPlural = captureUser.pluralTestAlphabetic = [NSArray arrayWithObject:element];
 
     [self prepare];
-    [captureUser replacePluralTestAlphabeticArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser replacePluralTestAlphabeticArrayOnCaptureForDelegate:self context:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 

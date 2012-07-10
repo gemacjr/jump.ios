@@ -2519,67 +2519,67 @@
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (void)replaceBasicPluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceBasicPluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.basicPlural named:@"basicPlural" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replacePluralTestUniqueArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replacePluralTestUniqueArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.pluralTestUnique named:@"pluralTestUnique" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replacePluralTestAlphabeticArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replacePluralTestAlphabeticArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.pluralTestAlphabetic named:@"pluralTestAlphabetic" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceSimpleStringPluralOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceSimpleStringPluralOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.simpleStringPluralOne named:@"simpleStringPluralOne" isArrayOfStrings:YES
                        withType:@"simpleTypeOne" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceSimpleStringPluralTwoArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceSimpleStringPluralTwoArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.simpleStringPluralTwo named:@"simpleStringPluralTwo" isArrayOfStrings:YES
                        withType:@"simpleTypeTwo" forDelegate:delegate withContext:context];
 }
 
-- (void)replacePinapL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replacePinapL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.pinapL1Plural named:@"pinapL1Plural" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceOnipL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceOnipL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.onipL1Plural named:@"onipL1Plural" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replacePinapinapL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replacePinapinapL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.pinapinapL1Plural named:@"pinapinapL1Plural" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replacePinonipL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replacePinonipL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.pinonipL1Plural named:@"pinonipL1Plural" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceOnipinapL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceOnipinapL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.onipinapL1Plural named:@"onipinapL1Plural" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceOinonipL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceOinonipL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.oinonipL1Plural named:@"oinonipL1Plural" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];

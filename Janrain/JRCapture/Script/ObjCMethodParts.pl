@@ -1071,7 +1071,7 @@ sub createArrayReplaceMethodDeclaration {
        "/**\n" . 
        " * TODO: DOXYGEN DOCS\n" . 
        " **/\n" . 
-       "- (void)replace" . ucfirst($propertyName) . "ArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;\n";
+       "- (void)replace" . ucfirst($propertyName) . "ArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;\n";
 
   return $methodDeclaration;
 }
@@ -1082,7 +1082,7 @@ sub createArrayReplaceMethodImplementation {
   my $elementType   = $_[2];
 
   my $methodImplementation =
-       "- (void)replace" . ucfirst($propertyName) . "ArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context\n" . 
+       "- (void)replace" . ucfirst($propertyName) . "ArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context\n" . 
        "{\n" . 
        "    [self replaceArrayOnCapture:self." . $propertyName . " named:\@\"" . $propertyName . "\" isArrayOfStrings:" . ($isStringArray ? "YES" : "NO" ) . "\n" . 
        "                       withType:\@\"" . ($isStringArray ? $elementType : "" ) . "\" forDelegate:delegate withContext:context];\n" . 

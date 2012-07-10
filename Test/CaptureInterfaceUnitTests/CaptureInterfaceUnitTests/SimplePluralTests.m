@@ -150,7 +150,7 @@
     captureUser.simpleStringPluralOne = self.currentPlural = [self arrayOfStringsWithfillerFodderOffset:0];
 
     [self prepare];
-    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self withContext:_fsel];
+    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self context:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -171,7 +171,7 @@
     captureUser.simpleStringPluralOne = self.currentPlural = arrayWithNulls;
 
     [self prepare];
-    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self withContext:_fsel];
+    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self context:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -203,7 +203,7 @@
     captureUser.simpleStringPluralOne = self.currentPlural = self.previousPlural = [NSArray arrayWithArray:resetArray];
 
     [self prepare];
-    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self withContext:_ctel(currentTestString)];
+    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self context:_ctel(currentTestString)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:20.0];
 }
 
@@ -237,7 +237,7 @@
 
     captureUser.simpleStringPluralOne = self.currentPlural = newArray;
 
-    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b107_stringPluralReplace_AddedElements_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
@@ -264,7 +264,7 @@
 
     captureUser.simpleStringPluralOne = self.currentPlural = newArray;
 
-    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b108_stringPluralReplace_RemovedElements_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
@@ -291,7 +291,7 @@
 
     captureUser.simpleStringPluralOne = self.currentPlural = newArray;
 
-    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b109_stringPluralReplace_ChangedElements_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
@@ -319,7 +319,7 @@
 
     captureUser.simpleStringPluralOne = self.currentPlural = newArray;
 
-    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b110_stringPluralReplace_AddedRemovedElements_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
@@ -347,7 +347,7 @@
 
     captureUser.simpleStringPluralOne = self.currentPlural = newArray;
 
-    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b111_stringPluralReplace_AddedChangedElements_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
@@ -375,7 +375,7 @@
 
     captureUser.simpleStringPluralOne = self.currentPlural = newArray;
 
-    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b112_stringPluralReplace_RemovedChangedElements_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
@@ -404,7 +404,7 @@
 
     captureUser.simpleStringPluralOne = self.currentPlural = newArray;
 
-    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self context:_ftel(testSelectorString)];
 }
 
 - (void)finish_b113_stringPluralReplace_AddedRemovedChangedElements_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
