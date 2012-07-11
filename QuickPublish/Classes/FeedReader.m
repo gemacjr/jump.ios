@@ -42,6 +42,15 @@
 
 #import "FeedReader.h"
 
+#import "Quick_PublishAppDelegate.h"
+#import "RegexKitLite.h"
+#import "NSString+HTML.h"
+#import "NSDate+InternetDateTime.h"
+
+#import "JREngage+CustomInterface.h"
+#import "JRActivityObject.h"
+
+
 #define QUICK_PUBLISH_CACHED_VERSION            @"quickpublish.cachedversion"
 #define QUICK_PUBLISH_CACHED_STORIES            @"quickpublish.feeddata.cachedstories.archive"
 #define QUICK_PUBLISH_CACHED_STORY_LINKS        @"quickpublish.feeddata.cachedstorylinks.archive"
@@ -675,7 +684,6 @@ JUST_FINISH:
 @synthesize counter;
 @synthesize feedReaderDelegate;
 @synthesize libraryDialogDelegate;
-@synthesize jrEngage;
 @synthesize currentlyReloadingBlog;
 @synthesize selectedStory;
 @dynamic dateOfLastUpdate;
@@ -718,7 +726,8 @@ static FeedReader* singleton = nil;
     {
         singleton = self;
         feed      = [[Feed alloc] init];
-        jrEngage  = [JREngage jrEngageWithAppId:appId andTokenUrl:nil/*tokenUrl*/ delegate:self];
+
+        [JREngage setEngageAppId:appId tokenUrl:nil andDelegate:self];
     }
 
     return self;
@@ -729,7 +738,7 @@ static FeedReader* singleton = nil;
     if(singleton)
         return singleton;
 
-    return [[[super allocWithZone:nil] init] autorelease];
+    return (FeedReader *) [[[super allocWithZone:nil] init] autorelease];
 }
 
 - (void)downloadFeed:(id<FeedReaderDelegate>)delegate
@@ -882,7 +891,7 @@ static FeedReader* singleton = nil;
 }
 
 /* Entire JREngageDelegate protocol */
-- (void)jrEngageDialogDidFailToShowWithError:(NSError*)error
+- (void)engageDialogDidFailToShowWithError:(NSError *)error
 {
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sharing Failed"
                                                      message:@"An error occurred while attempting to share this article.  Please try again."
@@ -895,28 +904,28 @@ static FeedReader* singleton = nil;
         [libraryDialogDelegate libraryDialogClosed];
 }
 
-//- (void)jrAuthenticationDidNotComplete { }
-//- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider { }
-//- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
-//- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { }
-//- (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+//- (void)authenticationCallToTokenUrl:(NSString *)tokenUrl didFailWithError:(NSError *)error forProvider:(NSString *)provider { }
+//- (void)authenticationDidFailWithError:(NSError *)error forProvider:(NSString *)provider { }
+//- (void)authenticationDidNotComplete { }
+//- (void)authenticationDidReachTokenUrl:(NSString *)tokenUrl withResponse:(NSURLResponse *)response andPayload:(NSData *)tokenUrlPayload forProvider:(NSString *)provider { }
+//- (void)authenticationDidSucceedForUser:(NSDictionary *)authInfo forProvider:(NSString *)provider { }
 
-- (void)jrSocialDidNotCompletePublishing
+- (void)sharingDidNotComplete
 {
     DLog(@"");
     if ([libraryDialogDelegate respondsToSelector:@selector(libraryDialogClosed)])
             [libraryDialogDelegate libraryDialogClosed];
 }
 
-- (void)jrSocialDidCompletePublishing
+- (void)sharingDidComplete
 {
     DLog(@"");
     if ([libraryDialogDelegate respondsToSelector:@selector(libraryDialogClosed)])
             [libraryDialogDelegate libraryDialogClosed];
 }
 
-- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { DLog(@""); }
-- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
+- (void)sharingDidSucceedForActivity:(JRActivityObject *)activity forProvider:(NSString *)provider { DLog(@""); }
+- (void)sharingDidFailForActivity:(JRActivityObject *)activity withError:(NSError *)error forProvider:(NSString *)provider { DLog(@""); }
 
 - (void)dealloc {
 

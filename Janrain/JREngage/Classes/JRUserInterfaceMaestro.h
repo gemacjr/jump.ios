@@ -34,11 +34,6 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import "JRSessionData.h"
-#import "JRProvidersController.h"
-#import "JRUserLandingController.h"
-#import "JRWebViewController.h"
-#import "JRPublishActivityController.h"
 
 @class JRSessionData;
 @class JRModalNavigationController;

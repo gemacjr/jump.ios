@@ -13,6 +13,7 @@
 #import "JRCaptureData.h"
 #import "JRCaptureUser+Extras.h"
 #import "JREngage+CustomInterface.h"
+#import "JSONKit.h"
 
 @interface JREngageWrapperErrorWriter : NSObject
 @end
@@ -158,7 +159,7 @@ static JREngageWrapper *singleton = nil;
     [[JREngageWrapper singletonInstance] setDelegate:delegate];
     [[JREngageWrapper singletonInstance] setDialogState:JREngageDialogStateSharing];
 
-    [JREngage showSocialSharingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
+    [JREngage showSharingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
 }
 
 - (void)engageLibraryTearDown

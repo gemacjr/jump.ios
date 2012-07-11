@@ -115,6 +115,12 @@
     <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngage.m">
       <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngage.m" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngageError.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngageError.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngageError.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngageError.m" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngagePhonegapPlugin.h">
       <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngagePhonegapPlugin.h" isTestSource="false" />
     </content>
@@ -188,8 +194,11 @@
       <sourceFolder url="file://$MODULE_DIR$/../Janrain/Security/SFHFKeychainUtils.m" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$" />
-    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphoneos/SimpleCaptureDemo.app">
-      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphoneos/SimpleCaptureDemo.app" isTestSource="false" />
+    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphonesimulator/SimpleCaptureDemo.app">
+      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphonesimulator/SimpleCaptureDemo.app" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphonesimulator/SimpleCaptureDemoTests.octest">
+      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphonesimulator/SimpleCaptureDemoTests.octest" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

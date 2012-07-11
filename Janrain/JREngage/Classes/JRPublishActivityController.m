@@ -43,7 +43,10 @@
 
 #import "JRPublishActivityController.h"
 #import "JREngage+CustomInterface.h"
-#import "JRActivityObject.h"
+#import "JREngageError.h"
+#import "JRUserInterfaceMaestro.h"
+#import "JRUserLandingController.h"
+#import "JRWebViewController.h"
 
 @interface JRProvider (JRProvider_SocialSharingProperties)
 - (BOOL)willThunkPublishToStatusForActivity:(JRActivityObject*)activity;

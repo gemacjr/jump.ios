@@ -41,6 +41,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "JRSessionData.h"
+#import "JREngageError.h"
 
 #pragma mark server_urls
 //#define ENGAGE_STAGING_SERVER
@@ -135,29 +136,22 @@ static NSString* applicationBundleDisplayName()
     return [infoPlist objectForKey:@"CFBundleDisplayName"];
 }
 
-#pragma mark JRError
-NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
-
-@implementation JRError
-+ (NSError*)setError:(NSString*)message withCode:(NSInteger)code
-{
-    ALog (@"An error occured (%d): %@", code, message);
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSString stringWithString:message], NSLocalizedDescriptionKey, nil];
-
-    return [[[NSError alloc] initWithDomain:JREngageErrorDomain
-                                       code:code
-                                   userInfo:userInfo] autorelease];
-}
+#pragma mark JREngageError ()
+@interface JREngageError (JREngageError_setError)
++ (NSError*)setError:(NSString*)message withCode:(NSInteger)code;
 @end
 
 #pragma mark JRActivityObject ()
+@interface JRActivityObject (JRActivityObject_shortenedUrl)
+@property (retain) NSString *shortenedUrl;
+@end
+
 @implementation JRActivityObject (JRActivityObject_shortenedUrl)
 - (NSString*)shortenedUrl { return _shortenedUrl; }
 - (void)setShortenedUrl:(NSString*)newUrl { [newUrl retain]; [_shortenedUrl release]; _shortenedUrl = newUrl; }
 @end
 
-#pragma mark JRAuthenticatedUser
+#pragma mark JRAuthenticatedUser ()
 @interface JRAuthenticatedUser ()
 - (id)initUserWithDictionary:(NSDictionary*)dictionary andWelcomeString:(NSString*)welcomeString forProviderNamed:(NSString*)providerName;
 @end
@@ -773,8 +767,8 @@ static JRSessionData* singleton = nil;
     NSString *tag = @"getConfiguration";
 
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
-        return [JRError setError:@"There was a problem connecting to the Janrain server while configuring authentication."
-                        withCode:JRUrlError];
+        return [JREngageError setError:@"There was a problem connecting to the Janrain server while configuring authentication."
+                              withCode:JRUrlError];
     return nil;
 }
 
@@ -788,15 +782,15 @@ static JRSessionData* singleton = nil;
     if (!jsonDict)
     {
         DLog(@"%@", dataStr);
-        return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
-                        withCode:JRJsonError];
+        return [JREngageError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
+                              withCode:JRJsonError];
     }
 
     if (![jsonDict objectForKey:@"baseurl"] || ![jsonDict objectForKey:@"provider_info"])
     {
         DLog(@"%@", dataStr);
-        return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
-                        withCode:JRConfigurationInformationError];
+        return [JREngageError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
+                              withCode:JRConfigurationInformationError];
     }
 
     [baseUrl release];
@@ -1064,7 +1058,7 @@ static JRSessionData* singleton = nil;
             NSString *cookieString = savedCookie.value;
             NSArray *strArr = [cookieString componentsSeparatedByString:@"%22"];
 
-            if ([strArr count] <= 1)
+            if ([strArr count] <= 5)
                 return nil;
 
             return [[[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]]
@@ -1179,6 +1173,7 @@ static JRSessionData* singleton = nil;
                                forKey:@"description"];
     }
 
+
     NSString *activityContent = [[activityDictionary JSONString] stringByAddingUrlPercentEscapes];
     NSString *deviceToken     = user.deviceToken;
 
@@ -1208,8 +1203,8 @@ static JRSessionData* singleton = nil;
           [NSString stringWithCString:body.bytes encoding:NSUTF8StringEncoding]);
 
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
-        [self triggerPublishingDidFailWithError:[JRError setError:@"There was a problem connecting to the Janrain server to share this activity"
-                                                         withCode:JRPublishErrorBadConnection]];
+        [self triggerPublishingDidFailWithError:[JREngageError setError:@"There was a problem connecting to the Janrain server to share this activity"
+                                                               withCode:JRPublishErrorBadConnection]];
 }
 
 - (void)startSetStatusForUser:(JRAuthenticatedUser*)user
@@ -1217,6 +1212,7 @@ static JRSessionData* singleton = nil;
     DLog (@"activity status: %@", [activity userGeneratedContent]);
 
     NSString *status = [[activity userGeneratedContent] stringByAddingUrlPercentEscapes];
+
     NSString *deviceToken = user.deviceToken;
 
     NSMutableData* body = [NSMutableData data];
@@ -1242,8 +1238,8 @@ static JRSessionData* singleton = nil;
           [NSString stringWithCString:body.bytes encoding:NSUTF8StringEncoding]);
 
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
-        [self triggerPublishingDidFailWithError:[JRError setError:@"There was a problem connecting to the Janrain server to share this activity"
-                                                         withCode:JRPublishErrorBadConnection]];
+        [self triggerPublishingDidFailWithError:[JREngageError setError:@"There was a problem connecting to the Janrain server to share this activity"
+                                                               withCode:JRPublishErrorBadConnection]];
 }
 
 - (void)shareActivityForUser:(JRAuthenticatedUser*)user
@@ -1269,8 +1265,8 @@ static JRSessionData* singleton = nil;
         {
             if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
                 [delegate publishingActivity:_activity
-                            didFailWithError:[JRError setError:[NSString stringWithString:response]
-                                                      withCode:JRPublishFailedError]
+                            didFailWithError:[JREngageError setError:[NSString stringWithString:response]
+                                                            withCode:JRPublishFailedError]
                                  forProvider:providerName];
         }
         return;
@@ -1293,8 +1289,8 @@ static JRSessionData* singleton = nil;
 
         if (!errorDict)
         {
-            publishError = [JRError setError:@"There was a problem publishing this activity"
-                                    withCode:JRPublishFailedError];
+            publishError = [JREngageError setError:@"There was a problem publishing this activity"
+                                          withCode:JRPublishFailedError];
         }
         else
         {
@@ -1310,13 +1306,13 @@ static JRSessionData* singleton = nil;
 
                  /* Missing apiKey; this error should prompt a reauthentication. */
                     if ([errorMessage isEqualToString:@"Missing parameter: apiKey"])
-                        publishError = [JRError setError:errorMessage
-                                                withCode:JRPublishErrorMissingApiKey];
+                        publishError = [JREngageError setError:errorMessage
+                                                      withCode:JRPublishErrorMissingApiKey];
 
                  /* Missing some other parameter: activity/url/etc." */
                     else
-                        publishError = [JRError setError:errorMessage
-                                                withCode:JRPublishErrorMissingParameter];
+                        publishError = [JREngageError setError:errorMessage
+                                                      withCode:JRPublishErrorMissingParameter];
                     break;
 
                 case 4: /* "Facebook Error: ..." */
@@ -1330,70 +1326,70 @@ static JRSessionData* singleton = nil;
                                              options:NSCaseInsensitiveSearch].location != NSNotFound) ||
                         ([errorMessage rangeOfString:@"Error validating access token"
                                              options:NSCaseInsensitiveSearch].location != NSNotFound))
-                            publishError = [JRError setError:errorMessage
-                                                    withCode:JRPublishErrorInvalidFacebookSession];
+                            publishError = [JREngageError setError:errorMessage
+                                                          withCode:JRPublishErrorInvalidFacebookSession];
 
                  /* Bad image error: "One or more of your image records failed to include a valid 'href' field" */
                     else if ([errorMessage rangeOfString:@"image records failed"
                                                  options:NSCaseInsensitiveSearch].location != NSNotFound)
-                        publishError = [JRError setError:errorMessage
-                                                withCode:JRPublishErrorInvalidFacebookMedia];
+                        publishError = [JREngageError setError:errorMessage
+                                                      withCode:JRPublishErrorInvalidFacebookMedia];
 
                  /* Bad flash object error: "flash objects must have the 'source' and 'picture' attributes/etc." */
                     else if ([errorMessage rangeOfString:@"flash objects must"
                                                  options:NSCaseInsensitiveSearch].location != NSNotFound)
-                        publishError = [JRError setError:errorMessage
-                                                withCode:JRPublishErrorInvalidFacebookMedia];
+                        publishError = [JREngageError setError:errorMessage
+                                                      withCode:JRPublishErrorInvalidFacebookMedia];
 
                  /* Any other generic Facebook error */
                     else
-                        publishError = [JRError setError:errorMessage
-                                                withCode:JRPublishErrorFacebookGeneric];
+                        publishError = [JREngageError setError:errorMessage
+                                                      withCode:JRPublishErrorFacebookGeneric];
 
                     break;
 
                 case 6: /* Error interacting with a previously operational provider */
                  /* Twitter duplicate message error: "Twitter server error: Status is a duplicate." */
                     if ([errorMessage isEqualToString:@"Twitter server error: Status is a duplicate."])
-                        publishError = [JRError setError:errorMessage
-                                                withCode:JRPublishErrorDuplicateTwitter];
+                        publishError = [JREngageError setError:errorMessage
+                                                      withCode:JRPublishErrorDuplicateTwitter];
                  /* Any other error with code 6 */
                     else
-                        publishError = [JRError setError:errorMessage
-                                                withCode:JRPublishFailedError];
+                        publishError = [JREngageError setError:errorMessage
+                                                      withCode:JRPublishFailedError];
                     break;
 
                 case 13: /* Twitter Error */
-                    publishError = [JRError setError:errorMessage
-                                            withCode:JRPublishErrorTwitterGeneric];
+                    publishError = [JREngageError setError:errorMessage
+                                                  withCode:JRPublishErrorTwitterGeneric];
                     break;
 
                 case 14: /* LinkedIn Error */
-                    publishError = [JRError setError:errorMessage
-                                            withCode:JRPublishErrorLinkedInGeneric];
+                    publishError = [JREngageError setError:errorMessage
+                                                  withCode:JRPublishErrorLinkedInGeneric];
                     break;
 
                 case 16: /* MySpace Error */
-                    publishError = [JRError setError:errorMessage
-                                            withCode:JRPublishErrorMyspaceGeneric];
+                    publishError = [JREngageError setError:errorMessage
+                                                  withCode:JRPublishErrorMyspaceGeneric];
                     break;
 
                 case 17: /* Yahoo Error */
-                    publishError = [JRError setError:errorMessage
-                                            withCode:JRPublishErrorYahooGeneric];
+                    publishError = [JREngageError setError:errorMessage
+                                                  withCode:JRPublishErrorYahooGeneric];
                     break;
 
                 case 100: /* Character limit error?  Not documented on rpxnow.com. */
                  /* Formerly LinkedIn character limit error (JRPublishErrorLinkedInCharacterExceeded) */
-                    publishError = [JRError setError:errorMessage
-                                            withCode:JRPublishErrorCharacterLimitExceeded];
+                    publishError = [JREngageError setError:errorMessage
+                                                  withCode:JRPublishErrorCharacterLimitExceeded];
                     break;
 
 
                 case 1000: /* Extracting code failed; Fall through. */
                 default:   /* See below for list of ignored error codes. */
-                    publishError = [JRError setError:@"There was a problem publishing this activity"
-                                            withCode:JRPublishFailedError];
+                    publishError = [JREngageError setError:@"There was a problem publishing this activity"
+                                                  withCode:JRPublishFailedError];
                     break;
 
             /* -1:  Service Temporarily Unavailable
@@ -1548,8 +1544,8 @@ CALL_DELEGATE_SELECTOR:
 
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
     {
-        NSError *_error = [JRError setError:@"Problem initializing the connection to the token url"
-                                   withCode:JRAuthenticationTokenUrlFailedError];
+        NSError *_error = [JREngageError setError:@"Problem initializing the connection to the token url"
+                                         withCode:JRAuthenticationTokenUrlFailedError];
 
         NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
         for (id<JRSessionDelegate> delegate in delegatesCopy)
@@ -1665,8 +1661,8 @@ CALL_DELEGATE_SELECTOR:
 
         if ([(NSString*)tag isEqualToString:@"getConfiguration"])
         {
-            self.error = [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
-                                  withCode:JRConfigurationInformationError];
+            self.error = [JREngageError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
+                                        withCode:JRConfigurationInformationError];
         }
         else if ([(NSString*)tag isEqualToString:@"emailSuccess"])
         {
@@ -1695,7 +1691,7 @@ CALL_DELEGATE_SELECTOR:
                     [delegate authenticationCallToTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"]
                                           didFailWithError:connectionError
                                                forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
-            } // TODO: Perhaps update the error code to use a JRError enum?
+            } // TODO: Perhaps update the error code to use a JREngageError enum?
         }
         else if ([action isEqualToString:@"shareActivity"])
         {

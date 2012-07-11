@@ -35,12 +35,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "JRConnectionManager.h"
 #import "JREngage.h"
-#import "JREngage+CustomInterface.h"
-#import "Quick_PublishAppDelegate.h"
-#import "RegexKitLite.h"
-#import "NSString+HTML.h"
-#import "NSDate+InternetDateTime.h"
+
 
 @interface StoryImage : NSObject <JRConnectionManagerDelegate>
 {
@@ -113,8 +110,6 @@
     Feed  *feed;
     Story *selectedStory;
 
-    JREngage *jrEngage;
-
     id<FeedReaderDelegate>    feedReaderDelegate;
     id<LibraryDialogDelegate> libraryDialogDelegate;
 
@@ -126,7 +121,6 @@
     NSMutableString *currentContent;
     NSUInteger       counter;
 }
-@property (readonly) JREngage *jrEngage;
 @property (readonly) NSArray  *allStories;
 @property (readonly) BOOL      currentlyReloadingBlog;
 @property (readonly) NSDate   *dateOfLastUpdate;

@@ -43,6 +43,12 @@
 #import "JRUserInterfaceMaestro.h"
 #import "JREngage+CustomInterface.h"
 
+#import "JRSessionData.h"
+#import "JRProvidersController.h"
+#import "JRUserLandingController.h"
+#import "JRWebViewController.h"
+#import "JRPublishActivityController.h"
+
 static void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyString)
 {
     NSLog (@"*** Exception thrown. Problem is most likely with jrEngage custom interface object %@ : Caught %@ : %@",
