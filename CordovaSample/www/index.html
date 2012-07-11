@@ -1,0 +1,97 @@
+<!--
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ Copyright (c) 2012, Janrain, Inc.
+
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation and/or
+   other materials provided with the distribution.
+ * Neither the name of the Janrain, Inc. nor the names of its
+   contributors may be used to endorse or promote products derived from this
+   software without specific prior written permission.
+
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ File:   index.html
+ Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
+ Date:   Wednesday, January 4th, 2012
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phonegap</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+    <meta charset="utf-8">
+
+<!-- iPad/iPhone specific css below, add after your main css >
+	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+	-->
+	<!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
+
+    <link rel="stylesheet" type="text/css" href="phonegapsample.css" />
+
+    <script type="text/javascript" charset="utf-8" src="cordova-1.5.0.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="JREngagePlugin.js"></script>
+    <script type="text/javascript" charset="utf-8" src="main.js"></script>
+
+</head>
+<body onload="onBodyLoad()">
+  <div id="wrapper">
+    <div id="main">
+      <!--<h1>Hey, it's PhoneGap!</h1>-->
+
+      <img id="logo" src="./janrain_logo.png"/>
+
+      <!--<br />-->
+
+      <div class="button" onclick="showAuthenticationDialog()"><p>Sign In</p></div>
+
+      <div class="button" onclick="showSharingDialog()"><p>Share</p></div>
+
+      <div class="janrainLink"><a href="http://janrain.com">http://janrain.com</a></div>
+
+      <br />
+
+      <div id="authTables" class="authTables">
+        <table id="providerTable" class="phonegapTable"><tr><th>Provider</th></tr></table>
+        <table id="tokenUrlTable" class="phonegapTable"><tr><th>Token Url</th></tr></table>
+        <table id="profileTable"  class="phonegapTable"><tr><th>User Profile</th></tr></table>
+      </div>
+
+      <div id="shareTables" class="shareTables">
+        <table id="signInsTable"    class="phonegapTable"><tr><th>Sign-Ins</th></tr></table>
+        <table id="goodSharesTable" class="phonegapTable"><tr><th>Successful Shares</th></tr></table>
+        <table id="badSharesTable"  class="phonegapTable"><tr><th>Failed Shares</th></tr></table>
+      </div>
+
+      <br/>
+
+      <!--<div id="push"></div>-->
+    </div>
+  </div>
+  <div id="footer">
+    <span class="poweredBy">Powered by Janrain</span>
+  </div>
+</body>
+</html>

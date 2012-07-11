@@ -34,10 +34,14 @@
 
 #import <Foundation/Foundation.h>
 
+#ifdef CORDOVA_FRAMEWORK
+#import <Cordova/JSONKit.h>
+#else
 #ifdef PHONEGAP_FRAMEWORK
 #import <PhoneGap/JSONKit.h>
 #else
 #import "JSONKit.h"
+#endif
 #endif
 
 #import "SFHFKeychainUtils.h"
@@ -105,6 +109,10 @@ extern NSString * JREngageErrorDomain;
 
 @interface JRError : NSObject
 + (NSError*)setError:(NSString*)message withCode:(NSInteger)code;
+@end
+
+@interface NSString (NSString_URL_ESCAPING)
+- (NSString*)URLEscaped;
 @end
 
 @interface JRActivityObject (shortenedUrl)

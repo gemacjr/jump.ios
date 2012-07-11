@@ -49,6 +49,7 @@
 @implementation JRWebViewController
 @synthesize myBackgroundView;
 @synthesize myWebView;
+@synthesize originalUserAgent;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface
 {
@@ -59,6 +60,20 @@
     }
 
     return self;
+}
+
+- (void)setUserAgentDefault:(NSString *)userAgent
+{
+    if (userAgent)
+    {
+        NSDictionary *uAdefault = [[NSDictionary alloc] initWithObjectsAndKeys:userAgent, @"UserAgent", nil];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:uAdefault];
+        [uAdefault release];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserAgent"];
+    }
 }
 
 - (void)viewDidLoad
@@ -108,6 +123,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     DLog(@"");
+
+    if ([sessionData.currentProvider.name isEqualToString:@"yahoo"])
+    {
+        [self setOriginalUserAgent:[[NSUserDefaults standardUserDefaults] stringForKey:@"UserAgent"]];
+        [self setUserAgentDefault:@"Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5"];
+    }
+
     [super viewWillAppear:animated];
 
     self.contentSizeForViewInPopover = CGSizeMake(320, 416);
@@ -168,14 +190,14 @@
     [infoBar stopProgress];
 }
 
-- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
+- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(id)userdata { }
 
-- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
+- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(id)userdata
 {
     DLog(@"");
     [self stopProgress];
 
-    NSString* tag = [(NSString*)userdata retain];
+    NSString* tag = (NSString*)userdata;
 
     if ([tag isEqualToString:@"rpx_result"])
     {
@@ -199,14 +221,14 @@
             userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
             [sessionData triggerAuthenticationDidFailWithError:error];
         }
-        else if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"stat"]) isEqualToString:@"ok"])
+        else if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"stat"]) isEqualToString:@"ok"])
         {
             userHitTheBackButton = NO; /* Because authentication completed successfully. */
             [sessionData triggerAuthenticationDidCompleteWithPayload:payloadDict];
         }
         else
         {
-            if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Discovery failed for the OpenID you entered"])
+            if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Discovery failed for the OpenID you entered"])
             {
                 NSString *message;
                 if (sessionData.currentProvider.requiresInput)
@@ -227,7 +249,7 @@
 
                 [alert show];
             }
-            else if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"The URL you entered does not appear to be an OpenID"])
+            else if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"The URL you entered does not appear to be an OpenID"])
             {
                 NSString *message;
                 if (sessionData.currentProvider.requiresInput)
@@ -248,7 +270,7 @@
 
                 [alert show];
             }
-            else if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Please enter your OpenID"])
+            else if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Please enter your OpenID"])
             {
                 NSError *error = [JRError setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
                                           withCode:JRAuthenticationFailedError];
@@ -278,14 +300,12 @@
         connectionDataAlreadyDownloadedThis = YES;
         [myWebView loadHTMLString:payload baseURL:[request URL]];
     }
-
-    [tag release];
 }
 
-- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata
+- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(id)userdata
 {
     DLog(@"");
-    NSString* tag = [(NSString*)userdata retain];
+    NSString* tag = (NSString*)userdata;
     DLog(@"tag:     %@", tag);
 
     [self stopProgress];
@@ -300,15 +320,9 @@
         userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
         [sessionData triggerAuthenticationDidFailWithError:error];
     }
-
-    [tag release];
 }
 
-- (void)connectionWasStoppedWithTag:(void*)userdata
-{
-    DLog(@"");
-    [(NSString*)userdata release];
-}
+- (void)connectionWasStoppedWithTag:(id)userdata { }
 
 #define SKIP_THIS_WORK_AROUND 0
 #define WEBVIEW_SHOULDNT_LOAD 0
@@ -340,7 +354,7 @@
     {
         DLog(@"request url has prefix: %@", [sessionData baseUrl]);
 
-        NSString* tag = [[NSString stringWithFormat:@"rpx_result"] retain];
+        NSString* tag = @"rpx_result";
         [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
 
         keepProgress = YES;
@@ -353,15 +367,54 @@
     return YES;
 }
 
+- (void)fixPadWindowSize
+{
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) return;
+
+    if (!([sessionData.currentProvider.name isEqualToString:@"google"]) ||
+          [sessionData.currentProvider.name isEqualToString:@"yahoo"]) return;
+
+    /* This fixes the UIWebView's display of IDP sign-in pages to make them fit the iPhone sized dialog on the iPad.
+     * It's broken up into separate JS injections in case one statement fails (e.g. there is no document element),
+     * so that the others execute. */
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"window.innerHeight = 480; window.innerWidth = 320;"];
+//    [myWebView stringByEvaluatingJavaScriptFromString:
+//            @"window.screen.height = 480; window.screen.width = 320;"];
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"document.documentElement.clientWidth = 320; document.documentElement.clientHeight = 480;"];
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"document.body.style.minWidth = \"320px\";"];
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"document.body.style.width = \"auto\";"];
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"document.body.style.minHeight = \"0px\";"];
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"document.body.style.height = \"auto\";"];
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"document.body.children[0].style.minHeight = \"0px\";"];
+
+    [myWebView stringByEvaluatingJavaScriptFromString:@"m = document.querySelector('meta[name=viewport]');"];
+    [myWebView stringByEvaluatingJavaScriptFromString:@"if (m === null) { m = document.createElement('meta'); document.head.appendChild(m); }"];
+    [myWebView stringByEvaluatingJavaScriptFromString:@"m.name = 'viewport';"];
+
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            [NSString stringWithFormat:@"m.content = 'width=%i, height=%i';",
+                    (int) myWebView.frame.size.width,
+                    (int) myWebView.frame.size.height]];
+}
+
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
     DLog(@"");
+    [self fixPadWindowSize];
     [self startProgress];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     DLog(@"");
+    [self fixPadWindowSize];
     if (!keepProgress)
         [self stopProgress];
 }
@@ -446,6 +499,9 @@
 {
     DLog(@"");
 
+    if ([sessionData.currentProvider.name isEqualToString:@"yahoo"])
+        [self setUserAgentDefault:self.originalUserAgent];
+
     [myWebView loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];
 
     [super viewDidDisappear:animated];
@@ -465,6 +521,7 @@
 
     [customInterface release];
     [myBackgroundView release];
+    [originalUserAgent release];
     [myWebView release];
     [infoBar release];
 

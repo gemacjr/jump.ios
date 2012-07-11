@@ -1223,7 +1223,7 @@ Please try again later."
 
     NSURL        *url     = [NSURL URLWithString:profilePicUrl];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSString     *tag     = [providerName retain];
+    NSString     *tag     = [[providerName copy] autorelease];
 
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
         [self setProfilePicToDefaultPic];
@@ -1241,7 +1241,7 @@ Please try again later."
 
         NSURL        *url     = [NSURL URLWithString:((JRImageMediaObject *) media).src];
         NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
-        NSString     *tag     = [[NSString alloc] initWithFormat:@"getThumbnail"];
+        NSString     *tag     = @"getThumbnail";
 
         if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
             [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
@@ -1253,7 +1253,7 @@ Please try again later."
 
         NSURL        *url     = [NSURL URLWithString:((JRFlashMediaObject *) media).imgsrc];
         NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
-        NSString     *tag     = [[NSString alloc] initWithFormat:@"getThumbnail"];
+        NSString     *tag     = @"getThumbnail";
 
         if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
             [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
@@ -1625,12 +1625,11 @@ Please try again later."
     [action showFromTabBar:myTabBar];
 }
 
-- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
-{
-    [(NSString*)userdata release];
-}
+- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request
+                                       andTag:(id)userdata { }
 
-- (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
+- (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload
+                                           request:(NSURLRequest*)request andTag:(id)userdata
 {
     DLog(@"");
     NSString* tag = (NSString*)userdata;
@@ -1648,11 +1647,9 @@ Please try again later."
 
         [cachedProfilePics setValue:payload forKey:tag];
     }
-
-    [tag release];
 }
 
-- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata
+- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(id)userdata
 {
     DLog(@"");
     NSString* tag = (NSString*)userdata;
@@ -1669,14 +1666,9 @@ Please try again later."
             [self setProfilePicToDefaultPic];
         }
     }
-
-    [tag release];
 }
 
-- (void)connectionWasStoppedWithTag:(void*)userdata
-{
-    [(NSString*)userdata release];
-}
+- (void)connectionWasStoppedWithTag:(id)userdata { }
 
 - (void)urlShortenedToNewUrl:(NSString*)url forActivity:(JRActivityObject*)activity
 {

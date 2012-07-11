@@ -40,10 +40,9 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#ifdef PHONEGAP_FRAMEWORK
-#import <PhoneGap/JSONKit.h>
 #import "JREngagePhonegapPlugin.h"
 
+#ifdef PHONEGAP_OR_CORDOVA
 @interface NSString (NSString_JSON_ESCAPING)
 - (NSString*)JSONEscape;
 @end
@@ -59,7 +58,7 @@
                                 (CFStringRef)@"!*'();:@&=+$,/?%#[]",
                                 kCFStringEncodingUTF8);
 
-    return encodedString;
+    return [encodedString autorelease];
 }
 @end
 
@@ -91,8 +90,9 @@
     DLog(@"print arguments: %@", callbackID);
 
     NSString     *printString  = [arguments objectAtIndex:0];
-    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:printString];
+
+    PCPluginResult *pluginResult = [PCPluginResult resultWithStatus:PCCommandStatus_OK
+                                                    messageAsString:printString];
 
     // TODO: Nathan, what were you testing here?
     // if([printString isEqualToString:@"Hello World }]%20"] == YES)
@@ -117,8 +117,8 @@
 
 - (void)finishWithSuccessMessage:(NSString *)message
 {
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:message];
+    PCPluginResult* pluginResult = [PCPluginResult resultWithStatus:PCCommandStatus_OK
+                                                    messageAsString:message];
 
     [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
     [self thenFinish];
@@ -126,8 +126,8 @@
 
 - (void)finishWithFailureMessage:(NSString *)message
 {
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR
-                                                messageAsString:message];
+    PCPluginResult* pluginResult = [PCPluginResult resultWithStatus:PCCommandStatus_ERROR
+                                                    messageAsString:message];
 
     [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
     [self thenFinish];
@@ -185,6 +185,27 @@
     NSString *tokenUrl = nil;
     if ([arguments count] > 1)
         tokenUrl = [arguments objectAtIndex:1];
+
+    NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/JREngage-Info.plist"];
+    NSMutableDictionary *infoPlist =
+            [NSMutableDictionary dictionaryWithDictionary:
+                    [NSDictionary dictionaryWithContentsOfFile:path]];
+
+    NSMutableString *version = [NSMutableString stringWithString:[infoPlist objectForKey:@"CFBundleShortVersionString"]];
+    //NSString *newVersion = @"";
+
+#ifdef PHONEGAP_FRAMEWORK
+    if (![version hasSuffix:@":phonegap"])
+        [version appendString:@":phonegap"];////newVersion = [NSString stringWithFormat:@"%@:%@", version, @":phonegap"];
+#else
+#ifdef CORDOVA_FRAMEWORK
+    if (![version hasSuffix:@":cordova"])
+        [version appendString:@":cordova"];//newVersion = [NSString stringWithFormat:@"%@:%@", version, @"cordova"];
+#endif
+#endif
+
+    [infoPlist setObject:version forKey:@"CFBundleShortVersionString"];
+    [infoPlist writeToFile:path atomically:YES];
 
     jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
     if (!jrEngage)
