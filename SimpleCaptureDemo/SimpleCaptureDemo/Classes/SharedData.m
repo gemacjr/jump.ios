@@ -63,7 +63,7 @@ static NSString *entityTypeName     = @"user_dev";
 {
     if ((self = [super init]))
     {
-        [JRCapture setEngageAppId:nil captureApidDomain:captureApidDomain
+        [JRCapture setEngageAppId:appId captureApidDomain:captureApidDomain
                   captureUIDomain:captureUIDomain clientId:clientId
                 andEntityTypeName:entityTypeName];
 
