@@ -14,8 +14,8 @@
 + (NSString *)accessTokenForUser:(NSString *)userId;
 + (NSString *)accessToken;//ForUser:(NSString *)userId;
 + (NSString *)creationToken;//ForUser:(NSString *)userId;
-+ (NSString *)captureApidDomain;
-+ (NSString *)captureUIDomain;
++ (NSURL *)captureApidBaseUrl;
++ (NSURL *)captureUIBaseUrl;
 + (NSString *)clientId;
 + (NSString *)entityTypeName;
 + (void)setCaptureApidDomain:(NSString *)newCaptureApidDomain

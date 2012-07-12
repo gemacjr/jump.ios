@@ -33,8 +33,8 @@
 static SharedData *singleton = nil;
 
 static NSString *appId              = @"appcfamhnpkagijaeinl";
-static NSString *captureApidDomain  = @"https://mobile.dev.janraincapture.com";
-static NSString *captureUIDomain    = @"https://mobile.dev.janraincapture.com";
+static NSString *captureApidDomain  = @"mobile.dev.janraincapture.com";
+static NSString *captureUIDomain    = @"mobile.dev.janraincapture.com";
 static NSString *clientId           = @"zc7tx83fqy68mper69mxbt5dfvd7c2jh";
 static NSString *entityTypeName     = @"user_dev";
 

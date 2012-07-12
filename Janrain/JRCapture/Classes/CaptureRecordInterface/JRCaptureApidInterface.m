@@ -138,7 +138,7 @@ typedef enum CaptureInterfaceStatEnum
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/entity", [JRCaptureData captureApidDomain]]]];
+                                      [NSString stringWithFormat:@"%@/entity", [JRCaptureData captureApidBaseUrl]]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -198,7 +198,7 @@ typedef enum CaptureInterfaceStatEnum
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/entity.create", [JRCaptureData captureApidDomain]]]];
+                                      [NSString stringWithFormat:@"%@/entity.create", [JRCaptureData captureApidBaseUrl]]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -258,7 +258,7 @@ typedef enum CaptureInterfaceStatEnum
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/entity", [JRCaptureData captureApidDomain]]]];
+                                      [NSString stringWithFormat:@"%@/entity", [JRCaptureData captureApidBaseUrl]]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -322,7 +322,7 @@ typedef enum CaptureInterfaceStatEnum
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/entity.update", [JRCaptureData captureApidDomain]]]];
+                                      [NSString stringWithFormat:@"%@/entity.update", [JRCaptureData captureApidBaseUrl]]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -385,7 +385,7 @@ typedef enum CaptureInterfaceStatEnum
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/entity.replace", [JRCaptureData captureApidDomain]]]];
+                                      [NSString stringWithFormat:@"%@/entity.replace", [JRCaptureData captureApidBaseUrl]]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -448,7 +448,7 @@ typedef enum CaptureInterfaceStatEnum
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/entity.replace", [JRCaptureData captureApidDomain]]]];
+                                      [NSString stringWithFormat:@"%@/entity.replace", [JRCaptureData captureApidBaseUrl]]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];

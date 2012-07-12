@@ -22,6 +22,18 @@
 #define cJRCreationTokenDummyUuid    @"no_uuid_available.new_user"
 #define cJRMissingUuidDummyString    @"no_uuid_available"
 
+@implementation NSString (JRString_UrlWithDomain)
+- (NSString *)urlStringFromBaseDomain
+{
+    if ([self hasPrefix:@"https://"])
+        return self;
+
+    if ([self hasPrefix:@"http://"])
+        return [self stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
+
+    return [@"https://" stringByAppendingString:self];
+}
+@end
 
 static NSString* applicationBundleDisplayNameAndIdentifier()
 {
@@ -42,8 +54,8 @@ typedef enum
 + (NSString *)loadUuidForLastLoggedInUser;
 + (void)saveUuidForLastLoggedInUser:(NSString *)uuid;
 + (NSString *)retrieveTokenFromKeychainOfType:(JRTokenType)tokenType forUser:(NSString *)uuid;
-@property (nonatomic, copy) NSString *captureApidDomain;
-@property (nonatomic, copy) NSString *captureUIDomain;
+@property (nonatomic, copy) NSString *captureApidBaseUrl;
+@property (nonatomic, copy) NSString *captureUIBaseUrl;
 @property (nonatomic, copy) NSString *clientId;
 @property (nonatomic, copy) NSString *entityTypeName;
 @property (nonatomic, copy) NSString *accessToken;
@@ -56,8 +68,8 @@ static JRCaptureData *singleton = nil;
 
 @synthesize clientId;
 @synthesize entityTypeName;
-@synthesize captureApidDomain;
-@synthesize captureUIDomain;
+@synthesize captureApidBaseUrl = captureApidDomain;
+@synthesize captureUIBaseUrl = captureUIDomain;
 @synthesize accessToken;
 @synthesize creationToken;
 @synthesize uuid;
@@ -114,17 +126,17 @@ static JRCaptureData *singleton = nil;
 {
     JRCaptureData *captureDataInstance = [JRCaptureData captureDataInstance];
     return [NSString stringWithFormat:@"%@/oauth/mobile_signin?client_id=%@&redirect_uri=https://example.com",
-                     captureDataInstance.captureUIDomain, captureDataInstance.clientId];
+                     captureDataInstance.captureUIBaseUrl, captureDataInstance.clientId];
 }
 
 + (void)setCaptureApidDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
                     clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
 {
-    JRCaptureData *captureDataInstance    = [JRCaptureData captureDataInstance];
-    captureDataInstance.captureApidDomain = newCaptureApidDomain;
-    captureDataInstance.captureUIDomain   = newCaptureUIDomain;
-    captureDataInstance.clientId          = newClientId;
-    captureDataInstance.entityTypeName    = newEntityTypeName;
+    JRCaptureData *captureDataInstance     = [JRCaptureData captureDataInstance];
+    captureDataInstance.captureApidBaseUrl = [newCaptureApidDomain urlStringFromBaseDomain];
+    captureDataInstance.captureUIBaseUrl   = [newCaptureUIDomain urlStringFromBaseDomain];
+    captureDataInstance.clientId           = newClientId;
+    captureDataInstance.entityTypeName     = newEntityTypeName;
 }
 
 + (NSString *)loadUuidForLastLoggedInUser
@@ -253,14 +265,14 @@ static JRCaptureData *singleton = nil;
     return [[JRCaptureData captureDataInstance] creationToken];
 }
 
-+ (NSString *)captureApidDomain
++ (NSString *)captureApidBaseUrl
 {
-    return [[JRCaptureData captureDataInstance] captureApidDomain];
+    return [[JRCaptureData captureDataInstance] captureApidBaseUrl];
 }
 
-+ (NSString *)captureUIDomain
++ (NSString *)captureUIBaseUrl
 {
-    return [[JRCaptureData captureDataInstance] captureUIDomain];
+    return [[JRCaptureData captureDataInstance] captureUIBaseUrl];
 }
 
 + (NSString *)clientId
