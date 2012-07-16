@@ -585,8 +585,8 @@
 		DDE0B9A67F00A1DC4B6DFC24 /* ErrorHandlerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorHandlerTests.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC27 /* CaptureUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureUserTests.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC2A /* ApidHandlerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApidHandlerTests.m; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFC2C /* JREngageError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JREngageError.m; path = Classes/JREngageError.m; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFC2E /* JREngageError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JREngageError.h; path = Classes/JREngageError.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC2C /* JREngageError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JREngageError.m; path = JREngageError.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC2E /* JREngageError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JREngageError.h; path = JREngageError.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -631,8 +631,6 @@
 		9F578A6D1593E3CB00478D15 /* JREngage */ = {
 			isa = PBXGroup;
 			children = (
-				DDE0B9A67F00A1DC4B6DFC2E /* JREngageError.h */,
-				DDE0B9A67F00A1DC4B6DFC2C /* JREngageError.m */,
 				9F578A6E1593E3CB00478D15 /* ATTRIBUTION */,
 				9F578A6F1593E3CB00478D15 /* Classes */,
 				9F578A881593E3CB00478D15 /* JREngage-Info.plist */,
@@ -645,6 +643,8 @@
 		9F578A6F1593E3CB00478D15 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				DDE0B9A67F00A1DC4B6DFC2C /* JREngageError.m */,
+				DDE0B9A67F00A1DC4B6DFC2E /* JREngageError.h */,
 				9F578A701593E3CB00478D15 /* JRActivityObject.h */,
 				9F578A711593E3CB00478D15 /* JRActivityObject.m */,
 				9F578A721593E3CB00478D15 /* JREngage+CustomInterface.h */,
