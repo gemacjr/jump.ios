@@ -72,7 +72,7 @@
 /**
  * TODO: DOXYGEN DOCS
  **/
-- (void)replaceOpponentsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+- (void)replaceOpponentsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
 
 /**
  * TODO: Doxygen doc

@@ -86,11 +86,9 @@
 #endif
 
 #import <Foundation/Foundation.h>
-#import "JRSessionData.h"
-#import "JRActivityObject.h"
-#import "JRUserInterfaceMaestro.h"
 
-@class JRUserInterfaceMaestro;
+//@class JRUserInterfaceMaestro;
+@class JRActivityObject;
 
 /**
  * @brief
@@ -176,7 +174,7 @@
  * <a href="http://documentation.janrain.com/engage/api/auth_info">auth_info response</a>
  * section of the Janrain Engage API documentation.
  **/
-- (void)authenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider;
+- (void)authenticationDidSucceedForUser:(NSDictionary*)authInfo forProvider:(NSString*)provider;
 
 /**
  * Sent when authentication failed and could not be recovered by the library.
@@ -249,14 +247,14 @@
  * the user hits the "Cancel" button, any class (e.g., the %JREngage delegate) calls the cancelPublishing
  * message, or if configuration of the library is taking more than about 16 seconds (rare) to download.
  **/
-- (void)socialSharingDidNotCompletePublishing;
+- (void)sharingDidNotComplete;
 
 /**
  * Sent after the social publishing dialog is closed (e.g., the user hits the "Close" button) and publishing
  * is complete. You can receive multiple jrSocialDidPublishActivity:forProvider:()
  * messages before the dialog is closed and publishing is complete.
  **/
-- (void)socialSharingDidComplete;
+- (void)sharingDidComplete;
 
 /**
  * Sent after the user successfully shares an activity on the given provider.
@@ -268,7 +266,7 @@
  *   The name of the provider on which the user published the activity.  For a list of possible strings,
  *   please see the \ref socialProviders "List of Social Providers"
  **/
-- (void)socialSharingDidSucceedForActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
+- (void)sharingDidSucceedForActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
 
 /**
  * Sent when publishing an activity failed and could not be recovered by the library.
@@ -283,7 +281,7 @@
  *   The name of the provider on which the user attempted to publish the activity.  For a list of possible strings,
  *   please see the \ref socialProviders "List of Social Providers"
  **/
-- (void)jrSocialSharingDidFailForActivity:(JRActivityObject*)activity withError:(NSError*)error forProvider:(NSString*)provider;
+- (void)sharingDidFailForActivity:(JRActivityObject*)activity withError:(NSError*)error forProvider:(NSString*)provider;
 /*@}*/
 @end
 
@@ -307,7 +305,7 @@
  * completed server-side authentication was required. This is no longer the case, although you can optionally implement
  * the token url if you wish to continue authentication on your server.
  **/
-@interface JREngage : NSObject <JRSessionDelegate>
+@interface JREngage : NSObject //<JRSessionDelegate>
 {
 //    JRUserInterfaceMaestro *_interfaceMaestro; /*< \internal Class that handles customizations to the library's UI */
 //    JRSessionData          *_sessionData;      /*< \internal Holds configuration and state for the JREngage library */
@@ -433,7 +431,7 @@
  * @param activity
  *   The activity you wish to share
  **/
-+ (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity;
++ (void)showSharingDialogWithActivity:(JRActivityObject*)activity;
 
 /**
  * Use this function to begin social publishing.  The JREngage library will pop up a modal dialog,
@@ -453,7 +451,7 @@
  * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
  * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
-+ (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
++ (void)showSharingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
 
 /*@}*/
 
@@ -470,13 +468,13 @@
  *   The name of the provider on which the user authenticated.  For a list of possible strings,
  *   please see the \ref basicProviders "List of Providers"
  **/
-+ (void)clearSocialSharingCredentialsForProvider:(NSString*)provider;
++ (void)clearSharingCredentialsForProvider:(NSString*)provider;
 
 /**
  * Tell JREngage to forget that a user is signed in with all the
  * \ref socialProviders "Social Providers"
  **/
-+ (void)clearSocialSharingCredentialsForAllProviders;
++ (void)clearSharingCredentialsForAllProviders;
 
 /**
  * Use this function to toggle whether or not the library should force the user to
@@ -608,7 +606,7 @@ __attribute__ ((deprecated));// __attribute__ ((unavailable));
 /**
  * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
  **/
-- (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity
+- (void)showSharingDialogWithActivity:(JRActivityObject*)activity
 __attribute__ ((deprecated));// __attribute__ ((unavailable));
 
 /**
@@ -620,13 +618,13 @@ __attribute__ ((deprecated));// __attribute__ ((unavailable));
 /**
  * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
  **/
-- (void)clearSocialSharingCredentialsForProvider:(NSString*)provider
+- (void)clearSharingCredentialsForProvider:(NSString*)provider
 __attribute__ ((deprecated));// __attribute__ ((unavailable));
 
 /**
  * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
  **/
-- (void)clearSocialSharingCredentialsForAllProviders
+- (void)clearSharingCredentialsForAllProviders
 __attribute__ ((deprecated));// __attribute__ ((unavailable));
 
 /**

@@ -2396,169 +2396,169 @@
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (void)replaceAccountsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceAccountsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.accounts named:@"accounts" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceAddressesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceAddressesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.addresses named:@"addresses" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceBooksArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceBooksArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.books named:@"books" isArrayOfStrings:YES
                        withType:@"book" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceCarsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceCarsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.cars named:@"cars" isArrayOfStrings:YES
                        withType:@"car" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceChildrenArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceChildrenArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.children named:@"children" isArrayOfStrings:YES
                        withType:@"value" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceEmailsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceEmailsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.emails named:@"emails" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceFoodArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceFoodArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.food named:@"food" isArrayOfStrings:YES
                        withType:@"food" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceHeroesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceHeroesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.heroes named:@"heroes" isArrayOfStrings:YES
                        withType:@"hero" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceImsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceImsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.ims named:@"ims" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceInterestsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceInterestsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.interests named:@"interests" isArrayOfStrings:YES
                        withType:@"interest" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceJobInterestsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceJobInterestsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.jobInterests named:@"jobInterests" isArrayOfStrings:YES
                        withType:@"jobInterest" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceLanguagesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceLanguagesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.languages named:@"languages" isArrayOfStrings:YES
                        withType:@"language" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceLanguagesSpokenArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceLanguagesSpokenArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.languagesSpoken named:@"languagesSpoken" isArrayOfStrings:YES
                        withType:@"languageSpoken" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceLookingForArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceLookingForArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.lookingFor named:@"lookingFor" isArrayOfStrings:YES
                        withType:@"value" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceMoviesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceMoviesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.movies named:@"movies" isArrayOfStrings:YES
                        withType:@"movie" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceMusicArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceMusicArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.music named:@"music" isArrayOfStrings:YES
                        withType:@"music" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceOrganizationsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceOrganizationsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.organizations named:@"organizations" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replacePetsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replacePetsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.pets named:@"pets" isArrayOfStrings:YES
                        withType:@"value" forDelegate:delegate withContext:context];
 }
 
-- (void)replacePhoneNumbersArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replacePhoneNumbersArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.phoneNumbers named:@"phoneNumbers" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceProfilePhotosArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceProfilePhotosArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.profilePhotos named:@"profilePhotos" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceQuotesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceQuotesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.quotes named:@"quotes" isArrayOfStrings:YES
                        withType:@"quote" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceRelationshipsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceRelationshipsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.relationships named:@"relationships" isArrayOfStrings:YES
                        withType:@"relationship" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceSportsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceSportsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.sports named:@"sports" isArrayOfStrings:YES
                        withType:@"sport" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceTagsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceTagsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.tags named:@"tags" isArrayOfStrings:YES
                        withType:@"tag" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceTurnOffsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceTurnOffsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.turnOffs named:@"turnOffs" isArrayOfStrings:YES
                        withType:@"turnOff" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceTurnOnsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceTurnOnsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.turnOns named:@"turnOns" isArrayOfStrings:YES
                        withType:@"turnOn" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceTvShowsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceTvShowsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.tvShows named:@"tvShows" isArrayOfStrings:YES
                        withType:@"tvShow" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceUrlsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceUrlsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.urls named:@"urls" isArrayOfStrings:NO
                        withType:@"" forDelegate:delegate withContext:context];

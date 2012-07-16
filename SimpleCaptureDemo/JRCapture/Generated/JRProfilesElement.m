@@ -508,19 +508,19 @@
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (void)replaceFollowersArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceFollowersArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.followers named:@"followers" isArrayOfStrings:YES
                        withType:@"identifier" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceFollowingArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceFollowingArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.following named:@"following" isArrayOfStrings:YES
                        withType:@"identifier" forDelegate:delegate withContext:context];
 }
 
-- (void)replaceFriendsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceFriendsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.friends named:@"friends" isArrayOfStrings:YES
                        withType:@"identifier" forDelegate:delegate withContext:context];

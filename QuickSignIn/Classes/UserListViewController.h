@@ -38,7 +38,7 @@
 #import "UserDetailsViewController.h"
 
 @interface UserListViewController : UIViewController <UINavigationBarDelegate, UserModelDelegate, LibraryDialogDelegate,
-                                                        UITableViewDelegate, UITableViewDataSource, JRCaptureInterfaceDelegate>
+                                                        UITableViewDelegate, UITableViewDataSource>
 {
     BOOL iPad;
     BOOL libraryDialogShowing;

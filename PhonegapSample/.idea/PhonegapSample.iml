@@ -1,6 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="CIDR_MODULE" version="4">
   <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../Janrain/JRConnectionManager/JRConnectionManager.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JRConnectionManager/JRConnectionManager.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JRConnectionManager/JRConnectionManager.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JRConnectionManager/JRConnectionManager.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/ATTRIBUTION">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/ATTRIBUTION" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRActivityObject.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRActivityObject.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRActivityObject.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRActivityObject.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngage+CustomInterface.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngage+CustomInterface.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngage+CustomInterface.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngage+CustomInterface.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngage.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngage.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngage.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngage.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngagePhonegapPlugin.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngagePhonegapPlugin.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngagePhonegapPlugin.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JREngagePhonegapPlugin.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRInfoBar.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRInfoBar.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRInfoBar.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRInfoBar.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRPreviewLabel.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRPreviewLabel.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRPreviewLabel.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRPreviewLabel.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRProvidersController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRProvidersController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRProvidersController.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRProvidersController.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRPublishActivityController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRPublishActivityController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRPublishActivityController.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRPublishActivityController.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRSessionData.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRSessionData.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRSessionData.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRSessionData.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRUserInterfaceMaestro.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRUserInterfaceMaestro.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRUserInterfaceMaestro.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRUserInterfaceMaestro.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRUserLandingController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRUserLandingController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRUserLandingController.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRUserLandingController.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRWebViewController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRWebViewController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRWebViewController.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/Classes/JRWebViewController.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/JREngage-Info.plist">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/JREngage-Info.plist" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/JREngage/JREngagePlugin.js">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/JREngage/JREngagePlugin.js" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/Security/SFHFKeychainUtils.h">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/Security/SFHFKeychainUtils.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../Janrain/Security/SFHFKeychainUtils.m">
+      <sourceFolder url="file://$MODULE_DIR$/../Janrain/Security/SFHFKeychainUtils.m" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
     </content>

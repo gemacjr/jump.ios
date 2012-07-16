@@ -111,7 +111,7 @@ static Class getClassFromKey(NSString *key)
 
         [objectDataArray addObject:objectData];
     }
-    
+
     DLog(@"%@", [tableData description]);
 }
 
@@ -215,7 +215,7 @@ static Class getClassFromKey(NSString *key)
     [self saveLocalArrayToCaptureObject];
 
     SEL replaceArraySelector =
-                NSSelectorFromString([NSString stringWithFormat:@"replace%@ArrayOnCaptureForDelegate:withContext:",
+                NSSelectorFromString([NSString stringWithFormat:@"replace%@ArrayOnCaptureForDelegate:context:",
                         [tableHeader stringByReplacingCharactersInRange:NSMakeRange(0,1)
                                                              withString:[[tableHeader substringToIndex:1] capitalizedString]]]);
 

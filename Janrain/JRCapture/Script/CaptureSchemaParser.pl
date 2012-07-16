@@ -934,7 +934,7 @@ sub recursiveParse {
     ######## DECIMAL/NUMBER ########
     } elsif ($propertyType eq "decimal") {
 
-      $objectiveType  = "NSNumber *";
+      $objectiveType  = "JRDecimal *";
       $isEqualMethod  = "isEqualToNumber:";
  
     ######## DATE ########
@@ -1762,7 +1762,7 @@ if ($usingCustomOutputDir) {
   $pathToOutputDir = $outputDir;
   $canMakeDocs     = 0;
 } else {
-  $pathToOutputDir = "../Classes/APIDInterface";
+  $pathToOutputDir = "../Classes/CaptureUserModel";
   $pathToDocsDir   = "../../../Docs/JRCapture";
 }
 
@@ -1776,7 +1776,8 @@ unless (-d "$pathToOutputDir/$genDir") {
 
 if ($usingCustomOutputDir) {
   my $copyResult = `cp ../Classes/JR* $pathToOutputDir 2>&1`;
-  $copyResult   .= `cp ../Classes/APIDInterface/JR* $pathToOutputDir 2>&1`;
+  $copyResult   .= `cp ../Classes/CaptureRecordInterface/JR* $pathToOutputDir 2>&1`;
+  $copyResult   .= `cp ../Classes/CaptureUserModel/JR* $pathToOutputDir 2>&1`;
   $copyResult   .= `cp ../Classes/EngageWrapper/JR* $pathToOutputDir 2>&1`;
   $copyResult   .= `cp ../Classes/WebviewWrapper/JR* $pathToOutputDir 2>&1`;
   if ($copyResult) {

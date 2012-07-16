@@ -33,13 +33,37 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #ifdef PHONEGAP_FRAMEWORK
-#import <Foundation/Foundation.h>
+#define PHONEGAP_OR_CORDOVA
+
 #import <PhoneGap/PGPlugin.h>
+#import <PhoneGap/JSONKit.h>
+
+#define PCPlugin PGPlugin
+#define PCPluginResult PluginResult
+#define PCCommandStatus_OK PGCommandStatus_OK
+#define PCCommandStatus_ERROR PGCommandStatus_ERROR
+
+#else
+#ifdef CORDOVA_FRAMEWORK
+#define PHONEGAP_OR_CORDOVA
+
+#import <Cordova/CDVPlugin.h>
+#import <Cordova/JSONKit.h>
+
+#define PCPlugin CDVPlugin
+#define PCPluginResult CDVPluginResult
+#define PCCommandStatus_OK CDVCommandStatus_OK
+#define PCCommandStatus_ERROR CDVCommandStatus_ERROR
+
+#endif
+#endif
+
+#ifdef PHONEGAP_OR_CORDOVA
+#import <Foundation/Foundation.h>
 #import "JREngage.h"
 
-@interface JREngagePhonegapPlugin : PGPlugin <JREngageDelegate>
+@interface JREngagePhonegapPlugin : PCPlugin <JREngageDelegate>
 {
-    JREngage *jrEngage;
     NSString *callbackID;
 
     NSMutableDictionary *fullAuthenticationResponse;
@@ -52,4 +76,5 @@
 
 @property (nonatomic, copy) NSString* callbackID;
 @end
+
 #endif

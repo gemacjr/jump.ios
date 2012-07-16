@@ -49,9 +49,9 @@
     NSString *_country;
     NSString *_extendedAddress;
     NSString *_formatted;
-    NSNumber *_latitude;
+    JRDecimal *_latitude;
     NSString *_locality;
-    NSNumber *_longitude;
+    JRDecimal *_longitude;
     NSString *_poBox;
     NSString *_postalCode;
     NSString *_region;
@@ -99,12 +99,12 @@
     _formatted = [newFormatted copy];
 }
 
-- (NSNumber *)latitude
+- (JRDecimal *)latitude
 {
     return _latitude;
 }
 
-- (void)setLatitude:(NSNumber *)newLatitude
+- (void)setLatitude:(JRDecimal *)newLatitude
 {
     [self.dirtyPropertySet addObject:@"latitude"];
 
@@ -125,12 +125,12 @@
     _locality = [newLocality copy];
 }
 
-- (NSNumber *)longitude
+- (JRDecimal *)longitude
 {
     return _longitude;
 }
 
-- (void)setLongitude:(NSNumber *)newLongitude
+- (void)setLongitude:(JRDecimal *)newLongitude
 {
     [self.dirtyPropertySet addObject:@"longitude"];
 
@@ -552,9 +552,9 @@
     [dictionary setObject:@"NSString" forKey:@"country"];
     [dictionary setObject:@"NSString" forKey:@"extendedAddress"];
     [dictionary setObject:@"NSString" forKey:@"formatted"];
-    [dictionary setObject:@"NSNumber" forKey:@"latitude"];
+    [dictionary setObject:@"JRDecimal" forKey:@"latitude"];
     [dictionary setObject:@"NSString" forKey:@"locality"];
-    [dictionary setObject:@"NSNumber" forKey:@"longitude"];
+    [dictionary setObject:@"JRDecimal" forKey:@"longitude"];
     [dictionary setObject:@"NSString" forKey:@"poBox"];
     [dictionary setObject:@"NSString" forKey:@"postalCode"];
     [dictionary setObject:@"NSString" forKey:@"region"];

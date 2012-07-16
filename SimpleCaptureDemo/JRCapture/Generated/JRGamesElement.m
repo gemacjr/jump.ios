@@ -340,7 +340,7 @@
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (void)replaceOpponentsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceOpponentsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
 {
     [self replaceArrayOnCapture:self.opponents named:@"opponents" isArrayOfStrings:YES
                        withType:@"name" forDelegate:delegate withContext:context];

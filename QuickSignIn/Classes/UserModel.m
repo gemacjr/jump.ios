@@ -42,7 +42,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "UserModel.h"
-
+#import "JREngageError.h"
 
 @interface UserModel ()
 @property (retain) EmbeddedTableViewController *embeddedTable;
@@ -54,7 +54,6 @@
 @implementation UserModel
 @synthesize currentUser;
 @synthesize selectedUser;
-@synthesize authInfo;
 @synthesize loadingUserData;
 @synthesize customInterface;
 @synthesize navigationController;
@@ -63,7 +62,6 @@
 @synthesize tokenUrlDelegate;
 @synthesize pendingCallToTokenUrl;
 @synthesize libraryDialogDelegate;
-@synthesize latestAccessToken;
 
 /* Singleton instance of UserModel */
 static UserModel *singleton = nil;
@@ -88,11 +86,6 @@ Instantiate the JRAuthenticate Library with your Engage Application's 20-charact
 library with a token URL, you must make the call yourself after you receive the token,
 otherwise, this happens automatically.                                                  */
 
-// TODO: Document this!
-//static NSString *captureDomain  = @"<you_capture_domain_or_nil>";
-//static NSString *clientId       = @"<you_capture_client_id_or_nil>";
-//static NSString *entityTypeName = @"<you_capture_entity_type_or_nil>";
-
 //static NSString *appId    = @"<your_app_id>";
 //static NSString *tokenUrl = @"<your_token_url>";
 
@@ -100,22 +93,8 @@ otherwise, this happens automatically.                                          
 {
     if ((self = [super init]))
     {
-        /* Capture demo is not currently built for the iPad. */
-        /* For an Engage only demo, simply add the appId and tokenUrl.  For a Capture, add a captureDomain,
-           clientId, and entityTypeName */
-        if (captureDomain && clientId && entityTypeName && !(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad))
-        {
-            captureDemo = YES;
-            [JRCaptureInterface setCaptureDomain:captureDomain clientId:clientId andEntityTypeName:entityTypeName];
-            jrEngage = [JREngage jrEngageWithAppId:appId
-                                       andTokenUrl:[JRCaptureInterface captureMobileEndpointUrl]
-                                          delegate:self];
-        }
-        else
-        {
-         /* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
-            jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
-        }
+     /* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
+        [JREngage setEngageAppId:appId tokenUrl:tokenUrl andDelegate:self];
 
         prefs = [[NSUserDefaults standardUserDefaults] retain];
 
@@ -230,56 +209,6 @@ otherwise, this happens automatically.                                          
                  [[profile objectForKey:@"address"] objectForKey:@"country"]] : @""];
 
     return addr;
-}
-
-/**
- * Horrible hack to remove NSNulls from profile data to allow it to be stored in an NSUserDefaults
- * (Capture profiles can have null values and JSONKit parses them to NSNulls, but Engage profiles don't and so
- * didn't trigger this incompatibility.)
- */
-- (id)nullWalker:(id)structure
-{
-    if ([structure isKindOfClass:[NSDictionary class]])
-    {
-        NSDictionary *dict = (NSDictionary *) structure;
-        NSMutableDictionary *retval = [NSMutableDictionary dictionary];
-        NSArray *keys = [dict allKeys];
-        for (NSString *key in keys)
-        {
-            NSObject *val = [dict objectForKey:key];
-            if ([val isKindOfClass:[NSNull class]])
-                /* don't add */;
-            else if ([val isKindOfClass:[NSDictionary class]])
-                [retval setObject:[self nullWalker:val] forKey:key];
-            else if ([val isKindOfClass:[NSArray class]])
-                [retval setObject:[self nullWalker:val] forKey:key];
-            else
-                [retval setObject:val forKey:key];
-        }
-        return retval;
-    }
-    else if ([structure isKindOfClass:[NSArray class]])
-    {
-        NSArray *array = (NSArray *) structure;
-        NSMutableArray *retval = [NSMutableArray array];
-        for (NSObject *val in array)
-            if ([val isKindOfClass:[NSNull class]])
-                /* don't add */;
-            else if ([val isKindOfClass:[NSDictionary class]])
-                [retval addObject:[self nullWalker:val]];
-            else if ([val isKindOfClass:[NSArray class]])
-                [retval addObject:[self nullWalker:val]];
-            else
-                [retval addObject:val];
-        return retval;
-    }
-    else
-    {
-        ALog(@"Unrecognized stucture: %@", [structure description]);
-        return nil;
-        // TODO: Better error handling
-        //exit(1);
-    }
 }
 
 /* Returns the sign-in history as an ordered array of sessions, store as dictionaries.
@@ -429,51 +358,62 @@ otherwise, this happens automatically.                                          
     return;
 }
 
-- (void)addCaptureUserFromCaptureResult:(NSString *)captureResult
+- (void)finishSignUserIn:(NSDictionary*)user
 {
-    DLog(@"");
+    if (currentUser)
+        [self finishSignUserOut];
 
-    NSDictionary        *tmpProfiles = [prefs objectForKey:@"userProfiles"];
-    NSMutableDictionary *newProfiles = [NSMutableDictionary dictionaryWithDictionary:tmpProfiles];
-    NSMutableDictionary *userProfile = [NSMutableDictionary dictionaryWithDictionary:
-                                                   [newProfiles objectForKey:
-                                                               [currentUser objectForKey:@"identifier"]]];
-    NSDictionary        *captureDictionary  = [captureResult objectFromJSONString];
+ /* Get the identifier and normalize it (remove html escapes) */
+    identifier =
+            [[[[user objectForKey:@"profile"] objectForKey:@"identifier"]
+                     stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
 
-    if (!captureDictionary)
+ /* Get the display name */
+    displayName = [[UserModel getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];
+
+ /* Store the current user's profile dictionary in the dictionary of users,
+    using the identifier as the key, and then save the dictionary of users */
+    NSDictionary *tmpProfiles = [prefs objectForKey:@"userProfiles"];
+
+ /* If this profile doesn't already exist in the dictionary of saved profiles */
+    if (![tmpProfiles objectForKey:identifier])
     {
-        ALog(@"Unable to parse token URL response: %@", captureResult);
-        return; // TODO: Better error handling (Add a GOTO?)
+     /* Create a mutable dictionary from the non-mutable NSUserDefaults dictionary, */
+        NSMutableDictionary* newProfiles = [NSMutableDictionary dictionaryWithDictionary:tmpProfiles];
+
+     /* add the user's profile to the dictionary, indexed by the identifier, */
+        [newProfiles setObject:user forKey:identifier];
+
+     /* and save. */
+        [prefs setObject:newProfiles forKey:@"userProfiles"];
     }
 
-    NSString     *captureAccessToken   = [captureDictionary objectForKey:@"access_token"];
-    NSDictionary *captureCredentials;
+ /* Get the approximate timestamp of the user's log in */
+    NSDate *today = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
 
-    // TODO: Temp test for Cypress
-    self.latestAccessToken = captureAccessToken;
+    NSString *currentTime = [dateFormatter stringFromDate:today];
+    [dateFormatter release];
 
-    if (captureAccessToken)
-        captureCredentials = [NSDictionary dictionaryWithObject:captureAccessToken
-                                                         forKey:@"access_token"];
-    else
-        captureCredentials = nil;
+ /* Create a dictionary of the identifier and the timestamp.  For now, save this dictionary
+    as the currently logged in user. */
+    currentUser = [[NSDictionary dictionaryWithObjectsAndKeys:
+                    identifier, @"identifier",
+                    currentProvider, @"provider",
+                    displayName, @"displayName",
+                    currentTime, @"timestamp", nil] retain];
 
-    NSDictionary *captureProfile = nil;
-    if (captureDemo && captureAccessToken)
-        captureProfile = [self nullWalker:[captureDictionary objectForKey:@"result"]];
+    [prefs setObject:currentUser forKey:@"currentUser"];
 
-    if (captureProfile)
-        [userProfile setObject:captureProfile forKey:@"captureProfile"];
-    if (captureCredentials)
-        [userProfile setObject:captureCredentials forKey:@"captureCredentials"];
+    loadingUserData = NO;
 
-    [newProfiles setObject:userProfile forKey:[currentUser objectForKey:@"identifier"]];
-    [prefs setObject:newProfiles forKey:@"userProfiles"];
+    [signInDelegate userDidSignIn];
 
-//    [tokenUrlDelegate didReachTokenUrl];
-//    [tokenUrlDelegate release], tokenUrlDelegate = nil;
+    [self setTokenUrlDelegate:signInDelegate];
+    [signInDelegate release], signInDelegate = nil;
 }
-
 
 - (void)finishSignUserOut
 {
@@ -522,71 +462,6 @@ otherwise, this happens automatically.                                          
     [prefs setInteger:historyCountSnapShot forKey:@"historyCount"];
 }
 
-- (void)startSignUserOut:(id<UserModelDelegate>)interestedParty
-{
-    signOutDelegate = [interestedParty retain];
-
-    [self finishSignUserOut];
-}
-
-- (void)finishSignUserIn:(NSDictionary*)user
-{
-    if (currentUser)
-        [self finishSignUserOut];
-
- /* Get the identifier and normalize it (remove html escapes) */
-    identifier =
-            [[[[user objectForKey:@"profile"] objectForKey:@"identifier"]
-                     stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
-
- /* Get the display name */
-    displayName = [[UserModel getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];
-
- /* Store the current user's profile dictionary in the dictionary of users,
-    using the identifier as the key, and then save the dictionary of users */
-    NSDictionary *tmpProfiles = [prefs objectForKey:@"userProfiles"];
-
-// TODO: Not saving the dictionary causes problems with the capture token; investigate a better way?
-// /* If this profile doesn't already exist in the dictionary of saved profiles */
-//    if (![tmpProfiles objectForKey:identifier])
-//    {
-     /* Create a mutable dictionary from the non-mutable NSUserDefaults dictionary, */
-        NSMutableDictionary* newProfiles = [NSMutableDictionary dictionaryWithDictionary:tmpProfiles];
-
-     /* add the user's profile to the dictionary, indexed by the identifier, */
-        [newProfiles setObject:user forKey:identifier];
-
-     /* and save. */
-        [prefs setObject:newProfiles forKey:@"userProfiles"];
-//    }
-
- /* Get the approximate timestamp of the user's log in */
-    NSDate *today = [NSDate date];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-
-    NSString *currentTime = [dateFormatter stringFromDate:today];
-    [dateFormatter release];
-
- /* Create a dictionary of the identifier and the timestamp.  For now, save this dictionary
-    as the currently logged in user. */
-    currentUser = [[NSDictionary dictionaryWithObjectsAndKeys:
-                    identifier, @"identifier",
-                    currentProvider, @"provider",
-                    displayName, @"displayName",
-                    currentTime, @"timestamp", nil] retain];
-
-    [prefs setObject:currentUser forKey:@"currentUser"];
-
-    loadingUserData = NO;
-
-    [signInDelegate userDidSignIn];
-
-    [self setTokenUrlDelegate:signInDelegate];
-    [signInDelegate release], signInDelegate = nil;
-}
-
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedParty
 {
     DLog(@"");
@@ -625,9 +500,8 @@ otherwise, this happens automatically.                                          
         customInterface = [moreCustomizations retain];
 
  /* Launch the JRAuthenticate Library. */
-    [jrEngage showAuthenticationDialogWithCustomInterfaceOverrides:customInterface];
+    [JREngage showAuthenticationDialogWithCustomInterfaceOverrides:customInterface];
 }
-
 
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedPartySignIn
            afterSignOut:(id<UserModelDelegate>)interestedPartySignOut
@@ -636,12 +510,19 @@ otherwise, this happens automatically.                                          
     [self startSignUserIn:interestedPartySignIn];
 }
 
-- (void)triggerAuthenticationDidCancel:(id)sender
+- (void)startSignUserOut:(id<UserModelDelegate>)interestedParty
 {
-    [jrEngage authenticationDidCancel];
+    signOutDelegate = [interestedParty retain];
+
+    [self finishSignUserOut];
 }
 
-- (void)jrEngageDialogDidFailToShowWithError:(NSError *)error
+- (void)triggerAuthenticationDidCancel:(id)sender
+{
+    [JREngage cancelAuthentication];
+}
+
+- (void)engageDialogDidFailToShowWithError:(NSError *)error
 {
     if ([error code] == JRDialogShowingError)
         return;
@@ -654,7 +535,7 @@ otherwise, this happens automatically.                                          
         [libraryDialogDelegate libraryDialogClosed];
 }
 
-- (void)jrAuthenticationDidSucceedForUser:(NSDictionary *)auth_info forProvider:(NSString *)provider
+- (void)authenticationDidSucceedForUser:(NSDictionary *)authInfo forProvider:(NSString *)provider
 {
     if (!tokenUrl)
     {
@@ -674,83 +555,25 @@ otherwise, this happens automatically.                                          
     if ([libraryDialogDelegate respondsToSelector:@selector(libraryDialogClosed)])
         [libraryDialogDelegate libraryDialogClosed];
 
-    if(!auth_info) // Then there was an error
+    if(!authInfo) // Then there was an error
         return; // TODO: Manage error
 
-    self.authInfo = [NSMutableDictionary dictionaryWithDictionary:auth_info];
-//    [self finishSignUserIn:auth_info];
+    [self finishSignUserIn:authInfo];
 }
 
-- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response
-                              andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+- (void)authenticationDidReachTokenUrl:(NSString *)tokenUrl withResponse:(NSURLResponse *)response andPayload:(NSData *)tokenUrlPayload forProvider:(NSString *)provider
 {
     DLog(@"");
-
-    NSString     *payload     = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSUTF8StringEncoding] autorelease];
-    NSDictionary *payloadDict = [payload objectFromJSONString];
-
-    DLog(@"token url payload: %@", [payload description]);
-
-    if (!payloadDict)
-    {
-        ALog(@"Unable to parse token URL response: %@", payload);
-        [self finishSignUserIn:authInfo]; // call this to keep avoid missing data in user registry
-        return;
-        // TODO: Better error handling (Add a GOTO)
-        //exit(1);
-    }
-
-    NSString     *captureAccessToken   = [payloadDict objectForKey:@"access_token"];
-    NSString     *captureCreationToken = [payloadDict objectForKey:@"creation_token"];
-    NSDictionary *captureCredentials;
-
-    // TODO: Temp test for Cypress
-    self.latestAccessToken = captureAccessToken;
-
-
-    if (captureAccessToken)
-        captureCredentials = [NSDictionary dictionaryWithObject:captureAccessToken
-                                                         forKey:@"access_token"];
-    else if (captureCreationToken)
-        captureCredentials =  [NSDictionary dictionaryWithObject:captureCreationToken
-                                                          forKey:@"creation_token"];
-    else
-        captureCredentials = nil;
-
-    NSDictionary *captureProfile = nil;
-    if (captureDemo && captureAccessToken)
-        captureProfile = [self nullWalker:[payloadDict objectForKey:@"capture_user"]];
-
-//    JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
-
-//    captureProfile = captureProfile ?
-//            [self nullWalker:captureProfile]
-//            : nil;
-
-    if (captureProfile)
-        [authInfo setObject:captureProfile forKey:@"captureProfile"];
-    if (captureCredentials)
-        [authInfo setObject:captureCredentials forKey:@"captureCredentials"];
-
-    // XXX hack for Capture mobile demo
-    [self finishSignUserIn:authInfo];
-    [self setAuthInfo:nil];
-
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    UIApplication* app = [UIApplication sharedApplication];
+    app.networkActivityIndicatorVisible = NO;
 
     pendingCallToTokenUrl = NO;
 
-    // TODO: Fix this delegation crap; maybe add show stuff to didReachTokenUrl or something
-    if (captureCreationToken)
-        if ([tokenUrlDelegate respondsToSelector:@selector(showCaptureScreen)])
-                [tokenUrlDelegate showCaptureScreen];
-
-    // TODO: delegate function is optional
     [tokenUrlDelegate didReachTokenUrl];
     [tokenUrlDelegate release], tokenUrlDelegate = nil;
 }
 
-- (void)jrAuthenticationDidNotComplete
+- (void)authenticationDidNotComplete
 {
     loadingUserData = NO;
     [signInDelegate didFailToSignIn:NO];
@@ -760,7 +583,7 @@ otherwise, this happens automatically.                                          
         [libraryDialogDelegate libraryDialogClosed];
 }
 
-- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
+- (void)authenticationDidFailWithError:(NSError *)error forProvider:(NSString *)provider
 {
     loadingUserData = NO;
     [signInDelegate didFailToSignIn:YES];
@@ -770,7 +593,7 @@ otherwise, this happens automatically.                                          
         [libraryDialogDelegate libraryDialogClosed];
 }
 
-- (void)jrAuthenticationCallToTokenUrl:(NSString*)theTokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
+- (void)authenticationCallToTokenUrl:(NSString *)tokenUrl didFailWithError:(NSError *)error forProvider:(NSString *)provider
 {
     loadingUserData = NO;
     pendingCallToTokenUrl = NO;

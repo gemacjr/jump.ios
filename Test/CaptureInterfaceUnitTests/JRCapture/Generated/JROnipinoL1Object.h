@@ -71,7 +71,7 @@
 /**
  * TODO: DOXYGEN DOCS
  **/
-- (void)replaceOnipinoL2PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+- (void)replaceOnipinoL2PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
 
 /**
  * TODO: Doxygen doc

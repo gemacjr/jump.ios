@@ -34,6 +34,10 @@
 
 #import "JRProvidersController.h"
 #import "JREngage+CustomInterface.h"
+#import "JRUserLandingController.h"
+#import "JRWebViewController.h"
+#import "JRInfoBar.h"
+
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)

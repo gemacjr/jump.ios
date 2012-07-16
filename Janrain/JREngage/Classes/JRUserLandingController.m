@@ -34,6 +34,11 @@
 
 #import "JRUserLandingController.h"
 #import "JREngage+CustomInterface.h"
+#import "JRSessionData.h"
+#import "JRInfoBar.h"
+#import "JREngageError.h"
+#import "JRUserInterfaceMaestro.h"
+#import "JRWebViewController.h"
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -49,6 +54,10 @@
 #define frame_h(a) a.frame.size.height
 
 #define frame_a(a) frame_x(a), frame_y(a), frame_w(a), frame_h(a)
+
+@interface JREngageError (JREngageError_setError)
++ (NSError*)setError:(NSString*)message withCode:(NSInteger)code;
+@end
 
 @interface JRUserLandingController ()
 - (NSString*)customTitle;
@@ -143,8 +152,8 @@
 
     if (!sessionData.currentProvider)
     {
-        NSError *error = [JRError setError:@"There was an error authenticating with the selected provider."
-                                  withCode:JRAuthenticationFailedError];
+        NSError *error = [JREngageError setError:@"There was an error authenticating with the selected provider."
+                                        withCode:JRAuthenticationFailedError];
 
         [sessionData triggerAuthenticationDidFailWithError:error];
 

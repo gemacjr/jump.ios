@@ -41,6 +41,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "FeedReaderDetail.h"
+#import "JREngage+CustomInterface.h"
 
 @implementation FeedReaderDetail
 
@@ -273,7 +274,7 @@ a:active  { color:#7AC143; }";
                             self.navigationItem.rightBarButtonItem, kJRPopoverPresentationBarButtonItem,
                             self.navigationController, kJRApplicationNavigationController, nil];
 
-    [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity andCustomInterfaceOverrides:custom];
+    [JREngage showSharingDialogWithActivity:activity withCustomInterfaceOverrides:custom];
 }
 
 - (void)libraryDialogClosed
@@ -293,7 +294,7 @@ a:active  { color:#7AC143; }";
     [super viewWillDisappear:animated];
 
     if (iPad && weAreSharing)
-        [[[FeedReader feedReader] jrEngage] cancelPublishing];
+        [JREngage cancelSharing];
 
     [webview stopLoading];
 	[webview loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];

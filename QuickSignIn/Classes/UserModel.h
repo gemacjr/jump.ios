@@ -35,12 +35,10 @@
 
 #import <Foundation/Foundation.h>
 #import "JREngage.h"
-#import "JRCaptureInterface.h"
 #import "JREngage+CustomInterface.h"
 #import "JRConnectionManager.h"
 #import "QuickSignInAppDelegate.h"
 #import "EmbeddedNativeSignInViewController.h"
-#import "JRCaptureUser.h"
 
 #define LILLI
 #define CAPTURE_DEMO
@@ -54,7 +52,6 @@
 - (void)userDidSignOut;
 - (void)didReachTokenUrl;
 - (void)didFailToReachTokenUrl;
-- (void)showCaptureScreen;
 @end
 
 @protocol LibraryDialogDelegate <NSObject>
@@ -68,8 +65,6 @@
 {
  /* Instance of the JRAuthenticate library */
     JREngage *jrEngage;
-
-    BOOL captureDemo;
 
     NSMutableDictionary         *customInterface;
     UINavigationController      *navigationController;
@@ -124,12 +119,8 @@
 @property (readonly) BOOL loadingUserData;
 @property (readonly) NSDictionary *currentUser;
 @property (retain)   NSDictionary *selectedUser;
-@property (retain)   NSMutableDictionary *authInfo;
 @property (retain)   NSMutableDictionary *customInterface;
 @property (retain)   UINavigationController *navigationController;
-
-// TODO: Temp test for Cypress
-@property (retain) NSString *latestAccessToken;
 
 /* This is a dictionary of dictionaries, where each dictionary represents the
    full profile returned by the token URL on http://jrauthenticate.appspot.com/login.
@@ -156,7 +147,7 @@
 - (void)startSignUserOut:(id<UserModelDelegate>)interestedParty;
 
 - (void)triggerAuthenticationDidCancel:(id)sender;
-- (void)addCaptureUserFromCaptureResult:(NSString *)captureResult;
+
 //- (void)setNavigationController:(UINavigationController*)navigationController;
 
 /* Returns singleton instance of class. */

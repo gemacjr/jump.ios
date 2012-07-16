@@ -46,6 +46,7 @@
 - (BOOL)isWellFormedAbsoluteUrl;
 @end
 
+
 @implementation NSString (JRString_UrlHandling)
 - (BOOL)isWellFormedAbsoluteUrl
 {

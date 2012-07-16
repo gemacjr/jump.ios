@@ -207,6 +207,7 @@
 		9F5792A21593F0AD00478D15 /* JRUserLandingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5791C61593F0AD00478D15 /* JRUserLandingController.xib */; };
 		9F5792A31593F0AD00478D15 /* JRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5791C71593F0AD00478D15 /* JRWebViewController.xib */; };
 		9F5792A51593F0AD00478D15 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5791CD1593F0AD00478D15 /* SFHFKeychainUtils.m */; };
+		9F5792A51593F0AD00478D17 /* JREngageError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5792A51593F0AD00478D16 /* JREngageError.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -429,6 +430,8 @@
 		9F5791C71593F0AD00478D15 /* JRWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JRWebViewController.xib; sourceTree = "<group>"; };
 		9F5791CC1593F0AD00478D15 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		9F5791CD1593F0AD00478D15 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
+		9F5792A51593F0AD00478D16 /* JREngageError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JREngageError.m; sourceTree = "<group>"; };
+		9F5792A51593F0AD00478D18 /* JREngageError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JREngageError.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -629,6 +632,8 @@
 		9F5791051593F0AD00478D15 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9F5792A51593F0AD00478D18 /* JREngageError.h */,
+				9F5792A51593F0AD00478D16 /* JREngageError.m */,
 				9F5791061593F0AD00478D15 /* JRActivityObject.h */,
 				9F5791071593F0AD00478D15 /* JRActivityObject.m */,
 				9F5791081593F0AD00478D15 /* JREngage+CustomInterface.h */,
@@ -1195,6 +1200,7 @@
 				9F5792071593F0AD00478D15 /* JRWebViewController.m in Sources */,
 				9F5792091593F0AD00478D15 /* JREngagePlugin.js in Sources */,
 				9F5792A51593F0AD00478D15 /* SFHFKeychainUtils.m in Sources */,
+				9F5792A51593F0AD00478D17 /* JREngageError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

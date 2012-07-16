@@ -250,6 +250,9 @@
 		9FD2B6C114F8387B00053EC1 /* JRNativeSigninViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EC0 /* JRNativeSigninViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053EC8 /* JRCaptureError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EC7 /* JRCaptureError.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053ECB /* JRNSDate+ISO8601_CaptureDateTimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053ECA /* JRNSDate+ISO8601_CaptureDateTimeString.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6C114F8387B00053ECE /* JREngageError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053ECD /* JREngageError.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6C114F8387B00053ED1 /* JRBestHand.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053ED0 /* JRBestHand.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6C114F8387B00053ED3 /* JRTournamentsPlayedElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053ED2 /* JRTournamentsPlayedElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -578,6 +581,12 @@
 		9FD2B6C114F8387B00053EC9 /* JRCaptureError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureError.h; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053ECA /* JRNSDate+ISO8601_CaptureDateTimeString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRNSDate+ISO8601_CaptureDateTimeString.m"; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053ECC /* JRNSDate+ISO8601_CaptureDateTimeString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRNSDate+ISO8601_CaptureDateTimeString.h"; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053ECD /* JREngageError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JREngageError.m; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053ECF /* JREngageError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JREngageError.h; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053ED0 /* JRBestHand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRBestHand.m; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053ED2 /* JRTournamentsPlayedElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRTournamentsPlayedElement.m; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053ED4 /* JRBestHand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRBestHand.h; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053ED5 /* JRTournamentsPlayedElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRTournamentsPlayedElement.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -717,6 +726,8 @@
 		9F5787F51593DFEF00478D15 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9FD2B6C114F8387B00053ECF /* JREngageError.h */,
+				9FD2B6C114F8387B00053ECD /* JREngageError.m */,
 				9F5787F61593DFEF00478D15 /* JRActivityObject.h */,
 				9F5787F71593DFEF00478D15 /* JRActivityObject.m */,
 				9F5787F81593DFEF00478D15 /* JREngage+CustomInterface.h */,
@@ -1061,6 +1072,10 @@
 		9F5792C21598DD7C00478D15 /* Generated */ = {
 			isa = PBXGroup;
 			children = (
+				9FD2B6C114F8387B00053ED5 /* JRTournamentsPlayedElement.h */,
+				9FD2B6C114F8387B00053ED4 /* JRBestHand.h */,
+				9FD2B6C114F8387B00053ED2 /* JRTournamentsPlayedElement.m */,
+				9FD2B6C114F8387B00053ED0 /* JRBestHand.m */,
 				9F5792C31598DD7C00478D15 /* JRAccountsElement.h */,
 				9F5792C41598DD7C00478D15 /* JRAccountsElement.m */,
 				9F5792C51598DD7C00478D15 /* JRAddressesElement.h */,
@@ -1532,6 +1547,9 @@
 				9F6CDFB1159A743300E507A9 /* JRCaptureData.m in Sources */,
 				9FD2B6C114F8387B00053EC8 /* JRCaptureError.m in Sources */,
 				9FD2B6C114F8387B00053ECB /* JRNSDate+ISO8601_CaptureDateTimeString.m in Sources */,
+				9FD2B6C114F8387B00053ECE /* JREngageError.m in Sources */,
+				9FD2B6C114F8387B00053ED1 /* JRBestHand.m in Sources */,
+				9FD2B6C114F8387B00053ED3 /* JRTournamentsPlayedElement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -42,7 +42,6 @@ Copyright (c) 2010, Janrain, Inc.
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "UserListViewController.h"
-#import "CaptureNewUserViewController.h"
 
 @interface UserListTableViewCell : UITableViewCell
 {
@@ -789,20 +788,6 @@ Copyright (c) 2010, Janrain, Inc.
 
         myTableView.tableHeaderView.alpha = headerAlpha;
     }
-}
-
-- (void)showCaptureScreen
-{
-    CaptureNewUserViewController *viewController = nil;
-
-    if (iPad)
-        ;//viewController = [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController-iPad"
-         //                                                             bundle:[NSBundle mainBundle]] autorelease];
-    else
-        viewController = [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
-                                                                         bundle:[NSBundle mainBundle]] autorelease];
-
-    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }

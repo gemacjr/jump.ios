@@ -34,8 +34,6 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import "RootViewController.h"
-#import "CaptureNewUserViewController.h"
-#import "JRCapture.h"
 
 @implementation RootViewController
 

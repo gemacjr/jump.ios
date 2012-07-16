@@ -33,12 +33,10 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
-#import "JREngage.h"
-#import "JRInfoBar.h"
+#import "JRConnectionManager.h"
 
-@protocol JRConnectionManagerDelegate;
-@class JRModalNavigationController;
 @class JRSessionData;
+@class JRInfoBar;
 
 @interface JRWebViewController : UIViewController <UINavigationBarDelegate, UIWebViewDelegate, JRConnectionManagerDelegate>
 {
@@ -57,6 +55,7 @@
 }
 @property (nonatomic, retain) IBOutlet UIView    *myBackgroundView;
 @property (nonatomic, retain) IBOutlet UIWebView *myWebView;
+@property (nonatomic, retain) NSString *originalUserAgent;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface;
 @end

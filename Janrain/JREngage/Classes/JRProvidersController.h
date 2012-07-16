@@ -33,11 +33,12 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
-#import "JREngage.h"
-#import "JRInfoBar.h"
+#import "JRUserInterfaceMaestro.h"
+#import "JRSessionData.h"
 
+@class JRInfoBar;
 @class JRSessionData;
-@class JRUserInterfaceMaestro;
+//@class JRUserInterfaceMaestro;
 
 @interface JRProvidersController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
                                                         UITableViewDataSource, UIAlertViewDelegate,

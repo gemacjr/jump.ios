@@ -33,11 +33,10 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
-#import "JREngage.h"
-#import "JRInfoBar.h"
 
 @class JRWebViewController;
 @class JRSessionData;
+@class JRInfoBar;
 
 @interface JRUserLandingController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
                                                         UITableViewDataSource, UIAlertViewDelegate, UITextFieldDelegate>

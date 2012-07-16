@@ -40,29 +40,12 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#ifdef PHONEGAP_FRAMEWORK
-#import <PhoneGap/JSONKit.h>
 #import "JREngagePhonegapPlugin.h"
+#import "JREngageError.h"
+#import "JRActivityObject.h"
+#import "JRConnectionManager.h"
 
-@interface NSString (NSString_JSON_ESCAPING)
-- (NSString*)JSONEscape;
-@end
-
-@implementation NSString (NSString_JSON_ESCAPING)
-- (NSString*)JSONEscape
-{
-
-    NSString *encodedString = (NSString *)CFURLCreateStringByAddingPercentEscapes(
-                                NULL,
-                                (CFStringRef)self,
-                                NULL,
-                                (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                kCFStringEncodingUTF8);
-
-    return encodedString;
-}
-@end
-
+#ifdef PHONEGAP_OR_CORDOVA
 
 @interface JREngagePhonegapPlugin ()
 @property (nonatomic, retain) NSMutableDictionary *fullAuthenticationResponse;
@@ -91,8 +74,9 @@
     DLog(@"print arguments: %@", callbackID);
 
     NSString     *printString  = [arguments objectAtIndex:0];
-    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:printString];
+
+    PCPluginResult *pluginResult = [PCPluginResult resultWithStatus:PCCommandStatus_OK
+                                                    messageAsString:printString];
 
     // TODO: Nathan, what were you testing here?
     // if([printString isEqualToString:@"Hello World }]%20"] == YES)
@@ -117,8 +101,8 @@
 
 - (void)finishWithSuccessMessage:(NSString *)message
 {
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:message];
+    PCPluginResult* pluginResult = [PCPluginResult resultWithStatus:PCCommandStatus_OK
+                                                    messageAsString:message];
 
     [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
     [self thenFinish];
@@ -126,8 +110,8 @@
 
 - (void)finishWithFailureMessage:(NSString *)message
 {
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR
-                                                messageAsString:message];
+    PCPluginResult* pluginResult = [PCPluginResult resultWithStatus:PCCommandStatus_ERROR
+                                                    messageAsString:message];
 
     [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
     [self thenFinish];
@@ -186,14 +170,35 @@
     if ([arguments count] > 1)
         tokenUrl = [arguments objectAtIndex:1];
 
-    jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
-    if (!jrEngage)
-    {
-        [self finishWithFailureMessage:[self stringFromCode:JRGenericConfigurationError
-                                                 andMessage:@"There was an error initializing JREngage: returned JREngage object was null"]];
+    NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/JREngage-Info.plist"];
+    NSMutableDictionary *infoPlist =
+            [NSMutableDictionary dictionaryWithDictionary:
+                    [NSDictionary dictionaryWithContentsOfFile:path]];
 
-        return;
-    }
+    NSMutableString *version = [NSMutableString stringWithString:[infoPlist objectForKey:@"CFBundleShortVersionString"]];
+    //NSString *newVersion = @"";
+
+#ifdef PHONEGAP_FRAMEWORK
+    if (![version hasSuffix:@":phonegap"])
+        [version appendString:@":phonegap"];////newVersion = [NSString stringWithFormat:@"%@:%@", version, @":phonegap"];
+#else
+#ifdef CORDOVA_FRAMEWORK
+    if (![version hasSuffix:@":cordova"])
+        [version appendString:@":cordova"];//newVersion = [NSString stringWithFormat:@"%@:%@", version, @"cordova"];
+#endif
+#endif
+
+    [infoPlist setObject:version forKey:@"CFBundleShortVersionString"];
+    [infoPlist writeToFile:path atomically:YES];
+
+    [JREngage setEngageAppId:appId tokenUrl:tokenUrl andDelegate:self];
+//    if (!jrEngage)
+//    {
+//        [self finishWithFailureMessage:[self stringFromCode:JRGenericConfigurationError
+//                                                 andMessage:@"There was an error initializing JREngage: returned JREngage object was null"]];
+//
+//        return;
+//    }
 
     [self finishWithSuccessMessage:@"{'stat':'ok','message':'Initializing JREngage...'}"];
 }
@@ -204,7 +209,7 @@
 
     self.callbackID = [arguments pop];
 
-    [jrEngage showAuthenticationDialog];
+    [JREngage showAuthenticationDialog];
 }
 
 - (void)showSharingDialog:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
@@ -243,23 +248,23 @@
         return;
     }
 
-    [jrEngage showSocialPublishingDialogWithActivity:activityObject];
+    [JREngage showSharingDialogWithActivity:activityObject];
 }
 
-- (void)jrEngageDialogDidFailToShowWithError:(NSError*)error
+- (void)engageDialogDidFailToShowWithError:(NSError *)error
 {
     DLog(@"");
     [self finishWithFailureMessage:[self stringFromError:error]];
 }
 
-- (void)jrAuthenticationDidNotComplete
+- (void)authenticationDidNotComplete
 {
     DLog(@"");
     [self finishWithFailureMessage:[self stringFromCode:JRAuthenticationCanceledError
                                              andMessage:@"User canceled authentication"]];
 }
 
-- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
+- (void)authenticationDidFailWithError:(NSError *)error forProvider:(NSString *)provider
 {
     DLog(@"");
 
@@ -267,8 +272,8 @@
         [self finishWithFailureMessage:[self stringFromError:error]];
 }
 
-- (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error
-                           forProvider:(NSString*)provider
+- (void)authenticationCallToTokenUrl:(NSString *)tokenUrl didFailWithError:(NSError *)error
+                         forProvider:(NSString *)provider
 {
     DLog(@"");
 
@@ -276,11 +281,11 @@
         [self finishWithFailureMessage:[self stringFromError:error]];
 }
 
-- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider
+- (void)authenticationDidSucceedForUser:(NSDictionary *)authInfo forProvider:(NSString *)provider
 {
     DLog(@"");
 
-    NSMutableDictionary *newAuthInfo = [NSMutableDictionary dictionaryWithDictionary:auth_info];
+    NSMutableDictionary *newAuthInfo = [NSMutableDictionary dictionaryWithDictionary:authInfo];
     [newAuthInfo removeObjectForKey:@"stat"];
 
     if (!fullAuthenticationResponse)
@@ -290,8 +295,8 @@
     [fullAuthenticationResponse setObject:provider forKey:@"provider"];
 }
 
-- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response
-                              andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
+- (void)authenticationDidReachTokenUrl:(NSString *)tokenUrl withResponse:(NSURLResponse *)response
+                            andPayload:(NSData *)tokenUrlPayload forProvider:(NSString *)provider
 {
     DLog(@"");
 
@@ -312,8 +317,8 @@
         [self finishWithSuccessMessage:authResponseString];
 }
 
-- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error
-                       forProvider:(NSString*)provider
+- (void)sharingDidFailForActivity:(JRActivityObject *)activity withError:(NSError *)error
+                      forProvider:(NSString *)provider
 {
     DLog(@"");
 
@@ -330,7 +335,7 @@
     [shareBlobs addObject:shareBlob];
 }
 
-- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider
+- (void)sharingDidSucceedForActivity:(JRActivityObject *)activity forProvider:(NSString *)provider
 {
     DLog(@"");
 
@@ -342,7 +347,7 @@
     [shareBlobs addObject:shareBlob];
 }
 
-- (void)jrSocialDidCompletePublishing
+- (void)sharingDidComplete
 {
     DLog(@"");
 
@@ -358,13 +363,13 @@
     [self finishWithSuccessMessage:[fullSharingResponse JSONString]];
 }
 
-- (void)jrSocialDidNotCompletePublishing
+- (void)sharingDidNotComplete
 {
     DLog(@"");
 
     /* If there have been ANY shares (successful or otherwise) or any auths, call jrSocialDidCompletePublishing */
     if (authenticationBlobs || shareBlobs)
-        return [self jrSocialDidCompletePublishing];
+        return [self sharingDidComplete];
 
 
     [self finishWithFailureMessage:[self stringFromCode:JRPublishCanceledError

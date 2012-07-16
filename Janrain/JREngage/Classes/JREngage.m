@@ -32,6 +32,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import "JREngage.h"
+#import "JRSessionData.h"
+#import "JRUserInterfaceMaestro.h"
+#import "JREngageError.h"
+
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -41,8 +45,11 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
+@interface JREngageError (JREngageError_setError)
++ (NSError*)setError:(NSString*)message withCode:(NSInteger)code;
+@end
 
-@interface JREngage ()
+@interface JREngage () <JRSessionDelegate>
 @property (nonatomic, retain) JRUserInterfaceMaestro *interfaceMaestro; /*< \internal Class that handles customizations to the library's UI */
 @property (nonatomic, retain) JRSessionData          *sessionData;      /*< \internal Holds configuration and state for the JREngage library */
 @property (nonatomic, retain) NSMutableArray         *delegates;        /*< \internal Array of JREngageDelegate objects */
@@ -263,16 +270,16 @@ static JREngage* singleton = nil;
     if (sessionData.dialogIsShowing)
     {
         [self engageDidFailWithError:
-              [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded."
-                       withCode:JRDialogShowingError]];
+              [JREngageError setError:@"The dialog failed to show because there is already a JREngage dialog loaded."
+                             withCode:JRDialogShowingError]];
         return;
     }
 
     if (provider && ![sessionData.allProviders objectForKey:provider])
     {
         [self engageDidFailWithError:
-              [JRError setError:@"You tried to authenticate on a specific provider, but this provider has not yet been configured."
-                       withCode:JRProviderNotConfiguredError]];
+              [JREngageError setError:@"You tried to authenticate on a specific provider, but this provider has not yet been configured."
+                             withCode:JRProviderNotConfiguredError]];
         return;
     }
 
@@ -363,7 +370,7 @@ static JREngage* singleton = nil;
 //                                                    orAuthenticatingOnJustThisProvider:nil];
 //}
 
-- (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+- (void)showSharingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
     ALog (@"");
 
@@ -396,16 +403,16 @@ static JREngage* singleton = nil;
     if (sessionData.dialogIsShowing)
     {
         [self engageDidFailWithError:
-              [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded."
-                       withCode:JRDialogShowingError]];
+              [JREngageError setError:@"The dialog failed to show because there is already a JREngage dialog loaded."
+                             withCode:JRDialogShowingError]];
         return;
     }
 
     if (!activity)
     {
         [self engageDidFailWithError:
-              [JRError setError:@"Activity object can't be nil."
-                       withCode:JRPublishErrorActivityNil]];
+              [JREngageError setError:@"Activity object can't be nil."
+                             withCode:JRPublishErrorActivityNil]];
         return;
     }
 
@@ -415,22 +422,22 @@ static JREngage* singleton = nil;
 
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
-    [self showSocialSharingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
+    [self showSharingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
 }
 
-+ (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
++ (void)showSharingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
-    [[JREngage singletonInstance] showSocialSharingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
+    [[JREngage singletonInstance] showSharingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
 }
 
-- (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity
+- (void)showSharingDialogWithActivity:(JRActivityObject*)activity
 {
-    [self showSocialSharingDialogWithActivity:activity withCustomInterfaceOverrides:nil];
+    [self showSharingDialogWithActivity:activity withCustomInterfaceOverrides:nil];
 }
 
-+ (void)showSocialSharingDialogWithActivity:(JRActivityObject*)activity
++ (void)showSharingDialogWithActivity:(JRActivityObject*)activity
 {
-    [[JREngage singletonInstance] showSocialSharingDialogWithActivity:activity withCustomInterfaceOverrides:nil];
+    [[JREngage singletonInstance] showSharingDialogWithActivity:activity withCustomInterfaceOverrides:nil];
 }
 
 - (void)authenticationDidRestart
@@ -521,8 +528,8 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(socialSharingDidNotCompletePublishing)])
-            [delegate socialSharingDidNotCompletePublishing];
+        if ([delegate respondsToSelector:@selector(sharingDidNotComplete)])
+            [delegate sharingDidNotComplete];
     }
 
     [interfaceMaestro publishingCanceled];
@@ -535,8 +542,8 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(socialSharingDidComplete)])
-            [delegate socialSharingDidComplete];
+        if ([delegate respondsToSelector:@selector(sharingDidComplete)])
+            [delegate sharingDidComplete];
     }
 
     [interfaceMaestro publishingCompleted];
@@ -549,8 +556,8 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(socialSharingDidSucceedForActivity:forProvider:)])
-            [delegate socialSharingDidSucceedForActivity:activity forProvider:provider];
+        if ([delegate respondsToSelector:@selector(sharingDidSucceedForActivity:forProvider:)])
+            [delegate sharingDidSucceedForActivity:activity forProvider:provider];
     }
 }
 
@@ -561,31 +568,31 @@ static JREngage* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
-        if ([delegate respondsToSelector:@selector(jrSocialSharingDidFailForActivity:withError:forProvider:)])
-            [delegate jrSocialSharingDidFailForActivity:activity withError:error forProvider:provider];
+        if ([delegate respondsToSelector:@selector(sharingDidFailForActivity:withError:forProvider:)])
+            [delegate sharingDidFailForActivity:activity withError:error forProvider:provider];
     }
 }
 
-- (void)clearSocialSharingCredentialsForProvider:(NSString*)provider
+- (void)clearSharingCredentialsForProvider:(NSString*)provider
 {
     DLog(@"");
     [sessionData forgetAuthenticatedUserForProvider:provider];
 }
 
-+ (void)clearSocialSharingCredentialsForProvider:(NSString*)provider
++ (void)clearSharingCredentialsForProvider:(NSString*)provider
 {
-    [[JREngage singletonInstance] performSelector:@selector(clearSocialSharingCredentialsForProvider:) withObject:provider];
+    [[JREngage singletonInstance] performSelector:@selector(clearSharingCredentialsForProvider:) withObject:provider];
 }
 
-- (void)clearSocialSharingCredentialsForAllProviders
+- (void)clearSharingCredentialsForAllProviders
 {
     DLog(@"");
     [sessionData forgetAllAuthenticatedUsers];
 }
 
-+ (void)clearSocialSharingCredentialsForAllProviders
++ (void)clearSharingCredentialsForAllProviders
 {
-    [[JREngage singletonInstance] performSelector:@selector(clearSocialSharingCredentialsForAllProviders)];
+    [[JREngage singletonInstance] performSelector:@selector(clearSharingCredentialsForAllProviders)];
 }
 
 - (void)signoutUserForSocialProvider:(NSString*)provider

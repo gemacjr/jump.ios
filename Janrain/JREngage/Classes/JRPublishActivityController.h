@@ -35,7 +35,7 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
-#import "JREngage.h"
+#import "JRSessionData.h"
 #import "JRPreviewLabel.h"
 
 typedef enum
