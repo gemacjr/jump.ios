@@ -121,6 +121,12 @@
     <content url="file://$MODULE_DIR$/../../Janrain/JREngage/Classes/JREngage.m">
       <sourceFolder url="file://$MODULE_DIR$/../../Janrain/JREngage/Classes/JREngage.m" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../Janrain/JREngage/Classes/JREngageError.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Janrain/JREngage/Classes/JREngageError.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Janrain/JREngage/Classes/JREngageError.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../Janrain/JREngage/Classes/JREngageError.m" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../Janrain/JREngage/Classes/JREngagePhonegapPlugin.h">
       <sourceFolder url="file://$MODULE_DIR$/../../Janrain/JREngage/Classes/JREngagePhonegapPlugin.h" isTestSource="false" />
     </content>
@@ -480,6 +486,9 @@
     </content>
     <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-351010e9/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app">
       <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-351010e9/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-bf97b0e4/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app">
+      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-bf97b0e4/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

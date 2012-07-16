@@ -635,7 +635,7 @@
     JRBoolean *_basicBoolean;
     NSString *_basicString;
     JRInteger *_basicInteger;
-    NSNumber *_basicDecimal;
+    JRDecimal *_basicDecimal;
     JRDate *_basicDate;
     JRDateTime *_basicDateTime;
     JRIpAddress *_basicIpAddress;
@@ -796,12 +796,12 @@
     _basicInteger = [[NSNumber numberWithInteger:integerVal] retain];
 }
 
-- (NSNumber *)basicDecimal
+- (JRDecimal *)basicDecimal
 {
     return _basicDecimal;
 }
 
-- (void)setBasicDecimal:(NSNumber *)newBasicDecimal
+- (void)setBasicDecimal:(JRDecimal *)newBasicDecimal
 {
     [self.dirtyPropertySet addObject:@"basicDecimal"];
 
@@ -2837,7 +2837,7 @@
     [dictionary setObject:@"JRBoolean" forKey:@"basicBoolean"];
     [dictionary setObject:@"NSString" forKey:@"basicString"];
     [dictionary setObject:@"JRInteger" forKey:@"basicInteger"];
-    [dictionary setObject:@"NSNumber" forKey:@"basicDecimal"];
+    [dictionary setObject:@"JRDecimal" forKey:@"basicDecimal"];
     [dictionary setObject:@"JRDate" forKey:@"basicDate"];
     [dictionary setObject:@"JRDateTime" forKey:@"basicDateTime"];
     [dictionary setObject:@"JRIpAddress" forKey:@"basicIpAddress"];

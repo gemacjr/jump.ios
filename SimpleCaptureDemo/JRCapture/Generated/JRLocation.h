@@ -40,9 +40,9 @@
 @property (nonatomic, copy)     NSString *country; /**< The object's \e country property */ 
 @property (nonatomic, copy)     NSString *extendedAddress; /**< The object's \e extendedAddress property */ 
 @property (nonatomic, copy)     NSString *formatted; /**< The object's \e formatted property */ 
-@property (nonatomic, copy)     NSNumber *latitude; /**< The object's \e latitude property */ 
+@property (nonatomic, copy)     JRDecimal *latitude; /**< The object's \e latitude property */ 
 @property (nonatomic, copy)     NSString *locality; /**< The object's \e locality property */ 
-@property (nonatomic, copy)     NSNumber *longitude; /**< The object's \e longitude property */ 
+@property (nonatomic, copy)     JRDecimal *longitude; /**< The object's \e longitude property */ 
 @property (nonatomic, copy)     NSString *poBox; /**< The object's \e poBox property */ 
 @property (nonatomic, copy)     NSString *postalCode; /**< The object's \e postalCode property */ 
 @property (nonatomic, copy)     NSString *region; /**< The object's \e region property */ 

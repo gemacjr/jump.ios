@@ -9,7 +9,7 @@ typedef NSNumber JRBoolean;
 typedef NSNumber JRInteger;
 
 /**< TODO */
-typedef NSNumber JRNumber;
+typedef NSNumber JRDecimal;
 
 /**< TODO */
 typedef NSDate   JRDate;

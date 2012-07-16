@@ -934,7 +934,7 @@ sub recursiveParse {
     ######## DECIMAL/NUMBER ########
     } elsif ($propertyType eq "decimal") {
 
-      $objectiveType  = "NSNumber *";
+      $objectiveType  = "JRDecimal *";
       $isEqualMethod  = "isEqualToNumber:";
  
     ######## DATE ########

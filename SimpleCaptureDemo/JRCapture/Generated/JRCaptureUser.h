@@ -41,6 +41,8 @@
 #import "JRPrimaryAddress.h"
 #import "JRProfilesElement.h"
 #import "JRStatusesElement.h"
+#import "JRTournamentsPlayedElement.h"
+#import "JRBestHand.h"
 
 /**
  * @brief A JRCaptureUser object
@@ -77,6 +79,12 @@
 @property (nonatomic, copy)     JRIpAddress *testerIpAddr; /**< The object's \e testerIpAddr property @note This is a property of type \ref types "ipAddress", which is a typedef of \e NSString. */ 
 @property (nonatomic, copy)     JRStringArray *testerStringPlural; /**< The object's \e testerStringPlural property @note This is an array of \c NSStrings representing a list of \c stringPluralItem objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
 @property (nonatomic, copy)     NSString *testerUniqueString; /**< The object's \e testerUniqueString property */ 
+@property (nonatomic, copy)     NSString *playerName; /**< The name that is displayed below the player’s avatar */ 
+@property (nonatomic, copy)     NSString *avatar; /**< The name of the avatar which is used to represent the player at tournament tables */ 
+@property (nonatomic, copy)     JRDecimal *bankroll; /**< The player’s current in-game bankroll */ 
+@property (nonatomic, copy)     NSArray *tournamentsPlayed; /**< A list of the tournaments in which the player has competed @note This is an array of \c JRTournamentsPlayedElement objects */ 
+@property (nonatomic, retain)   JRBestHand *bestHand; /**< The best hand your player has ever had in a tournament */ 
+@property (nonatomic, copy)     JRStringArray *favoriteHands; /**< The player’s favorite hands @note This is an array of \c NSStrings representing a list of \c hand objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
 
 /**
  * @name Constructors
@@ -164,6 +172,16 @@
  * TODO: DOXYGEN DOCS
  **/
 - (void)replaceTesterStringPluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
+
+/**
+ * TODO: DOXYGEN DOCS
+ **/
+- (void)replaceTournamentsPlayedArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
+
+/**
+ * TODO: DOXYGEN DOCS
+ **/
+- (void)replaceFavoriteHandsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context;
 
 /**
  * TODO: Doxygen doc

@@ -50,7 +50,7 @@
     NSString *_color;
     NSString *_eyeColor;
     NSString *_hairColor;
-    NSNumber *_height;
+    JRDecimal *_height;
 }
 @synthesize canBeUpdatedOnCapture;
 
@@ -106,12 +106,12 @@
     _hairColor = [newHairColor copy];
 }
 
-- (NSNumber *)height
+- (JRDecimal *)height
 {
     return _height;
 }
 
-- (void)setHeight:(NSNumber *)newHeight
+- (void)setHeight:(JRDecimal *)newHeight
 {
     [self.dirtyPropertySet addObject:@"height"];
 
@@ -361,7 +361,7 @@
     [dictionary setObject:@"NSString" forKey:@"color"];
     [dictionary setObject:@"NSString" forKey:@"eyeColor"];
     [dictionary setObject:@"NSString" forKey:@"hairColor"];
-    [dictionary setObject:@"NSNumber" forKey:@"height"];
+    [dictionary setObject:@"JRDecimal" forKey:@"height"];
 
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }

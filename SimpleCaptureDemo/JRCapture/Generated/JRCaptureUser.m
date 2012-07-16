@@ -85,6 +85,16 @@
 - (BOOL)isEqualToStatusesElement:(JRStatusesElement *)otherStatusesElement;
 @end
 
+@interface JRTournamentsPlayedElement (JRTournamentsPlayedElement_InternalMethods)
++ (id)tournamentsPlayedElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
+- (BOOL)isEqualToTournamentsPlayedElement:(JRTournamentsPlayedElement *)otherTournamentsPlayedElement;
+@end
+
+@interface JRBestHand (JRBestHand_InternalMethods)
++ (id)bestHandObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath fromDecoder:(BOOL)fromDecoder;
+- (BOOL)isEqualToBestHand:(JRBestHand *)otherBestHand;
+@end
+
 @implementation NSArray (JRArray_Games_ToFromDictionary)
 - (NSArray*)arrayOfGamesElementsFromGamesDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
 {
@@ -337,6 +347,48 @@
 }
 @end
 
+@implementation NSArray (JRArray_TournamentsPlayed_ToFromDictionary)
+- (NSArray*)arrayOfTournamentsPlayedElementsFromTournamentsPlayedDictionariesWithPath:(NSString*)capturePath fromDecoder:(BOOL)fromDecoder
+{
+    NSMutableArray *filteredTournamentsPlayedArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredTournamentsPlayedArray addObject:[JRTournamentsPlayedElement tournamentsPlayedElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath fromDecoder:fromDecoder]];
+
+    return filteredTournamentsPlayedArray;
+}
+
+- (NSArray*)arrayOfTournamentsPlayedElementsFromTournamentsPlayedDictionariesWithPath:(NSString*)capturePath
+{
+    return [self arrayOfTournamentsPlayedElementsFromTournamentsPlayedDictionariesWithPath:capturePath fromDecoder:NO];
+}
+
+- (NSArray*)arrayOfTournamentsPlayedDictionariesFromTournamentsPlayedElementsForEncoder:(BOOL)forEncoder
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRTournamentsPlayedElement class]])
+            [filteredDictionaryArray addObject:[(JRTournamentsPlayedElement*)object toDictionaryForEncoder:forEncoder]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfTournamentsPlayedDictionariesFromTournamentsPlayedElements
+{
+    return [self arrayOfTournamentsPlayedDictionariesFromTournamentsPlayedElementsForEncoder:NO];
+}
+
+- (NSArray*)arrayOfTournamentsPlayedReplaceDictionariesFromTournamentsPlayedElements
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRTournamentsPlayedElement class]])
+            [filteredDictionaryArray addObject:[(JRTournamentsPlayedElement*)object toReplaceDictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
 @interface NSArray (CaptureUser_ArrayComparison)
 - (BOOL)isEqualToGamesArray:(NSArray *)otherArray;
 - (BOOL)isEqualToOnipLevelOneArray:(NSArray *)otherArray;
@@ -344,6 +396,7 @@
 - (BOOL)isEqualToPluralLevelOneArray:(NSArray *)otherArray;
 - (BOOL)isEqualToProfilesArray:(NSArray *)otherArray;
 - (BOOL)isEqualToStatusesArray:(NSArray *)otherArray;
+- (BOOL)isEqualToTournamentsPlayedArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (CaptureUser_ArrayComparison)
@@ -413,6 +466,17 @@
 
     return YES;
 }
+
+- (BOOL)isEqualToTournamentsPlayedArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRTournamentsPlayedElement *)[self objectAtIndex:i]) isEqualToTournamentsPlayedElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface JRCaptureUser ()
@@ -452,6 +516,12 @@
     JRIpAddress *_testerIpAddr;
     JRStringArray *_testerStringPlural;
     NSString *_testerUniqueString;
+    NSString *_playerName;
+    NSString *_avatar;
+    JRDecimal *_bankroll;
+    NSArray *_tournamentsPlayed;
+    JRBestHand *_bestHand;
+    JRStringArray *_favoriteHands;
 }
 @synthesize canBeUpdatedOnCapture;
 
@@ -876,6 +946,82 @@
     _testerUniqueString = [newTesterUniqueString copy];
 }
 
+- (NSString *)playerName
+{
+    return _playerName;
+}
+
+- (void)setPlayerName:(NSString *)newPlayerName
+{
+    [self.dirtyPropertySet addObject:@"playerName"];
+
+    [_playerName autorelease];
+    _playerName = [newPlayerName copy];
+}
+
+- (NSString *)avatar
+{
+    return _avatar;
+}
+
+- (void)setAvatar:(NSString *)newAvatar
+{
+    [self.dirtyPropertySet addObject:@"avatar"];
+
+    [_avatar autorelease];
+    _avatar = [newAvatar copy];
+}
+
+- (JRDecimal *)bankroll
+{
+    return _bankroll;
+}
+
+- (void)setBankroll:(JRDecimal *)newBankroll
+{
+    [self.dirtyPropertySet addObject:@"bankroll"];
+
+    [_bankroll autorelease];
+    _bankroll = [newBankroll copy];
+}
+
+- (NSArray *)tournamentsPlayed
+{
+    return _tournamentsPlayed;
+}
+
+- (void)setTournamentsPlayed:(NSArray *)newTournamentsPlayed
+{
+    [_tournamentsPlayed autorelease];
+    _tournamentsPlayed = [newTournamentsPlayed copy];
+}
+
+- (JRBestHand *)bestHand
+{
+    return _bestHand;
+}
+
+- (void)setBestHand:(JRBestHand *)newBestHand
+{
+    [self.dirtyPropertySet addObject:@"bestHand"];
+
+    [_bestHand autorelease];
+    _bestHand = [newBestHand retain];
+
+    [_bestHand setAllPropertiesToDirty];
+}
+
+- (JRStringArray *)favoriteHands
+{
+    return _favoriteHands;
+}
+
+- (void)setFavoriteHands:(JRStringArray *)newFavoriteHands
+{
+    [_favoriteHands autorelease];
+    _favoriteHands = [newFavoriteHands copy];
+}
+
 - (id)init
 {
     if ((self = [super init]))
@@ -886,6 +1032,7 @@
         _objectLevelOne = [[JRObjectLevelOne alloc] init];
         _pinoLevelOne = [[JRPinoLevelOne alloc] init];
         _primaryAddress = [[JRPrimaryAddress alloc] init];
+        _bestHand = [[JRBestHand alloc] init];
 
         [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
@@ -909,6 +1056,7 @@
         _objectLevelOne = [[JRObjectLevelOne alloc] init];
         _pinoLevelOne = [[JRPinoLevelOne alloc] init];
         _primaryAddress = [[JRPrimaryAddress alloc] init];
+        _bestHand = [[JRBestHand alloc] init];
     
         [self.dirtyPropertySet setSet:[self updatablePropertySet]];
     }
@@ -992,6 +1140,18 @@
                    forKey:@"testerStringPlural"];
     [dictionary setObject:(self.testerUniqueString ? self.testerUniqueString : [NSNull null])
                    forKey:@"testerUniqueString"];
+    [dictionary setObject:(self.playerName ? self.playerName : [NSNull null])
+                   forKey:@"playerName"];
+    [dictionary setObject:(self.avatar ? self.avatar : [NSNull null])
+                   forKey:@"avatar"];
+    [dictionary setObject:(self.bankroll ? self.bankroll : [NSNull null])
+                   forKey:@"bankroll"];
+    [dictionary setObject:(self.tournamentsPlayed ? [self.tournamentsPlayed arrayOfTournamentsPlayedDictionariesFromTournamentsPlayedElementsForEncoder:forEncoder] : [NSNull null])
+                   forKey:@"tournamentsPlayed"];
+    [dictionary setObject:(self.bestHand ? [self.bestHand toDictionaryForEncoder:forEncoder] : [NSNull null])
+                   forKey:@"bestHand"];
+    [dictionary setObject:(self.favoriteHands ? self.favoriteHands : [NSNull null])
+                   forKey:@"favoriteHands"];
 
     if (forEncoder)
     {
@@ -1145,6 +1305,30 @@
         [dictionary objectForKey:@"testerUniqueString"] != [NSNull null] ? 
         [dictionary objectForKey:@"testerUniqueString"] : nil;
 
+    captureUser.playerName =
+        [dictionary objectForKey:@"playerName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"playerName"] : nil;
+
+    captureUser.avatar =
+        [dictionary objectForKey:@"avatar"] != [NSNull null] ? 
+        [dictionary objectForKey:@"avatar"] : nil;
+
+    captureUser.bankroll =
+        [dictionary objectForKey:@"bankroll"] != [NSNull null] ? 
+        [dictionary objectForKey:@"bankroll"] : nil;
+
+    captureUser.tournamentsPlayed =
+        [dictionary objectForKey:@"tournamentsPlayed"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"tournamentsPlayed"] arrayOfTournamentsPlayedElementsFromTournamentsPlayedDictionariesWithPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
+
+    captureUser.bestHand =
+        [dictionary objectForKey:@"bestHand"] != [NSNull null] ? 
+        [JRBestHand bestHandObjectFromDictionary:[dictionary objectForKey:@"bestHand"] withPath:captureUser.captureObjectPath fromDecoder:fromDecoder] : nil;
+
+    captureUser.favoriteHands =
+        [dictionary objectForKey:@"favoriteHands"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"favoriteHands"] arrayOfStringsFromStringPluralDictionariesWithType:@"hand"] : nil;
+
     if (fromDecoder)
         [captureUser.dirtyPropertySet setSet:dirtyPropertySetCopy];
     else
@@ -1288,6 +1472,30 @@
     self.testerUniqueString =
         [dictionary objectForKey:@"testerUniqueString"] != [NSNull null] ? 
         [dictionary objectForKey:@"testerUniqueString"] : nil;
+
+    self.playerName =
+        [dictionary objectForKey:@"playerName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"playerName"] : nil;
+
+    self.avatar =
+        [dictionary objectForKey:@"avatar"] != [NSNull null] ? 
+        [dictionary objectForKey:@"avatar"] : nil;
+
+    self.bankroll =
+        [dictionary objectForKey:@"bankroll"] != [NSNull null] ? 
+        [dictionary objectForKey:@"bankroll"] : nil;
+
+    self.tournamentsPlayed =
+        [dictionary objectForKey:@"tournamentsPlayed"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"tournamentsPlayed"] arrayOfTournamentsPlayedElementsFromTournamentsPlayedDictionariesWithPath:self.captureObjectPath fromDecoder:YES] : nil;
+
+    self.bestHand =
+        [dictionary objectForKey:@"bestHand"] != [NSNull null] ? 
+        [JRBestHand bestHandObjectFromDictionary:[dictionary objectForKey:@"bestHand"] withPath:self.captureObjectPath fromDecoder:YES] : nil;
+
+    self.favoriteHands =
+        [dictionary objectForKey:@"favoriteHands"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"favoriteHands"] arrayOfStringsFromStringPluralDictionariesWithType:@"hand"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
@@ -1433,12 +1641,39 @@
         [dictionary objectForKey:@"testerUniqueString"] != [NSNull null] ? 
         [dictionary objectForKey:@"testerUniqueString"] : nil;
 
+    self.playerName =
+        [dictionary objectForKey:@"playerName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"playerName"] : nil;
+
+    self.avatar =
+        [dictionary objectForKey:@"avatar"] != [NSNull null] ? 
+        [dictionary objectForKey:@"avatar"] : nil;
+
+    self.bankroll =
+        [dictionary objectForKey:@"bankroll"] != [NSNull null] ? 
+        [dictionary objectForKey:@"bankroll"] : nil;
+
+    self.tournamentsPlayed =
+        [dictionary objectForKey:@"tournamentsPlayed"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"tournamentsPlayed"] arrayOfTournamentsPlayedElementsFromTournamentsPlayedDictionariesWithPath:self.captureObjectPath fromDecoder:NO] : nil;
+
+    if (![dictionary objectForKey:@"bestHand"] || [dictionary objectForKey:@"bestHand"] == [NSNull null])
+        self.bestHand = nil;
+    else if (!self.bestHand)
+        self.bestHand = [JRBestHand bestHandObjectFromDictionary:[dictionary objectForKey:@"bestHand"] withPath:self.captureObjectPath fromDecoder:NO];
+    else
+        [self.bestHand replaceFromDictionary:[dictionary objectForKey:@"bestHand"] withPath:self.captureObjectPath];
+
+    self.favoriteHands =
+        [dictionary objectForKey:@"favoriteHands"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"favoriteHands"] arrayOfStringsFromStringPluralDictionariesWithType:@"hand"] : nil;
+
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
 }
 
 - (NSSet *)updatablePropertySet
 {
-    return [NSSet setWithObjects:@"captureUserId", @"uuid", @"created", @"lastUpdated", @"aboutMe", @"birthday", @"currentLocation", @"display", @"displayName", @"email", @"emailVerified", @"familyName", @"gender", @"givenName", @"lastLogin", @"middleName", @"objectLevelOne", @"password", @"pinoLevelOne", @"primaryAddress", @"testerBoolean", @"testerInteger", @"testerIpAddr", @"testerUniqueString", nil];
+    return [NSSet setWithObjects:@"captureUserId", @"uuid", @"created", @"lastUpdated", @"aboutMe", @"birthday", @"currentLocation", @"display", @"displayName", @"email", @"emailVerified", @"familyName", @"gender", @"givenName", @"lastLogin", @"middleName", @"objectLevelOne", @"password", @"pinoLevelOne", @"primaryAddress", @"testerBoolean", @"testerInteger", @"testerIpAddr", @"testerUniqueString", @"playerName", @"avatar", @"bankroll", @"bestHand", nil];
 }
 
 - (void)setAllPropertiesToDirty
@@ -1466,6 +1701,10 @@
         [snapshotDictionary setObject:[self.primaryAddress snapshotDictionaryFromDirtyPropertySet]
                                forKey:@"primaryAddress"];
 
+    if (self.bestHand)
+        [snapshotDictionary setObject:[self.bestHand snapshotDictionaryFromDirtyPropertySet]
+                               forKey:@"bestHand"];
+
     return [NSDictionary dictionaryWithDictionary:snapshotDictionary];
 }
 
@@ -1485,6 +1724,10 @@
     if ([snapshotDictionary objectForKey:@"primaryAddress"])
         [self.primaryAddress restoreDirtyPropertiesFromSnapshotDictionary:
                     [snapshotDictionary objectForKey:@"primaryAddress"]];
+
+    if ([snapshotDictionary objectForKey:@"bestHand"])
+        [self.bestHand restoreDirtyPropertiesFromSnapshotDictionary:
+                    [snapshotDictionary objectForKey:@"bestHand"]];
 
 }
 
@@ -1571,6 +1814,24 @@
     if ([self.dirtyPropertySet containsObject:@"testerUniqueString"])
         [dictionary setObject:(self.testerUniqueString ? self.testerUniqueString : [NSNull null]) forKey:@"testerUniqueString"];
 
+    if ([self.dirtyPropertySet containsObject:@"playerName"])
+        [dictionary setObject:(self.playerName ? self.playerName : [NSNull null]) forKey:@"playerName"];
+
+    if ([self.dirtyPropertySet containsObject:@"avatar"])
+        [dictionary setObject:(self.avatar ? self.avatar : [NSNull null]) forKey:@"avatar"];
+
+    if ([self.dirtyPropertySet containsObject:@"bankroll"])
+        [dictionary setObject:(self.bankroll ? self.bankroll : [NSNull null]) forKey:@"bankroll"];
+
+    if ([self.dirtyPropertySet containsObject:@"bestHand"])
+        [dictionary setObject:(self.bestHand ?
+                              [self.bestHand toUpdateDictionary] :
+                              [[JRBestHand bestHand] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                       forKey:@"bestHand"];
+    else if ([self.bestHand needsUpdate])
+        [dictionary setObject:[self.bestHand toUpdateDictionary]
+                       forKey:@"bestHand"];
+
     [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
@@ -1647,6 +1908,24 @@
                           [NSArray array])
                    forKey:@"testerStringPlural"];
     [dictionary setObject:(self.testerUniqueString ? self.testerUniqueString : [NSNull null]) forKey:@"testerUniqueString"];
+    [dictionary setObject:(self.playerName ? self.playerName : [NSNull null]) forKey:@"playerName"];
+    [dictionary setObject:(self.avatar ? self.avatar : [NSNull null]) forKey:@"avatar"];
+    [dictionary setObject:(self.bankroll ? self.bankroll : [NSNull null]) forKey:@"bankroll"];
+
+    [dictionary setObject:(self.tournamentsPlayed ?
+                          [self.tournamentsPlayed arrayOfTournamentsPlayedReplaceDictionariesFromTournamentsPlayedElements] :
+                          [NSArray array])
+                   forKey:@"tournamentsPlayed"];
+
+    [dictionary setObject:(self.bestHand ?
+                          [self.bestHand toReplaceDictionary] :
+                          [[JRBestHand bestHand] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                   forKey:@"bestHand"];
+
+    [dictionary setObject:(self.favoriteHands ?
+                          self.favoriteHands :
+                          [NSArray array])
+                   forKey:@"favoriteHands"];
 
     [self.dirtyPropertySet removeAllObjects];
     return [NSDictionary dictionaryWithDictionary:dictionary];
@@ -1694,6 +1973,18 @@
                        withType:@"stringPluralItem" forDelegate:delegate withContext:context];
 }
 
+- (void)replaceTournamentsPlayedArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
+{
+    [self replaceArrayOnCapture:self.tournamentsPlayed named:@"tournamentsPlayed" isArrayOfStrings:NO
+                       withType:@"" forDelegate:delegate withContext:context];
+}
+
+- (void)replaceFavoriteHandsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate context:(NSObject *)context
+{
+    [self replaceArrayOnCapture:self.favoriteHands named:@"favoriteHands" isArrayOfStrings:YES
+                       withType:@"hand" forDelegate:delegate withContext:context];
+}
+
 - (BOOL)needsUpdate
 {
     if ([self.dirtyPropertySet count])
@@ -1706,6 +1997,9 @@
         return YES;
 
     if ([self.primaryAddress needsUpdate])
+        return YES;
+
+    if ([self.bestHand needsUpdate])
         return YES;
 
     return NO;
@@ -1831,6 +2125,33 @@
     else if ((self.testerUniqueString == nil) ^ (otherCaptureUser.testerUniqueString == nil)) return NO; // xor
     else if (![self.testerUniqueString isEqualToString:otherCaptureUser.testerUniqueString]) return NO;
 
+    if (!self.playerName && !otherCaptureUser.playerName) /* Keep going... */;
+    else if ((self.playerName == nil) ^ (otherCaptureUser.playerName == nil)) return NO; // xor
+    else if (![self.playerName isEqualToString:otherCaptureUser.playerName]) return NO;
+
+    if (!self.avatar && !otherCaptureUser.avatar) /* Keep going... */;
+    else if ((self.avatar == nil) ^ (otherCaptureUser.avatar == nil)) return NO; // xor
+    else if (![self.avatar isEqualToString:otherCaptureUser.avatar]) return NO;
+
+    if (!self.bankroll && !otherCaptureUser.bankroll) /* Keep going... */;
+    else if ((self.bankroll == nil) ^ (otherCaptureUser.bankroll == nil)) return NO; // xor
+    else if (![self.bankroll isEqualToNumber:otherCaptureUser.bankroll]) return NO;
+
+    if (!self.tournamentsPlayed && !otherCaptureUser.tournamentsPlayed) /* Keep going... */;
+    else if (!self.tournamentsPlayed && ![otherCaptureUser.tournamentsPlayed count]) /* Keep going... */;
+    else if (!otherCaptureUser.tournamentsPlayed && ![self.tournamentsPlayed count]) /* Keep going... */;
+    else if (![self.tournamentsPlayed isEqualToTournamentsPlayedArray:otherCaptureUser.tournamentsPlayed]) return NO;
+
+    if (!self.bestHand && !otherCaptureUser.bestHand) /* Keep going... */;
+    else if (!self.bestHand && [otherCaptureUser.bestHand isEqualToBestHand:[JRBestHand bestHand]]) /* Keep going... */;
+    else if (!otherCaptureUser.bestHand && [self.bestHand isEqualToBestHand:[JRBestHand bestHand]]) /* Keep going... */;
+    else if (![self.bestHand isEqualToBestHand:otherCaptureUser.bestHand]) return NO;
+
+    if (!self.favoriteHands && !otherCaptureUser.favoriteHands) /* Keep going... */;
+    else if (!self.favoriteHands && ![otherCaptureUser.favoriteHands count]) /* Keep going... */;
+    else if (!otherCaptureUser.favoriteHands && ![self.favoriteHands count]) /* Keep going... */;
+    else if (![self.favoriteHands isEqualToArray:otherCaptureUser.favoriteHands]) return NO;
+
     return YES;
 }
 
@@ -1870,6 +2191,12 @@
     [dictionary setObject:@"JRIpAddress" forKey:@"testerIpAddr"];
     [dictionary setObject:@"JRStringArray" forKey:@"testerStringPlural"];
     [dictionary setObject:@"NSString" forKey:@"testerUniqueString"];
+    [dictionary setObject:@"NSString" forKey:@"playerName"];
+    [dictionary setObject:@"NSString" forKey:@"avatar"];
+    [dictionary setObject:@"JRDecimal" forKey:@"bankroll"];
+    [dictionary setObject:@"NSArray" forKey:@"tournamentsPlayed"];
+    [dictionary setObject:@"JRBestHand" forKey:@"bestHand"];
+    [dictionary setObject:@"JRStringArray" forKey:@"favoriteHands"];
 
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
@@ -1907,6 +2234,12 @@
     [_testerIpAddr release];
     [_testerStringPlural release];
     [_testerUniqueString release];
+    [_playerName release];
+    [_avatar release];
+    [_bankroll release];
+    [_tournamentsPlayed release];
+    [_bestHand release];
+    [_favoriteHands release];
 
     [super dealloc];
 }
