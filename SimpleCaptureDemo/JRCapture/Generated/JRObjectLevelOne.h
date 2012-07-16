@@ -35,12 +35,12 @@
 #import "JRObjectLevelTwo.h"
 
 /**
- * @brief A JRObjectLevelOne object
+ * @brief An example of objects nested in objects, level 1
  **/
 @interface JRObjectLevelOne : JRCaptureObject
 @property (nonatomic, copy)     NSString *level; /**< The object's \e level property */ 
 @property (nonatomic, copy)     NSString *name; /**< The object's \e name property */ 
-@property (nonatomic, retain)   JRObjectLevelTwo *objectLevelTwo; /**< The object's \e objectLevelTwo property */ 
+@property (nonatomic, retain)   JRObjectLevelTwo *objectLevelTwo; /**< An example of objects nested in objects, level 2 */ 
 
 /**
  * @name Constructors

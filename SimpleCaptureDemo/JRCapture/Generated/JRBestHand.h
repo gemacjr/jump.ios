@@ -32,35 +32,35 @@
 #import "JRCaptureObject.h"
 #import "JRCaptureTypes.h"
 #import "JRNSDate+ISO8601_CaptureDateTimeString.h"
-#import "JROnipLevelThree.h"
 
 /**
- * @brief An example of objects nested in plurals, level 2, object
+ * @brief The best hand your player has ever had in a tournament
  **/
-@interface JROnipLevelTwo : JRCaptureObject
-@property (nonatomic, copy)     NSString *level; /**< The object's \e level property */ 
-@property (nonatomic, copy)     NSString *name; /**< The object's \e name property */ 
-@property (nonatomic, retain)   JROnipLevelThree *onipLevelThree; /**< An example of objects nested in plurals, level 3, object */ 
+@interface JRBestHand : JRCaptureObject
+@property (nonatomic, copy)     JRDate *datePlayed; /**< The date on which the hand was played @note This is a property of type \ref types "date", which is a typedef of \e NSDate. The accepted format should be an ISO8601 date string (e.g., <code>yyyy-MM-dd</code>) */ 
+@property (nonatomic, copy)     NSString *hand; /**< The hand */ 
+@property (nonatomic, copy)     NSString *handBeat; /**< The hand that was beat */ 
+@property (nonatomic, copy)     JRDecimal *moneyWon; /**< The pot won on the hand */ 
 
 /**
  * @name Constructors
  **/
 /*@{*/
 /**
- * Default constructor. Returns an empty JROnipLevelTwo object
+ * Default constructor. Returns an empty JRBestHand object
  *
  * @return
- *   A JROnipLevelTwo object
+ *   A JRBestHand object
  **/
 - (id)init;
 
 /**
- * Returns an empty JROnipLevelTwo object
+ * Returns an empty JRBestHand object
  *
  * @return
- *   A JROnipLevelTwo object
+ *   A JRBestHand object
  **/
-+ (id)onipLevelTwo;
++ (id)bestHand;
 
 /*@}*/
 

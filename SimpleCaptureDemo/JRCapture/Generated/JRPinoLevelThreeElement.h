@@ -34,7 +34,7 @@
 #import "JRNSDate+ISO8601_CaptureDateTimeString.h"
 
 /**
- * @brief A JRPinoLevelThreeElement object
+ * @brief An example of plurals nested in objects, level 3, plural
  **/
 @interface JRPinoLevelThreeElement : JRCaptureObject
 @property (nonatomic, readonly) JRObjectId *pinoLevelThreeElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 

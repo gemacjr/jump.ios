@@ -35,12 +35,12 @@
 #import "JRPinoLevelTwo.h"
 
 /**
- * @brief A JRPinoLevelOne object
+ * @brief An example of plurals nested in objects, level 1, object
  **/
 @interface JRPinoLevelOne : JRCaptureObject
 @property (nonatomic, copy)     NSString *level; /**< The object's \e level property */ 
 @property (nonatomic, copy)     NSString *name; /**< The object's \e name property */ 
-@property (nonatomic, retain)   JRPinoLevelTwo *pinoLevelTwo; /**< The object's \e pinoLevelTwo property */ 
+@property (nonatomic, retain)   JRPinoLevelTwo *pinoLevelTwo; /**< An example of plurals nested in objects, level 2, object */ 
 
 /**
  * @name Constructors

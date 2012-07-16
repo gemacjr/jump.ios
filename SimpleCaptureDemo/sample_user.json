@@ -1,6 +1,6 @@
 {
     "schema": {
-        "name": "user_dev",
+        "name": "sample_user",
         "attr_defs": [
             {
                 "name": "id",
@@ -27,6 +27,49 @@
                 "name": "aboutMe",
                 "length": null,
                 "type": "string"
+            },
+            {
+                "case-sensitive": true,
+                "name": "avatar",
+                "description": "the name of the avatar which is used to represent the player at tournament tables",
+                "length": null,
+                "type": "string"
+            },
+            {
+                "name": "bankroll",
+                "description": "the player’s current in-game bankroll",
+                "type": "decimal"
+            },
+            {
+                "name": "bestHand",
+                "description": "the best hand your player has ever had in a tournament",
+                "type": "object",
+                "attr_defs": [
+                    {
+                        "name": "datePlayed",
+                        "description": "the date on which the hand was played",
+                        "type": "date"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "hand",
+                        "description": "the hand",
+                        "length": null,
+                        "type": "string"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "handBeat",
+                        "description": "the hand that was beat",
+                        "length": null,
+                        "type": "string"
+                    },
+                    {
+                        "name": "moneyWon",
+                        "description": "the pot won on the hand",
+                        "type": "decimal"
+                    }
+                ]
             },
             {
                 "name": "birthday",
@@ -56,7 +99,8 @@
                 "case-sensitive": false,
                 "name": "email",
                 "constraints": [
-                    "required"
+                    "required",
+                    "unique"
                 ],
                 "length": 256,
                 "type": "string"
@@ -66,6 +110,74 @@
                 "type": "dateTime"
             },
             {
+                "name": "exampleBoolean",
+                "description": "example of a basic string property",
+                "type": "boolean"
+            },
+            {
+                "name": "exampleDate",
+                "description": "example of a basic date property",
+                "type": "date"
+            },
+            {
+                "name": "exampleDateTime",
+                "description": "example of a basic dateTime property",
+                "type": "dateTime"
+            },
+            {
+                "name": "exampleDecimal",
+                "description": "example of a basic decimal property",
+                "type": "decimal"
+            },
+            {
+                "name": "exampleInteger",
+                "description": "example of a basic integer property",
+                "type": "integer"
+            },
+            {
+                "name": "exampleIpAddress",
+                "description": "example of a basic ipAddress property",
+                "type": "ipAddress"
+            },
+            {
+                "name": "exampleJson",
+                "description": "example of a basic ipAddress property",
+                "type": "json"
+            },
+            {
+                "case-sensitive": false,
+                "name": "exampleString",
+                "description": "example of a basic string property",
+                "length": null,
+                "type": "string"
+            },
+            {
+                "name": "exampleStringPlural",
+                "type": "plural",
+                "attr_defs": [
+                    {
+                        "name": "id",
+                        "description": "simple identifier for this sub-entity",
+                        "type": "id"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "stringPluralItem",
+                        "length": null,
+                        "type": "string"
+                    }
+                ]
+            },
+            {
+                "case-sensitive": true,
+                "name": "exampleUniqueString",
+                "constraints": [
+                    "unique"
+                ],
+                "length": null,
+                "type": "string"
+            },
+            {
                 "case-sensitive": false,
                 "name": "familyName",
                 "constraints": [
@@ -73,6 +185,25 @@
                 ],
                 "length": 1000,
                 "type": "string"
+            },
+            {
+                "name": "favoriteHands",
+                "description": "the player’s favorite hands",
+                "type": "plural",
+                "attr_defs": [
+                    {
+                        "name": "id",
+                        "description": "simple identifier for this sub-entity",
+                        "type": "id"
+                    },
+                    {
+                        "case-sensitive": true,
+                        "name": "hand",
+                        "description": "the hand",
+                        "length": null,
+                        "type": "string"
+                    }
+                ]
             },
             {
                 "name": "games",
@@ -150,6 +281,7 @@
             },
             {
                 "name": "objectLevelOne",
+                "description": "An example of objects nested in objects, level 1",
                 "type": "object",
                 "attr_defs": [
                     {
@@ -166,6 +298,7 @@
                     },
                     {
                         "name": "objectLevelTwo",
+                        "description": "An example of objects nested in objects, level 2",
                         "type": "object",
                         "attr_defs": [
                             {
@@ -182,6 +315,7 @@
                             },
                             {
                                 "name": "objectLevelThree",
+                                "description": "An example of objects nested in objects, level 1",
                                 "type": "object",
                                 "attr_defs": [
                                     {
@@ -204,6 +338,7 @@
             },
             {
                 "name": "onipLevelOne",
+                "description": "An example of objects nested in plurals, level 1, plural",
                 "type": "plural",
                 "attr_defs": [
                     {
@@ -225,6 +360,7 @@
                     },
                     {
                         "name": "onipLevelTwo",
+                        "description": "An example of objects nested in plurals, level 2, object",
                         "type": "object",
                         "attr_defs": [
                             {
@@ -241,6 +377,7 @@
                             },
                             {
                                 "name": "onipLevelThree",
+                                "description": "An example of objects nested in plurals, level 3, object",
                                 "type": "object",
                                 "attr_defs": [
                                     {
@@ -290,6 +427,7 @@
             },
             {
                 "name": "pinoLevelOne",
+                "description": "An example of plurals nested in objects, level 1, object",
                 "type": "object",
                 "attr_defs": [
                     {
@@ -306,6 +444,7 @@
                     },
                     {
                         "name": "pinoLevelTwo",
+                        "description": "An example of plurals nested in objects, level 2, object",
                         "type": "object",
                         "attr_defs": [
                             {
@@ -322,6 +461,7 @@
                             },
                             {
                                 "name": "pinoLevelThree",
+                                "description": "An example of plurals nested in objects, level 3, plural",
                                 "type": "plural",
                                 "attr_defs": [
                                     {
@@ -348,7 +488,15 @@
                 ]
             },
             {
+                "case-sensitive": true,
+                "name": "playerName",
+                "description": "the name that is displayed below the player’s avatar",
+                "length": null,
+                "type": "string"
+            },
+            {
                 "name": "pluralLevelOne",
+                "description": "An example of plurals nested in plurals, level 1",
                 "type": "plural",
                 "attr_defs": [
                     {
@@ -370,6 +518,7 @@
                     },
                     {
                         "name": "pluralLevelTwo",
+                        "description": "An example of plurals nested in plurals, level 2",
                         "type": "plural",
                         "attr_defs": [
                             {
@@ -391,6 +540,7 @@
                             },
                             {
                                 "name": "pluralLevelThree",
+                                "description": "An example of plurals nested in plurals, level 3",
                                 "type": "plural",
                                 "attr_defs": [
                                     {
@@ -1224,7 +1374,7 @@
                                     {
                                         "case-sensitive": false,
                                         "name": "honorificSuffix",
-                                        "description": "The honorifix suffix(es) of this Contact, or 'Suffix' in most Western languages",
+                                        "description": "The honorific suffix(es) of this Contact, or 'Suffix' in most Western languages",
                                         "length": null,
                                         "type": "string"
                                     },
@@ -1547,7 +1697,7 @@
                             {
                                 "case-sensitive": false,
                                 "name": "religion",
-                                "description": "Person's relgion or religious views.",
+                                "description": "Person's religion or religious views.",
                                 "length": null,
                                 "type": "string"
                             },
@@ -1600,7 +1750,7 @@
                             {
                                 "case-sensitive": false,
                                 "name": "status",
-                                "description": "Person's status, headline or shoutout.",
+                                "description": "Person's status, headline or shout-out.",
                                 "length": 1000,
                                 "type": "string"
                             },
@@ -1754,19 +1904,8 @@
                 ]
             },
             {
-                "name": "testerBoolean",
-                "type": "boolean"
-            },
-            {
-                "name": "testerInteger",
-                "type": "integer"
-            },
-            {
-                "name": "testerIpAddr",
-                "type": "ipAddress"
-            },
-            {
-                "name": "testerStringPlural",
+                "name": "tournamentsPlayed",
+                "description": "a list of the tournaments in which the player has competed",
                 "type": "plural",
                 "attr_defs": [
                     {
@@ -1775,21 +1914,26 @@
                         "type": "id"
                     },
                     {
-                        "case-sensitive": false,
-                        "name": "stringPluralItem",
-                        "length": null,
-                        "type": "string"
+                        "name": "moneyWon",
+                        "description": "the amount of money won, if any",
+                        "type": "decimal"
+                    },
+                    {
+                        "name": "placed",
+                        "description": "where the player placed in the tournament",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "tournamentDate",
+                        "description": "the date and time that the tournament started",
+                        "type": "dateTime"
+                    },
+                    {
+                        "name": "wonMoney",
+                        "description": "whether or not the player won any money",
+                        "type": "boolean"
                     }
                 ]
-            },
-            {
-                "case-sensitive": true,
-                "name": "testerUniqueString",
-                "constraints": [
-                    "unique"
-                ],
-                "length": null,
-                "type": "string"
             }
         ]
     },

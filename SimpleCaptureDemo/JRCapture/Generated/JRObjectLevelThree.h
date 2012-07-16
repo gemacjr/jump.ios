@@ -34,7 +34,7 @@
 #import "JRNSDate+ISO8601_CaptureDateTimeString.h"
 
 /**
- * @brief A JRObjectLevelThree object
+ * @brief An example of objects nested in objects, level 1
  **/
 @interface JRObjectLevelThree : JRCaptureObject
 @property (nonatomic, copy)     NSString *level; /**< The object's \e level property */ 

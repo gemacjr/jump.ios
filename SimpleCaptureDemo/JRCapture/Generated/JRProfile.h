@@ -94,13 +94,13 @@
 @property (nonatomic, copy)     JRStringArray *quotes; /**< Person's favorite quotes @note This is an array of \c NSStrings representing a list of \c quote objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
 @property (nonatomic, copy)     NSString *relationshipStatus; /**< Person's relationship status. */ 
 @property (nonatomic, copy)     JRStringArray *relationships; /**< A bi-directionally asserted relationship type that was established between the user and this contact by the Service Provider. @note This is an array of \c NSStrings representing a list of \c relationship objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
-@property (nonatomic, copy)     NSString *religion; /**< Person's relgion or religious views. */ 
+@property (nonatomic, copy)     NSString *religion; /**< Person's religion or religious views. */ 
 @property (nonatomic, copy)     NSString *romance; /**< Person's comments about romance. */ 
 @property (nonatomic, copy)     NSString *scaredOf; /**< What the person is scared of. */ 
 @property (nonatomic, copy)     NSString *sexualOrientation; /**< Person's sexual orientation. */ 
 @property (nonatomic, copy)     NSString *smoker; /**< Person's smoking status. */ 
 @property (nonatomic, copy)     JRStringArray *sports; /**< Person's favorite sports @note This is an array of \c NSStrings representing a list of \c sport objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
-@property (nonatomic, copy)     NSString *status; /**< Person's status, headline or shoutout. */ 
+@property (nonatomic, copy)     NSString *status; /**< Person's status, headline or shout-out. */ 
 @property (nonatomic, copy)     JRStringArray *tags; /**< A user-defined category or label for this contact. @note This is an array of \c NSStrings representing a list of \c tag objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
 @property (nonatomic, copy)     JRStringArray *turnOffs; /**< Person's turn offs. @note This is an array of \c NSStrings representing a list of \c turnOff objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
 @property (nonatomic, copy)     JRStringArray *turnOns; /**< Person's turn ons. @note This is an array of \c NSStrings representing a list of \c turnOn objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 

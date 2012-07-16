@@ -32,35 +32,36 @@
 #import "JRCaptureObject.h"
 #import "JRCaptureTypes.h"
 #import "JRNSDate+ISO8601_CaptureDateTimeString.h"
-#import "JROnipLevelThree.h"
 
 /**
- * @brief An example of objects nested in plurals, level 2, object
+ * @brief A list of the tournaments in which the player has competed
  **/
-@interface JROnipLevelTwo : JRCaptureObject
-@property (nonatomic, copy)     NSString *level; /**< The object's \e level property */ 
-@property (nonatomic, copy)     NSString *name; /**< The object's \e name property */ 
-@property (nonatomic, retain)   JROnipLevelThree *onipLevelThree; /**< An example of objects nested in plurals, level 3, object */ 
+@interface JRTournamentsPlayedElement : JRCaptureObject
+@property (nonatomic, readonly) JRObjectId *tournamentsPlayedElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy)     JRDecimal *moneyWon; /**< The amount of money won, if any */ 
+@property (nonatomic, copy)     JRInteger *placed; /**< Where the player placed in the tournament @note This is a property of type \ref types "integer", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:<em>myInteger</em>]</code>, <code>[NSNumber numberWithInt:<em>myInt</em>]</code>, or <code>nil</code> */ 
+@property (nonatomic, copy)     JRDateTime *tournamentDate; /**< The date and time that the tournament started @note This is a property of type \ref types "dateTime", which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., <code>yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ</code>) */ 
+@property (nonatomic, copy)     JRBoolean *wonMoney; /**< Whether or not the player won any money @note This is a property of type \ref types "boolean", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>nil</code> */ 
 
 /**
  * @name Constructors
  **/
 /*@{*/
 /**
- * Default constructor. Returns an empty JROnipLevelTwo object
+ * Default constructor. Returns an empty JRTournamentsPlayedElement object
  *
  * @return
- *   A JROnipLevelTwo object
+ *   A JRTournamentsPlayedElement object
  **/
 - (id)init;
 
 /**
- * Returns an empty JROnipLevelTwo object
+ * Returns an empty JRTournamentsPlayedElement object
  *
  * @return
- *   A JROnipLevelTwo object
+ *   A JRTournamentsPlayedElement object
  **/
-+ (id)onipLevelTwo;
++ (id)tournamentsPlayedElement;
 
 /*@}*/
 
@@ -72,6 +73,31 @@
  * TODO: Doxygen doc
  **/
 - (BOOL)needsUpdate;
+/*@}*/
+
+/**
+ * @name Primitive Getters/Setters 
+ **/
+/*@{*/
+/**
+ * TODO
+ **/
+- (BOOL)getWonMoneyBoolValue;
+
+/**
+ * TODO
+ **/
+- (void)setWonMoneyWithBool:(BOOL)boolVal;
+
+/**
+ * TODO
+ **/
+- (NSInteger)getPlacedIntegerValue;
+
+/**
+ * TODO
+ **/
+- (void)setPlacedWithInteger:(NSInteger)integerVal;
 /*@}*/
 
 @end

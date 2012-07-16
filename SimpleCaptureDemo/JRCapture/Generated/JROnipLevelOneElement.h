@@ -35,13 +35,13 @@
 #import "JROnipLevelTwo.h"
 
 /**
- * @brief A JROnipLevelOneElement object
+ * @brief An example of objects nested in plurals, level 1, plural
  **/
 @interface JROnipLevelOneElement : JRCaptureObject
 @property (nonatomic, readonly) JRObjectId *onipLevelOneElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy)     NSString *level; /**< The object's \e level property */ 
 @property (nonatomic, copy)     NSString *name; /**< The object's \e name property */ 
-@property (nonatomic, retain)   JROnipLevelTwo *onipLevelTwo; /**< The object's \e onipLevelTwo property */ 
+@property (nonatomic, retain)   JROnipLevelTwo *onipLevelTwo; /**< An example of objects nested in plurals, level 2, object */ 
 
 /**
  * @name Constructors
