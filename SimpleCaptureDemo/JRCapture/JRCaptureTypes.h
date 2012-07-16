@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2012, Janrain, Inc.
 
@@ -33,7 +31,6 @@
 /**< TODO */
 typedef NSNumber JRString;
 
->>>>>>> 6884cfbfe188f412524bef5f7e60fa8953dbc684
 /**< TODO */
 typedef NSNumber JRBoolean;
 
@@ -41,11 +38,7 @@ typedef NSNumber JRBoolean;
 typedef NSNumber JRDecimal;
 
 /**< TODO */
-<<<<<<< HEAD
 typedef NSNumber JRInteger;
-=======
-typedef NSNumber JRDecimal;
->>>>>>> 6884cfbfe188f412524bef5f7e60fa8953dbc684
 
 /**< TODO */
 typedef NSDate   JRDate;
