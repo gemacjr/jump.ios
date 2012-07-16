@@ -44,6 +44,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCaptureObject.h"
 #import "JRCaptureUser.h"
+#import "JRCaptureUser+Extras.h"
 #import "JRCaptureError.h"
 
 typedef enum
