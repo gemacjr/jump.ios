@@ -44,6 +44,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCaptureObject.h"
 #import "JRCaptureUser.h"
+#import "JRCaptureUser+Extras.h"
 #import "JRCaptureError.h"
 
 typedef enum
@@ -97,7 +98,11 @@ typedef enum
 
 - (void)engageSigninDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider;
 
-- (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser *)captureUser status:(JRCaptureRecordStatus)captureRecordStatus;
+/**
+  * TODO
+  */
+- (void)captureAuthenticationDidSucceedForUser:(JRCaptureUser *)captureUser
+                                        status:(JRCaptureRecordStatus)captureRecordStatus;
 
 /**
  * Sent when authentication failed and could not be recovered by the library.
@@ -117,16 +122,8 @@ typedef enum
 
 /**
  * Sent when the call to the token URL has failed.
- *
- * @param tokenUrl
- *   The URL on the server where the token was posted and server-side authentication was completed
- *
  * @param error
- *   The error that occurred during server-side authentication
- *
- * @param provider
- *   The name of the provider on which the user authenticated.  For a list of possible strings,
- *   please see the \ref basicProviders "List of Providers"
+ *   The error that occurred during Capture authentication
  **/
 - (void)captureAuthenticationDidFailWithError:(NSError*)error;
 @end
@@ -210,7 +207,7 @@ typedef enum
  * Use this function to begin authentication.  The JREngage library will
  * pop up a modal dialog and take the user through the sign-in process.
  **/
-+ (void)startEngageSigninForDelegate:(id<JRCaptureSigninDelegate>)delegate;
++ (void)startEngageSigninDialogForDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
 + (void)startEngageSigninDialogWithConventionalSignin:(JRConventionalSigninType)conventionalSigninState
                                           forDelegate:(id<JRCaptureSigninDelegate>)delegate;

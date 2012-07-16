@@ -35,10 +35,10 @@ typedef NSNumber JRString;
 typedef NSNumber JRBoolean;
 
 /**< TODO */
-typedef NSNumber JRInteger;
+typedef NSNumber JRDecimal;
 
 /**< TODO */
-typedef NSNumber JRDecimal;
+typedef NSNumber JRInteger;
 
 /**< TODO */
 typedef NSDate   JRDate;
@@ -60,9 +60,6 @@ typedef NSObject JRPassword;
  * https://github.com/johnezang/JSONKit
  */
 typedef NSObject JRJsonObject;
-
-/**< TODO */
-typedef NSArray  JRArray;
 
 /**< TODO */
 typedef NSArray  JRStringArray;

@@ -59,7 +59,8 @@
 @synthesize myWebView;
 @synthesize originalUserAgent;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+   andCustomInterface:(NSDictionary*)theCustomInterface
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
@@ -94,7 +95,8 @@
 
     if (!infoBar)
     {
-        infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 30, self.view.frame.size.width, 30)
+        infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 30,
+                self.view.frame.size.width, 30)
                                           andStyle:(JRInfoBarStyle)[sessionData hidePoweredBy]];
 
         if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
@@ -106,7 +108,8 @@
         [self.view addSubview:infoBar];
     }
 
-    // TODO: This test is here for the case where the sign-in flow opens straight to the webview (auth on just one provider),
+    // TODO: This test is here for the case where the sign-in flow opens straight to the webview (auth on just one
+    // provider),
     // but it seems to be evaluating to 'true' when we are sharing as well... Why!?
     // Will this always be a reliable test?
     if (!self.navigationController.navigationBar.backItem && !sessionData.socialSharing)
@@ -142,7 +145,8 @@
 
     self.contentSizeForViewInPopover = CGSizeMake(320, 416);
 
-    self.title = [NSString stringWithFormat:@"%@", (sessionData.currentProvider) ? sessionData.currentProvider.friendlyName : @"Loading"];
+    self.title = [NSString stringWithFormat:@"%@",
+                           (sessionData.currentProvider) ? sessionData.currentProvider.friendlyName : @"Loading"];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -165,6 +169,7 @@
         return;
     }
 
+    //[self webViewWithUrl:[NSURL URLWithString:@"http://whatsmyuseragent.com"]];
     [self webViewWithUrl:[sessionData startUrlForCurrentProvider]];
     [myWebView becomeFirstResponder];
 
@@ -198,7 +203,9 @@
     [infoBar stopProgress];
 }
 
-- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(id)userdata { }
+- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload
+                                               request:(NSURLRequest*)request
+                                                andTag:(id)userdata { }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(id)userdata
 {
@@ -229,18 +236,21 @@
             userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
             [sessionData triggerAuthenticationDidFailWithError:error];
         }
-        else if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"stat"]) isEqualToString:@"ok"])
+        else if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"stat"])
+                isEqualToString:@"ok"])
         {
             userHitTheBackButton = NO; /* Because authentication completed successfully. */
             [sessionData triggerAuthenticationDidCompleteWithPayload:payloadDict];
         }
         else
         {
-            if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Discovery failed for the OpenID you entered"])
+            if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"])
+                    isEqualToString:@"Discovery failed for the OpenID you entered"])
             {
                 NSString *message;
                 if (sessionData.currentProvider.requiresInput)
-                    message = [NSString stringWithFormat:@"The %@ you entered was not valid. Please try again.", sessionData.currentProvider.shortText];
+                    message = [NSString stringWithFormat:@"The %@ you entered was not valid. Please try again.",
+                                        sessionData.currentProvider.shortText];
                 else
                     message = @"There was a problem authenticating with this provider. Please try again.";
 
@@ -257,11 +267,13 @@
 
                 [alert show];
             }
-            else if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"The URL you entered does not appear to be an OpenID"])
+            else if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"])
+                    isEqualToString:@"The URL you entered does not appear to be an OpenID"])
             {
                 NSString *message;
                 if (sessionData.currentProvider.requiresInput)
-                    message = [NSString stringWithFormat:@"The %@ you entered was not valid. Please try again.", sessionData.currentProvider.shortText];
+                    message = [NSString stringWithFormat:@"The %@ you entered was not valid. Please try again.",
+                                        sessionData.currentProvider.shortText];
                 else
                     message = @"There was a problem authenticating with this provider. Please try again.";
 
@@ -278,7 +290,8 @@
 
                 [alert show];
             }
-            else if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Please enter your OpenID"])
+            else if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"])
+                    isEqualToString:@"Please enter your OpenID"])
             {
                 NSError *error = [JREngageError setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
                                                 withCode:JRAuthenticationFailedError];
@@ -347,7 +360,8 @@
 
     DLog("Sending request to connection manager: %@", request);
 
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:[NSString stringWithString:@"request"]];
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self
+                                             withTag:[NSString stringWithString:@"request"]];
     return YES;
 }
 
@@ -436,7 +450,8 @@
     {
         [self stopProgress];
 
-        NSError *newError = [JREngageError setError:[NSString stringWithFormat:@"Authentication failed: %@", [error localizedDescription]]
+        NSError *newError = [JREngageError setError:[NSString stringWithFormat:@"Authentication failed: %@",
+                                                              [error localizedDescription]]
                                            withCode:JRAuthenticationFailedError];
 
         UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
@@ -494,7 +509,8 @@
     the publishActivity controller gets the message from sessionData, and can hide the grayed-out activity indicator
     view.
 
-    If the userHitTheBackButton variable is set to "YES" and we're publishing an activity ([sessionData social] is "YES"),
+    If the userHitTheBackButton variable is set to "YES" and we're publishing an activity ([sessionData social] is
+    "YES"),
     send the triggerAuthenticationDidStartOver message.  Otherwise, hitting the back button should just pop back
     to the last controller, the providers or userLanding controller (i.e., behave normally) */
     if (userHitTheBackButton && [sessionData socialSharing])

@@ -94,8 +94,6 @@ static NSString *entityTypeName     = @"user_dev";
                   captureUIDomain:captureUIDomain clientId:clientId
                 andEntityTypeName:entityTypeName];
 
-       // [JRCapture setEngageAppId:appId];
-
         prefs = [NSUserDefaults standardUserDefaults];
         currentDisplayName = [prefs objectForKey:cJRCurrentDisplayName];
         currentProvider    = [prefs objectForKey:cJRCurrentProvider];

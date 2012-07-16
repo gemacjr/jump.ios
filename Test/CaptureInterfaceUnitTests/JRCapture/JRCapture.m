@@ -78,14 +78,14 @@
     [JRCaptureData setCreationToken:newCreationToken];
 }
 
-+ (void)startEngageSigninForDelegate:(id <JRCaptureSigninDelegate>)delegate
++ (void)startEngageSigninDialogForDelegate:(id <JRCaptureSigninDelegate>)delegate
 {
     [JREngageWrapper startAuthenticationDialogWithNativeSignin:JRConventionalSigninNone
                                    andCustomInterfaceOverrides:nil forDelegate:delegate];
 }
 
 + (void)startEngageSigninDialogWithConventionalSignin:(JRConventionalSigninType)conventionalSigninState
-                                forDelegate:(id <JRCaptureSigninDelegate>)delegate
+                                          forDelegate:(id <JRCaptureSigninDelegate>)delegate
 {
     [JREngageWrapper startAuthenticationDialogWithNativeSignin:conventionalSigninState
                                    andCustomInterfaceOverrides:nil forDelegate:delegate];
