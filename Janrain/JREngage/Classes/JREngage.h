@@ -87,7 +87,6 @@
 
 #import <Foundation/Foundation.h>
 
-//@class JRUserInterfaceMaestro;
 @class JRActivityObject;
 
 /**
@@ -100,7 +99,7 @@
  * authentication is desired, it can provide the delegate(s) with the data payload returned by your
  * server's token URL.
  **/
-@protocol JREngageDelegate <NSObject>
+@protocol JREngageSigninDelegate <NSObject>
 @optional
 
 /**
@@ -192,15 +191,6 @@
  **/
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
-//#ifndef DOXYGEN_SHOULD_SKIP_THIS
-/////**
-//// * @deprecated
-//// * Please use jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:() instead.
-//// **/
-//- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
-//            __attribute__ ((deprecated)) __attribute__ ((unavailable));
-//#endif /* DOXYGEN_SHOULD_SKIP_THIS */
-
 /**
  * Sent after JREngage has successfully posted the token to your application's token_url, containing
  * the headers and body of the response from the server.
@@ -235,6 +225,10 @@
  **/
 - (void)authenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 /*@}*/
+@end
+
+@protocol JREngageSharingDelegate <JREngageSigninDelegate>
+@optional
 
 /**
  * @name SocialPublishing
@@ -305,12 +299,7 @@
  * completed server-side authentication was required. This is no longer the case, although you can optionally implement
  * the token url if you wish to continue authentication on your server.
  **/
-@interface JREngage : NSObject //<JRSessionDelegate>
-{
-//    JRUserInterfaceMaestro *_interfaceMaestro; /*< \internal Class that handles customizations to the library's UI */
-//    JRSessionData          *_sessionData;      /*< \internal Holds configuration and state for the JREngage library */
-//    NSMutableArray         *_delegates;        /*< \internal Array of JREngageDelegate objects */
-}
+@interface JREngage : NSObject
 
 /**
  * @name Get the JREngage Instance
@@ -337,7 +326,7 @@
 // *   The shared instance of the JREngage object initialized with the given
 // *   appId, tokenUrl, and delegate.  If the given appId is nil, returns \e nil.
  **/
-+ (void)setEngageAppId:(NSString*)appId tokenUrl:(NSString*)tokenUrl andDelegate:(id<JREngageDelegate>)delegate;
++ (void)setEngageAppId:(NSString*)appId tokenUrl:(NSString*)tokenUrl andDelegate:(id<JREngageSigninDelegate>)delegate;
 /*@}*/
 
 /**
@@ -352,7 +341,7 @@
  * @param delegate
  *   The object that implements the JREngageDelegate protocol
  **/
-+ (void)addDelegate:(id<JREngageDelegate>)delegate;
++ (void)addDelegate:(id<JREngageSigninDelegate>)delegate;
 
 /**
  * Remove a JREngageDelegate from the JREngage library.
@@ -360,7 +349,7 @@
  * @param delegate
  *   The object that implements the JREngageDelegate protocol
  **/
-+ (void)removeDelegate:(id<JREngageDelegate>)delegate;
++ (void)removeDelegate:(id<JREngageSigninDelegate>)delegate;
 /*@}*/
 
 /**
@@ -547,143 +536,5 @@
  **/
 + (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults;
 /*@}*/
-
-
-
-/**
- * @name Depricated
- **/
-/*@{*/
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-+ (JREngage*)jrEngage
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-+ (id)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)addDelegate:(id<JREngageDelegate>)delegate
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)removeDelegate:(id<JREngageDelegate>)delegate
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)showAuthenticationDialog
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)showAuthenticationDialogForProvider:(NSString*)provider
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)showAuthenticationDialogForProvider:(NSString*)provider
-               withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)showSharingDialogWithActivity:(JRActivityObject*)activity
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)clearSharingCredentialsForProvider:(NSString*)provider
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)clearSharingCredentialsForAllProviders
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)alwaysForceReauthentication:(BOOL)force
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)cancelAuthentication
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)cancelSharing
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)updateTokenUrl:(NSString*)tokenUrl
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults
-__attribute__ ((deprecated));// __attribute__ ((unavailable));
-/*@}*/
-
-//#ifndef DOXYGEN_SHOULD_SKIP_THIS
-/////**
-//// * @name Deprecated
-//// * These keys have been deprecated in the current version of the JREngage library
-//// **/
-/////*@{*/
-//
-/////**
-//// * @deprecated
-//// * This method has been deprecated. If you want to push the JREngage dialogs on your pass a pointer
-//// * to this object to the custom interface with the key define #kJRApplicationNavigationController.
-//// **/
-//- (void)setCustomNavigationController:(UINavigationController*)navigationController
-//            __attribute__ ((deprecated)) __attribute__ ((unavailable));
-//
-/////**
-//// * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
-//// **/
-////- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
-//
-/////**
-//// * @deprecated Please use showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:() instead.
-//// **/
-//- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
-//            __attribute__ ((deprecated)) __attribute__ ((unavailable));
-/////*}*/
-//#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 @end
 

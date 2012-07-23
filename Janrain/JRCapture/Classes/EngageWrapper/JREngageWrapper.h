@@ -32,7 +32,7 @@
 #import "JREngage.h"
 #import "JRNativeSigninViewController.h"
 
-@interface JREngageWrapper : NSObject <JREngageDelegate, JRNativeSigninViewControllerDelegate>
+@interface JREngageWrapper : NSObject <JREngageSigninDelegate, JRNativeSigninViewControllerDelegate>
 + (void)configureEngageWithCaptureMobileEndpointUrlAndAppId:(NSString *)appId;
 
 + (void)startAuthenticationDialogWithNativeSignin:(JRConventionalSigninType)nativeSigninType
@@ -45,5 +45,5 @@
 
 + (void)startSocialPublishingDialogWithActivity:(JRActivityObject*)activity
                    withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-                                    forDelegate:(id<JRCaptureSocialSharingDelegate>)delegate;
+                                    forDelegate:(id<JRCaptureSharingDelegate>)delegate;
 @end

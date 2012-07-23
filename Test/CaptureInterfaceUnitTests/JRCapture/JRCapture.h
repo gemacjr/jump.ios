@@ -47,12 +47,14 @@
 #import "JRCaptureUser+Extras.h"
 #import "JRCaptureError.h"
 
+#ifdef VERSION_THREE_POINT_ONE
 typedef enum
 {
     JRConventionalSigninNone = 0,
     JRConventionalSigninUsernamePassword,
     JRConventionalSigninEmailPassword,
 } JRConventionalSigninType;
+#endif
 
 typedef enum
 {
@@ -128,9 +130,8 @@ typedef enum
 - (void)captureAuthenticationDidFailWithError:(NSError*)error;
 @end
 
-#define SHARING_FROM_CAPTURE
-#ifdef SHARING_FROM_CAPTURE
-@protocol JRCaptureSocialSharingDelegate <JRCaptureSigninDelegate>
+#ifdef VERSION_THREE_POINT_ONE
+@protocol JRCaptureSharingDelegate <JRCaptureSigninDelegate>
 @optional
 /**
  * @name SocialPublishing
@@ -180,7 +181,7 @@ typedef enum
 - (void)engageSocialSharingDidFailForActivity:(JRActivityObject*)activity withError:(NSError*)error onProvider:(NSString*)provider;
 /*@}*/
 @end
-#endif
+#endif // VERSION_THREE_POINT_ONE
 
 @interface JRCapture : NSObject
 
@@ -188,14 +189,9 @@ typedef enum
        captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId
      andEntityTypeName:(NSString *)newEntityTypeName;
 
-//+ (void)setEngageAppId:(NSString *)appId;
-//
-//+ (void)setEngageAppId:(NSString *)appId captureApiDomain:(NSString *)newCaptureApidDomain
-//       captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId
-//     andEntityTypeName:(NSString *)newEntityTypeName;
-
+#ifdef VERSION_THREE_POINT_ONE
 + (void)setAccessToken:(NSString *)newAccessToken;
-
+#endif // VERSION_THREE_POINT_ONE
 
 /**
  * @name Show the JREngage Dialogs
@@ -209,8 +205,10 @@ typedef enum
  **/
 + (void)startEngageSigninDialogForDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
+#ifdef VERSION_THREE_POINT_ONE
 + (void)startEngageSigninDialogWithConventionalSignin:(JRConventionalSigninType)conventionalSigninState
                                           forDelegate:(id<JRCaptureSigninDelegate>)delegate;
+#endif // VERSION_THREE_POINT_ONE
 
 /**
  * Use this function to begin authentication for one specific provider.  The JREngage library will
@@ -224,6 +222,7 @@ typedef enum
 + (void)startEngageSigninDialogOnProvider:(NSString*)provider
                               forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
+#ifdef VERSION_THREE_POINT_ONE
 /**
  * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,
  * configured with the given custom interface, and take the user through the sign-in process.
@@ -241,6 +240,7 @@ typedef enum
 + (void)startEngageSigninDialogWithConventionalSignin:(JRConventionalSigninType)conventionalSigninState
                           andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
                                           forDelegate:(id<JRCaptureSigninDelegate>)delegate;
+#endif // VERSION_THREE_POINT_ONE
 
 /**
 * Use this function to begin authentication.  The JREngage library will pop up a modal dialog, configured
@@ -265,7 +265,8 @@ typedef enum
              withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
                               forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
-#ifdef SHARING_FROM_CAPTURE
+
+#ifdef VERSION_THREE_POINT_ONE
 /**
  * Use this function to begin social publishing. The JREngage library will pop up a modal dialog and
  * take the user through the sign-in process, if necessary, and share the given JRActivityObject.
@@ -274,7 +275,7 @@ typedef enum
  *   The activity you wish to share
  **/
 + (void)startEngageSharingDialogWithActivity:(JRActivityObject*)activity
-                                 forDelegate:(id<JRCaptureSocialSharingDelegate>)delegate;
+                                 forDelegate:(id<JRCaptureSharingDelegate>)delegate;
 
 /**
  * Use this function to begin social publishing.  The JREngage library will pop up a modal dialog,
@@ -296,6 +297,6 @@ typedef enum
  **/
 + (void)startEngageSharingDialogWithActivity:(JRActivityObject*)activity
                 withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-                                 forDelegate:(id<JRCaptureSocialSharingDelegate>)delegate;
-#endif
+                                 forDelegate:(id<JRCaptureSharingDelegate>)delegate;
+#endif // VERSION_THREE_POINT_ONE
 @end

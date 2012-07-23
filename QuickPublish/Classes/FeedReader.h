@@ -105,7 +105,7 @@
 - (void)feedDidFailToDownload;
 @end
 
-@interface FeedReader : NSObject <JREngageDelegate, NSXMLParserDelegate>
+@interface FeedReader : NSObject <JREngageSharingDelegate, NSXMLParserDelegate>
 {
     Feed  *feed;
     Story *selectedStory;

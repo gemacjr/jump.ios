@@ -62,7 +62,7 @@
 #import <Foundation/Foundation.h>
 #import "JREngage.h"
 
-@interface JREngagePhonegapPlugin : PCPlugin <JREngageDelegate>
+@interface JREngagePhonegapPlugin : PCPlugin <JREngageSigninDelegate, JREngageSharingDelegate>
 {
     NSString *callbackID;
 

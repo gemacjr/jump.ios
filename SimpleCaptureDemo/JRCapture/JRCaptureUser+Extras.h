@@ -42,24 +42,21 @@
 - (void)fetchUserDidSucceed:(JRCaptureUser *)fetchedUser context:(NSObject *)context;
 - (void)fetchUserDidFailWithError:(NSError *)error context:(NSObject *)context;
 
+#define VERSION_THREE_POINT_ONE
+#ifdef VERSION_THREE_POINT_ONE
 - (void)fetchLastUpdatedDidSucceed:(JRDateTime *)serverLastUpdated isOutdated:(BOOL)isOutdated context:(NSObject *)context;
 - (void)fetchLastUpdatedDidFailWithError:(NSError *)error context:(NSObject *)context;
+#endif // VERSION_THREE_POINT_ONE
 @end
 
 @interface JRCaptureUser (JRCaptureUser_Extras) <NSCoding>
-// save
-// load
-
-// create user
 - (void)createOnCaptureForDelegate:(id<JRCaptureUserDelegate>)delegate context:(NSObject *)context;
 
-// fetch user
 + (void)fetchCaptureUserFromServerForDelegate:(id<JRCaptureUserDelegate>)delegate context:(NSObject *)context;
 
-// get created, uuid, etc.
-
-// get lastUpdated/is outdated (locally and server)
+#ifdef VERSION_THREE_POINT_ONE
 - (void)fetchLastUpdatedFromServerForDelegate:(id<JRCaptureUserDelegate>)delegate context:(NSObject *)context;
+#endif // VERSION_THREE_POINT_ONE
 
 + (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary;
 @end

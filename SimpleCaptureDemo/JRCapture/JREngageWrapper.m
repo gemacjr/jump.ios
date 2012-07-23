@@ -181,7 +181,7 @@ static JREngageWrapper *singleton = nil;
 
 + (void)startSocialPublishingDialogWithActivity:(JRActivityObject *)activity
                    withCustomInterfaceOverrides:(NSDictionary *)customInterfaceOverrides
-                                    forDelegate:(id <JRCaptureSocialSharingDelegate>)delegate
+                                    forDelegate:(id <JRCaptureSharingDelegate>)delegate
 {
     [[JREngageWrapper singletonInstance] setDelegate:delegate];
     [[JREngageWrapper singletonInstance] setDialogState:JREngageDialogStateSharing];
@@ -297,7 +297,7 @@ static JREngageWrapper *singleton = nil;
     else
     {
         if ([delegate respondsToSelector:@selector(engageSocialSharingDialogDidFailToShowWithError:)])
-            [(id<JRCaptureSocialSharingDelegate>)delegate engageSocialSharingDialogDidFailToShowWithError:error];
+            [(id<JRCaptureSharingDelegate>)delegate engageSocialSharingDialogDidFailToShowWithError:error];
     }
 
     [self engageLibraryTearDown];
@@ -306,7 +306,7 @@ static JREngageWrapper *singleton = nil;
 - (void)socialSharingDidComplete
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidComplete)])
-        [(id<JRCaptureSocialSharingDelegate>)delegate engageSocialSharingDidComplete];
+        [(id<JRCaptureSharingDelegate>)delegate engageSocialSharingDidComplete];
 
     [self engageLibraryTearDown];
 }
@@ -314,7 +314,7 @@ static JREngageWrapper *singleton = nil;
 - (void)socialSharingDidNotCompletePublishing
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidNotComplete)])
-        [(id<JRCaptureSocialSharingDelegate>)delegate engageSocialSharingDidNotComplete];
+        [(id<JRCaptureSharingDelegate>)delegate engageSocialSharingDidNotComplete];
 
     [self engageLibraryTearDown];
 }
@@ -322,13 +322,13 @@ static JREngageWrapper *singleton = nil;
 - (void)socialSharingDidSucceedForActivity:(JRActivityObject *)activity forProvider:(NSString *)provider
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidSucceedForActivity:onProvider:)])
-        [(id<JRCaptureSocialSharingDelegate>)delegate engageSocialSharingDidSucceedForActivity:activity onProvider:provider];
+        [(id<JRCaptureSharingDelegate>)delegate engageSocialSharingDidSucceedForActivity:activity onProvider:provider];
 }
 
 - (void)jrSocialSharingDidFailForActivity:(JRActivityObject *)activity withError:(NSError *)error forProvider:(NSString *)provider
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidFailForActivity:withError:onProvider:)])
-        [(id<JRCaptureSocialSharingDelegate>)delegate engageSocialSharingDidFailForActivity:activity withError:error onProvider:provider];
+        [(id<JRCaptureSharingDelegate>)delegate engageSocialSharingDidFailForActivity:activity withError:error onProvider:provider];
 
     [self engageLibraryTearDown];
 }

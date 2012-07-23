@@ -90,7 +90,7 @@ static JREngage* singleton = nil;
     return [[self singletonInstance] retain];
 }
 
-- (void)setEngageAppID:(NSString*)appId tokenUrl:(NSString*)tokenUrl andDelegate:(id<JREngageDelegate>)delegate
+- (void)setEngageAppID:(NSString*)appId tokenUrl:(NSString*)tokenUrl andDelegate:(id<JREngageSigninDelegate>)delegate
 {
     ALog (@"Initialize JREngage library with appID: %@, and tokenUrl: %@", appId, tokenUrl);
 
@@ -108,12 +108,12 @@ static JREngage* singleton = nil;
         interfaceMaestro = [JRUserInterfaceMaestro jrUserInterfaceMaestroWithSessionData:sessionData];
 }
 
-+ (void)setEngageAppId:(NSString*)appId tokenUrl:(NSString*)tokenUrl andDelegate:(id<JREngageDelegate>)delegate
++ (void)setEngageAppId:(NSString*)appId tokenUrl:(NSString*)tokenUrl andDelegate:(id<JREngageSigninDelegate>)delegate
 {
     [[JREngage singletonInstance] setEngageAppID:appId tokenUrl:tokenUrl andDelegate:delegate];
 }
 
-- (id)reconfigureWithAppID:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
+- (id)reconfigureWithAppID:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageSigninDelegate>)delegate
 {
     [delegates removeAllObjects];
     [delegates addObject:delegate];
@@ -124,7 +124,7 @@ static JREngage* singleton = nil;
 }
 
 // TODO: Should we fail right away if appId is null?
-- (id)initWithAppID:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
+- (id)initWithAppID:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageSigninDelegate>)delegate
 {
     ALog (@"Initialize JREngage library with appID: %@, and tokenUrl: %@", appId, tokenUrl);
 
@@ -141,7 +141,7 @@ static JREngage* singleton = nil;
     return self;
 }
 
-+ (id)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
++ (id)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageSigninDelegate>)delegate
 {
     if (appId == nil || appId.length == 0)
         return nil;
@@ -175,25 +175,25 @@ static JREngage* singleton = nil;
     return self;
 }
 
-- (void)addDelegate:(id<JREngageDelegate>)delegate
+- (void)addDelegate:(id<JREngageSigninDelegate>)delegate
 {
     if (![delegates containsObject:delegate])
         [delegates addObject:delegate];
 }
 
-+ (void)addDelegate:(id<JREngageDelegate>)delegate
++ (void)addDelegate:(id<JREngageSigninDelegate>)delegate
 {
-    [[JREngage singletonInstance] performSelector:@selector(addDelegate:) withObject:delegate];
+    [[JREngage singletonInstance] addDelegate:delegate];
 }
 
-- (void)removeDelegate:(id<JREngageDelegate>)delegate
+- (void)removeDelegate:(id<JREngageSigninDelegate>)delegate
 {
     [delegates removeObject:delegate];
 }
 
-+ (void)removeDelegate:(id<JREngageDelegate>)delegate
++ (void)removeDelegate:(id<JREngageSigninDelegate>)delegate
 {
-    [[JREngage singletonInstance] performSelector:@selector(removeDelegate:) withObject:delegate];
+    [[JREngage singletonInstance] removeDelegate:delegate];
 }
 
 - (void)engageDidFailWithError:(NSError*)error
@@ -201,7 +201,7 @@ static JREngage* singleton = nil;
     ALog (@"JREngage failed to load with error: %@", [error localizedDescription]);
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy)
+    for (id<JREngageSigninDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(engageDialogDidFailToShowWithError:)])
             [delegate engageDialogDidFailToShowWithError:error];
@@ -451,7 +451,7 @@ static JREngage* singleton = nil;
     DLog (@"");
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy)
+    for (id<JREngageSigninDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(authenticationDidNotComplete)])
             [delegate authenticationDidNotComplete];
@@ -465,7 +465,7 @@ static JREngage* singleton = nil;
     ALog (@"Signing complete for %@", provider);
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy)
+    for (id<JREngageSigninDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(authenticationDidSucceedForUser:forProvider:)])
             [delegate authenticationDidSucceedForUser:profile forProvider:provider];
@@ -479,7 +479,7 @@ static JREngage* singleton = nil;
     ALog (@"Signing failed for %@", provider);
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy)
+    for (id<JREngageSigninDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(authenticationDidFailWithError:forProvider:)])
             [delegate authenticationDidFailWithError:error forProvider:provider];
@@ -493,11 +493,8 @@ static JREngage* singleton = nil;
     ALog (@"Token URL reached for %@: %@", provider, tokenUrl);
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy)
+    for (id<JREngageSigninDelegate> delegate in delegatesCopy)
     {
-//        if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withPayload:forProvider:)])
-//          [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
-
         if ([delegate respondsToSelector:@selector(authenticationDidReachTokenUrl:withResponse:andPayload:forProvider:)])
             [delegate authenticationDidReachTokenUrl:tokenUrl withResponse:response andPayload:tokenUrlPayload forProvider:provider];
     }
@@ -508,7 +505,7 @@ static JREngage* singleton = nil;
     ALog (@"Token URL failed for %@: %@", provider, tokenUrl);
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy)
+    for (id<JREngageSigninDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(authenticationCallToTokenUrl:didFailWithError:forProvider:)])
             [delegate authenticationCallToTokenUrl:tokenUrl didFailWithError:error forProvider:provider];
@@ -526,7 +523,7 @@ static JREngage* singleton = nil;
     DLog(@"");
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy)
+    for (id<JREngageSharingDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(sharingDidNotComplete)])
             [delegate sharingDidNotComplete];
@@ -540,7 +537,7 @@ static JREngage* singleton = nil;
     DLog(@"");
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy)
+    for (id<JREngageSharingDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(sharingDidComplete)])
             [delegate sharingDidComplete];
@@ -554,7 +551,7 @@ static JREngage* singleton = nil;
     ALog (@"Activity shared on %@", provider);
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy)
+    for (id<JREngageSharingDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(sharingDidSucceedForActivity:forProvider:)])
             [delegate sharingDidSucceedForActivity:activity forProvider:provider];
@@ -566,7 +563,7 @@ static JREngage* singleton = nil;
     ALog (@"Sharing activity failed for %@", provider);
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy)
+    for (id<JREngageSharingDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(sharingDidFailForActivity:withError:forProvider:)])
             [delegate sharingDidFailForActivity:activity withError:error forProvider:provider];
@@ -581,7 +578,7 @@ static JREngage* singleton = nil;
 
 + (void)clearSharingCredentialsForProvider:(NSString*)provider
 {
-    [[JREngage singletonInstance] performSelector:@selector(clearSharingCredentialsForProvider:) withObject:provider];
+    [[JREngage singletonInstance] clearSharingCredentialsForProvider:provider];
 }
 
 - (void)clearSharingCredentialsForAllProviders
@@ -592,35 +589,17 @@ static JREngage* singleton = nil;
 
 + (void)clearSharingCredentialsForAllProviders
 {
-    [[JREngage singletonInstance] performSelector:@selector(clearSharingCredentialsForAllProviders)];
-}
-
-- (void)signoutUserForSocialProvider:(NSString*)provider
-{
-    DLog(@"");
-    [sessionData forgetAuthenticatedUserForProvider:provider];
-}
-
-- (void)signoutUserForAllSocialProviders
-{
-    DLog(@"");
-    [sessionData forgetAllAuthenticatedUsers];
-}
-
-- (void)internalAlwaysForceReauthentication:(BOOL)force
-{
-    DLog(@"");
-    [sessionData setAlwaysForceReauth:force];
+    [[JREngage singletonInstance] clearSharingCredentialsForAllProviders];
 }
 
 - (void)alwaysForceReauthentication:(BOOL)force
 {
-    [self internalAlwaysForceReauthentication:force];
+    [sessionData setAlwaysForceReauth:force];
 }
 
 + (void)alwaysForceReauthentication:(BOOL)force
 {
-    [[JREngage singletonInstance] internalAlwaysForceReauthentication:force];
+    [[JREngage singletonInstance] alwaysForceReauthentication:force];
 }
 
 - (void)cancelAuthentication
@@ -631,7 +610,7 @@ static JREngage* singleton = nil;
 
 + (void)cancelAuthentication
 {
-    [[JREngage singletonInstance] performSelector:@selector(cancelAuthentication)];
+    [[JREngage singletonInstance] cancelAuthentication];
 }
 
 - (void)cancelSharing
@@ -642,7 +621,7 @@ static JREngage* singleton = nil;
 
 + (void)cancelSharing
 {
-    [[JREngage singletonInstance] performSelector:@selector(cancelSharing)];
+    [[JREngage singletonInstance] cancelSharing];
 }
 
 - (void)updateTokenUrl:(NSString*)newTokenUrl
@@ -653,7 +632,7 @@ static JREngage* singleton = nil;
 
 + (void)updateTokenUrl:(NSString*)newTokenUrl
 {
-    [[JREngage singletonInstance] performSelector:@selector(updateTokenUrl:) withObject:newTokenUrl];
+    [[JREngage singletonInstance] updateTokenUrl:newTokenUrl];
 }
 
 - (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults
@@ -663,6 +642,6 @@ static JREngage* singleton = nil;
 
 + (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults
 {
-    [[JREngage singletonInstance] performSelector:@selector(setCustomInterfaceDefaults:) withObject:customInterfaceDefaults];
+    [[JREngage singletonInstance] setCustomInterfaceDefaults:customInterfaceDefaults];
 }
 @end

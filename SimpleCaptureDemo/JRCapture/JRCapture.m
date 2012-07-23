@@ -115,7 +115,7 @@
 }
 
 + (void)startEngageSharingDialogWithActivity:(JRActivityObject *)activity
-                                    forDelegate:(id <JRCaptureSocialSharingDelegate>)delegate
+                                    forDelegate:(id <JRCaptureSharingDelegate>)delegate
 {
     [JREngageWrapper startSocialPublishingDialogWithActivity:activity
                                 withCustomInterfaceOverrides:nil forDelegate:delegate];
@@ -123,7 +123,7 @@
 
 + (void)startEngageSharingDialogWithActivity:(JRActivityObject *)activity
                    withCustomInterfaceOverrides:(NSDictionary *)customInterfaceOverrides
-                                    forDelegate:(id <JRCaptureSocialSharingDelegate>)delegate
+                                    forDelegate:(id <JRCaptureSharingDelegate>)delegate
 {
     [JREngageWrapper startSocialPublishingDialogWithActivity:activity
                                 withCustomInterfaceOverrides:customInterfaceOverrides forDelegate:delegate];

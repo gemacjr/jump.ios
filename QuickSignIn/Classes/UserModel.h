@@ -61,7 +61,7 @@
 
 @class EmbeddedTableViewController;
 
-@interface UserModel : NSObject <JREngageDelegate>
+@interface UserModel : NSObject <JREngageSigninDelegate>
 {
  /* Instance of the JRAuthenticate library */
     JREngage *jrEngage;
