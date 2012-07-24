@@ -1,0 +1,1 @@
+# Janrain JUMP for iOS libraryThis library provides a native iOS API to the Janrain JUMP platform.It supports: * Authentication with Janrain Engage * User management with Janrain Capture * Broadcast sharing via Engagehttp://developers.janrain.com/documentation/mobile-libraries
