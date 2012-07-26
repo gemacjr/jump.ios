@@ -104,63 +104,6 @@ typedef enum CaptureInterfaceStatEnum
     StatFail,
 } CaptureInterfaceStat;
 
-- (void)finishGetCaptureUserWithStat:(CaptureInterfaceStat)stat andResult:(NSObject *)result
-                         forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
-{
-    DLog(@"");
-
-    if (stat == StatOk)
-    {
-        if ([delegate respondsToSelector:@selector(getCaptureUserDidSucceedWithResult:context:)])
-            [delegate getCaptureUserDidSucceedWithResult:result context:context];
-    }
-    else
-    {
-        if ([delegate respondsToSelector:@selector(getCaptureUserDidFailWithResult:context:)])
-            [delegate getCaptureUserDidFailWithResult:result context:context];
-    }
-}
-
-- (void)startGetCaptureUserWithToken:(NSString *)token
-                         forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
-{
-    DLog(@"");
-
-    NSMutableData *body = [NSMutableData data];
-
-    [body appendData:[[NSString stringWithFormat:@"type_name=%@", [JRCaptureData entityTypeName]] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"&access_token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
-
-#ifdef TESTING_CARL_LOCAL
-    if (appIdArg)
-        [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
-#endif
-
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
-                                     [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/entity", [JRCaptureData captureApidBaseUrl]]]];
-
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:body];
-
-    NSDictionary *newTag = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        @"getUser", @"action",
-                                        delegate, @"delegate",
-                                        context, @"context", nil];
-
-    DLog(@"%@ type_name=%@ access_token=%@", [[request URL] absoluteString], [JRCaptureData entityTypeName], token);
-
-    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:newTag])
-        [self finishGetCaptureUserWithStat:StatFail
-                                 andResult:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    @"error", @"stat",
-                                                    @"url_connection", @"error",
-                                                    [NSString stringWithFormat:@"Could not create a connection to %@", [[request URL] absoluteString]], @"error_description",
-                                                    [NSNumber numberWithInteger:JRCaptureLocalApidErrorUrlConnection], @"code", nil]
-                               forDelegate:delegate
-                               withContext:context];
-}
-
 - (void)finishCreateCaptureUserWithStat:(CaptureInterfaceStat)stat andResult:(NSObject *)result
                             forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
@@ -220,6 +163,127 @@ typedef enum CaptureInterfaceStatEnum
                                        forDelegate:delegate
                                        withContext:context];
 
+}
+
+- (void)finishSigninCaptureUserWithStat:(CaptureInterfaceStat)stat andResult:(NSObject *)result
+                         forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
+{
+    DLog(@"");
+
+    result = @"{\"access_token\":\"p6bsy8bbcwr5wbpu\",\"capture_user\":{\"testerBoolean\":true,\"aboutMe\":\"\",\"pluralLevelOne\":[{\"name\":\"Kljkljkl;\",\"level\":\"one\",\"id\":251,\"pluralLevelTwo\":[{\"name\":\"bar\",\"level\":\"two\",\"id\":252,\"pluralLevelThree\":[{\"name\":\"appletree\",\"level\":\"three\",\"id\":253},{\"name\":\"gazook\",\"level\":\"three\",\"id\":254},{\"name\":\"baz\",\"level\":\"three\",\"id\":255}]},{\"name\":\"peartree\",\"level\":\"two\",\"id\":256,\"pluralLevelThree\":[]}]},{\"name\":\"foo\",\"level\":\"one\",\"id\":258,\"pluralLevelTwo\":[{\"name\":\"bar\",\"level\":\"two\",\"id\":259,\"pluralLevelThree\":[{\"name\":\"appletree\",\"level\":\"three\",\"id\":260},{\"name\":\"gazook\",\"level\":\"three\",\"id\":261},{\"name\":\"baz\",\"level\":\"three\",\"id\":262}]}]},{\"name\":\"foo\",\"level\":\"one\",\"id\":263,\"pluralLevelTwo\":[{\"name\":\"bar\",\"level\":\"two\",\"id\":264,\"pluralLevelThree\":[]}]},{\"name\":\"foo\",\"level\":\"one\",\"id\":265,\"pluralLevelTwo\":[{\"name\":\"bar\",\"level\":\"two\",\"id\":266,\"pluralLevelThree\":[]}]}],\"currentLocation\":\"Portland, OR\",\"givenName\":\"Jkjkljlkjkl\",\"testerUniqueString\":\"\",\"objectLevelOne\":{\"name\":\"Foo\",\"level\":\"One\",\"objectLevelTwo\":{\"name\":null,\"level\":\"Foo\",\"objectLevelThree\":{\"name\":null,\"level\":\"Dfgdgfd\"}}},\"testerInteger\":5,\"familyName\":null,\"created\":\"2012-02-27 22:34:27.002541 +0000\",\"testerStringPlural\":[{\"stringPluralItem\":\"Fdfdgf\",\"id\":9810},{\"stringPluralItem\":\"five\",\"id\":9811},{\"stringPluralItem\":\"nine\",\"id\":9812},{\"stringPluralItem\":\"eight\",\"id\":9813},{\"stringPluralItem\":\"nine\",\"id\":9814},{\"stringPluralItem\":\"eight\",\"id\":9815},{\"stringPluralItem\":\"seven\",\"id\":9816},{\"stringPluralItem\":\"eight\",\"id\":9817},{\"stringPluralItem\":\"Jkljkljlk\",\"id\":9818},{\"stringPluralItem\":\"foo\",\"id\":9819},{\"stringPluralItem\":\"bar\",\"id\":9820},{\"stringPluralItem\":\"baz\",\"id\":9821},{\"stringPluralItem\":\"foo\",\"id\":9822},{\"stringPluralItem\":\"bar\",\"id\":9823},{\"stringPluralItem\":\"baz\",\"id\":9824},{\"stringPluralItem\":null,\"id\":9825}],\"statuses\":[],\"games\":[{\"rating\":0,\"name\":\"trouble\",\"opponents\":[{\"name\":\"foo\",\"id\":401},{\"name\":\"baz\",\"id\":402},{\"name\":\"baz\",\"id\":403},{\"name\":\"bar\",\"id\":404}],\"id\":400,\"isFavorite\":true},{\"rating\":0,\"name\":\"uno\",\"opponents\":[],\"id\":405,\"isFavorite\":false},{\"rating\":0,\"name\":\"uno\",\"opponents\":[],\"id\":406,\"isFavorite\":false},{\"rating\":0,\"name\":\"uno\",\"opponents\":[],\"id\":407,\"isFavorite\":false}],\"id\":5,\"displayName\":null,\"uuid\":\"48850871-6e14-4099-9f81-6a9807b5889f\",\"email\":\"\",\"gender\":null,\"lastUpdated\":\"2012-07-23 22:33:18.714422 +0000\",\"photos\":[],\"password\":null,\"lastLogin\":\"2012-07-23 22:33:18 +0000\",\"birthday\":null,\"profiles\":[{\"followers\":[],\"following\":[],\"friends\":[],\"provider\":null,\"domain\":\"google.com\",\"identifier\":\"https://www.google.com/accounts/o8/id?id=AItOawl_N-YbU0ajJrDCIeUxhoMOViiWx8Ay27k\",\"id\":267,\"accessCredentials\":null,\"remote_key\":null,\"profile\":{\"interests\":[],\"aboutMe\":null,\"updated\":null,\"status\":null,\"fashion\":null,\"currentLocation\":{\"streetAddress\":null,\"formatted\":null,\"extendedAddress\":null,\"latitude\":null,\"longitude\":null,\"locality\":null,\"region\":null,\"type\":null,\"country\":null,\"postalCode\":null,\"poBox\":null},\"politicalViews\":null,\"ims\":[],\"relationships\":[],\"name\":{\"givenName\":\"Lilli\",\"formatted\":\"Lilli McSpilli\",\"honorificSuffix\":null,\"familyName\":\"McSpilli\",\"honorificPrefix\":null,\"middleName\":null},\"happiestWhen\":null,\"heroes\":[],\"turnOffs\":[],\"tags\":[],\"languages\":[],\"music\":[],\"profileUrl\":null,\"sexualOrientation\":null,\"note\":null,\"anniversary\":null,\"addresses\":[],\"relationshipStatus\":null,\"preferredUsername\":\"mcspilli\",\"cars\":[],\"children\":[],\"food\":[],\"tvShows\":[],\"pets\":[],\"accounts\":[],\"jobInterests\":[],\"drinker\":null,\"smoker\":null,\"languagesSpoken\":[],\"religion\":null,\"displayName\":\"mcspilli\",\"humor\":null,\"livingArrangement\":null,\"phoneNumbers\":[],\"lookingFor\":[],\"gender\":null,\"emails\":[],\"turnOns\":[],\"utcOffset\":null,\"photos\":[],\"profileSong\":null,\"interestedInMeeting\":null,\"ethnicity\":null,\"romance\":null,\"quotes\":[],\"birthday\":null,\"sports\":[],\"published\":null,\"urls\":[],\"bodyType\":{\"eyeColor\":null,\"build\":null,\"color\":null,\"height\":null,\"hairColor\":null},\"organizations\":[],\"nickname\":null,\"scaredOf\":null,\"movies\":[],\"books\":[],\"profileVideo\":null}}],\"testerIpAddr\":null,\"middleName\":null,\"display\":null,\"emailVerified\":null,\"primaryAddress\":{\"address2\":null,\"address1\":null,\"city\":null,\"company\":null,\"mobile\":null,\"stateAbbreviation\":null,\"zip\":null,\"zipPlus4\":null,\"phone\":null,\"country\":null},\"onipLevelOne\":[{\"name\":\"apple\",\"level\":\"one\",\"onipLevelTwo\":{\"name\":\"banana\",\"level\":\"two\",\"onipLevelThree\":{\"name\":\"carrot\",\"level\":\"three\"}},\"id\":581},{\"name\":\"atlanta\",\"level\":\"one\",\"onipLevelTwo\":{\"name\":\"boston\",\"level\":\"two\",\"onipLevelThree\":{\"name\":\"chicago\",\"level\":\"three\"}},\"id\":582},{\"name\":null,\"level\":null,\"onipLevelTwo\":{\"name\":\"Fewtwerw\",\"level\":null,\"onipLevelThree\":{\"name\":null,\"level\":null}},\"id\":583},{\"name\":null,\"level\":null,\"onipLevelTwo\":{\"name\":null,\"level\":\"4\",\"onipLevelThree\":{\"name\":null,\"level\":null}},\"id\":584}],\"pinoLevelOne\":{\"name\":\"ralph\",\"level\":\"one\",\"pinoLevelTwo\":{\"name\":\"nelson\",\"level\":\"two\",\"pinoLevelThree\":[{\"name\":null,\"level\":null,\"id\":551}]}}},\"is_new\":false,\"stat\":\"ok\"}";
+
+    if (1)//(stat == StatOk)
+    {
+        if ([delegate respondsToSelector:@selector(signinCaptureUserDidSucceedWithResult:context:)])
+            [delegate signinCaptureUserDidSucceedWithResult:result context:context];
+    }
+    else
+    {
+        if ([delegate respondsToSelector:@selector(signinCaptureUserDidFailWithResult:context:)])
+            [delegate signinCaptureUserDidFailWithResult:result context:context];
+    }
+}
+
+- (void)startSigninCaptureUserWithCredentials:(NSDictionary *)credentials ofType:(NSString *)signinType
+                             forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
+{
+    DLog(@"");
+
+    NSMutableData *body = [NSMutableData data];
+    NSString *signinName = [credentials objectForKey:signinType];
+    NSString *password   = [credentials objectForKey:@"password"];
+
+    [body appendData:[[NSString stringWithFormat:@"%@=%@", signinType, signinName] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&password=%@", password] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"type_name=%@", [JRCaptureData entityTypeName]] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"client_id=%@", [JRCaptureData clientId]] dataUsingEncoding:NSUTF8StringEncoding]];
+
+
+#ifdef TESTING_CARL_LOCAL
+    if (appIdArg)
+        [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+#endif
+
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
+                                     [NSURL URLWithString:
+                                      [NSString stringWithFormat:@"%@/oauth/mobile_signin_username_password", [JRCaptureData captureUIBaseUrl]]]];
+
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:body];
+
+    NSDictionary *newTag = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        @"signinUser", @"action",
+                                        delegate, @"delegate",
+                                        context, @"context", nil];
+
+    DLog(@"%@ %@=%@", [[request URL] absoluteString], signinType, signinName);
+
+    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:newTag])
+        [self finishSigninCaptureUserWithStat:StatFail
+                                    andResult:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    @"error", @"stat",
+                                                    @"url_connection", @"error",
+                                                    [NSString stringWithFormat:@"Could not create a connection to %@", [[request URL] absoluteString]], @"error_description",
+                                                    [NSNumber numberWithInteger:JRCaptureLocalApidErrorUrlConnection], @"code", nil]
+                                  forDelegate:delegate
+                                  withContext:context];
+}
+
+- (void)finishGetCaptureUserWithStat:(CaptureInterfaceStat)stat andResult:(NSObject *)result
+                         forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
+{
+    DLog(@"");
+
+    if (stat == StatOk)
+    {
+        if ([delegate respondsToSelector:@selector(getCaptureUserDidSucceedWithResult:context:)])
+            [delegate getCaptureUserDidSucceedWithResult:result context:context];
+    }
+    else
+    {
+        if ([delegate respondsToSelector:@selector(getCaptureUserDidFailWithResult:context:)])
+            [delegate getCaptureUserDidFailWithResult:result context:context];
+    }
+}
+
+- (void)startGetCaptureUserWithToken:(NSString *)token
+                         forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
+{
+    DLog(@"");
+
+    NSMutableData *body = [NSMutableData data];
+
+    [body appendData:[[NSString stringWithFormat:@"type_name=%@", [JRCaptureData entityTypeName]] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&access_token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
+
+#ifdef TESTING_CARL_LOCAL
+    if (appIdArg)
+        [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+#endif
+
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
+                                     [NSURL URLWithString:
+                                      [NSString stringWithFormat:@"%@/entity", [JRCaptureData captureApidBaseUrl]]]];
+
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:body];
+
+    NSDictionary *newTag = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        @"getUser", @"action",
+                                        delegate, @"delegate",
+                                        context, @"context", nil];
+
+    DLog(@"%@ type_name=%@ access_token=%@", [[request URL] absoluteString], [JRCaptureData entityTypeName], token);
+
+    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:newTag])
+        [self finishGetCaptureUserWithStat:StatFail
+                                 andResult:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    @"error", @"stat",
+                                                    @"url_connection", @"error",
+                                                    [NSString stringWithFormat:@"Could not create a connection to %@", [[request URL] absoluteString]], @"error_description",
+                                                    [NSNumber numberWithInteger:JRCaptureLocalApidErrorUrlConnection], @"code", nil]
+                               forDelegate:delegate
+                               withContext:context];
 }
 
 - (void)finishGetObjectWithStat:(CaptureInterfaceStat)stat andResult:(NSObject *)result
@@ -472,6 +536,14 @@ typedef enum CaptureInterfaceStatEnum
 
 }
 
++ (void)signinCaptureUserWithCredentials:(NSDictionary *)credentials ofType:(NSString *)signinType
+                             forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
+{
+    [[JRCaptureApidInterface captureInterfaceInstance]
+            startSigninCaptureUserWithCredentials:credentials ofType:signinType forDelegate:delegate withContext:context];
+
+}
+
 + (void)getCaptureUserWithToken:(NSString *)token
                     forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
@@ -528,13 +600,17 @@ typedef enum CaptureInterfaceStatEnum
 
     id<JRCaptureInterfaceDelegate> delegate = [tag objectForKey:@"delegate"];
 
-    if ([action isEqualToString:@"getUser"])
-    {
-        [self finishGetCaptureUserWithStat:stat andResult:payload forDelegate:delegate withContext:context];
-    }
-    else if ([action isEqualToString:@"createUser"])
+    if ([action isEqualToString:@"createUser"])
     {
         [self finishCreateCaptureUserWithStat:stat andResult:payload forDelegate:delegate withContext:context];
+    }
+    else if ([action isEqualToString:@"signinUser"])
+    {
+        [self finishSigninCaptureUserWithStat:stat andResult:payload forDelegate:delegate withContext:context];
+    }
+    else if ([action isEqualToString:@"getUser"])
+    {
+        [self finishGetCaptureUserWithStat:stat andResult:payload forDelegate:delegate withContext:context];
     }
     else if ([action isEqualToString:@"getObject"])
     {
@@ -572,13 +648,17 @@ typedef enum CaptureInterfaceStatEnum
                                     [NSNumber numberWithInteger:JRCaptureLocalApidErrorConnectionDidFail], @"code", nil];
 
 
-    if ([action isEqualToString:@"getUser"])
-    {
-        [self finishGetCaptureUserWithStat:StatFail andResult:result forDelegate:delegate withContext:context];
-    }
-    else if ([action isEqualToString:@"createUser"])
+    if ([action isEqualToString:@"createUser"])
     {
         [self finishCreateCaptureUserWithStat:StatFail andResult:result forDelegate:delegate withContext:context];
+    }
+    else if ([action isEqualToString:@"signinUser"])
+    {
+        [self finishSigninCaptureUserWithStat:StatFail andResult:result forDelegate:delegate withContext:context];
+    }
+    else if ([action isEqualToString:@"getUser"])
+    {
+        [self finishGetCaptureUserWithStat:StatFail andResult:result forDelegate:delegate withContext:context];
     }
     else if ([action isEqualToString:@"getObject"])
     {

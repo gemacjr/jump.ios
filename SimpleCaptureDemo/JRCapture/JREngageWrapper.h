@@ -30,9 +30,9 @@
 
 #import "JRCapture.h"
 #import "JREngage.h"
-#import "JRNativeSigninViewController.h"
+#import "JRConventionalSigninViewController.h"
 
-@interface JREngageWrapper : NSObject <JREngageSigninDelegate, JRNativeSigninViewControllerDelegate>
+@interface JREngageWrapper : NSObject <JREngageSigninDelegate, JRConventionalSigninDelegate>
 + (void)configureEngageWithCaptureMobileEndpointUrlAndAppId:(NSString *)appId;
 
 + (void)startAuthenticationDialogWithNativeSignin:(JRConventionalSigninType)nativeSigninType

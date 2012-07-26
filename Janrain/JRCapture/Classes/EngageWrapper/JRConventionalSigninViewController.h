@@ -33,20 +33,24 @@
 
 #import <UIKit/UIKit.h>
 #import "JRCapture.h"
+#import "JRCaptureApidInterface.h"
 
-@protocol JRNativeSigninViewControllerDelegate <NSObject>
+@protocol JRConventionalSigninDelegate <NSObject>
 @optional
 - (void)authenticationDidComplete;
 - (void)authenticationDidCancel;
 - (void)authenticationDidFail;
+- (void)showLoading;
+- (void)hideLoading;
 @end
 
-@interface JRNativeSigninViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface JRConventionalSigninViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, JRCaptureInterfaceDelegate>
 {
     UITableView *myTableView;
 }
+@property (nonatomic, retain) id<JRConventionalSigninDelegate> delegate;
 - (id)initWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)titleString
-                     titleView:(UIView *)titleView delegate:(id<JRNativeSigninViewControllerDelegate>)theDelegate;
+                     titleView:(UIView *)titleView;// delegate:(id<JRConventionalSigninDelegate>)theDelegate;
 + (id)nativeSigninViewControllerWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)titleString
-                                           titleView:(UIView *)titleView delegate:(id<JRNativeSigninViewControllerDelegate>)theDelegate;
+                                           titleView:(UIView *)titleView;// delegate:(id<JRConventionalSigninDelegate>)theDelegate;
 @end

@@ -247,7 +247,7 @@
 		9FD2B6C114F8387B00053EB0 /* JRCaptureObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EAF /* JRCaptureObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053EB4 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EB3 /* JRCaptureUser+Extras.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053EB6 /* JREngageWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EB5 /* JREngageWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6C114F8387B00053EC1 /* JRNativeSigninViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EC0 /* JRNativeSigninViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6C114F8387B00053EC1 /* JRConventionalSigninViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EC0 /* JRConventionalSigninViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053EC8 /* JRCaptureError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EC7 /* JRCaptureError.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053ECB /* JRNSDate+ISO8601_CaptureDateTimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053ECA /* JRNSDate+ISO8601_CaptureDateTimeString.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6C114F8387B00053ECE /* JREngageError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053ECD /* JREngageError.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -574,8 +574,8 @@
 		9FD2B6C114F8387B00053EBC /* JRCaptureObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureObject.h; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EBE /* JRCaptureUser+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRCaptureUser+Extras.h"; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EBF /* JREngageWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JREngageWrapper.h; sourceTree = "<group>"; };
-		9FD2B6C114F8387B00053EC0 /* JRNativeSigninViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRNativeSigninViewController.m; sourceTree = "<group>"; };
-		9FD2B6C114F8387B00053EC2 /* JRNativeSigninViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRNativeSigninViewController.h; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053EC0 /* JRConventionalSigninViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRConventionalSigninViewController.m; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053EC2 /* JRConventionalSigninViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRConventionalSigninViewController.h; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EC6 /* JRCaptureTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureTypes.h; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EC7 /* JRCaptureError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureError.m; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EC9 /* JRCaptureError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureError.h; sourceTree = "<group>"; };
@@ -1047,8 +1047,8 @@
 				9FD2B6C114F8387B00053EC9 /* JRCaptureError.h */,
 				9FD2B6C114F8387B00053EC7 /* JRCaptureError.m */,
 				9FD2B6C114F8387B00053EC6 /* JRCaptureTypes.h */,
-				9FD2B6C114F8387B00053EC2 /* JRNativeSigninViewController.h */,
-				9FD2B6C114F8387B00053EC0 /* JRNativeSigninViewController.m */,
+				9FD2B6C114F8387B00053EC2 /* JRConventionalSigninViewController.h */,
+				9FD2B6C114F8387B00053EC0 /* JRConventionalSigninViewController.m */,
 				9F5792C21598DD7C00478D15 /* Generated */,
 				9FD2B6C114F8387B00053EBF /* JREngageWrapper.h */,
 				9FD2B6C114F8387B00053EBE /* JRCaptureUser+Extras.h */,
@@ -1543,7 +1543,7 @@
 				9F57931D1598DD7C00478D15 /* JRProfilesElement.m in Sources */,
 				9F57931E1598DD7C00478D15 /* JRStatusesElement.m in Sources */,
 				9F57931F1598DD7C00478D15 /* JRUrlsElement.m in Sources */,
-				9FD2B6C114F8387B00053EC1 /* JRNativeSigninViewController.m in Sources */,
+				9FD2B6C114F8387B00053EC1 /* JRConventionalSigninViewController.m in Sources */,
 				9F6CDFB1159A743300E507A9 /* JRCaptureData.m in Sources */,
 				9FD2B6C114F8387B00053EC8 /* JRCaptureError.m in Sources */,
 				9FD2B6C114F8387B00053ECB /* JRNSDate+ISO8601_CaptureDateTimeString.m in Sources */,

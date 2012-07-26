@@ -65,7 +65,7 @@ typedef enum
 
 
 @interface JREngageWrapper ()
-@property (retain) JRNativeSigninViewController *nativeSigninViewController;
+@property (retain) JRConventionalSigninViewController *nativeSigninViewController;
 @property (retain) id<JRCaptureSigninDelegate> delegate;
 @property          JREngageDialogState dialogState;
 @end
@@ -143,8 +143,8 @@ static JREngageWrapper *singleton = nil;
         //kJRCaptureNativeSigninTitleView
 
         NSString *nativeSigninTitleString =
-                         ([expandedCustomInterfaceOverrides objectForKey:kJRCaptureNativeSigninTitleString] ?
-                                 [expandedCustomInterfaceOverrides objectForKey:kJRCaptureNativeSigninTitleString] :
+                         ([expandedCustomInterfaceOverrides objectForKey:kJRCaptureConventionalSigninTitleString] ?
+                                 [expandedCustomInterfaceOverrides objectForKey:kJRCaptureConventionalSigninTitleString] :
                                  (nativeSigninType == JRConventionalSigninEmailPassword ?
                                         @"Sign In With Your Email and Password" :
                                         @"Sign In With Your Username and Password"));
@@ -154,15 +154,18 @@ static JREngageWrapper *singleton = nil;
                                                  forKey:kJRProviderTableSectionHeaderTitleString];
 
         [[JREngageWrapper singletonInstance] setNativeSigninViewController:
-                [JRNativeSigninViewController
+                [JRConventionalSigninViewController
                         nativeSigninViewControllerWithNativeSigninType:nativeSigninType
                                                            titleString:nativeSigninTitleString
                                                              titleView:[expandedCustomInterfaceOverrides
-                                                                               objectForKey:kJRCaptureNativeSigninTitleView]
-                                                              delegate:[JREngageWrapper singletonInstance]]];
+                                                                               objectForKey:kJRCaptureConventionalSigninTitleView]
+                                                              /*delegate:[JREngageWrapper singletonInstance]*/]];
 
         [expandedCustomInterfaceOverrides setObject:[[JREngageWrapper singletonInstance] nativeSigninViewController].view
                                              forKey:kJRProviderTableHeaderView];
+
+        [expandedCustomInterfaceOverrides setObject:[[JREngageWrapper singletonInstance] nativeSigninViewController]
+                                             forKey:kJRCaptureConventionalSigninViewController];
     }
 
     [JREngage showAuthenticationDialogWithCustomInterfaceOverrides:
@@ -303,7 +306,7 @@ static JREngageWrapper *singleton = nil;
     [self engageLibraryTearDown];
 }
 
-- (void)socialSharingDidComplete
+- (void)sharingDidComplete
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidComplete)])
         [(id<JRCaptureSharingDelegate>)delegate engageSocialSharingDidComplete];
@@ -311,7 +314,7 @@ static JREngageWrapper *singleton = nil;
     [self engageLibraryTearDown];
 }
 
-- (void)socialSharingDidNotCompletePublishing
+- (void)sharingDidNotComplete
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidNotComplete)])
         [(id<JRCaptureSharingDelegate>)delegate engageSocialSharingDidNotComplete];
@@ -319,13 +322,13 @@ static JREngageWrapper *singleton = nil;
     [self engageLibraryTearDown];
 }
 
-- (void)socialSharingDidSucceedForActivity:(JRActivityObject *)activity forProvider:(NSString *)provider
+- (void)sharingDidSucceedForActivity:(JRActivityObject *)activity forProvider:(NSString *)provider
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidSucceedForActivity:onProvider:)])
         [(id<JRCaptureSharingDelegate>)delegate engageSocialSharingDidSucceedForActivity:activity onProvider:provider];
 }
 
-- (void)jrSocialSharingDidFailForActivity:(JRActivityObject *)activity withError:(NSError *)error forProvider:(NSString *)provider
+- (void)sharingDidFailForActivity:(JRActivityObject*)activity withError:(NSError*)error forProvider:(NSString*)provider;
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidFailForActivity:withError:onProvider:)])
         [(id<JRCaptureSharingDelegate>)delegate engageSocialSharingDidFailForActivity:activity withError:error onProvider:provider];

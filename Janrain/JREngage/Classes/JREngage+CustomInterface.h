@@ -309,7 +309,7 @@
 /*@}*/
 
 /**
- * @name Capture Native Sign-in
+ * @name Capture Conventional Sign-in
  * Keys to customize the Capture Native Sign-in view
  **/
 /*@{*/
@@ -322,7 +322,7 @@
  * If you want to customize the title that will appear over the table section displaying the social providers, you can
  * use the keys define #kJRProviderTableSectionHeaderTitleString or define #kJRProviderTableSectionHeaderView
  **/
-#define kJRCaptureNativeSigninTitleString   @"ProviderTable.Title.String"
+#define kJRCaptureConventionalSigninTitleString    @"Capture.ConventionalSignin.Title.String"
 
 /**
  * Key for the \e UIView object to be set as the title view of the Native Sign-in view.
@@ -332,7 +332,14 @@
  * If you want to customize the title view that will appear over the table section displaying the social providers,
  * you can use the keys define #kJRProviderTableSectionHeaderTitleString or define #kJRProviderTableSectionHeaderView
  **/
-#define kJRCaptureNativeSigninTitleView     @"ProviderTable.Title.View"
+#define kJRCaptureConventionalSigninTitleView      @"Capture.ConventionalSignin.Title.View"
+
+/**
+ * @internal
+ **/
+#define kJRCaptureConventionalSigninViewController @"Capture.ConventionalSignin.ViewController"
+
+
 /*@}*/
 
 

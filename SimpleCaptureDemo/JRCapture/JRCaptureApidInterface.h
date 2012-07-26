@@ -39,6 +39,8 @@
 @optional
 - (void)createCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context;
 - (void)createCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)signinCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context;
+- (void)signinCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context;
 - (void)getCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context;
 - (void)getCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context;
 - (void)getCaptureObjectDidSucceedWithResult:(NSObject *)result context:(NSObject *)context;
@@ -52,6 +54,11 @@
 @end
 
 @interface JRCaptureApidInterface : NSObject <JRConnectionManagerDelegate>
++ (void)signinCaptureUserWithCredentials:(NSDictionary *)credentials
+                                  ofType:(NSString *)signinType
+                             forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
+                             withContext:(NSObject *)context;
+
 + (void)getCaptureUserWithToken:(NSString *)token
                     forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
                     withContext:(NSObject *)context;

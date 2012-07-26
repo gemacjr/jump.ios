@@ -40,129 +40,41 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#import "JRNativeSigninViewController.h"
+#import "JRConventionalSigninViewController.h"
+#import "JRCaptureApidInterface.h"
 
-#define LOADING_VIEW_TAG         555
-#define LOADING_VIEW_LABEL_TAG   666
-#define LOADING_VIEW_SPINNER_TAG 777
-
-@interface UIViewController (LoadingViewAnimation)
-//- (void)startLoadingViewWithTag:(NSUInteger)tag;
-//- (void)stopLoadingViewWithTag:(NSUInteger)tag;
-@end
-
-@implementation UIViewController (LoadingViewAnimation)
-//- (void)startLoadingViewWithTag:(NSUInteger)tag
-//{
-//    UIView *loadingView =
-//                   [self.view viewWithTag:LOADING_VIEW_TAG];
-//    UIActivityIndicatorView *loadingSpinner =
-//                  (UIActivityIndicatorView *)[loadingView viewWithTag:LOADING_VIEW_SPINNER_TAG];
-//
-//    [loadingView setHidden:NO];
-//    [loadingSpinner startAnimating];
-//
-//    [UIView beginAnimations:@"fade" context:nil];
-//    [UIView setAnimationDuration:0.2];
-//    [UIView setAnimationDelay:0.0];
-//    loadingView.alpha = 0.8;
-//    [UIView commitAnimations];
-//}
-//
-//- (void)stopLoadingViewWithTag:(NSUInteger)tag
-//{
-//    UIView *loadingView =
-//                   [self.view viewWithTag:LOADING_VIEW_TAG];
-//    UIActivityIndicatorView *loadingSpinner =
-//                  (UIActivityIndicatorView *)[loadingView viewWithTag:LOADING_VIEW_SPINNER_TAG];
-//
-//    [UIView beginAnimations:@"fade" context:nil];
-//    [UIView setAnimationDuration:0.2];
-//    [UIView setAnimationDelay:0.0];
-//    loadingView.alpha = 0.0;
-//    [UIView commitAnimations];
-//
-//    [loadingView setHidden:YES];
-//    [loadingSpinner stopAnimating];
-//}
-@end
-
-
-@interface JRNativeSigninViewController ()
-@property (retain) id<JRNativeSigninViewControllerDelegate> delegate;
+@interface JRConventionalSigninViewController ()
 @property (retain) NSString *titleString;
 @property (retain) UIView   *titleView;
 @property JRConventionalSigninType signinType;
-@property (retain) UIView   *loadingView;
 @end
 
-@implementation JRNativeSigninViewController
+@implementation JRConventionalSigninViewController
 @synthesize signinType;
 @synthesize titleString;
 @synthesize titleView;
-@synthesize loadingView;
 @synthesize delegate;
 
 - (id)initWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)theTitleString
-                     titleView:(UIView *)theTitleView delegate:(id<JRNativeSigninViewControllerDelegate>)theDelegate
+                     titleView:(UIView *)theTitleView;// delegate:(id<JRConventionalSigninDelegate>)theDelegate
 {
     if ((self = [super init]))
     {
         signinType  = theSigninType;
         titleString = [theTitleString retain];
         titleView   = [theTitleView retain];
-        delegate    = [theDelegate retain];
+        //delegate    = [theDelegate retain];
     }
 
     return self;
 }
 
 + (id)nativeSigninViewControllerWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)theTitleString
-                                           titleView:(UIView *)theTitleView delegate:(id<JRNativeSigninViewControllerDelegate>)theDelegate
+                                           titleView:(UIView *)theTitleView;// delegate:(id<JRConventionalSigninDelegate>)theDelegate
 {
-    return [[[JRNativeSigninViewController alloc]
+    return [[[JRConventionalSigninViewController alloc]
                     initWithNativeSigninType:theSigninType titleString:theTitleString
-                                   titleView:theTitleView delegate:theDelegate] autorelease];
-}
-
-- (void)createLoadingView
-{
-    self.loadingView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)] autorelease];
-
-    [self.loadingView setBackgroundColor:[UIColor grayColor]];
-
-    UILabel *loadingLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 180, 320, 30)] autorelease];
-
-    [loadingLabel setText:@"Completing Sign-In..."];
-    [loadingLabel setFont:[UIFont boldSystemFontOfSize:20.0]];
-    [loadingLabel setTextColor:[UIColor whiteColor]];
-    [loadingLabel setAutoresizingMask:UIViewAutoresizingNone |
-                                      UIViewAutoresizingFlexibleTopMargin |
-                                      UIViewAutoresizingFlexibleBottomMargin |
-                                      UIViewAutoresizingFlexibleRightMargin |
-                                      UIViewAutoresizingFlexibleLeftMargin];
-
-    UIActivityIndicatorView *loadingSpinner =
-            [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
-
-    [loadingSpinner setFrame:CGRectMake(142, 220, 37, 37)];
-    [loadingLabel setAutoresizingMask:UIViewAutoresizingNone |
-                                          UIViewAutoresizingFlexibleTopMargin |
-                                          UIViewAutoresizingFlexibleBottomMargin |
-                                          UIViewAutoresizingFlexibleRightMargin |
-                                          UIViewAutoresizingFlexibleLeftMargin];
-
-    [loadingLabel setTag:LOADING_VIEW_LABEL_TAG];
-    [loadingSpinner setTag:LOADING_VIEW_SPINNER_TAG];
-
-    [loadingView addSubview:loadingLabel];
-    [loadingView addSubview:loadingSpinner];
-
-    [loadingView setTag:LOADING_VIEW_TAG];
-    //[loadingView setHidden:YES];
-    [loadingView setAlpha:0.8];
-
-    [self.view addSubview:loadingView];
+                                   titleView:theTitleView /*delegate:theDelegate*/] autorelease];
 }
 
 - (void)loadView
@@ -245,15 +157,18 @@
     return 40;
 }
 
+#define  NAME_TEXTFIELD_TAG 1000
+#define  PWD_TEXTFIELD_TAG 2000
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    //static NSString *CellIdentifier = @"Cell";
     UITextField *textField;
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:indexPath.row == 0 ? @"cellForName" : @"cellForPwd"];
     if (cell == nil)
     {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indexPath.row == 0 ? @"cellForName" : @"cellForPwd"] autorelease];
 
         textField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 7, 280, 26)] autorelease];
 
@@ -272,11 +187,15 @@
                     (self.signinType == JRConventionalSigninEmailPassword ?
                             @"enter your email":
                             @"enter your username");
+
+            textField.tag = NAME_TEXTFIELD_TAG;
         }
         else
         {
             textField.placeholder = @"enter your password";
             textField.secureTextEntry = YES;
+
+            textField.tag = PWD_TEXTFIELD_TAG;
         }
     }
 
@@ -291,51 +210,67 @@
     return YES;
 }
 
-- (void)startLoadingView//WithTag:(NSUInteger)tag
-{
-//    UIView *loadingView =
-//                   [self.view viewWithTag:LOADING_VIEW_TAG];
-    UIActivityIndicatorView *loadingSpinner =
-                  (UIActivityIndicatorView *)[loadingView viewWithTag:LOADING_VIEW_SPINNER_TAG];
-
-    [loadingView setHidden:NO];
-    [loadingSpinner startAnimating];
-
-    [UIView beginAnimations:@"fade" context:nil];
-    [UIView setAnimationDuration:0.2];
-    [UIView setAnimationDelay:0.0];
-    loadingView.alpha = 0.8;
-    [UIView commitAnimations];
-}
-
-- (void)stopLoadingView//WithTag:(NSUInteger)tag
-{
-//    UIView *loadingView =
-//                   [self.view viewWithTag:LOADING_VIEW_TAG];
-    UIActivityIndicatorView *loadingSpinner =
-                  (UIActivityIndicatorView *)[loadingView viewWithTag:LOADING_VIEW_SPINNER_TAG];
-
-    [UIView beginAnimations:@"fade" context:nil];
-    [UIView setAnimationDuration:0.2];
-    [UIView setAnimationDelay:0.0];
-    loadingView.alpha = 0.0;
-    [UIView commitAnimations];
-
-    [loadingView setHidden:YES];
-    [loadingSpinner stopAnimating];
-}
-
 - (void)signInButtonTouchUpInside:(UIButton*)button
 {
-    UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:@"Button pressed"
-                                                         message:@"yo"
+//    UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:@"Button pressed"
+//                                                         message:@"yo"
+//                                                        delegate:nil
+//                                               cancelButtonTitle:@"Dismiss"
+//                                               otherButtonTitles:nil] autorelease];
+//    [alertView show];
+
+    UITableViewCell *nameCell = [myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    UITableViewCell *pwdCell  = [myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+
+    UITextField *nameTextField = (UITextField *) [nameCell viewWithTag:NAME_TEXTFIELD_TAG];
+    UITextField *pwdTextField  = (UITextField *) [pwdCell viewWithTag:PWD_TEXTFIELD_TAG];
+
+    NSString *signinTypeString = (self.signinType == JRConventionalSigninEmailPassword) ? @"email" : @"username";
+
+//    if (self.signinType == JRConventionalSigninEmailPassword)
+//        ; // TODO: Check if valid email
+//
+//    NSMutableString *errorMessage = [NSMutableString stringWithString:@"Please enter your "];
+//
+//    if (!nameTextField.text || [nameTextField.text isEqualToString:@""])
+//        [errorMessage appendString:self.signinType == JRConventionalSigninEmailPassword ? @"email address " : "username"];
+//
+//    if (!pwdTextField.text || [pwdTextField.text isEqualToString:@""])
+//        [errorMessage appendString:@"password"];
+
+
+    [JRCaptureApidInterface signinCaptureUserWithCredentials:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                      nameTextField.text, signinTypeString,
+                                                                      pwdTextField.text, @"password", nil]
+                                                      ofType:signinTypeString
+                                                 forDelegate:self
+                                                 withContext:nil];
+
+    [delegate showLoading];
+}
+
+- (void)signinCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context
+{
+    UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:@"Failure"
+                                                         message:(NSString *) result
                                                         delegate:nil
                                                cancelButtonTitle:@"Dismiss"
                                                otherButtonTitles:nil] autorelease];
     [alertView show];
 
-    [self startLoadingView];//WithTag:LOADING_VIEW_TAG];
-//    [[self.view.superview viewWithTag:LOADING_VIEW_LABEL_TAG] setHidden:NO];
+    [delegate hideLoading];
+}
+
+- (void)signinCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
+{
+    UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:@"Success"
+                                                         message:(NSString *) result
+                                                        delegate:nil
+                                               cancelButtonTitle:@"Dismiss"
+                                               otherButtonTitles:nil] autorelease];
+    [alertView show];
+
+    [delegate hideLoading];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -349,7 +284,6 @@
     [delegate release];
     [titleView release];
     [titleString release];
-    [loadingView release];
     [super dealloc];
 }
 @end
