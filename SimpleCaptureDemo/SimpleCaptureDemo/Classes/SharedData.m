@@ -63,7 +63,7 @@ static NSString *appId              = @"appcfamhnpkagijaeinl";
 static NSString *captureApidDomain  = @"mobile.dev.janraincapture.com";
 static NSString *captureUIDomain    = @"mobile.dev.janraincapture.com";
 static NSString *clientId           = @"zc7tx83fqy68mper69mxbt5dfvd7c2jh";
-static NSString *entityTypeName     = @"user_dev";
+static NSString *entityTypeName     = @"sample_user";
 
 ///* Carl's local instance */
 //static NSString *appId             = @"pgfjodcppiaifejikhmh";
@@ -84,6 +84,7 @@ static NSString *entityTypeName     = @"user_dev";
 @synthesize signInDelegate;
 @synthesize isNew;
 @synthesize notYetCreated;
+@synthesize engageSigninWasCanceled;
 
 
 - (id)init
@@ -165,6 +166,8 @@ static NSString *entityTypeName     = @"user_dev";
     [prefs setObject:nil forKey:cJRCurrentDisplayName];
     [prefs setObject:nil forKey:cJRCurrentProvider];
     [prefs setObject:nil forKey:cJRCaptureUser];
+
+    self.engageSigninWasCanceled = NO;
 }
 
 + (void)signoutCurrentUser
@@ -237,6 +240,8 @@ static NSString *entityTypeName     = @"user_dev";
 
 - (void)engageSigninDidNotComplete
 {
+    self.engageSigninWasCanceled = YES;
+
     [self postEngageErrorToDelegate:nil];
 }
 
@@ -255,13 +260,19 @@ static NSString *entityTypeName     = @"user_dev";
     [self postCaptureErrorToDelegate:error];
 }
 
-- (void)engageSigninDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider
+- (void)setDisplayName:(NSString *)displayName andProvider:(NSString *)provider
 {
-    self.currentDisplayName = [SharedData getDisplayNameFromProfile:[engageAuthInfo objectForKey:@"profile"]];
-    self.currentProvider    = [provider copy];
+    self.currentDisplayName = displayName;
+    self.currentProvider    = provider;
 
     [prefs setObject:currentDisplayName forKey:cJRCurrentDisplayName];
     [prefs setObject:currentProvider forKey:cJRCurrentProvider];
+}
+
+- (void)engageSigninDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider
+{
+    [self setDisplayName:[SharedData getDisplayNameFromProfile:[engageAuthInfo objectForKey:@"profile"]]
+             andProvider:[provider copy]];
 
     if ([signInDelegate respondsToSelector:@selector(engageSignInDidSucceed)])
         [signInDelegate engageSignInDidSucceed];
@@ -273,6 +284,10 @@ static NSString *entityTypeName     = @"user_dev";
 {
     DLog(@"");
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+    if (engageSigninWasCanceled) /* Then we logged in directly with the Capture server */
+        [self setDisplayName:((JRProfilesElement *)[newCaptureUser.profiles objectAtIndex:0]).profile.displayName
+                 andProvider:nil];
 
     if (captureRecordStatus == JRCaptureRecordNewlyCreated)
         self.isNew = YES;
@@ -291,5 +306,7 @@ static NSString *entityTypeName     = @"user_dev";
 
     if ([signInDelegate respondsToSelector:@selector(captureSignInDidSucceed)])
         [signInDelegate captureSignInDidSucceed];
+
+    engageSigninWasCanceled = NO;
 }
 @end

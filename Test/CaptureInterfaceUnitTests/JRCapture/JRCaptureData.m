@@ -147,8 +147,9 @@ static JRCaptureData *singleton = nil;
 + (NSString *)captureMobileEndpointUrl
 {
     JRCaptureData *captureDataInstance = [JRCaptureData captureDataInstance];
-    return [NSString stringWithFormat:@"%@/oauth/mobile_signin?client_id=%@&redirect_uri=https://example.com",
-                     captureDataInstance.captureUIBaseUrl, captureDataInstance.clientId];
+    return [NSString stringWithFormat:@"%@/oauth/mobile_signin?client_id=%@&type_name=%@&redirect_uri=https://%@/cmeu",
+                     captureDataInstance.captureUIBaseUrl, captureDataInstance.clientId,
+                     captureDataInstance.entityTypeName, captureDataInstance.captureUIBaseUrl];
 }
 
 + (void)setCaptureApidDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain

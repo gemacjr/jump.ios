@@ -101,11 +101,14 @@
 - (IBAction)testerButtonPressed:(id)sender
 {
 //    DLog(@"");
-//    JRCaptureUser *captureUser = [JRCaptureUser captureUser];
+   JRCaptureUser *captureUser = [JRCaptureUser captureUser];
+
+
+
 //
 //    captureUser.displayName = @"mcspilli";
 //    captureUser.avatar      = @"sexy_brunette.jpg";
-//    captureUser.bankroll    = [NSNumber numberWithDouble:1000.0];
+//      captureUser.bankroll    = [NSNumber numberWithDouble:1000.0];
 //
 //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Welcome!"
 //                                                        message:@"You have just been awarded $1000 for joining!"
@@ -136,15 +139,19 @@
 
 - (void)engageSignInDidSucceed
 {
-    currentUserLabel.text         =
-            [NSString stringWithFormat:@"Current user: %@", [SharedData currentDisplayName]];
-    currentUserProviderIcon.image =
-            [UIImage imageNamed:[NSString stringWithFormat:@"icon_%@_30x30@2x.png", [SharedData currentProvider]]];
+    currentUserLabel.text         = [SharedData currentDisplayName] ?
+            [NSString stringWithFormat:@"Current user: %@", [SharedData currentDisplayName]] :
+            @"Capture User";
+    currentUserProviderIcon.image = [SharedData currentProvider] ?
+            [UIImage imageNamed:[NSString stringWithFormat:@"icon_%@_30x30@2x.png", [SharedData currentProvider]]] :
+            nil;
 }
 
 - (void)captureSignInDidSucceed
 {
     [self setButtonsEnabled:YES];
+
+    [self engageSignInDidSucceed]; /* In case this method wasn't called if the user signed in directly */
 
     if ([SharedData notYetCreated] || [SharedData isNew])
     {
@@ -157,12 +164,16 @@
 
 - (void)engageSignInDidFailWithError:(NSError *)error
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:error ? @"Error" : @"Canceled"
-                                                        message:error ? [error description] : @"Authentication was canceled"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"Dismiss"
-                                              otherButtonTitles:nil];
-    [alertView show];
+    if (error)
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"//error ? @"Error" : @"Canceled"
+                                                            message:[error description]//error ? [error description] : @"Authentication was canceled"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Dismiss"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+
 }
 
 - (void)captureSignInDidFailWithError:(NSError *)error

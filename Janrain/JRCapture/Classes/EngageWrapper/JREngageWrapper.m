@@ -159,7 +159,7 @@ static JREngageWrapper *singleton = nil;
                                                            titleString:nativeSigninTitleString
                                                              titleView:[expandedCustomInterfaceOverrides
                                                                                objectForKey:kJRCaptureConventionalSigninTitleView]
-                                                              /*delegate:[JREngageWrapper singletonInstance]*/]];
+                                                         engageWrapper:[JREngageWrapper singletonInstance]]];
 
         [expandedCustomInterfaceOverrides setObject:[[JREngageWrapper singletonInstance] nativeSigninViewController].view
                                              forKey:kJRProviderTableHeaderView];
@@ -194,7 +194,8 @@ static JREngageWrapper *singleton = nil;
 
 - (void)engageLibraryTearDown
 {
-    [JREngage updateTokenUrl:[JRCaptureData captureMobileEndpointUrl]];
+    [JREngage updateTokenUrl:nil];
+    [self setDelegate:nil];
     [self setNativeSigninViewController:nil];
 }
 
@@ -234,10 +235,11 @@ static JREngageWrapper *singleton = nil;
                                    didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
                                         forProvider:provider];
 
-    if (![(NSString *)[payloadDict objectForKey:@"stat"] isEqualToString:@"ok"])
-        return [self authenticationCallToTokenUrl:tokenUrl
-                                   didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
-                                        forProvider:provider];
+// TODO: Uncomment when fixed
+//    if (![(NSString *)[payloadDict objectForKey:@"stat"] isEqualToString:@"ok"])
+//        return [self authenticationCallToTokenUrl:tokenUrl
+//                                   didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
+//                                        forProvider:provider];
 
     NSString *accessToken   = [payloadDict objectForKey:@"access_token"];
     NSString *creationToken = [payloadDict objectForKey:@"creation_token"];

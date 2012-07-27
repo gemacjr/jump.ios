@@ -45,6 +45,8 @@
 @end
 
 @interface SharedData : NSObject <JRCaptureSigninDelegate>
+@property(nonatomic, assign) BOOL engageSigninWasCanceled;
+
 + (JRCaptureUser *)captureUser;
 + (BOOL)isNew;
 + (BOOL)notYetCreated;

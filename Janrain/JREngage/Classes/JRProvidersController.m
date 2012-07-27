@@ -315,7 +315,7 @@ Please try again later."
 
 - (void)authenticationDidComplete
 {
-
+    [sessionData triggerAuthenticationDidCancel];
 }
 
 - (void)authenticationDidCancel

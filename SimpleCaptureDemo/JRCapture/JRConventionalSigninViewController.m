@@ -41,40 +41,49 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "JRConventionalSigninViewController.h"
-#import "JRCaptureApidInterface.h"
+#import "JSONKit.h"
+#import "JREngageWrapper.h"
+
+@interface JREngageWrapper (JREngageWrapper_InternalMethods)
+- (void)authenticationDidReachTokenUrl:(NSString *)tokenUrl withResponse:(NSURLResponse *)response andPayload:(NSData *)tokenUrlPayload forProvider:(NSString *)provider;
+@end
 
 @interface JRConventionalSigninViewController ()
 @property (retain) NSString *titleString;
 @property (retain) UIView   *titleView;
 @property JRConventionalSigninType signinType;
+@property (retain) JREngageWrapper *wrapper;
 @end
 
 @implementation JRConventionalSigninViewController
 @synthesize signinType;
 @synthesize titleString;
 @synthesize titleView;
+@synthesize wrapper;
 @synthesize delegate;
+@synthesize firstResponder;
+
 
 - (id)initWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)theTitleString
-                     titleView:(UIView *)theTitleView;// delegate:(id<JRConventionalSigninDelegate>)theDelegate
+                     titleView:(UIView *)theTitleView engageWrapper:(JREngageWrapper *)theWrapper
 {
     if ((self = [super init]))
     {
         signinType  = theSigninType;
         titleString = [theTitleString retain];
         titleView   = [theTitleView retain];
-        //delegate    = [theDelegate retain];
+        wrapper     = [theWrapper retain];
     }
 
     return self;
 }
 
 + (id)nativeSigninViewControllerWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)theTitleString
-                                           titleView:(UIView *)theTitleView;// delegate:(id<JRConventionalSigninDelegate>)theDelegate
+                                           titleView:(UIView *)theTitleView engageWrapper:(JREngageWrapper *)theWrapper
 {
     return [[[JRConventionalSigninViewController alloc]
                     initWithNativeSigninType:theSigninType titleString:theTitleString
-                                   titleView:theTitleView /*delegate:theDelegate*/] autorelease];
+                                   titleView:theTitleView engageWrapper:theWrapper] autorelease];
 }
 
 - (void)loadView
@@ -188,6 +197,10 @@
                             @"enter your email":
                             @"enter your username");
 
+            // TODO: temp
+            textField.text = @"mcspilli@gmail.com";
+
+            textField.delegate = self;
             textField.tag = NAME_TEXTFIELD_TAG;
         }
         else
@@ -195,6 +208,10 @@
             textField.placeholder = @"enter your password";
             textField.secureTextEntry = YES;
 
+            // TODO: temp
+            textField.text = @"password";
+
+            textField.delegate = self;
             textField.tag = PWD_TEXTFIELD_TAG;
         }
     }
@@ -202,6 +219,17 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     return cell;
+}
+
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    self.firstResponder = textField;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    self.firstResponder = nil;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -246,12 +274,15 @@
                                                  forDelegate:self
                                                  withContext:nil];
 
+    [self.firstResponder resignFirstResponder];
+    [self setFirstResponder:nil];
+
     [delegate showLoading];
 }
 
-- (void)signinCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context
+- (void)signinCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
 {
-    UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:@"Failure"
+    UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:@"Success"
                                                          message:(NSString *) result
                                                         delegate:nil
                                                cancelButtonTitle:@"Dismiss"
@@ -259,11 +290,28 @@
     [alertView show];
 
     [delegate hideLoading];
+
+    [wrapper authenticationDidReachTokenUrl:@"/oath/mobile_signin_username_password"
+                               withResponse:nil
+                                 andPayload:[((NSString *)result) dataUsingEncoding:NSUTF8StringEncoding]
+                                forProvider:nil];
+
+    [delegate authenticationDidComplete];
 }
 
-- (void)signinCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
+- (void)signinCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context
 {
-    UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:@"Success"
+    if ([result isKindOfClass:[NSString class]])
+    {
+        NSDictionary *resultDict = [(NSString *)result objectFromJSONString];
+        if ([resultDict objectForKey:@"capture_user"])
+        {
+            [self signinCaptureUserDidSucceedWithResult:result context:context];
+            return;
+        }
+    }
+
+    UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:@"Failure"
                                                          message:(NSString *) result
                                                         delegate:nil
                                                cancelButtonTitle:@"Dismiss"
@@ -284,6 +332,9 @@
     [delegate release];
     [titleView release];
     [titleString release];
+    [firstResponder release];
+
+    [wrapper release];
     [super dealloc];
 }
 @end

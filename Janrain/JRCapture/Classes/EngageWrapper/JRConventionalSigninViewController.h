@@ -44,13 +44,16 @@
 - (void)hideLoading;
 @end
 
+@class JREngageWrapper;
 @interface JRConventionalSigninViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, JRCaptureInterfaceDelegate>
 {
     UITableView *myTableView;
 }
 @property (nonatomic, retain) id<JRConventionalSigninDelegate> delegate;
+@property(nonatomic, strong) UITextField *firstResponder;
+
 - (id)initWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)titleString
-                     titleView:(UIView *)titleView;// delegate:(id<JRConventionalSigninDelegate>)theDelegate;
+                     titleView:(UIView *)titleView engageWrapper:(JREngageWrapper *)theDelegate;
 + (id)nativeSigninViewControllerWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)titleString
-                                           titleView:(UIView *)titleView;// delegate:(id<JRConventionalSigninDelegate>)theDelegate;
+                                           titleView:(UIView *)titleView engageWrapper:(JREngageWrapper *)theDelegate;
 @end
