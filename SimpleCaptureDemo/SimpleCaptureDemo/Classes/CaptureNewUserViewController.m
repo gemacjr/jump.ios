@@ -180,7 +180,10 @@
     else if (myGenderIdentitySegControl.selectedSegmentIndex == 1)
         captureUser.gender = @"male";
 
-    [captureUser createOnCaptureForDelegate:self context:nil];
+    if ([SharedData notYetCreated])
+        [captureUser createOnCaptureForDelegate:self context:nil];
+    else
+        [captureUser updateOnCaptureForDelegate:self context:nil];
 }
 
 #define LOCATION_TEXT_VIEW_TAG 10
@@ -211,24 +214,10 @@
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView { return YES; }
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView { return YES; }
 
-- (void)createDidFailForUser:(JRCaptureUser *)user withError:(NSError *)error context:(NSObject *)context
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failure"
-                                                     message:@"Profile not created"
-                                                    delegate:nil
-                                           cancelButtonTitle:@"Dismiss"
-                                           otherButtonTitles:nil];
-    [alert show];
-
-    [self.navigationController popViewControllerAnimated:YES];
-
-    [SharedData resaveCaptureUser];
-}
-
-- (void)createDidSucceedForUser:(JRCaptureUser *)user context:(NSObject *)context
+- (void)handleSuccessWithMessage:(NSString *)message
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-                                                     message:@"Profile created"
+                                                     message:message
                                                     delegate:nil
                                            cancelButtonTitle:nil
                                            otherButtonTitles:@"OK", nil];
@@ -237,6 +226,40 @@
     [self.navigationController popViewControllerAnimated:YES];
 
     [SharedData resaveCaptureUser];
+}
+
+- (void)handleFailureWithMessage:(NSString *)message
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failure"
+                                                     message:message
+                                                    delegate:nil
+                                           cancelButtonTitle:@"Dismiss"
+                                           otherButtonTitles:nil];
+    [alert show];
+
+//    [self.navigationController popViewControllerAnimated:YES];
+//
+//    [SharedData resaveCaptureUser];
+}
+
+- (void)createDidSucceedForUser:(JRCaptureUser *)user context:(NSObject *)context
+{
+    [self handleSuccessWithMessage:@"Profile created"];
+}
+
+- (void)createDidFailForUser:(JRCaptureUser *)user withError:(NSError *)error context:(NSObject *)context
+{
+    [self handleFailureWithMessage:@"Profile not created"];
+}
+
+- (void)updateDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context
+{
+    [self handleSuccessWithMessage:@"Profile updated"];
+}
+
+- (void)updateDidFailForObject:(JRCaptureObject *)object withError:(NSError *)error context:(NSObject *)context
+{
+    [self handleFailureWithMessage:@"Profile not updated"];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

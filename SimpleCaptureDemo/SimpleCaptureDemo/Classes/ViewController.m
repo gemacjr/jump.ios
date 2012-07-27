@@ -61,10 +61,20 @@
 {
     [super viewDidLoad];
 
-    if ([SharedData currentDisplayName])
-        currentUserLabel.text = [NSString stringWithFormat:@"Current user: %@", [SharedData currentDisplayName]];
+    if ([SharedData currentEmailAddr])
+        currentUserLabel.text = [NSString stringWithFormat:@"Current user: %@", [SharedData currentEmailAddr]];
     else
         currentUserLabel.text = @"No current user";
+
+    if ([SharedData currentProvider])
+        currentUserProviderIcon.image = [UIImage imageNamed:
+                     [NSString stringWithFormat:@"icon_%@_30x30@2x.png", [SharedData currentProvider]]];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    if ([SharedData currentEmailAddr])
+        currentUserLabel.text = [NSString stringWithFormat:@"Current user: %@", [SharedData currentEmailAddr]];
 
     if ([SharedData currentProvider])
         currentUserProviderIcon.image = [UIImage imageNamed:
@@ -139,9 +149,10 @@
 
 - (void)engageSignInDidSucceed
 {
-    currentUserLabel.text         = [SharedData currentDisplayName] ?
-            [NSString stringWithFormat:@"Current user: %@", [SharedData currentDisplayName]] :
-            @"Capture User";
+    currentUserLabel.text         = @"Logging in...";
+//            [SharedData currentDisplayName] ?
+//            [NSString stringWithFormat:@"Current user: %@", [SharedData currentDisplayName]] :
+//            @"Capture User";
     currentUserProviderIcon.image = [SharedData currentProvider] ?
             [UIImage imageNamed:[NSString stringWithFormat:@"icon_%@_30x30@2x.png", [SharedData currentProvider]]] :
             nil;
@@ -151,7 +162,10 @@
 {
     [self setButtonsEnabled:YES];
 
-    [self engageSignInDidSucceed]; /* In case this method wasn't called if the user signed in directly */
+    //[self engageSignInDidSucceed]; /* In case this method wasn't called if the user signed in directly */
+
+    if ([SharedData currentEmailAddr])
+        currentUserLabel.text = [NSString stringWithFormat:@"Current user: %@", [SharedData currentEmailAddr]];
 
     if ([SharedData notYetCreated] || [SharedData isNew])
     {

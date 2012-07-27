@@ -282,12 +282,12 @@
 
 - (void)signinCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
 {
-    UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:@"Success"
-                                                         message:(NSString *) result
-                                                        delegate:nil
-                                               cancelButtonTitle:@"Dismiss"
-                                               otherButtonTitles:nil] autorelease];
-    [alertView show];
+//    UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:@"Success"
+//                                                         message:(NSString *) result
+//                                                        delegate:nil
+//                                               cancelButtonTitle:@"Dismiss"
+//                                               otherButtonTitles:nil] autorelease];
+//    [alertView show];
 
     [delegate hideLoading];
 

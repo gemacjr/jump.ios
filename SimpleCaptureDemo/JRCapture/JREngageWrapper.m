@@ -235,11 +235,10 @@ static JREngageWrapper *singleton = nil;
                                    didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
                                         forProvider:provider];
 
-// TODO: Uncomment when fixed
-//    if (![(NSString *)[payloadDict objectForKey:@"stat"] isEqualToString:@"ok"])
-//        return [self authenticationCallToTokenUrl:tokenUrl
-//                                   didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
-//                                        forProvider:provider];
+    if (![(NSString *)[payloadDict objectForKey:@"stat"] isEqualToString:@"ok"])
+        return [self authenticationCallToTokenUrl:tokenUrl
+                                   didFailWithError:[JREngageWrapperErrorWriter invalidPayloadError:payload]
+                                        forProvider:provider];
 
     NSString *accessToken   = [payloadDict objectForKey:@"access_token"];
     NSString *creationToken = [payloadDict objectForKey:@"creation_token"];

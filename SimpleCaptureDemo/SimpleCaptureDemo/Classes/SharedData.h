@@ -50,7 +50,7 @@
 + (JRCaptureUser *)captureUser;
 + (BOOL)isNew;
 + (BOOL)notYetCreated;
-+ (NSString *)currentDisplayName;
++ (NSString *)currentEmailAddr;
 + (NSString *)currentProvider;
 + (void)startAuthenticationWithCustomInterface:(NSDictionary *)customInterface forDelegate:(id<SignInDelegate>)delegate;
 + (void)resaveCaptureUser;

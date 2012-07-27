@@ -41,7 +41,7 @@
 
 #import "SharedData.h"
 
-#define cJRCurrentDisplayName @"simpleCaptureDemo.currentDisplayName"
+#define cJRCurrentEmailAddr @"simpleCaptureDemo.currentEmailAddr"
 #define cJRCurrentProvider    @"simpleCaptureDemo.currentProvider"
 #define cJRCaptureUser        @"simpleCaptureDemo.captureUser"
 
@@ -50,7 +50,7 @@
 @property (strong) JRCaptureUser      *captureUser;
 @property          BOOL                isNew;
 @property          BOOL                notYetCreated;
-@property (strong) NSString           *currentDisplayName;
+@property (strong) NSString           *currentEmailAddr;
 @property (strong) NSString           *currentProvider;
 @property (weak)   id<SignInDelegate>  signInDelegate;
 
@@ -79,7 +79,7 @@ static NSString *entityTypeName     = @"sample_user";
 
 @synthesize captureUser;
 @synthesize prefs;
-@synthesize currentDisplayName;
+@synthesize currentEmailAddr;
 @synthesize currentProvider;
 @synthesize signInDelegate;
 @synthesize isNew;
@@ -96,8 +96,8 @@ static NSString *entityTypeName     = @"sample_user";
                 andEntityTypeName:entityTypeName];
 
         prefs = [NSUserDefaults standardUserDefaults];
-        currentDisplayName = [prefs objectForKey:cJRCurrentDisplayName];
-        currentProvider    = [prefs objectForKey:cJRCurrentProvider];
+        currentEmailAddr = [prefs objectForKey:cJRCurrentEmailAddr];
+        currentProvider  = [prefs objectForKey:cJRCurrentProvider];
 
         NSData *archivedCaptureUser = [prefs objectForKey:cJRCaptureUser];
         if (archivedCaptureUser)
@@ -144,9 +144,9 @@ static NSString *entityTypeName     = @"sample_user";
     return [[SharedData singletonInstance] notYetCreated];
 }
 
-+ (NSString *)currentDisplayName
++ (NSString *)currentEmailAddr
 {
-    return [[SharedData singletonInstance] currentDisplayName];
+    return [[SharedData singletonInstance] currentEmailAddr];
 }
 
 + (NSString *)currentProvider
@@ -156,14 +156,14 @@ static NSString *entityTypeName     = @"sample_user";
 
 - (void)signoutCurrentUser
 {
-    self.currentDisplayName = nil;
-    self.currentProvider    = nil;
-    self.captureUser        = nil;
+    self.currentEmailAddr = nil;
+    self.currentProvider  = nil;
+    self.captureUser      = nil;
 
     self.isNew         = NO;
     self.notYetCreated = NO;
 
-    [prefs setObject:nil forKey:cJRCurrentDisplayName];
+    [prefs setObject:nil forKey:cJRCurrentEmailAddr];
     [prefs setObject:nil forKey:cJRCurrentProvider];
     [prefs setObject:nil forKey:cJRCaptureUser];
 
@@ -185,38 +185,41 @@ static NSString *entityTypeName     = @"sample_user";
                                              forDelegate:[SharedData singletonInstance]];
 }
 
-+ (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile
-{
-    NSString *name = nil;
-
-    if ([profile objectForKey:@"preferredUsername"])
-        name = [NSString stringWithFormat:@"%@", [profile objectForKey:@"preferredUsername"]];
-    else if ([[profile objectForKey:@"name"] objectForKey:@"formatted"])
-        name = [NSString stringWithFormat:@"%@",
-                [[profile objectForKey:@"name"] objectForKey:@"formatted"]];
-    else
-        name = [NSString stringWithFormat:@"%@%@%@%@%@",
-                ([[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]) ?
-                [NSString stringWithFormat:@"%@ ",
-                 [[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]] : @"",
-                ([[profile objectForKey:@"name"] objectForKey:@"givenName"]) ?
-                [NSString stringWithFormat:@"%@ ",
-                 [[profile objectForKey:@"name"] objectForKey:@"givenName"]] : @"",
-                ([[profile objectForKey:@"name"] objectForKey:@"middleName"]) ?
-                [NSString stringWithFormat:@"%@ ",
-                 [[profile objectForKey:@"name"] objectForKey:@"middleName"]] : @"",
-                ([[profile objectForKey:@"name"] objectForKey:@"familyName"]) ?
-                [NSString stringWithFormat:@"%@ ",
-                 [[profile objectForKey:@"name"] objectForKey:@"familyName"]] : @"",
-                ([[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]) ?
-                [NSString stringWithFormat:@"%@ ",
-                 [[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]] : @""];
-
-    return name;
-}
+//+ (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile
+//{
+//    NSString *name = nil;
+//
+//    if ([profile objectForKey:@"preferredUsername"])
+//        name = [NSString stringWithFormat:@"%@", [profile objectForKey:@"preferredUsername"]];
+//    else if ([[profile objectForKey:@"name"] objectForKey:@"formatted"])
+//        name = [NSString stringWithFormat:@"%@",
+//                [[profile objectForKey:@"name"] objectForKey:@"formatted"]];
+//    else
+//        name = [NSString stringWithFormat:@"%@%@%@%@%@",
+//                ([[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]) ?
+//                [NSString stringWithFormat:@"%@ ",
+//                 [[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]] : @"",
+//                ([[profile objectForKey:@"name"] objectForKey:@"givenName"]) ?
+//                [NSString stringWithFormat:@"%@ ",
+//                 [[profile objectForKey:@"name"] objectForKey:@"givenName"]] : @"",
+//                ([[profile objectForKey:@"name"] objectForKey:@"middleName"]) ?
+//                [NSString stringWithFormat:@"%@ ",
+//                 [[profile objectForKey:@"name"] objectForKey:@"middleName"]] : @"",
+//                ([[profile objectForKey:@"name"] objectForKey:@"familyName"]) ?
+//                [NSString stringWithFormat:@"%@ ",
+//                 [[profile objectForKey:@"name"] objectForKey:@"familyName"]] : @"",
+//                ([[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]) ?
+//                [NSString stringWithFormat:@"%@ ",
+//                 [[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]] : @""];
+//
+//    return name;
+//}
 
 - (void)resaveCaptureUser
 {
+    self.currentEmailAddr = captureUser.email;
+    [prefs setObject:currentEmailAddr forKey:cJRCurrentEmailAddr];
+
     [prefs setObject:[NSKeyedArchiver archivedDataWithRootObject:captureUser]
               forKey:cJRCaptureUser];
 }
@@ -260,19 +263,19 @@ static NSString *entityTypeName     = @"sample_user";
     [self postCaptureErrorToDelegate:error];
 }
 
-- (void)setDisplayName:(NSString *)displayName andProvider:(NSString *)provider
-{
-    self.currentDisplayName = displayName;
-    self.currentProvider    = provider;
-
-    [prefs setObject:currentDisplayName forKey:cJRCurrentDisplayName];
-    [prefs setObject:currentProvider forKey:cJRCurrentProvider];
-}
+//- (void)setEmailAddr:(NSString *)displayName andProvider:(NSString *)provider
+//{
+//    self.currentEmailAddr = displayName;
+//    self.currentProvider  = provider;
+//
+//    [prefs setObject:currentEmailAddr forKey:cJRCurrentEmailAddr];
+//    [prefs setObject:currentProvider forKey:cJRCurrentProvider];
+//}
 
 - (void)engageSigninDidSucceedForUser:(NSDictionary *)engageAuthInfo forProvider:(NSString *)provider
 {
-    [self setDisplayName:[SharedData getDisplayNameFromProfile:[engageAuthInfo objectForKey:@"profile"]]
-             andProvider:[provider copy]];
+    self.currentProvider = provider;
+    [prefs setObject:currentProvider forKey:cJRCurrentProvider];
 
     if ([signInDelegate respondsToSelector:@selector(engageSignInDidSucceed)])
         [signInDelegate engageSignInDidSucceed];
@@ -285,9 +288,12 @@ static NSString *entityTypeName     = @"sample_user";
     DLog(@"");
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
-    if (engageSigninWasCanceled) /* Then we logged in directly with the Capture server */
-        [self setDisplayName:((JRProfilesElement *)[newCaptureUser.profiles objectAtIndex:0]).profile.displayName
-                 andProvider:nil];
+//    if (engageSigninWasCanceled) /* Then we logged in directly with the Capture server */
+//        [self setEmailAddr:captureUser.email
+//               andProvider:nil];
+
+    self.currentEmailAddr = newCaptureUser.email;
+    [prefs setObject:currentEmailAddr forKey:cJRCurrentEmailAddr];
 
     if (captureRecordStatus == JRCaptureRecordNewlyCreated)
         self.isNew = YES;
