@@ -254,7 +254,6 @@
 		DDE0B9A67F00A1DC4B6DFC0A /* JRCaptureData.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC09 /* JRCaptureData.m */; };
 		DDE0B9A67F00A1DC4B6DFC0C /* JRCaptureError.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC0B /* JRCaptureError.m */; };
 		DDE0B9A67F00A1DC4B6DFC12 /* JREngageWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC11 /* JREngageWrapper.m */; };
-		DDE0B9A67F00A1DC4B6DFC14 /* JRNativeSigninViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC13 /* JRNativeSigninViewController.m */; };
 		DDE0B9A67F00A1DC4B6DFC16 /* JRWebviewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC15 /* JRWebviewWrapper.m */; };
 		DDE0B9A67F00A1DC4B6DFC22 /* JRNSDate+ISO8601_CaptureDateTimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC21 /* JRNSDate+ISO8601_CaptureDateTimeString.m */; };
 		DDE0B9A67F00A1DC4B6DFC25 /* ErrorHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC24 /* ErrorHandlerTests.m */; };
@@ -262,6 +261,7 @@
 		DDE0B9A67F00A1DC4B6DFC2B /* ApidHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC2A /* ApidHandlerTests.m */; };
 		DDE0B9A67F00A1DC4B6DFC31 /* PluralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC30 /* PluralTests.m */; };
 		DDE0B9A67F00A1DC4B6DFC33 /* JREngageError.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC32 /* JREngageError.m */; };
+		DDE0B9A67F00A1DC4B6DFC36 /* JRConventionalSigninViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFC35 /* JRConventionalSigninViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -570,7 +570,6 @@
 		DDE0B9A67F00A1DC4B6DFC09 /* JRCaptureData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureData.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC0B /* JRCaptureError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureError.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC11 /* JREngageWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JREngageWrapper.m; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFC13 /* JRNativeSigninViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRNativeSigninViewController.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC15 /* JRWebviewWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRWebviewWrapper.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC17 /* JRApidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRApidWrapper.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC18 /* JRCaptureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureData.h; sourceTree = "<group>"; };
@@ -578,7 +577,6 @@
 		DDE0B9A67F00A1DC4B6DFC1A /* JRCaptureObject+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRCaptureObject+Internal.h"; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC1C /* JRCaptureTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureTypes.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC1D /* JREngageWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JREngageWrapper.h; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFC1E /* JRNativeSigninViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRNativeSigninViewController.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC1F /* JRWebviewWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRWebviewWrapper.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC20 /* ClassCategories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassCategories.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC21 /* JRNSDate+ISO8601_CaptureDateTimeString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRNSDate+ISO8601_CaptureDateTimeString.m"; sourceTree = "<group>"; };
@@ -586,10 +584,12 @@
 		DDE0B9A67F00A1DC4B6DFC24 /* ErrorHandlerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorHandlerTests.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC27 /* CaptureUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureUserTests.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC2A /* ApidHandlerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApidHandlerTests.m; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFC2E /* JREngageError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JREngageError.h; path = JREngageError.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC2E /* JREngageError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JREngageError.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFC2F /* debug_log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debug_log.h; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFC30 /* PluralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PluralTests.m; path = PluralTests.m; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFC32 /* JREngageError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JREngageError.m; path = JREngageError.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC30 /* PluralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PluralTests.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC32 /* JREngageError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JREngageError.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC34 /* JRConventionalSigninViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRConventionalSigninViewController.h; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFC35 /* JRConventionalSigninViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRConventionalSigninViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -962,11 +962,12 @@
 		9F578C101593E3EE00478D15 /* JRCapture */ = {
 			isa = PBXGroup;
 			children = (
+				DDE0B9A67F00A1DC4B6DFC35 /* JRConventionalSigninViewController.m */,
+				DDE0B9A67F00A1DC4B6DFC34 /* JRConventionalSigninViewController.h */,
 				9F578C111593E3EE00478D15 /* Generated */,
 				DDE0B9A67F00A1DC4B6DFC23 /* JRNSDate+ISO8601_CaptureDateTimeString.h */,
 				DDE0B9A67F00A1DC4B6DFC21 /* JRNSDate+ISO8601_CaptureDateTimeString.m */,
 				DDE0B9A67F00A1DC4B6DFC1F /* JRWebviewWrapper.h */,
-				DDE0B9A67F00A1DC4B6DFC1E /* JRNativeSigninViewController.h */,
 				DDE0B9A67F00A1DC4B6DFC1D /* JREngageWrapper.h */,
 				DDE0B9A67F00A1DC4B6DFC1C /* JRCaptureTypes.h */,
 				DDE0B9A67F00A1DC4B6DFC1A /* JRCaptureObject+Internal.h */,
@@ -974,7 +975,6 @@
 				DDE0B9A67F00A1DC4B6DFC18 /* JRCaptureData.h */,
 				DDE0B9A67F00A1DC4B6DFC17 /* JRApidWrapper.h */,
 				DDE0B9A67F00A1DC4B6DFC15 /* JRWebviewWrapper.m */,
-				DDE0B9A67F00A1DC4B6DFC13 /* JRNativeSigninViewController.m */,
 				DDE0B9A67F00A1DC4B6DFC11 /* JREngageWrapper.m */,
 				DDE0B9A67F00A1DC4B6DFC0B /* JRCaptureError.m */,
 				DDE0B9A67F00A1DC4B6DFC09 /* JRCaptureData.m */,
@@ -1447,7 +1447,6 @@
 				DDE0B9A67F00A1DC4B6DFC0A /* JRCaptureData.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC0C /* JRCaptureError.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC12 /* JREngageWrapper.m in Sources */,
-				DDE0B9A67F00A1DC4B6DFC14 /* JRNativeSigninViewController.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC16 /* JRWebviewWrapper.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC22 /* JRNSDate+ISO8601_CaptureDateTimeString.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC25 /* ErrorHandlerTests.m in Sources */,
@@ -1455,6 +1454,7 @@
 				DDE0B9A67F00A1DC4B6DFC2B /* ApidHandlerTests.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC31 /* PluralTests.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFC33 /* JREngageError.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFC36 /* JRConventionalSigninViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1524,6 +1524,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CaptureInterfaceUnitTests/CaptureInterfaceUnitTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"JRCAPTURE_ACCESS_TOKEN_CONTROL=1",
+					"JRCAPTURE_FETCH_LAST_UPDATED=1",
+				);
 				INFOPLIST_FILE = "CaptureInterfaceUnitTests/CaptureInterfaceUnitTests-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1543,6 +1547,11 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CaptureInterfaceUnitTests/CaptureInterfaceUnitTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"JRCAPTURE_ACCESS_TOKEN_CONTROL=1",
+					"JRCAPTURE_FETCH_LAST_UPDATED=1",
+				);
 				INFOPLIST_FILE = "CaptureInterfaceUnitTests/CaptureInterfaceUnitTests-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",

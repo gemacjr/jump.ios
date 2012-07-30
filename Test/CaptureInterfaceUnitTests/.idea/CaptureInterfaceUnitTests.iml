@@ -487,6 +487,9 @@
     <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-351010e9/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app">
       <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-351010e9/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app" isTestSource="false" />
     </content>
+    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-58d29b95/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app">
+      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-58d29b95/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

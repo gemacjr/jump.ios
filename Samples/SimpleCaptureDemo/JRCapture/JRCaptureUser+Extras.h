@@ -42,11 +42,11 @@
 - (void)fetchUserDidSucceed:(JRCaptureUser *)fetchedUser context:(NSObject *)context;
 - (void)fetchUserDidFailWithError:(NSError *)error context:(NSObject *)context;
 
-#define VERSION_THREE_POINT_ONE
-#ifdef VERSION_THREE_POINT_ONE
+
+#ifdef JRCAPTURE_FETCH_LAST_UPDATED
 - (void)fetchLastUpdatedDidSucceed:(JRDateTime *)serverLastUpdated isOutdated:(BOOL)isOutdated context:(NSObject *)context;
 - (void)fetchLastUpdatedDidFailWithError:(NSError *)error context:(NSObject *)context;
-#endif // VERSION_THREE_POINT_ONE
+#endif // JRCAPTURE_FETCH_LAST_UPDATED
 @end
 
 @interface JRCaptureUser (JRCaptureUser_Extras) <NSCoding>
@@ -54,9 +54,9 @@
 
 + (void)fetchCaptureUserFromServerForDelegate:(id<JRCaptureUserDelegate>)delegate context:(NSObject *)context;
 
-#ifdef VERSION_THREE_POINT_ONE
+#ifdef JRCAPTURE_FETCH_LAST_UPDATED
 - (void)fetchLastUpdatedFromServerForDelegate:(id<JRCaptureUserDelegate>)delegate context:(NSObject *)context;
-#endif // VERSION_THREE_POINT_ONE
+#endif // JRCAPTURE_FETCH_LAST_UPDATED
 
 + (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary;
 @end

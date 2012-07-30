@@ -114,6 +114,7 @@
                             withCustomInterfaceOverrides:customInterfaceOverrides forDelegate:delegate];
 }
 
+#ifdef JRENGAGE_SHARING_WITH_CAPTURE
 + (void)startEngageSharingDialogWithActivity:(JRActivityObject *)activity
                                     forDelegate:(id <JRCaptureSharingDelegate>)delegate
 {
@@ -128,6 +129,7 @@
     [JREngageWrapper startSocialPublishingDialogWithActivity:activity
                                 withCustomInterfaceOverrides:customInterfaceOverrides forDelegate:delegate];
 }
+#endif // JRENGAGE_SHARING_WITH_CAPTURE
 
 - (void)dealloc
 {

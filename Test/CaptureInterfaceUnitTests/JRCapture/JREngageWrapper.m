@@ -182,6 +182,7 @@ static JREngageWrapper *singleton = nil;
     [JREngage showAuthenticationDialogForProvider:provider withCustomInterfaceOverrides:customInterfaceOverrides];
 }
 
+#ifdef JRENGAGE_SHARING_WITH_CAPTURE
 + (void)startSocialPublishingDialogWithActivity:(JRActivityObject *)activity
                    withCustomInterfaceOverrides:(NSDictionary *)customInterfaceOverrides
                                     forDelegate:(id <JRCaptureSharingDelegate>)delegate
@@ -191,6 +192,7 @@ static JREngageWrapper *singleton = nil;
 
     [JREngage showSharingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
 }
+#endif // JRENGAGE_SHARING_WITH_CAPTURE
 
 - (void)engageLibraryTearDown
 {
@@ -298,15 +300,18 @@ static JREngageWrapper *singleton = nil;
         if ([delegate respondsToSelector:@selector(engageSigninDialogDidFailToShowWithError:)])
             [delegate engageSigninDialogDidFailToShowWithError:error];
     }
+#ifdef JRENGAGE_SHARING_WITH_CAPTURE
     else
     {
         if ([delegate respondsToSelector:@selector(engageSocialSharingDialogDidFailToShowWithError:)])
             [(id<JRCaptureSharingDelegate>)delegate engageSocialSharingDialogDidFailToShowWithError:error];
     }
+#endif // JRENGAGE_SHARING_WITH_CAPTURE
 
     [self engageLibraryTearDown];
 }
 
+#ifdef JRENGAGE_SHARING_WITH_CAPTURE
 - (void)sharingDidComplete
 {
     if ([delegate respondsToSelector:@selector(engageSocialSharingDidComplete)])
@@ -336,6 +341,7 @@ static JREngageWrapper *singleton = nil;
 
     [self engageLibraryTearDown];
 }
+#endif // JRENGAGE_SHARING_WITH_CAPTURE
 
 - (void)dealloc
 {

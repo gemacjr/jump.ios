@@ -198,7 +198,7 @@
                             @"enter your username");
 
             // TODO: temp
-            textField.text = @"mcspilli@gmail.com";
+            //textField.text = @"mcspilli@gmail.com";
 
             textField.delegate = self;
             textField.tag = NAME_TEXTFIELD_TAG;
@@ -209,7 +209,7 @@
             textField.secureTextEntry = YES;
 
             // TODO: temp
-            textField.text = @"password";
+            //textField.text = @"password";
 
             textField.delegate = self;
             textField.tag = PWD_TEXTFIELD_TAG;

@@ -47,14 +47,12 @@
 #import "JRCaptureUser+Extras.h"
 #import "JRCaptureError.h"
 
-#ifdef VERSION_THREE_POINT_ONE
 typedef enum
 {
     JRConventionalSigninNone = 0,
     JRConventionalSigninUsernamePassword,
     JRConventionalSigninEmailPassword,
 } JRConventionalSigninType;
-#endif
 
 typedef enum
 {
@@ -130,7 +128,7 @@ typedef enum
 - (void)captureAuthenticationDidFailWithError:(NSError*)error;
 @end
 
-#ifdef VERSION_THREE_POINT_ONE
+#ifdef JRENGAGE_SHARING_WITH_CAPTURE
 @protocol JRCaptureSharingDelegate <JRCaptureSigninDelegate>
 @optional
 /**
@@ -181,7 +179,7 @@ typedef enum
 - (void)engageSocialSharingDidFailForActivity:(JRActivityObject*)activity withError:(NSError*)error onProvider:(NSString*)provider;
 /*@}*/
 @end
-#endif // VERSION_THREE_POINT_ONE
+#endif // JRENGAGE_SHARING_WITH_CAPTURE
 
 @interface JRCapture : NSObject
 
@@ -189,9 +187,9 @@ typedef enum
        captureUIDomain:(NSString *)newCaptureUIDomain clientId:(NSString *)newClientId
      andEntityTypeName:(NSString *)newEntityTypeName;
 
-#ifdef VERSION_THREE_POINT_ONE
+#ifdef JRCAPTURE_ACCESS_TOKEN_CONTROL
 + (void)setAccessToken:(NSString *)newAccessToken;
-#endif // VERSION_THREE_POINT_ONE
+#endif // JRCAPTURE_ACCESS_TOKEN_CONTROL
 
 /**
  * @name Show the JREngage Dialogs
@@ -205,10 +203,10 @@ typedef enum
  **/
 + (void)startEngageSigninDialogForDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
-#ifdef VERSION_THREE_POINT_ONE
+#ifdef JRENGAGE_SHARING_WITH_CAPTURE
 + (void)startEngageSigninDialogWithConventionalSignin:(JRConventionalSigninType)conventionalSigninState
                                           forDelegate:(id<JRCaptureSigninDelegate>)delegate;
-#endif // VERSION_THREE_POINT_ONE
+#endif // JRENGAGE_SHARING_WITH_CAPTURE
 
 /**
  * Use this function to begin authentication for one specific provider.  The JREngage library will
@@ -222,7 +220,7 @@ typedef enum
 + (void)startEngageSigninDialogOnProvider:(NSString*)provider
                               forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
-#ifdef VERSION_THREE_POINT_ONE
+#ifdef JRCAPTURE_CONVENTIONAL_SIGNIN
 /**
  * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,
  * configured with the given custom interface, and take the user through the sign-in process.
@@ -240,7 +238,7 @@ typedef enum
 + (void)startEngageSigninDialogWithConventionalSignin:(JRConventionalSigninType)conventionalSigninState
                           andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
                                           forDelegate:(id<JRCaptureSigninDelegate>)delegate;
-#endif // VERSION_THREE_POINT_ONE
+#endif // JRCAPTURE_CONVENTIONAL_SIGNIN
 
 /**
 * Use this function to begin authentication.  The JREngage library will pop up a modal dialog, configured
@@ -266,7 +264,7 @@ typedef enum
                               forDelegate:(id<JRCaptureSigninDelegate>)delegate;
 
 
-#ifdef VERSION_THREE_POINT_ONE
+#ifdef JRENGAGE_SHARING_WITH_CAPTURE
 /**
  * Use this function to begin social publishing. The JREngage library will pop up a modal dialog and
  * take the user through the sign-in process, if necessary, and share the given JRActivityObject.
@@ -298,5 +296,5 @@ typedef enum
 + (void)startEngageSharingDialogWithActivity:(JRActivityObject*)activity
                 withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
                                  forDelegate:(id<JRCaptureSharingDelegate>)delegate;
-#endif // VERSION_THREE_POINT_ONE
+#endif // JRENGAGE_SHARING_WITH_CAPTURE
 @end
