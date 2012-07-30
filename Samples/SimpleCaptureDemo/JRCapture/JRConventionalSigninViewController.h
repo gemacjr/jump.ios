@@ -35,21 +35,23 @@
 #import "JRCapture.h"
 #import "JRCaptureApidInterface.h"
 
-@protocol JRConventionalSigninDelegate <NSObject>
-@optional
-- (void)authenticationDidComplete;
-- (void)authenticationDidCancel;
-- (void)authenticationDidFail;
-- (void)showLoading;
-- (void)hideLoading;
-@end
+
+//@protocol JRConventionalSigninDelegate <NSObject>
+//@optional
+//- (void)authenticationDidComplete;
+//- (void)authenticationDidCancel;
+//- (void)authenticationDidFail;
+//- (void)showLoading;
+//- (void)hideLoading;
+//@end
 
 @class JREngageWrapper;
+@protocol JRExternalDialogControllerDelegate;
 @interface JRConventionalSigninViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, JRCaptureInterfaceDelegate>
 {
     UITableView *myTableView;
 }
-@property (nonatomic, retain) id<JRConventionalSigninDelegate> delegate;
+@property (nonatomic, retain) id<JRExternalDialogControllerDelegate> delegate;
 @property(nonatomic, strong) UITextField *firstResponder;
 
 - (id)initWithNativeSigninType:(JRConventionalSigninType)theSigninType titleString:(NSString *)titleString

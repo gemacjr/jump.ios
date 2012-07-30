@@ -41,8 +41,8 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "JRConventionalSigninViewController.h"
-#import "JSONKit.h"
 #import "JREngageWrapper.h"
+#import "JRUserInterfaceMaestro.h"
 
 @interface JREngageWrapper (JREngageWrapper_InternalMethods)
 - (void)authenticationDidReachTokenUrl:(NSString *)tokenUrl withResponse:(NSURLResponse *)response andPayload:(NSData *)tokenUrlPayload forProvider:(NSString *)provider;

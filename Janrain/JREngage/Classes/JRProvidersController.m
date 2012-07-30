@@ -69,6 +69,7 @@
 @end
 
 @interface JRProvidersController ()
+- (void)createConventionalSigninLoadingView;
 @property (retain) NSMutableArray *providers;
 @property (retain) UIView *myConventionalSigninLoadingView;
 @end
@@ -135,9 +136,11 @@
     myTableView.tableFooterView   = [customInterface objectForKey:kJRProviderTableFooterView];
 
     if ([customInterface objectForKey:kJRCaptureConventionalSigninViewController] &&
-        [[customInterface objectForKey:kJRCaptureConventionalSigninViewController] isKindOfClass:[JRConventionalSigninViewController class]])
+        [[customInterface objectForKey:kJRCaptureConventionalSigninViewController] isKindOfClass:NSClassFromString(@"JRConventionalSigninViewController")])
     {
-        ((JRConventionalSigninViewController *)[customInterface objectForKey:kJRCaptureConventionalSigninViewController]).delegate = self;
+        [[customInterface objectForKey:kJRCaptureConventionalSigninViewController] performSelector:@selector(setDelegate:)
+                                                                                        withObject:self];
+
         [self createConventionalSigninLoadingView];
     }
 

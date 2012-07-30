@@ -51,6 +51,16 @@ typedef enum
     PadPopoverFromFrame,
 } PadPopoverMode;
 
+
+@protocol JRExternalDialogControllerDelegate <NSObject>
+@optional
+- (void)authenticationDidComplete;
+- (void)authenticationDidCancel;
+- (void)authenticationDidFail;
+- (void)showLoading;
+- (void)hideLoading;
+@end
+
 @interface JRUserInterfaceMaestro : NSObject <UIPopoverControllerDelegate>
 {
     JRModalNavigationController *jrModalNavController;

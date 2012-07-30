@@ -59,7 +59,7 @@ function onBodyLoad()
 function onDeviceReady()
 {
     jrEngage = window.plugins.jrEngagePlugin;
-
+    
 //    var appId    = <your_app_id>;
 //    var tokenUrl = <your_token_url>;
 

@@ -34,7 +34,6 @@
 
 #import <UIKit/UIKit.h>
 #import "JRUserInterfaceMaestro.h"
-#import "JRConventionalSigninViewController.h"
 #import "JRSessionData.h"
 
 @class JRInfoBar;
@@ -43,7 +42,7 @@
 
 @interface JRProvidersController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
                                                         UITableViewDataSource, UIAlertViewDelegate,
-                                                        JRUserInterfaceDelegate, JRConventionalSigninDelegate>
+                                                        JRUserInterfaceDelegate, JRExternalDialogControllerDelegate>
 {
     JRSessionData   *sessionData;
     NSDictionary    *customInterface;
