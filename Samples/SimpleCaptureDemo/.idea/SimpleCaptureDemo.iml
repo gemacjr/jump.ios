@@ -197,6 +197,9 @@
     <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-136ee71b/Build/Products/Debug-iphonesimulator/SimpleCaptureDemo.app">
       <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-136ee71b/Build/Products/Debug-iphonesimulator/SimpleCaptureDemo.app" isTestSource="false" />
     </content>
+    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-ed8474ef/Build/Products/Debug-iphonesimulator/SimpleCaptureDemo.app">
+      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-ed8474ef/Build/Products/Debug-iphonesimulator/SimpleCaptureDemo.app" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
