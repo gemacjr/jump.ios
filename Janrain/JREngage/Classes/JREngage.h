@@ -538,3 +538,42 @@
 /*@}*/
 @end
 
+
+/**
+ * @page Providers
+ *
+@htmlonly
+<!-- Script to resize the iFrames; Only works because iFrames origin is on same domain and iFrame
+      code contains script that calls this script -->
+<script type="text/javascript">
+    function resize(width, height, id) {
+        var iframe = document.getElementById(id);
+        iframe.width = width;
+        iframe.height = height + 50;
+        iframe.scrolling = false;
+        console.log(width);
+        console.log(height);
+    }
+</script>
+@endhtmlonly
+
+@anchor basicProviders
+@htmlonly
+<!-- Redundant attributes to force scrolling to work across multiple browsers -->
+<iframe id="basic" src="../mobile_providers?list=basic&device=iphone" width="100%" height="100%"
+    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
+  Your browser does not support iFrames.
+  <a href="../mobile_providers?list=basic&device=iphone">List of Providers</a>
+</iframe></p>
+@endhtmlonly
+
+@anchor socialProviders
+@htmlonly
+<iframe id="social" src="../mobile_providers?list=social&device=iphone" width="100%" height="100%"
+    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
+  Your browser does not support iFrames.
+  <a href="../mobile_providers?list=social&device=iphone">List of Social Providers</a>
+</iframe></p>
+@endhtmlonly
+ *
+ **/

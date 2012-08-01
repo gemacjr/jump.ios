@@ -42,8 +42,8 @@
 #import "SharedData.h"
 
 #define cJRCurrentEmailAddr @"simpleCaptureDemo.currentEmailAddr"
-#define cJRCurrentProvider    @"simpleCaptureDemo.currentProvider"
-#define cJRCaptureUser        @"simpleCaptureDemo.captureUser"
+#define cJRCurrentProvider  @"simpleCaptureDemo.currentProvider"
+#define cJRCaptureUser      @"simpleCaptureDemo.captureUser"
 
 @interface SharedData ()
 @property (strong) NSUserDefaults     *prefs;
